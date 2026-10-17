@@ -2,7 +2,7 @@ import {chromium} from '@playwright/test';
 import {mkdirSync,writeFileSync} from 'node:fs';
 const browser=await chromium.launch();
 const page=await browser.newPage({viewport:{width:1440,height:900}});
-await page.goto('http://127.0.0.1:4321/tampa-curated/');
+await page.goto('http://127.0.0.1:4321/tampa-curated/home2/');
 await page.evaluate(()=>document.fonts.ready);
 await page.locator('.photographic-sleeve').scrollIntoViewIfNeeded();
 await page.waitForTimeout(800);

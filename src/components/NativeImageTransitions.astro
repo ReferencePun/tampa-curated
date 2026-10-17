@@ -3,6 +3,12 @@ import { motion } from '../scripts/mechanical/settings';
 ---
 <!-- Blocking registration is required for the native pagereveal event. Normal
      anchors, document navigation, focus, and browser history remain native. -->
+<!-- Keep navigation opt-in in each document's head: it must be available before
+     a cross-document transition is revealed, independently of route CSS chunks. -->
+<style is:inline>
+  @view-transition { navigation: auto; }
+  @media(prefers-reduced-motion:reduce) { @view-transition { navigation: none; } }
+</style>
 <script is:inline define:vars={{ duration: motion.transitionMs }}>
   (() => {
     const html = document.documentElement;
@@ -57,11 +63,9 @@ import { motion } from '../scripts/mechanical/settings';
   })();
 </script>
 <style is:global>
-  @view-transition { navigation: auto; }
   :root { view-transition-name: none; }
   ::view-transition-group(tc-editorial-image) { animation-duration: var(--image-transition-duration, 420ms); animation-timing-function: cubic-bezier(.22,.61,.36,1); }
   ::view-transition-old(tc-editorial-image), ::view-transition-new(tc-editorial-image) { height:100%; object-fit:cover; animation-duration:var(--image-transition-duration,420ms); }
   ::view-transition { pointer-events:none; }
-  @media(prefers-reduced-motion:reduce) { @view-transition { navigation: none; } }
   html[data-motion=reduced]::view-transition-group(*) { animation-duration:0s; }
 </style>

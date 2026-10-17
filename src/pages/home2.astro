@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import '@fontsource/barlow-condensed/latin-500.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ClockworkHero from '../components/engraving/ClockworkHero.astro';
+import CityDrawing from '../components/engraving/CityDrawing.astro';
+import TampaFieldnotes from '../components/engraving/TampaFieldnotes.astro';
+import ClockworkAperture from '../components/engraving/ClockworkAperture.astro';
+import MechanicalMap from '../components/engraving/MechanicalMap.astro';
+import MechanicalDefs from '../components/engraving/MechanicalDefs.astro';
+import PulleyPortraitGallery from '../components/engraving/PulleyPortraitGallery.astro';
+import NeighborhoodAtlas from '../components/NeighborhoodAtlas.astro';
+import MotionPreference from '../components/MotionPreference.astro';
+import '../styles/mechanical.css';
+import '../styles/engraving.css';
+import Newsletter from '../components/Newsletter.astro';
+import { url } from '../lib/urls';
+const stories = (await getCollection('stories', ({data}) => data.featured)).sort((a,b) => a.data.order-b.data.order);
+const people = (await getCollection('people')).sort((a,b) => a.data.order-b.data.order);
+const neighborhoods = (await getCollection('neighborhoods')).sort((a,b) => a.data.order-b.data.order);
+---
+<BaseLayout edition="engraved" title="Home 2 — The Clockwork City" description="An illustrated Tampa experiment: fine-line machinery, maritime field notes, portraits, and a six-spread pop-up atlas.">
+  <MechanicalDefs/>
+  <ClockworkHero/>
+  <div class="edition-rule"><span>AN INDEPENDENT JOURNAL OF PEOPLE &amp; PLACE</span><span>VOL. I — TAMPA, FLORIDA — EST. 2026</span></div>
+  <MotionPreference/>
+  <CityDrawing/>
+  <TampaFieldnotes/>
+  <PulleyPortraitGallery people={people}/>
+  <ClockworkAperture stories={stories}/>
+  <MechanicalMap/>
+  <NeighborhoodAtlas neighborhoods={neighborhoods}/>
+  <section class="list-teaser"><div class="list-number" aria-hidden="true">05</div><div><span class="eyebrow">A GOOD PLACE TO START</span><h2>THE LIST<span>↗</span></h2><p>For the next good meal, the unexpected find,<br/>the place you’ll want to come back to.</p><a class="button ink" href={url('the-list/')}>Explore the directory <span aria-hidden="true">⟶</span></a><span class="sample-label">8 demonstration entries · no endorsements</span></div><div class="list-index">{['Restaurants','Bars & Nightlife','Coffee','Shopping','Art & Culture','Wellness','Hotels','Services'].map((c,i) => <a href={`${url('the-list/')}?category=${encodeURIComponent(c)}`}><span>0{i+1}</span>{c}<span aria-hidden="true">↗</span></a>)}</div></section>
+  <Newsletter/>
+</BaseLayout>
+<script>
+  import '../scripts/mechanical/index';
+  import '../scripts/engraving/index';
+</script>

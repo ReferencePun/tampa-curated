@@ -83,8 +83,8 @@ for (const [name, engine] of [
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto(origin);
   await page.evaluate(() => document.fonts.ready);
-  await expect(page.locator(".hero-assembly image")).toBeVisible();
-  await page.locator(".hero-assembly image").evaluate(async (el) => { const img = new Image(); img.src = el.getAttribute("href"); await img.decode(); });
+  await expect(page.locator(".cover-main img")).toBeVisible();
+  await page.locator(".cover-main img").evaluate(el => el.decode());
   const count = await page.locator(".page-shell *").count();
   await page.getByRole("button", { name: /^Reading/ }).click();
   await page.getByRole("button", { name: "Sea glass Off" }).click();
@@ -102,7 +102,7 @@ for (const [name, engine] of [
       "Glass at viewport edges must not create horizontal scrolling",
     );
   }
-  const imageBounds = await page.locator(".hero-assembly image").boundingBox();
+  const imageBounds = await page.locator(".cover-main img").boundingBox();
   await page.mouse.move(imageBounds.x + imageBounds.width / 2, imageBounds.y + imageBounds.height / 2);
   await expect(page.locator("[data-text-lens]")).toBeVisible();
   await expect(page.locator("[data-sea-glass-surface]")).not.toHaveCount(0);

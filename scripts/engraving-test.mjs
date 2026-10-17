@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {mkdirSync, writeFileSync} from 'node:fs';
 import {chromium, webkit, expect} from '@playwright/test';
 
-const url=`${process.env.TEST_ORIGIN||'http://127.0.0.1:4321'}${process.env.TEST_BASE??'/tampa-curated'}/`;
+const url=`${process.env.TEST_ORIGIN||'http://127.0.0.1:4321'}${process.env.TEST_BASE??'/tampa-curated'}/home2/`;
 const output='test-results/engraving';
 mkdirSync(output,{recursive:true});
 const report=[];

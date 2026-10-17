@@ -71,6 +71,7 @@ for (const file of files.filter((f) => f.endsWith(".css"))) {
 }
 for (const route of [
   "index.html",
+  "home2/index.html",
   "places/index.html",
   "people/index.html",
   "stories/index.html",

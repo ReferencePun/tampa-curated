@@ -1,6 +1,6 @@
 # The Clockwork City — local review
 
-The October 2026 homepage redesign replaces the cover collage and repeated middle image rows with an original engraved mechanical edition. The work stays on `feature/mechanical-atlas`; the checkpoint branch `checkpoint/before-clockwork-city-20261017` points to `602cd38`. No push or publication is part of this revision.
+The October 2026 illustrated concept is preserved at **`/home2/`**. The main homepage has been restored to the editorial cover and pre-clockwork composition from `602cd38`, while retaining the working book and reading controls. New visual directions belong on separate pages for comparison. The work stays on `feature/mechanical-atlas`; the checkpoint branch `checkpoint/before-clockwork-city-20261017` points to `602cd38`. No push or publication is part of this revision.
 
 The brief's referenced concept illustration was not attached, so the implementation follows its written art direction and reuses the existing licensed Tampa photographs. No external artwork or demo code was copied.
 
@@ -36,7 +36,7 @@ Layout changes request a **safe** ScrollTrigger refresh. Forcing a refresh durin
 
 ## Verification
 
-With the production preview running at `/tampa-curated/`:
+With the production preview running at `/tampa-curated/` (engraving-specific suites target `/tampa-curated/home2/`):
 
 ```sh
 pnpm check
@@ -83,3 +83,11 @@ The homepage now includes an illustrated folio after the Ybor architectural stud
 The cultural references were checked against Visit Tampa Bay’s [Ybor City overview](https://www.visittampabay.com/ybor-city/) and [Gasparilla overview](https://www.visittampabay.com/tampa-events/gasparilla-season/). The ship is expressly described as imagined, rather than a measured depiction of the José Gasparilla.
 
 Validation: Astro reports no diagnostics; all 42 pages build and 2,584 internal links/assets resolve. Chromium and WebKit pass the existing five-mechanism suite, plus illustration layout checks at 1440, 800, 594, 390 and 320 pixels, enlarged text at 320 pixels, accessible image labeling and neighborhood navigation. Desktop and phone captures are saved in `test-results/tampa-studies/` and were visually inspected, including a final refinement of the rooster’s face and feather texture.
+
+### Separate homepage concepts
+
+The original homepage and portrait-sleeve composition match the `602cd38` checkpoint. Home 2 preserves the full subsequent illustrated composition, including the Tampa studies, with separate metadata and a separate `PulleyPortraitGallery.astro`. The footer and mobile menu link to Home 2. `AGENTS.md` records the user's preference to preserve existing concepts and put new directions on separate pages.
+
+Splitting the routes exposed a Chromium navigation cancellation when the transition opt-in depended on external route styles. The `@view-transition` declaration now lives inline in each document's head, retaining reduced-motion behavior. The reproduced error no longer occurs in the navigation/history checks. Cross-document opt-in requirements are described in the [Chrome documentation](https://developer.chrome.com/docs/web-platform/view-transitions/cross-document).
+
+Verification after the split: 43 HTML pages and 2,850 internal links/assets; zero Astro diagnostics; 64 responsive route checks; both homepage covers visually inspected; 100 responsive/enlarged-text checks per engine. Chromium and WebKit pass the illustrated mechanisms on Home 2, the original worktable/portraits/book/history/fallback checks on Home, and the sea-glass pixel and cleanup checks. Local captures are in `test-results/home-versions/`.

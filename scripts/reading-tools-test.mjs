@@ -9,6 +9,7 @@ const output = "test-results/readability";
 await mkdir(output, { recursive: true });
 const routes = [
   "",
+  "home2/",
   "issues/001/",
   "guides/a-first-look/",
   "stories/the-city-now/",
@@ -127,8 +128,12 @@ for (const [name, engine] of [
           ),
           `${name}: overflow at ${width}px /${route}, text ${size / 16}×`,
         );
-        if (!route) {
-          for (const selector of [".hero-name", ".hero-editorial", ".engraved-copy"]) {
+        if (!route || route === "home2/") {
+          const selectors = route === "home2/"
+            ? [".hero-name", ".hero-editorial", ".engraved-copy"]
+            : [".cover-main-copy", ".cover-portrait-copy"];
+          for (const selector of selectors) {
+            assert.ok(await page.locator(selector).count(), `${route}: expected ${selector}`);
             assert.ok(
               await page.locator(selector).evaluateAll((elements) => elements.every(el => {
                 const copy = el.getBoundingClientRect();

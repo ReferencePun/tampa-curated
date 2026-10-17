@@ -2,7 +2,9 @@
 
 An independent editorial website about Tampa’s people, places, neighborhoods, and ideas. Built with Astro 7.4, TypeScript, custom CSS, and static content collections. Designed for GitHub Pages: no server, database, UI framework, remote fonts, or paid hosting is required.
 
-The local Clockwork City revision turns the homepage into an engraved, scroll-operated illustration: meshing gears, working linkages, a pulley portrait gallery, photographic apertures, a schematic map, and the existing six-spread pop-up book. See [the implementation and review notes](docs/clockwork-city.md) for controls, mechanics, fallbacks, verification, and device-testing limits. This revision is not published.
+The original editorial homepage is preserved at `/`: oversized blue masthead, palm-tree cover, red portrait, editorial worktable, photographic sleeve, and the working six-spread pop-up book. The Clockwork City concept lives separately at `/home2/`, with fine-line machinery, Tampa field-note illustrations, a pulley portrait gallery, photographic apertures, and a schematic map. See [the implementation and review notes](docs/clockwork-city.md) for mechanics, fallbacks, verification, and device-testing limits. These revisions are local and are not published.
+
+Keep substantially different design ideas on separate pages so the user can compare them before selecting a direction. Preserve existing concepts and isolate experiment-specific components and styles; see [AGENTS.md](AGENTS.md).
 
 The initial release is a **demonstration edition**. All five profiles and eight businesses are fictional. Six essays are sample editorial content, not verified reporting. Six real neighborhood names are paired with sample introductions. Stock portraits do not depict the named fictional people. These distinctions appear throughout the site.
 
@@ -38,7 +40,8 @@ TypeScript is pinned to 6.0.3 because the current `astro check` does not support
 
 | Route | Contents |
 | --- | --- |
-| `/` | Clockwork city, architectural reveal, five portrait profiles, four featured stories, mechanical map, six-spread pop-up book, directory, newsletter |
+| `/` | Original editorial cover, featured-story worktable, five-portrait sleeve, six-spread pop-up book, directory, newsletter |
+| `/home2/` | Clockwork City concept: illustrated machinery, cigar/ship/rooster studies, pulley portraits, stories, map, pop-up book |
 | `/places/` | Editorial place index |
 | `/places/[slug]/` | Place descriptions, categories, neighborhood, address and optional links |
 | `/people/` | People to Watch |
@@ -58,7 +61,7 @@ TypeScript is pinned to 6.0.3 because the current `astro check` does not support
 | `/credits/` | Photographer attribution and licenses |
 | `/404.html` | Custom GitHub Pages error page |
 
-There are 42 generated HTML pages, plus robots and sitemap files. The seven reading-room additions are reachable through the mobile menu, footer, edition navigation, and search; the desktop Issue 001 marker opens the issue. All links and assets respect the configured repository subpath. Search and directory filters work without a backend, preserve their state in the URL, and include empty and reset states. The reading-room pages add no client runtime and remain fully navigable without JavaScript.
+There are 43 generated HTML pages, plus robots and sitemap files. The seven reading-room additions are reachable through the mobile menu, footer, edition navigation, and search; the desktop Issue 001 marker opens the issue. Home 2 is linked from the mobile menu and footer. All links and assets respect the configured repository subpath. Search and directory filters work without a backend, preserve their state in the URL, and include empty and reset states. The reading-room pages add no client runtime and remain fully navigable without JavaScript.
 
 ## Project map
 
@@ -116,7 +119,7 @@ Common fields are `title`, `deck`, `image`, `imageAlt`, `treatment`, `order`, an
 
 Stories additionally require `category`, `neighborhood`, `date`, and `readTime`; `featured: true` places a story in the homepage story register. Profiles require `profession` and `neighborhood` and accept `website` and `instagram`. Their interview text lives in Markdown. Neighborhoods additionally require `character`.
 
-Adding an entry requires no route or template changes. Associated neighborhood pages and site search include it automatically. For the launch edition, also update the demonstration-specific homepage cover, intro copy, footer label, and About page once all of the sample material has been replaced. The homepage’s illustrated sections are composed in `src/pages/index.astro` and `src/components/engraving/`.
+Adding an entry requires no route or template changes. Associated neighborhood pages and site search include it automatically. For the launch edition, also update the demonstration-specific homepage cover, intro copy, footer label, and About page once all of the sample material has been replaced. The original homepage is composed in `src/pages/index.astro`; the illustrated concept is in `src/pages/home2.astro` and `src/components/engraving/`. Its separate `PulleyPortraitGallery.astro` preserves the original homepage’s `PhotographicSleeve.astro`.
 
 ### Photography
 

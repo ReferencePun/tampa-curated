@@ -1,0 +1,49 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Photo from '../Photo.astro';
+import SectionHeading from '../SectionHeading.astro';
+import RegistrationWheels from '../RegistrationWheels.astro';
+import PulleyGalleryRig from './PulleyGalleryRig.astro';
+import { url } from '../../lib/urls';
+interface Props { people: CollectionEntry<'people'>[]; }
+const { people } = Astro.props;
+---
+<section class="photographic-sleeve" data-scene="sleeve" data-machine="pulley" aria-labelledby="sleeve-heading" data-renderer="dom">
+  <SectionHeading label="The pulley gallery" number="02" href={url('people/')} linkLabel="Meet everyone"/>
+  <div class="sleeve-heading"><h2 id="sleeve-heading">The people<br/><span>in the picture.</span></h2><p>The makers, thinkers, and independent spirits<br/>behind a more interesting city.</p><span class="eyebrow">A PORTRAIT COLLECTION<br/>FIVE FICTIONAL PROFILES ↘</span></div>
+  <div class="sleeve-layout">
+    <div class="sleeve-apparatus"><div class="pulley-assembly"><PulleyGalleryRig/><div class="pulley-lift">
+      <div class="sleeve-stage" tabindex="-1" role="group" aria-label="Illustrative portrait viewed through an archival sleeve." aria-describedby="sleeve-help">
+        <span class="sleeve-axis" aria-hidden="true">IMAGE / 001—005</span>
+        <div class="sleeve-back" aria-hidden="true"></div>
+        <div class="sleeve-clear">
+          {people.map((entry, i) => <div class="sleeve-print" data-print={i} data-image-link={`person-${entry.id}`}>
+            <Photo name={entry.data.image} alt={entry.data.imageAlt} treatment="mono" sizes="(max-width: 700px) 70vw, 440px"/>
+            <span class="sleeve-print-foot" aria-hidden="true">TAMPA CURATED <span>NO. 00{i + 1}</span></span>
+          </div>)}
+        </div>
+        <div class="sleeve-treated" aria-hidden="true" inert>
+          {people.map((entry, i) => <div class="sleeve-print" data-copy={i}>
+            <Photo name={entry.data.image} alt="" treatment="red" sizes="(max-width: 700px) 70vw, 440px"/>
+            <span class="sleeve-print-foot">TAMPA CURATED <span>NO. 00{i + 1}</span></span>
+          </div>)}
+        </div>
+        <div class="sleeve-front" aria-hidden="true"><span>ARCHIVE / TC—01</span><i></i><b>+</b></div>
+      </div>
+      </div></div><div class="sleeve-under"><p id="sleeve-help"><span class="sleeve-drag-hint">Slide a print through the sleeve.</span> <span class="sleeve-static-hint">Five perspectives, one city.</span><br/><em>Look a little closer.</em></p><div aria-hidden="true"><RegistrationWheels single/><span class="sleeve-travel">001</span></div></div>
+    </div>
+    <div class="sleeve-caption-column">
+      <div class="sleeve-controls" hidden><span class="sleeve-counter" aria-hidden="true">01 / 05</span><div><button type="button" data-sleeve-prev aria-label="Previous portrait">←</button><button type="button" data-sleeve-next aria-label="Next portrait">→</button></div></div>
+      <div class="sleeve-captions">
+        {people.map((entry, i) => <article class="sleeve-caption" id={`portrait-${entry.id}`} data-caption={i}>
+          <span class="eyebrow red">{entry.data.profession}</span><h3>{entry.data.title}</h3><p>{entry.data.deck}</p>
+          <a class="text-link" href={url(`people/${entry.id}/`)} data-shared-link={`person-${entry.id}`}>Meet {entry.data.title.split(' ')[0]} <span aria-hidden="true">↗</span></a>
+        </article>)}
+      </div>
+      <nav class="sleeve-index" aria-label="Portrait index">{people.map((entry, i) => <a href={`#portrait-${entry.id}`} data-sleeve-select={i}><span>0{i + 1}</span>{entry.data.title}<span aria-hidden="true">↗</span></a>)}</nav>
+      <p class="sleeve-disclosure">Fictional profiles · illustrative stock portraits.<br/>The models are not the people named.<br/><a href={url('credits/')}>Photography credits ↗</a></p>
+      <p class="sleeve-renderer" hidden>Image treatment: <span>print overlay</span></p>
+    </div>
+  </div>
+  <p class="sr-only" aria-live="polite" aria-atomic="true" data-sleeve-announcement></p>
+</section>

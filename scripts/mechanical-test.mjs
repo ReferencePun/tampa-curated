@@ -85,32 +85,32 @@ for (const name of subset) {
     "Optics must not load with the hero",
   );
   await capture(page, `${name}-cover`);
-  await scrollTo(page, ".city-drawing", -420);
+  await scrollTo(page, ".editorial-worktable", -420);
   await pause(page);
   const before = await page
-    .locator(".city-drawing")
-    .getAttribute("data-machine-progress");
-  await scrollTo(page, ".city-drawing", 250);
+    .locator(".editorial-worktable")
+    .getAttribute("data-progress");
+  await scrollTo(page, ".editorial-worktable", 250);
   await pause(page);
   const after = await page
-    .locator(".city-drawing")
-    .getAttribute("data-machine-progress");
-  assert(Number(after) > Number(before), "Architectural drawing follows forward scroll");
-  await scrollTo(page, ".city-drawing", -420);
+    .locator(".editorial-worktable")
+    .getAttribute("data-progress");
+  assert(Number(after) > Number(before), "Worktable follows forward scroll");
+  await scrollTo(page, ".editorial-worktable", -420);
   await pause(page);
   assert(
     Math.abs(
       Number(
         await page
-          .locator(".city-drawing")
-          .getAttribute("data-machine-progress"),
+          .locator(".editorial-worktable")
+          .getAttribute("data-progress"),
       ) - Number(before),
     ) < 0.01,
-    "Architectural drawing reverses to its absolute position",
+    "Worktable reverses to its absolute position",
   );
-  await scrollTo(page, ".city-drawing");
+  await scrollTo(page, ".editorial-worktable");
   await pause(page);
-  await capture(page, `${name}-drawing`);
+  await capture(page, `${name}-worktable`);
   await scrollTo(page, ".photographic-sleeve");
   await expect(page.locator(".photographic-sleeve")).toHaveClass(/is-ready/);
   await page.waitForTimeout(950);
@@ -348,7 +348,7 @@ if (subset.includes("chromium")) {
     await page.goto(href(""));
     await page.evaluate(() => document.fonts.ready);
     for (const [key, selector] of [
-      ["drawing", ".city-drawing"],
+      ["worktable", ".editorial-worktable"],
       ["sleeve", ".photographic-sleeve"],
       ["atlas", ".neighborhood-atlas"],
       ["list", ".list-teaser"],
