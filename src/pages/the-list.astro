@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import PlaceCard from '../components/PlaceCard.astro';
+import { categories } from '../config/site';
+const places=(await getCollection('businesses')).sort((a,b)=>a.data.order-b.data.order);
+const hoods=(await getCollection('neighborhoods')).sort((a,b)=>a.data.order-b.data.order);
+---
+<BaseLayout title="The List" description="Search and filter the Tampa Curated demonstration directory by category, neighborhood, or name."><PageIntro number="05" title="THE LIST" deck="A considered collection of places. For whatever you’re in the mood for."/><p class="collection-note">8 fictional demonstration entries. No businesses listed here are verified or endorsed.</p><form class="directory-filters" id="directory-filters" role="search"><div class="filter-search"><label for="place-search">FIND A PLACE</label><input type="search" id="place-search" name="q" placeholder="Search by name…" autocomplete="off"/></div><div><label for="category">CATEGORY</label><select id="category" name="category"><option value="">All categories</option>{categories.map(category=><option value={category}>{category}</option>)}</select></div><div><label for="neighborhood">NEIGHBORHOOD</label><select id="neighborhood" name="neighborhood"><option value="">All neighborhoods</option>{hoods.map(hood=><option value={hood.id}>{hood.data.title}</option>)}</select></div><button type="reset" class="filter-reset">Reset filters ↺</button></form><noscript><p class="demo-notice">Live filtering needs JavaScript. All places are available below.</p></noscript><p class="result-count" id="place-count" role="status" aria-live="polite">{places.length} places / demonstration directory</p><section class="places-grid" aria-label="Directory results">{places.map(entry=><PlaceCard entry={entry} neighborhood={hoods.find(h=>h.id===entry.data.neighborhood.id)?.data.title}/>)}</section><div class="empty-state" id="empty-places" hidden><h2>NOT THIS TIME.</h2><p>No places match those filters. Try a different neighborhood, category, or name.</p><button type="button" id="empty-reset" class="text-link">Clear all filters ⟶</button></div></BaseLayout>
+<script>
+  const form = document.querySelector<HTMLFormElement>('#directory-filters')!;
+  const search = document.querySelector<HTMLInputElement>('#place-search')!;
+  const category = document.querySelector<HTMLSelectElement>('#category')!;
+  const neighborhood = document.querySelector<HTMLSelectElement>('#neighborhood')!;
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-place]')];
+  const params = new URLSearchParams(location.search);
+  search.value = params.get('q') || '';
+  if ([...category.options].some(o => o.value === params.get('category'))) category.value = params.get('category') || '';
+  if ([...neighborhood.options].some(o => o.value === params.get('neighborhood'))) neighborhood.value = params.get('neighborhood') || '';
+  function filter() {
+    let count = 0;
+    const query = search.value.trim().toLocaleLowerCase();
+    cards.forEach(card => { const visible = (card.dataset.name || '').includes(query) && (!category.value || JSON.parse(card.dataset.category || '[]').includes(category.value)) && (!neighborhood.value || card.dataset.neighborhood === neighborhood.value); card.hidden = !visible; if (visible) count++; });
+    document.querySelector('#place-count')!.textContent = `${count} ${count === 1 ? 'place' : 'places'} / demonstration directory`;
+    (document.querySelector('#empty-places') as HTMLElement).hidden = count > 0;
+    const next = new URLSearchParams(); if(search.value) next.set('q', search.value); if(category.value) next.set('category', category.value); if(neighborhood.value) next.set('neighborhood', neighborhood.value);
+    history.replaceState(null, '', `${location.pathname}${next.size ? '?' + next.toString() : ''}`);
+  }
+  form.addEventListener('input', filter); form.addEventListener('change', filter);
+  form.addEventListener('submit', event => { event.preventDefault(); filter(); });
+  form.addEventListener('reset', () => setTimeout(filter, 0));
+  document.querySelector('#empty-reset')?.addEventListener('click', () => { form.reset(); search.focus(); });
+  filter();
+</script>

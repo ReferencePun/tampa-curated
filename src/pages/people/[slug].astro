@@ -1,0 +1,13 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import DemoNotice from '../../components/DemoNotice.astro';
+import Newsletter from '../../components/Newsletter.astro';
+import { url } from '../../lib/urls';
+export async function getStaticPaths(){return (await getCollection('people')).map(entry=>({params:{slug:entry.id},props:{entry}}));}
+interface Props{entry:CollectionEntry<'people'>}
+const {entry}=Astro.props;const d=entry.data;const {Content}=await render(entry);const hood=await getEntry(d.neighborhood);
+---
+<BaseLayout title={`${d.title} — ${d.profession}`} description={d.deck} image={d.image} type="article"><nav class="breadcrumb" aria-label="Breadcrumb"><a href={url()}>Home</a><span>/</span><a href={url('people/')}>People to watch</a><span>/ {d.title}</span></nav><article class="profile-layout"><figure class="profile-image"><Photo name={d.image} alt={d.imageAlt} treatment={d.treatment} eager sizes="(max-width: 600px) 95vw, 40vw"/><figcaption>{d.demo ? 'Illustrative stock portrait. The model is not the fictional person named in this profile.' : d.imageAlt} <a href={url('credits/')}>Credits ↗</a></figcaption></figure><div class="profile-copy"><header class="detail-header"><span class="eyebrow">PEOPLE TO WATCH / {d.profession}</span><h1>{d.title}</h1><p class="detail-deck">{d.deck}</p></header>{d.demo && <DemoNotice kind="profile"/>}<dl class="details-table"><div><dt>Practice</dt><dd>{d.profession}</dd></div><div><dt>{d.demo ? 'Sample neighborhood connection' : 'Neighborhood'}</dt><dd><a href={url(`neighborhoods/${d.neighborhood.id}/`)}>{hood?.data.title} ↗</a></dd></div>{d.website && <div><dt>Discover the work</dt><dd><a href={d.website}>Website ↗</a></dd></div>}{d.instagram && <div><dt>Instagram</dt><dd><a href={d.instagram}>Instagram ↗</a></dd></div>}</dl><div class="prose"><Content/></div><a class="text-link" href={url('people/')}>Back to people <span aria-hidden="true">⟶</span></a></div></article><Newsletter/></BaseLayout>

@@ -1,0 +1,11 @@
+---
+import { Image } from 'astro:assets';
+import { photos } from '../lib/photos';
+interface Props { name: string; alt: string; treatment?: string; eager?: boolean; class?: string; sizes?: string; }
+const { name, alt, treatment = 'natural', eager = false, class: className = '', sizes = '(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw' } = Astro.props;
+const photo = photos[name];
+if (!photo) throw new Error(`Unknown photo: ${name}. Register it in src/lib/photos.ts.`);
+---
+<div class:list={['photo', `treatment-${treatment}`, className]}>
+  <Image src={photo} alt={alt} widths={[360, 640, 960, 1440]} sizes={sizes} format="webp" quality={80} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : 'auto'} decoding="async" />
+</div>

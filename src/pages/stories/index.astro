@@ -1,0 +1,9 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import StoryCard from '../../components/StoryCard.astro';
+import Newsletter from '../../components/Newsletter.astro';
+const stories = (await getCollection('stories')).sort((a,b)=>a.data.order-b.data.order);
+---
+<BaseLayout title="Stories" description="Essays, conversations, and a closer look at Tampa. Explore the sample editorial edition."><PageIntro number="03" title="STORIES" deck="A city is more than a skyline. These are the conversations, places, and ideas we’re looking closer at."/><p class="collection-note">The first edition is a demonstration. These sample essays show our editorial approach; they are not verified reporting.</p><section class="stories-grid archive-grid" aria-label="All stories">{stories.map(entry=><StoryCard entry={entry}/>)}</section><Newsletter/></BaseLayout>

@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Photo from '../components/Photo.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import StoryCard from '../components/StoryCard.astro';
+import PersonCard from '../components/PersonCard.astro';
+import NeighborhoodCard from '../components/NeighborhoodCard.astro';
+import Newsletter from '../components/Newsletter.astro';
+import { url } from '../lib/urls';
+const stories = (await getCollection('stories', ({data}) => data.featured)).sort((a,b) => a.data.order-b.data.order);
+const people = (await getCollection('people')).sort((a,b) => a.data.order-b.data.order);
+const neighborhoods = (await getCollection('neighborhoods')).sort((a,b) => a.data.order-b.data.order);
+---
+<BaseLayout>
+  <section class="cover" aria-labelledby="masthead">
+    <div class="masthead-row"><h1 id="masthead" class="masthead"><span class="masthead-first">TAMPA</span> <span class="masthead-last">CURATED<span class="masthead-period">.</span></span></h1><div class="masthead-note">AN INDEPENDENT GUIDE <br/>TO THE PEOPLE, PLACES <br/>AND IDEAS DEFINING TAMPA.<span>27.9506° N / 82.4572° W</span></div></div>
+    <div class="cover-grid">
+      <article class="cover-main">
+        <Photo name="tampa-palms" alt="Palm trees rising around downtown Tampa architecture" treatment="mono" eager sizes="(max-width: 760px) 100vw, 64vw"/>
+        <span class="cover-coordinate" aria-hidden="true">A CLOSER LOOK AT THE CITY WE CALL HOME.</span>
+        <div class="cover-main-copy"><span class="eyebrow red">THE FIRST EDITION</span><h2>THE<br/>CITY<br/>NOW<span>.</span></h2><p>A new perspective.<br/>An independent spirit.<br/><em>This is Tampa, curated.</em></p><a class="text-link" href={url('stories/the-city-now/')}>Read the story <span aria-hidden="true">⟶</span></a><span class="cover-label">001 / SAMPLE EDITORIAL</span></div>
+        <span class="cover-stamp" aria-hidden="true">LOCAL<br/>BY<br/>CHOICE ↗</span>
+      </article>
+      <article class="cover-portrait">
+        <Photo name="portrait-three" alt="Illustrative stock portrait for a fictional visual artist profile" treatment="red" eager sizes="(max-width: 760px) 65vw, 30vw"/>
+        <span class="portrait-kicker">PEOPLE TO WATCH / 001</span><div class="cover-portrait-copy"><h2>MADE<br/>OF IDEAS.</h2><p>Mara Ellis<br/><em>On finding your own language.</em></p><a class="text-link" href={url('people/mara-ellis/')}>Meet the maker <span aria-hidden="true">⟶</span></a><span class="cover-label">FICTIONAL PROFILE · STOCK PORTRAIT</span></div>
+      </article>
+      <aside class="cover-side"><div class="asterisk-art" aria-hidden="true">✳</div><div class="side-copy"><span class="eyebrow red">OFF THE MAIN ROAD</span><h2>THERE’S<br/>MORE<br/>HERE.</h2><p>Six neighborhoods.<br/>A thousand ways<br/>to see the city.</p><a class="text-link" href={url('neighborhoods/')}>Find your Tampa <span aria-hidden="true">↗</span></a></div><span class="side-edition">VOL. 01 — THE CITY ISSUE</span></aside>
+    </div>
+  </section>
+  <div class="manifesto"><p>GOOD PEOPLE. GREAT PLACES.<br class="mobile-break"/> A MORE INTERESTING CITY.</p><span class="registration" aria-hidden="true">◎</span><span class="manifesto-note">FROM TAMPA.<br/>WITH CURIOSITY.</span></div>
+  <section class="featured-section"><SectionHeading label="Featured stories" href={url('stories/')} linkLabel="All stories"/><div class="stories-grid">{stories.map(entry => <StoryCard entry={entry}/>)}</div></section>
+  <section class="people-section"><SectionHeading label="The next wave" href={url('people/')} linkLabel="Meet everyone"/><div class="people-intro"><h2>PEOPLE<br/><span>TO WATCH.</span></h2><p>The makers, thinkers, and independent spirits<br/>behind a more interesting city.</p><span class="section-note">FIVE FICTIONAL PROFILES<br/>A PREVIEW OF WHAT’S NEXT ↘</span></div><div class="people-grid">{people.map((entry,index) => <PersonCard entry={entry} index={index}/>)}</div></section>
+  <section class="guide-section"><SectionHeading label="The Tampa guide" href={url('neighborhoods/')} linkLabel="Explore the city"/><div class="guide-intro"><h2>GET A LITTLE LOST.</h2><p>A city of neighborhoods.<br/><em>Find your kind of corner.</em></p></div><div class="neighborhood-grid">{neighborhoods.map((entry,index) => <NeighborhoodCard entry={entry} index={index}/>)}</div><p class="small-note">Sample guides to real neighborhoods. Some photographs are illustrative; see each guide for context.</p></section>
+  <section class="list-teaser"><div class="list-number" aria-hidden="true">05</div><div><span class="eyebrow">A GOOD PLACE TO START</span><h2>THE LIST<span>↗</span></h2><p>For the next good meal, the unexpected find,<br/>the place you’ll want to come back to.</p><a class="button ink" href={url('the-list/')}>Explore the directory <span aria-hidden="true">⟶</span></a><span class="sample-label">8 demonstration entries · no endorsements</span></div><div class="list-index">{['Restaurants','Bars & Nightlife','Coffee','Shopping','Art & Culture','Wellness','Hotels','Services'].map((c,i) => <a href={`${url('the-list/')}?category=${encodeURIComponent(c)}`}><span>0{i+1}</span>{c}<span aria-hidden="true">↗</span></a>)}</div></section>
+  <Newsletter/>
+</BaseLayout>

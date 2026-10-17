@@ -1,0 +1,11 @@
+---
+interface Props { kind?: 'story' | 'profile' | 'place' | 'neighborhood'; }
+const { kind = 'story' } = Astro.props;
+const descriptions = {
+ story: 'An illustrative editorial essay. This is sample content, not verified reporting.',
+ profile: 'A fictional person and sample biography. The stock model is not the person named here.',
+ place: 'A fictional business, not a recommendation or operating venue. Photography is illustrative.',
+ neighborhood: 'A sample guide to a real neighborhood. Associated places are fictional; illustrative photos are labeled.',
+};
+---
+<aside class="demo-notice"><span class="eyebrow">DEMONSTRATION EDITION</span><p>{descriptions[kind]}</p></aside>

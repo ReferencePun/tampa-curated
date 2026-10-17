@@ -1,0 +1,13 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Photo from './Photo.astro';
+import { url } from '../lib/urls';
+interface Props { entry: CollectionEntry<'businesses'>; neighborhood?: string; }
+const { entry, neighborhood } = Astro.props;
+const d = entry.data;
+---
+<article class="place-card" data-place data-name={d.title.toLowerCase()} data-category={JSON.stringify(d.categories)} data-neighborhood={d.neighborhood.id}>
+  <a class="image-link" href={url(`places/${entry.id}/`)} tabindex="-1" aria-hidden="true"><Photo name={d.image} alt="" treatment={d.treatment}/></a>
+  <div class="card-meta"><span>{d.categories.join(' / ')}</span><span>{neighborhood}</span></div>
+  <h3><a href={url(`places/${entry.id}/`)}>{d.title} <span aria-hidden="true">↗</span></a></h3><p>{d.deck}</p>{d.demo && <span class="sample-label">Demonstration entry · fictional business</span>}
+</article>

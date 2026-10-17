@@ -1,0 +1,8 @@
+---
+import { siteConfig } from '../config/site';
+---
+<section class="newsletter" aria-labelledby="newsletter-heading">
+  <div class="newsletter-title"><h2 id="newsletter-heading">STAY<br/>CURATED<span>↗</span></h2></div>
+  <div class="newsletter-copy"><p>The people, places, and ideas<br/>worth knowing. <em>Delivered occasionally.</em></p><span class="eyebrow">GOOD TASTE. NO DAILY NOISE.</span></div>
+  <div class="newsletter-action">{siteConfig.newsletterUrl ? <a class="button" href={siteConfig.newsletterUrl}>Join the newsletter <span aria-hidden="true">↗</span></a> : <><span class="coming-soon"><span aria-hidden="true">●</span> FIRST DISPATCH COMING SOON</span><p>Our mailing list is taking shape.<br/>Check back for the first edition.</p></>}</div>
+</section>

@@ -1,0 +1,25 @@
+---
+import { navigation } from '../config/site';
+import { url } from '../lib/urls';
+const current = Astro.url.pathname;
+---
+<header class="site-header">
+  <a class="monogram" href={url()} aria-label="Tampa Curated home">T<span>c</span><i aria-hidden="true">✳</i></a>
+  <nav class="desktop-nav" aria-label="Main navigation">
+    {navigation.map(([number, label, path]) => <a href={url(path)} aria-current={current.startsWith(url(path)) ? 'page' : undefined}><span>{number}</span> {label}</a>)}
+  </nav>
+  <div class="edition"><span class="edition-dot" aria-hidden="true"></span><span>ISSUE 001<br/>TAMPA, FLORIDA<br/>AN INDEPENDENT EYE</span></div>
+  <a class="search-link" href={url('search/')}><span>Search</span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 6 6"/></svg></a>
+  <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" type="button"><span>Menu</span><span class="menu-icon" aria-hidden="true">☰</span></button>
+</header>
+<nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden>
+  {navigation.map(([number, label, path]) => <a href={url(path)} aria-current={current.startsWith(url(path)) ? 'page' : undefined}><small>{number}</small> {label}<span aria-hidden="true">↗</span></a>)}
+</nav>
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const menu = document.querySelector<HTMLElement>('#mobile-nav');
+  function closeMenu() { if (!toggle || !menu) return; toggle.setAttribute('aria-expanded', 'false'); menu.hidden = true; }
+  toggle?.addEventListener('click', () => { if (!menu) return; const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded', String(open)); menu.hidden = !open; });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') { closeMenu(); toggle.focus(); } });
+  window.matchMedia('(min-width: 1061px)').addEventListener('change', (event) => { if (event.matches) closeMenu(); });
+</script>

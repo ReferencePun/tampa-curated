@@ -1,0 +1,9 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import PersonCard from '../../components/PersonCard.astro';
+import Newsletter from '../../components/Newsletter.astro';
+const people = (await getCollection('people')).sort((a,b)=>a.data.order-b.data.order);
+---
+<BaseLayout title="People to Watch" description="The makers, thinkers, and independent spirits. Preview the Tampa Curated profile format."><PageIntro number="02" title="PEOPLE TO WATCH" deck="The next idea. The new perspective. The people making room for something of their own."/><p class="collection-note">All five profiles are fictional demonstration content. Stock models are not the named people. Real interviews and portraits will follow.</p><section class="people-grid people-archive" aria-label="All profiles">{people.map((entry,index)=><PersonCard entry={entry} index={index}/>)}</section><Newsletter/></BaseLayout>

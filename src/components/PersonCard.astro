@@ -1,0 +1,9 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Photo from './Photo.astro';
+import { url } from '../lib/urls';
+interface Props { entry: CollectionEntry<'people'>; index?: number; }
+const { entry, index = 0 } = Astro.props;
+const d = entry.data;
+---
+<article class="person-card"><a href={url(`people/${entry.id}/`)}><div class="portrait-wrap"><Photo name={d.image} alt={d.imageAlt} treatment={d.treatment}/><span class="portrait-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><span class="portrait-arrow" aria-hidden="true">↗</span></div><h3>{d.title}</h3><p>{d.profession}</p></a>{d.demo && <span class="sample-label">Fictional profile · stock portrait</span>}</article>

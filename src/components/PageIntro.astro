@@ -1,0 +1,5 @@
+---
+interface Props { number: string; title: string; deck: string; note?: string; }
+const { number, title, deck, note = 'TAMPA, FLORIDA / AN INDEPENDENT EYE' } = Astro.props;
+---
+<header class="page-intro"><div class="intro-top"><span class="eyebrow">{number} / TAMPA CURATED</span><span class="eyebrow">{note}</span></div><h1>{title}<span>.</span></h1><p>{deck}</p></header>

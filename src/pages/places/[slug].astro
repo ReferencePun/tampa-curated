@@ -1,0 +1,14 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import DemoNotice from '../../components/DemoNotice.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import PlaceCard from '../../components/PlaceCard.astro';
+import { url } from '../../lib/urls';
+export async function getStaticPaths(){return (await getCollection('businesses')).map(entry=>({params:{slug:entry.id},props:{entry}}));}
+interface Props{entry:CollectionEntry<'businesses'>}
+const {entry}=Astro.props;const d=entry.data;const {Content}=await render(entry);const hood=await getEntry(d.neighborhood);const related=(await getCollection('businesses')).filter(p=>p.id!==entry.id&&p.data.neighborhood.id===d.neighborhood.id);
+---
+<BaseLayout title={d.title} description={d.deck} image={d.image}><nav class="breadcrumb" aria-label="Breadcrumb"><a href={url()}>Home</a><span>/</span><a href={url('places/')}>Places</a><span>/ {d.title}</span></nav><article><header class="detail-header"><span class="eyebrow">{d.categories.join(' / ')} / {hood?.data.title}</span><h1>{d.title}</h1><p class="detail-deck">{d.deck}</p></header><figure class="detail-figure"><Photo name={d.image} alt={d.imageAlt} treatment={d.treatment} eager sizes="(max-width: 1250px) 95vw, 1200px"/><figcaption>{d.imageAlt}. <a href={url('credits/')}>Credits ↗</a></figcaption></figure><div class="article-body"><aside>{d.demo && <DemoNotice kind="place"/>}<dl class="details-table"><div><dt>Neighborhood</dt><dd><a href={url(`neighborhoods/${d.neighborhood.id}/`)}>{hood?.data.title} ↗</a></dd></div><div><dt>Categories</dt><dd>{d.categories.map(c=><div><a href={`${url('the-list/')}?category=${encodeURIComponent(c)}`}>{c} ↗</a></div>)}</dd></div><div><dt>Address</dt><dd>{d.address || 'Not published — fictional demonstration entry.'}</dd></div><div><dt>Website</dt><dd>{d.website ? <a href={d.website}>Visit website ↗</a> : 'Not supplied'}</dd></div><div><dt>Instagram</dt><dd>{d.instagram ? <a href={d.instagram}>View Instagram ↗</a> : 'Not supplied'}</dd></div></dl><a class="text-link" href={url('the-list/')}>Back to the list <span aria-hidden="true">⟶</span></a></aside><div class="prose"><Content/></div></div></article>{related.length>0 && <section class="detail-related"><SectionHeading label="In the neighborhood" href={url(`neighborhoods/${d.neighborhood.id}/`)} linkLabel="Explore"/><div class="places-grid">{related.map(p=><PlaceCard entry={p} neighborhood={hood?.data.title}/>)}</div></section>}</BaseLayout>

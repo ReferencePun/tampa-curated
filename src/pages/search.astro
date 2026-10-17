@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import { url } from '../lib/urls';
+const groups=[['stories','Story','stories'],['people','Person','people'],['businesses','Place','places'],['neighborhoods','Neighborhood','neighborhoods']] as const;
+const entries=(await Promise.all(groups.map(async([collection,type,path])=>(await getCollection(collection)).map(entry=>({title:entry.data.title,deck:entry.data.deck,demo:entry.data.demo,type,href:url(`${path}/${entry.id}/`),search:`${entry.data.title} ${entry.data.deck} ${type} ${entry.body || ''}`}))))).flat();
+---
+<BaseLayout title="Search" description="Search Tampa Curated stories, profiles, places, and neighborhoods." noindex><PageIntro number="INDEX" title="LOOK CLOSER" deck="A name, a neighborhood, an idea. Start somewhere."/><form class="search-form" id="site-search" role="search"><div><label for="search-query">SEARCH THE PUBLICATION</label><input id="search-query" name="q" type="search" placeholder="Try “Ybor” or “coffee”…" autocomplete="off"/></div><button type="submit" class="button ink">Search <span aria-hidden="true">⟶</span></button></form><noscript><p class="demo-notice">Live search needs JavaScript. Browse the complete index below or use your browser’s Find function.</p></noscript><p class="result-count" id="search-count" role="status" aria-live="polite">{entries.length} entries / explore the full index</p><div class="search-results">{entries.map(entry=><article class="search-result" data-search={entry.search}><span class="eyebrow">{entry.type}</span><h2><a href={entry.href}>{entry.title} ↗</a></h2><p>{entry.deck}</p>{entry.demo && <span class="sample-label">Sample content{entry.type==='Person'?' · fictional profile':entry.type==='Place'?' · fictional business':''}</span>}</article>)}</div><div id="search-empty" class="empty-state" hidden><h2>KEEP LOOKING.</h2><p>No results for this search. Try a shorter phrase or a neighborhood name.</p><button id="clear-search" type="button" class="text-link">Show the full index ⟶</button></div></BaseLayout>
+<script>
+  const form=document.querySelector<HTMLFormElement>('#site-search')!;
+  const input=document.querySelector<HTMLInputElement>('#search-query')!;
+  const entries=[...document.querySelectorAll<HTMLElement>('[data-search]')];
+  const normalize=(text:string)=>text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase();
+  input.value=new URLSearchParams(location.search).get('q') || '';
+  function search(){const words=normalize(input.value.trim()).split(/\s+/).filter(Boolean);let count=0;entries.forEach(entry=>{const match=words.every(word=>normalize(entry.dataset.search||'').includes(word));entry.hidden=!match;if(match) count++;});document.querySelector('#search-count')!.textContent=`${count} ${count===1?'result':'results'}${input.value.trim()?` for “${input.value.trim()}”`:' / explore the full index'}`;(document.querySelector('#search-empty') as HTMLElement).hidden=count>0;const params=new URLSearchParams();if(input.value.trim()) params.set('q',input.value.trim());history.replaceState(null,'',`${location.pathname}${params.size?'?'+params.toString():''}`);}
+  form.addEventListener('submit',event=>{event.preventDefault();search();});input.addEventListener('input',search);document.querySelector('#clear-search')?.addEventListener('click',()=>{input.value='';search();input.focus();});search();
+</script>

@@ -1,0 +1,9 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Photo from './Photo.astro';
+import { url } from '../lib/urls';
+interface Props { entry: CollectionEntry<'stories'>; }
+const { entry } = Astro.props;
+const d = entry.data;
+---
+<article class="story-card"><a class="image-link" tabindex="-1" aria-hidden="true" href={url(`stories/${entry.id}/`)}><Photo name={d.image} alt="" treatment={d.treatment}/></a><div class="card-meta"><span>{d.category}</span>{d.demo && <span>Sample story</span>}</div><h3><a href={url(`stories/${entry.id}/`)}>{d.title}</a></h3><p>{d.deck}</p><a class="text-link" href={url(`stories/${entry.id}/`)} aria-label={`Read ${d.title}`}>Read story <span aria-hidden="true">⟶</span></a></article>

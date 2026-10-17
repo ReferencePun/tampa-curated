@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/urls';
+---
+<BaseLayout title="Page not found" description="This page took a different turn. Find your way back to Tampa Curated." noindex><section class="not-found"><span class="eyebrow">404 / A SMALL DETOUR</span><h1>A LITTLE<br/>TOO LOST.</h1><p>There’s plenty to discover here. This page just isn’t one of those things.</p><div class="not-found-links"><a class="button ink" href={url()}>Back to the city <span aria-hidden="true">⟶</span></a><a class="text-link" href={url('search/')}>Search the publication <span aria-hidden="true">↗</span></a></div></section></BaseLayout>

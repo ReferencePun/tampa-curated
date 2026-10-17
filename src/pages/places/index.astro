@@ -1,0 +1,10 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import PlaceCard from '../../components/PlaceCard.astro';
+import { url } from '../../lib/urls';
+const places=(await getCollection('businesses')).sort((a,b)=>a.data.order-b.data.order);
+const hoods=await getCollection('neighborhoods');
+---
+<BaseLayout title="Places" description="Independent spaces and everyday discoveries. Preview the Tampa Curated places collection."><PageIntro number="01" title="A SENSE OF PLACE" deck="Good rooms. Open doors. The places that give a city its own particular character."/><div class="collection-toolbar"><p class="collection-note">Fictional demonstration entries, not verified recommendations.</p><a class="text-link" href={url('the-list/')}>Search & filter the list <span aria-hidden="true">↗</span></a></div><section class="places-grid" aria-label="All places">{places.map(entry=><PlaceCard entry={entry} neighborhood={hoods.find(h=>h.id===entry.data.neighborhood.id)?.data.title}/>)}</section></BaseLayout>

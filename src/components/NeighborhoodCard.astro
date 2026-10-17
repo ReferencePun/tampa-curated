@@ -1,0 +1,8 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Photo from './Photo.astro';
+import { url } from '../lib/urls';
+interface Props { entry: CollectionEntry<'neighborhoods'>; index?: number; }
+const { entry, index = 0 } = Astro.props;
+---
+<a class="neighborhood-card" href={url(`neighborhoods/${entry.id}/`)}><Photo name={entry.data.image} alt={entry.data.imageAlt} treatment={entry.data.treatment}/><div><span class="eyebrow">0{index + 1} / NEIGHBORHOOD</span><h3>{entry.data.title}<span aria-hidden="true">↗</span></h3></div></a>
