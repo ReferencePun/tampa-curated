@@ -5,6 +5,7 @@ import {Ink,plane,paper,pale,surfaces,materials,TAU,type P} from './ink';
 import {createTampaLandmarks} from './landmarks';
 import {streetEnd} from './street';
 import {createStreetscape} from './streetscape';
+import {createPedestrians} from './pedestrians';
 function gear(radius:number,teeth:number,hole:number){
  const group=new T.Group(),drawing=new Ink(),shape=new T.Shape();
  const edge:P[]=[];
@@ -88,6 +89,7 @@ export function createWorld(compact:boolean){
  for(let x=-13;x>=-21;x-=8){cityInk.box(x,0,-42,.25,10,.25);cityInk.box(x,0,-26,.25,8,.25);}
  cityInk.build(city);
  createTampaLandmarks(city,compact);
+ const pedestrians=createPedestrians(city,compact);
  // A separate photographic study waits beyond the street: the Ybor photograph is
  // never used as a false texture for Plant Hall or the other real landmarks.
  const photoHeight=compact?7:5.5,photoDepth=streetEnd.z;
@@ -114,7 +116,8 @@ export function createWorld(compact:boolean){
   photoMaterial.uniforms.reveal.value=underDrawing?0:phase(p,.86,.94);
   destination.visible=photoMaterial.uniforms.reveal.value>0;
   compass.rotation.z=phase(p,.63,.81)*.25;
-  return {fold,open,gear:wheel.rotation.z,pinion:pinion.rotation.z,lift,reveal:photoMaterial.uniforms.reveal.value};
+  const crossing=pedestrians.update(p);
+  return {fold,open,gear:wheel.rotation.z,pinion:pinion.rotation.z,lift,reveal:photoMaterial.uniforms.reveal.value,pedestrians:crossing,pedestrianCount:pedestrians.count};
  }
  function dispose(){disposed=true;const geometries=new Set<T.BufferGeometry>(),mats=new Set<T.Material>();scene.traverse(object=>{if(object instanceof T.Mesh||object instanceof T.LineSegments){geometries.add(object.geometry);for(const mat of Array.isArray(object.material)?object.material:[object.material])mats.add(mat);}});geometries.forEach(g=>g.dispose());mats.forEach(m=>m.dispose());texture?.dispose();}
  return {scene,update,loadPhoto,dispose,photoPoint:new T.Vector3(streetEnd.x+.3,photoHeight,photoDepth)};

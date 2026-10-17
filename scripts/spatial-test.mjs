@@ -4,6 +4,7 @@ import {chromium,webkit,expect} from '@playwright/test';
 import {Quaternion,Vector3} from 'three';
 import {sampleCamera} from '../src/scripts/spatial/path.ts';
 import {streetSites,streetSitesFor,streetEnd} from '../src/scripts/spatial/street.ts';
+import {crosswalks,pedestrians,samplePedestrian,sampleFoot} from '../src/scripts/spatial/pedestrian-motion.ts';
 const base=process.env.TEST_BASE??'/tampa-curated';
 const origin=process.env.TEST_ORIGIN||'http://127.0.0.1:4321';
 const href=route=>`${origin}${base}/${route}`;
@@ -48,6 +49,37 @@ for(const site of streetSitesFor(true)){
  assert.ok(site.position[2]<-38.5||site.position[2]>-29.5,'Mobile buildings stay on either side of the lane');
  assert.equal(site.position[0],streetSites.find(original=>original.name===site.name).position[0],'Mobile retains the same length of street travel');
 }
+// Each group crosses ahead of the camera, then clears the road before we pass.
+for(const compact of [false,true])for(const person of pedestrians){
+ const halfRoad=compact?4.5:8;
+ assert.ok(crosswalks.some(x=>person.x>=x&&person.x<=x+2.04),'Pedestrians stay on the brick crossings');
+ const start=samplePedestrian(person,person.start,compact),end=samplePedestrian(person,person.end,compact);
+ assert.ok(Math.abs(start.z+34)>halfRoad&&Math.abs(end.z+34)>halfRoad,'Start and finish on the sidewalks');
+ assert.ok((start.z+34)*(end.z+34)<0,'Walk all the way across the street');
+ assert.equal(start.activity,0);assert.equal(end.activity,0);
+ assert.deepEqual(samplePedestrian(person,0,compact),start,'Wait at the curb before crossing');
+ assert.deepEqual(samplePedestrian(person,1,compact),end,'Come to rest after crossing');
+ const middle=(person.start+person.end)/2;
+ sampleCamera(middle,pos,q);
+ assert.ok(pos.x-person.x>12,'Full strides are visible ahead of the camera');
+ let previous=start;
+ for(let i=1;i<=100;i++){
+  const progress=person.start+(person.end-person.start)*i/100,state=samplePedestrian(person,progress,compact);
+  assert.ok((state.z-previous.z)*person.direction>=0,'Crossing never jitters backward');
+  assert.ok(Math.abs(state.z-previous.z)<.3,'Crossing remains continuous');
+  if(Math.abs(state.z+34)<1.5){sampleCamera(progress,pos,q);assert.ok(pos.x-person.x>8,'People clear the center before the camera reaches them');}
+  previous=state;
+ }
+ const stride=start.stride;
+ const a=sampleFoot(.15,stride),b=sampleFoot(.16,stride);
+ assert.equal(a.lift,0);assert.equal(b.lift,0);
+ assert.ok(Math.abs(b.x-a.x+.01*stride)<1e-12,'A planted foot stays fixed while the body advances');
+ for(const boundary of [.5,1]){
+  const before=sampleFoot(boundary-1e-6,stride),after=sampleFoot(boundary+1e-6,stride);
+  assert.ok(Math.abs(before.x-after.x)<.00001&&Math.abs(before.lift-after.lift)<.00001,'Foot placement is continuous at lift and landing');
+ }
+ assert.ok(sampleFoot(.75,stride).lift>.2,'The moving foot lifts off the street');
+}
 for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  if(process.env.TEST_ENGINE&&process.env.TEST_ENGINE!==name)continue;
  const browser=await engine.launch();
@@ -61,8 +93,9 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  const move=async(p)=>{await page.evaluate(p=>{const t=document.querySelector('[data-spatial-track]'),s=document.querySelector('[data-spatial-stage]');scrollTo({top:t.getBoundingClientRect().top+scrollY+(t.offsetHeight-s.clientHeight)*p,behavior:'instant'});},p);await settle(p);};
  await page.goto(href('unfinished-city/#threshold'));await expect(root).toHaveAttribute('data-renderer','ready');await page.evaluate(()=>document.fonts.ready);await settle(.27);
  await expect(page.locator('[data-spatial-canvas] canvas')).toHaveCount(1);
+ await expect(root).toHaveAttribute('data-pedestrian-count',String(pedestrians.length));
  const snapshots=new Map();
- for(const p of [0,.15,.28,.43,.61,.75,.82,.89,1,.94]){
+ for(const p of [0,.15,.28,.43,.61,.75,.76,.82,.87,.89,.95,1,.94]){
   await move(p);const state=await root.evaluate(el=>({...el.dataset}));snapshots.set(p,state);
   assert.ok(+state.drawCalls<130,`${name}: bounded drawing work`);
   assert.ok(Math.abs(+state.pinion+(+state.gear)*48/20-171*Math.PI/180)<.00001,'Meshing gears preserve their tooth ratio');
@@ -70,6 +103,10 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  }
  assert.equal(+snapshots.get(0).fold,0);assert.equal(+snapshots.get(.28).fold,1);
  assert.equal(+snapshots.get(.43).lift>0,true);assert.ok(Math.abs(+snapshots.get(.61).lift-5)<.00001);
+ assert.notEqual(snapshots.get(.75).pedestrians,snapshots.get(.76).pedestrians,'Scrolling advances the pedestrians');
+ assert.equal(snapshots.get(.95).pedestrians.split(';').length,pedestrians.length,'All figures remain in the shared scene');
+ const resting=await root.getAttribute('data-pedestrians');await page.waitForTimeout(200);
+ assert.equal(await root.getAttribute('data-pedestrians'),resting,'Pedestrians stand still when scrolling stops');
  await expect(page.locator('[data-photo-link]')).toBeVisible();
  await page.locator('[data-show-drawing]').click();await expect(root).toHaveAttribute('data-photo-reveal','0.000000');await expect(page.locator('[data-photo-link]')).toBeHidden();
  await page.locator('[data-show-drawing]').click();await expect(page.locator('[data-photo-link]')).toBeVisible();
@@ -82,9 +119,9 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await page.locator('[data-crank]').focus();await page.keyboard.press('Home');await settle(0);
  await page.locator('[data-crank]').fill('50');await settle(.16);
  await page.locator('[data-crank]').fill('100');await settle(.32);
- for(const p of [.89,.82,.75,.43,.15,0]){
+ for(const p of [.95,.89,.87,.82,.76,.75,.43,.15,0]){
   await move(p);const previous=snapshots.get(p),now=await root.evaluate(el=>({...el.dataset}));
-  for(const field of ['cameraPosition','cameraQuaternion','fold','gear','pinion','lift'])assert.equal(now[field],previous[field],`${name}: ${field} reverses exactly at ${p}`);
+  for(const field of ['cameraPosition','cameraQuaternion','fold','gear','pinion','lift','pedestrians'])assert.equal(now[field],previous[field],`${name}: ${field} reverses exactly at ${p}`);
  }
  // Native wheel input advances the same state and remains untrapped at the end.
  await page.mouse.wheel(0,600);await expect.poll(progress).toBeGreaterThan(.04);
@@ -101,7 +138,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await expect.poll(()=>phone.locator('[data-spatial-root]').getAttribute('data-progress').then(Number),{timeout:10000}).toBeCloseTo(.27,2);
  await phone.locator('[data-stage-nav] [data-room-link="city"]').tap();await expect.poll(()=>phone.locator('[data-spatial-root]').getAttribute('data-progress').then(Number)).toBeCloseTo(.94,2);
  await expect(phone.locator('[data-photo-link]')).toBeVisible();
- for(const p of [.75,.82,.89,1,.94]){
+ for(const p of [.75,.76,.82,.87,.89,.95,1,.94]){
   await phone.evaluate(p=>{const t=document.querySelector('[data-spatial-track]'),s=document.querySelector('[data-spatial-stage]');scrollTo({top:t.getBoundingClientRect().top+scrollY+(t.offsetHeight-s.clientHeight)*p,behavior:'instant'});},p);
   await expect.poll(()=>phone.locator('[data-spatial-root]').getAttribute('data-progress').then(Number),{timeout:10000}).toBeCloseTo(p,3);
   await phone.waitForTimeout(250);await phone.screenshot({path:`test-results/spatial/${name}-mobile-street-${p}.png`});
@@ -131,7 +168,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await page.locator('canvas').evaluate(canvas=>canvas.dispatchEvent(new Event('webglcontextlost',{cancelable:true})));
  await expect(root).toHaveAttribute('data-renderer','static');await expect(page.locator('canvas')).toHaveCount(0);await page.locator('[data-spatial-retry]').click();await expect(root).toHaveAttribute('data-renderer','ready');
  assert.deepEqual(errors,[],`${name}: runtime or asset errors`);
- console.log(`${name}: real 3D, all four rooms, exact reversal, gear coupling, idle/offscreen rendering, deep links/history/story return, crank, mobile, static/no-JS/no-WebGL/context-loss recovery, 10 enlarged-text layouts passed.`);
+ console.log(`${name}: real 3D, all four rooms, seven scroll-driven pedestrians, exact reversal, gear coupling, idle/offscreen rendering, deep links/history/story return, crank, mobile, static/no-JS/no-WebGL/context-loss recovery, 10 enlarged-text layouts passed.`);
  await context.close();await browser.close();
 }
 console.log('Camera continuity: 1,001 upright samples, a valid doorway crossing, 53 units of street travel, fixed street heading/eye height/centerline, continuous speed, and a clear lane passed.');

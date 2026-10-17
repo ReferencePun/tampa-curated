@@ -1,5 +1,6 @@
 import * as T from 'three';
 import {Ink,TAU,type P} from './ink';
+import {crosswalks} from './pedestrian-motion';
 
 // Original supporting buildings, rather than additional named landmarks. The
 // gaps reserve the complete Theatre, Plant Hall, Floridan and Rivergate sites.
@@ -64,7 +65,7 @@ export function createStreetscape(parent:T.Object3D,compact:boolean){
  }
 
  // Hand-laid brick crosswalks: staggered joints instead of a drafting grid.
- for(const crossing of [-32,-63,-104]){
+ for(const crossing of crosswalks){
   for(let row=0;row<7;row++){
    const x=crossing+row*.34;
    pen.line([x,groundY,-34-halfRoad+.1],[x,groundY,-34+halfRoad-.1],row===0||row===6?2:1);

@@ -82,7 +82,7 @@ export async function mountSpatial(root:HTMLElement,onFailure:(message:string)=>
   }
   if(current>.60&&!photoRequested){photoRequested=true;void world.loadPhoto(root.dataset.photo!,request);}
   // Diagnostics describe rendered state, so tests can prove reversal and coupling.
-  Object.assign(root.dataset,{progress:current.toFixed(6),cameraPosition:position.toArray().join(','),cameraQuaternion:quaternion.toArray().join(','),fold:mechanical.fold.toFixed(6),gear:mechanical.gear.toFixed(6),pinion:mechanical.pinion.toFixed(6),lift:mechanical.lift.toFixed(6),photoReveal:mechanical.reveal.toFixed(6),drawCalls:String(renderer.info.render.calls),resolution:dpr.toFixed(2)});
+  Object.assign(root.dataset,{progress:current.toFixed(6),cameraPosition:position.toArray().join(','),cameraQuaternion:quaternion.toArray().join(','),fold:mechanical.fold.toFixed(6),gear:mechanical.gear.toFixed(6),pinion:mechanical.pinion.toFixed(6),lift:mechanical.lift.toFixed(6),photoReveal:mechanical.reveal.toFixed(6),pedestrians:mechanical.pedestrians,pedestrianCount:String(mechanical.pedestrianCount),drawCalls:String(renderer.info.render.calls),resolution:dpr.toFixed(2)});
   if(Math.abs(delta)>.0001&&elapsed<100){frameCount++;frameTime+=elapsed;if(frameCount>=45){if(frameTime/frameCount>28&&qualityChanges<3&&dpr>.85){dpr=Math.max(.85,dpr-.2);qualityChanges++;renderer.setPixelRatio(dpr);renderer.setSize(width,height,false);}frameCount=0;frameTime=0;}}
   if(current!==target)request();else last=0;
  }
