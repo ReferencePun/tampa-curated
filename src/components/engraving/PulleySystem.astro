@@ -1,17 +1,19 @@
 ---
 import {beltPath} from '../../lib/mechanisms';
+import {sketchArc, sketchLine} from '../../lib/drafting';
 interface Props {x1:number;y1:number;r1:number;x2:number;y2:number;r2:number;rate?:number;crossed?:boolean;class?:string;}
 const {x1,y1,r1,x2,y2,r2,rate=1,crossed=false,class:className=''}=Astro.props;
 const belt=beltPath(x1,y1,r1,x2,y2,r2,crossed);
 ---
 <g class:list={['pulley-system',className]}>
   <path d={belt} stroke-width="3" stroke="var(--paper)"/>
-  <path d={belt} stroke-width=".8"/>
-  <path d={belt} class="belt-marks" data-belt data-rate={rate*r1*Math.PI/180} stroke-dasharray="1 8" stroke-width="2.6"/>
+  <path d={belt} stroke-width=".6"/>
+  <path d={belt} class="belt-marks" data-belt data-rate={rate*r1*Math.PI/180} stroke-dasharray=".6 12 1 9" stroke-width="1.2"/>
   {[[x1,y1,r1,rate],[x2,y2,r2,rate*r1/r2*(crossed?-1:1)]].map(([x,y,r,speed])=><g transform={`translate(${x} ${y})`}>
-    <circle r={r-3} fill="var(--paper)"/><circle r={r-6}/><circle r={r+3}/>
+    <path d={sketchArc(r-3,2)} fill="var(--paper)"/><path d={sketchArc(r-6,5)}/><path d={sketchArc(r+3,8)}/>
+    <path d={sketchArc(r+3.8,7,.2,4.3)} class="sketch-retrace"/>
     <g data-gear data-rate={speed} data-phase="0" data-pulley-radius={r}>
-      <path d={`M${-r+8} 0H${r-8}M0 ${-r+8}V${r-8}`} class="gear-spoke"/>
+      <path d={sketchLine(-r+8,0,r-8,0,2)+sketchLine(0,-r+8,0,r-8,3)} class="gear-spoke"/>
       <circle r={r*.22} fill="var(--paper)"/><circle r="3"/>
     </g>
   </g>)}

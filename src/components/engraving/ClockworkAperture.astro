@@ -1,4 +1,5 @@
 ---
+import DraftingGuides from './DraftingGuides.astro';
 import type {CollectionEntry} from 'astro:content';
 import EngravedGear from './EngravedGear.astro';
 import RotatingAperture from './RotatingAperture.astro';
@@ -13,6 +14,7 @@ const {stories}=Astro.props;
   <div class="aperture-layout">
     <div class="engraved-copy"><span class="chapter-numeral" aria-hidden="true">III.</span><h2 id="aperture-heading">As the light changes,<br/><em>so does the city.</em></h2><p>The familiar becomes unfamiliar. A reflection, a conversation, a room after dark. Keep your aperture open.</p><a class="engraved-link" href={url('stories/after-hours/')}>Read “After hours” <span aria-hidden="true">↗</span></a><p class="art-context">Downtown Tampa on the water. Sample editorial.</p></div>
     <figure class="aperture-figure"><svg class="engraving-svg" viewBox="0 0 670 580" role="img" aria-labelledby="aperture-image-title"><title id="aperture-image-title">An eight-blade mechanical aperture reveals Tampa reflected in the water at night</title>
+      <DraftingGuides width={670} height={580}/>
       <circle cx="325" cy="270" r="220" class="construction"/><path d="M40 270H624M325 17V530M115 480L535 60" class="construction"/><path d={radialMarks(204,96,4)} transform="translate(325 270)" class="hairline"/>
       <RotatingAperture id="night" x={325} y={270} radius={157} photo="tampa-night"/>
       <EngravedGear x={325} y={270} radius={195} teeth={60} design="ring"/>

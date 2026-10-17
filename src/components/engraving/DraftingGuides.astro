@@ -1,0 +1,8 @@
+---
+interface Props { width:number; height:number; }
+const {width:w,height:h}=Astro.props;
+---
+<g class="drafting-guides" aria-hidden="true">
+  <rect x="42" y="40" width={w-84} height={h-80} fill="url(#tc-drafting-grid)" stroke="none"/>
+  <path d={`M30 56H55M42 44V68M${w-54} 56H${w-30}M${w-42} 44V68M30 ${h-56}H55M42 ${h-68}V${h-44}M${w-54} ${h-56}H${w-30}M${w-42} ${h-68}V${h-44}`} class="draft-registration"/>
+</g>

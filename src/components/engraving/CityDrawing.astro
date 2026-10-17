@@ -1,4 +1,5 @@
 ---
+import DraftingGuides from './DraftingGuides.astro';
 import EngravedGear from './EngravedGear.astro';
 import MechanicalImageFrame from './MechanicalImageFrame.astro';
 import {meshPhase} from '../../lib/mechanisms';
@@ -11,9 +12,11 @@ const facade='M157 392V220H181V201H329V183H385V168H424V183H478V201H627V220H650V3
   <div class="drawing-layout">
     <figure class="drawing-figure">
       <svg class="engraving-svg" viewBox="0 0 820 510" role="img" aria-labelledby="drawing-image-title"><title id="drawing-image-title">A schematic architectural study reveals the Ybor Factory Building photograph</title>
+        <DraftingGuides width={820} height={510}/>
         <path d="M62 407H760M157 130V450M650 130V450M140 153H665M143 146V160M663 146V160M145 448H667M150 442V455M655 442V455" class="construction"/>
         <path d="M144 420H660M144 425H660M150 435H653" class="hairline"/>
         <g class="draft-facade"><path d={facade} fill="url(#tc-hatch)" class="construction"/><path d={windows} class="construction"/></g>
+        <path d="M150 221L327 220.3M329 178.8L385 180.1M425 180.5L481 179M479 200L635 199.2M159 226L158.2 398M647.8 214L648.6 399M146 278L660 277.3M150 328L658 327.2M136 402.2L670 401.4" class="sketch-retrace"/>
         <defs><clipPath id="city-reveal"><rect data-drawing-window x="158" y="202" width="492" height="205"/></clipPath></defs>
         <g clip-path="url(#city-reveal)"><MechanicalImageFrame id="ybor-study" photo="ybor" x={158} y={202} width={492} height={205}/></g>
         <g class="drawn-facade"><path data-drawing pathLength="1" d={facade}/><path data-drawing pathLength="1" d={windows} class="hairline"/></g>

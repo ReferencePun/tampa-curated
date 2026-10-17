@@ -1,21 +1,24 @@
 ---
 import {gearPath, circlePath, point, TAU} from '../../lib/mechanisms';
+import {sketchArc, sketchLine} from '../../lib/drafting';
 interface Props { x?:number; y?:number; radius:number; teeth:number; rate?:number; phase?:number; design?:'ring'|'spoked'|'disc'; class?:string; }
 const {x=0,y=0,radius:r,teeth,rate=1,phase=0,design='spoked',class:className=''}=Astro.props;
 const hole = design === 'ring' ? r*.78 : r*.71;
 const spokes=Array.from({length:design==='disc'?8:6},(_,i)=>i*TAU/(design==='disc'?8:6));
-const hatch=Array.from({length:teeth*2},(_,i)=>{const a=i*TAU/(teeth*2); const p=point(r*.83,a),q=point(r*.92,a+.02);return `M${p.join(' ')}L${q.join(' ')}`}).join('');
+const hatch=Array.from({length:teeth*2},(_,i)=>{const a=(i+.15*Math.sin(i*3))*TAU/(teeth*2); const p=point(r*(.835+.009*Math.sin(i)),a),q=point(r*(.914+.008*Math.cos(i*2)),a+.018);return sketchLine(p[0],p[1],q[0],q[1],i)}).join('');
 ---
 <g transform={`translate(${x} ${y})`} class:list={['engraved-gear',className]}>
-  <circle r={r+10} class="construction" stroke-dasharray="2 5"/>
+  <path d={sketchArc(r+10,teeth)} class="construction" stroke-dasharray="5 8 1 6"/>
   <g data-gear data-rate={rate} data-phase={phase} data-teeth={teeth} data-pitch-radius={r} transform={`rotate(${phase})`}>
-    <path d={gearPath(r,teeth)+circlePath(hole)} fill="var(--paper)" fill-rule="evenodd"/>
+    <path d={gearPath(r,teeth)+circlePath(hole)} fill="var(--paper)" fill-rule="evenodd" class="gear-outline"/>
     <path d={hatch} class="engraved-hatch"/>
-    <circle r={r*.94}/><circle r={r*.82}/><circle r={r*.79} class="hairline"/>
+    <path d={sketchArc(r*.94,teeth)}/><path d={sketchArc(r*.82,teeth+3)}/>
+    <path d={sketchArc(r*.94+.9,teeth+5,-.25,2.1)+sketchArc(r*.82-.8,teeth+7,2.4,5.6)} class="sketch-retrace"/>
+    <path d={sketchArc(r*.79,teeth+8,.1,4.8)} class="hairline"/>
     {design !== 'ring' && <>
-      {spokes.map(a=>{const p=point(r*.2,a),q=point(r*.7,a);return <path d={`M${p.join(' ')}L${q.join(' ')}`} class="gear-spoke"/>})}
-      {design==='disc' && <circle r={r*.55} fill="url(#tc-hatch)"/>}
-      <circle r={r*.22} fill="var(--paper)"/><circle r={r*.15}/><circle r={r*.07} fill="var(--brass)"/>
+      {spokes.map((a,i)=>{const p=point(r*.2,a),q=point(r*.7,a);return <g><path d={sketchLine(p[0],p[1],q[0],q[1],i)} class="gear-spoke"/><path d={sketchLine(p[0]+.9,p[1]-.7,q[0]+.7,q[1]-.4,i+4)} class="sketch-retrace"/></g>})}
+      {design==='disc' && <path d={sketchArc(r*.55,teeth)} fill="url(#tc-hatch)" class="hairline"/>}
+      <path d={sketchArc(r*.22,2)} fill="var(--paper)"/><path d={sketchArc(r*.15,4)}/><circle r={r*.07} fill="url(#tc-crosshatch)"/>
     </>}
     {spokes.map(a=>{const p=point(r*.87,a);return <g transform={`translate(${p.join(' ')}) rotate(${a*180/Math.PI})`}><circle r={Math.max(1.8,r*.018)} fill="var(--paper)"/><path d="M-2 0H2"/></g>})}
   </g>

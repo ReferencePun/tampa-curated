@@ -1,4 +1,5 @@
 ---
+import DraftingGuides from './DraftingGuides.astro';
 import EngravedGear from './EngravedGear.astro';
 import PulleySystem from './PulleySystem.astro';
 import CrankAndPiston from './CrankAndPiston.astro';
@@ -27,6 +28,7 @@ const upperPhase=meshPhase(60,20,-46);
     <div class="hero-instrument">
       <svg class="engraving-svg hero-assembly" viewBox="0 0 800 680" role="img" aria-labelledby="hero-machine-title hero-machine-desc">
         <title id="hero-machine-title">The clockwork city</title><desc id="hero-machine-desc">An original engraved mechanism with meshing gears, a belt drive, and a connecting rod. A circular aperture reveals a photograph of Tampa’s waterfront. Scrolling operates the assembly.</desc>
+        <DraftingGuides width={800} height={680}/>
         <g class="construction"><circle cx="440" cy="300" r="210"/><circle cx="440" cy="300" r="194" stroke-dasharray="3 7"/><path d="M35 300H778M440 37V615M116 78L740 576M172 588L697 70"/><path d="M52 600H750M65 593V607M740 593V607"/><path d={radialMarks(200,120,3)} transform="translate(440 300)"/></g>
         <g class="mobile-secondary"><path d="M199 300L440 300L595.6 138.9L699 465L428 534Z" fill="url(#tc-dots)" class="construction"/><path d="M130 473H267V502H130Z" fill="url(#tc-hatch)"/><circle cx="135" cy="488" r="3"/><circle cx="259" cy="488" r="3"/></g>
         <RotatingAperture id="hero" x={440} y={300} radius={128} photo="tampa-night" eager/>

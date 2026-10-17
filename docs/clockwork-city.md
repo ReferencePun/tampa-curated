@@ -13,7 +13,7 @@ The brief's referenced concept illustration was not attached, so the implementat
 - **Mechanical map:** a fine-line schematic connects all six neighborhood guides, with a traced route, geared pointer, and rotating compass.
 - **Pop-up atlas:** the existing six-spread book remains. Pages turn from right to left across the spine; the cover is not replayed. Resting and turning spreads now share the same viewport fit so phone gutters cannot clip a corner.
 
-The ivory paper, brown ink, restrained brass, and serif headings apply to the homepage. Interior routes and their comfortable reading sizes are preserved. The sea glass still refracts the actual page; search, directory filters, newsletter availability, photo credits, and demonstration disclosures remain intact.
+The pale paper, muted blue drafting ink, graphite text, and serif headings apply to the homepage. Interior routes and their comfortable reading sizes are preserved. The sea glass still refracts the actual page; search, directory filters, newsletter availability, photo credits, and demonstration disclosures remain intact.
 
 ## Implementation
 
@@ -58,7 +58,7 @@ There is no configured lint command. `astro check` covers TypeScript and Astro d
 
 Physical macOS Safari and iOS device testing is still outstanding. Playwright WebKit exercises a Safari-related engine but is not a claim of physical Safari/iPhone verification. Local headless frame timing is evidence of automated cadence, not a device performance guarantee. The existing Firefox launch limitation is documented in the historical atlas notes.
 
-### Results from this revision
+### Results from the initial engraving pass
 
 - Astro check: zero errors, warnings, or hints. Production build: 42 pages; 2,581 internal links/assets verified.
 - Chromium 156 and WebKit 27.2: the new mechanism suite, all five page turns across six spreads, portrait interaction/history/fallbacks, and sea-glass pixel checks pass. Visual captures were inspected at desktop and phone widths.
@@ -66,3 +66,12 @@ Physical macOS Safari and iOS device testing is still outstanding. Playwright We
 - Chromium touch simulation passes native vertical scrolling, a portrait swipe, 1.5× pinch zoom, and graphics-context-loss fallback.
 - The five mechanical plates each recorded 119 frame intervals: median 16.7ms, p95 16.7–16.8ms, no intervals over 25ms and no long tasks. The book's 179-interval sample recorded the same cadence. These measurements were taken locally without throttling.
 - Current homepage HTML: 219,752 bytes / 53,022 bytes gzip. The new GSAP/controller chunk is 117,033 bytes / 45,400 bytes gzip and is skipped in reduced-motion mode. The illustrations are native SVG; no new photo downloads, 3D framework, or external runtime service was introduced.
+
+
+### Hand-drawn drafting refinement
+
+The illustrations now use much finer strokes, softly retraced rings, uneven hatching, and faint drafting grids. `src/lib/drafting.ts` generates repeatable pen deviations at build time; the paths remain attached to their rotating parts. There is no animated noise, raster roughening filter, or new animation dependency. Photograph masks, mechanical ratios, scroll behavior, and reading sizes are retained. Phone strokes are slightly reinforced to stay visible at the smaller scale.
+
+Astro check/build and all 2,581 link/asset checks pass. The Chromium and WebKit engraving suites pass, including physical gear/rod/cable relationships, stop/reverse behavior, reduced motion, responsive layouts, and static links. Updated visual captures are in `test-results/engraving/`. The more detailed server-rendered SVG brings homepage HTML to 365,097 bytes / 119,817 bytes gzip.
+
+The final local, unthrottled Chromium timing run recorded 119 intervals per scene: median 16.7ms, p95 16.7–16.8ms, zero intervals above 25ms, and no long tasks across all five scenes. An earlier run under heavy system load stuttered; the repeat measures automated cadence, not physical-device performance.

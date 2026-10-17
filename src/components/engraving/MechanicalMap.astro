@@ -1,4 +1,5 @@
 ---
+import DraftingGuides from './DraftingGuides.astro';
 import CompassDial from './CompassDial.astro';
 import EngravedGear from './EngravedGear.astro';
 import {meshPhase} from '../../lib/mechanisms';
@@ -9,6 +10,7 @@ const locations=[{name:'Seminole Heights',x:350,y:97,id:'seminole-heights'},{nam
   <div class="plate-heading"><span class="plate-label">04 / THE NEIGHBORHOOD ATLAS</span><a href="#pop-up-book" class="plate-link">Open the pop-up book ↓</a></div>
   <div class="map-layout"><div class="engraved-copy"><span class="chapter-numeral" aria-hidden="true">IV.</span><h2 id="map-title">Follow a thread.<br/><em>Find your Tampa.</em></h2><p>Six neighborhoods. Countless connections. Turn the compass, trace the river, and leave room for a detour.</p><nav aria-label="Map destinations" class="map-destinations">{locations.map((place,i)=><a href={url(`neighborhoods/${place.id}/`)}><span>0{i+1}</span>{place.name}<span aria-hidden="true">↗</span></a>)}</nav><p class="art-context">An editorial map of real neighborhoods. Schematic, not for navigation.</p></div>
   <figure class="map-figure"><svg class="engraving-svg" viewBox="0 0 760 570" role="img" aria-labelledby="map-image-title"><title id="map-image-title">An engraved schematic map connecting Tampa’s six neighborhood guides</title>
+    <DraftingGuides width={760} height={570}/>
     <defs><pattern id="map-streets" width="38" height="32" patternUnits="userSpaceOnUse" patternTransform="rotate(-8)"><path d="M0 3H38M3 0V32" stroke="var(--ink)" stroke-width=".5" opacity=".25"/></pattern></defs>
     <path d="M126 52L550 28L677 165L682 378L547 488L259 509L97 386Z" fill="url(#map-streets)" class="construction"/>
     <path d="M286 33Q228 116 309 157T315 265Q273 304 350 371Q414 424 345 533L497 554Q559 497 481 448Q413 410 396 355Q344 275 367 255T356 151Q299 123 348 27" fill="var(--water-ink)" stroke="none"/>
