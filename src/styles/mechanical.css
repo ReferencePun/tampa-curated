@@ -640,7 +640,8 @@
 .atlas-stage {
   height: 475px;
   position: relative;
-  perspective: 1300px;
+  --atlas-perspective: 1300;
+  perspective: calc(var(--atlas-perspective) * 1px);
   perspective-origin: 50% 45%;
   transform-style: preserve-3d;
   min-width: 0;
@@ -660,8 +661,8 @@
 .atlas-book {
   position: absolute;
   width: 84%;
-  height: 50%;
-  top: 45%;
+  height: 60%;
+  top: 36%;
   left: 8%;
   transform-style: preserve-3d;
   transform: rotateX(var(--book-tilt)) rotateZ(var(--book-turn));
@@ -689,7 +690,7 @@
 .atlas-leaf-right {
   left: 50%;
   transform-origin: 0 50%;
-  transform: rotateY(calc(-1 * var(--fold)));
+  transform: none;
 }
 .atlas-surface {
   position: absolute;
@@ -715,7 +716,7 @@
   justify-content: space-between;
 }
 .atlas-surface-back > span {
-  font: clamp(30px, 4vw, 58px)/1 var(--display);
+  font: clamp(20px, 3.2vw, 48px)/1 var(--display);
 }
 .atlas-surface-back > small {
   font: 12px var(--condensed);
@@ -762,21 +763,38 @@
   background: #bdae91;
   border: 1px solid #8b806d;
 }
-/* Also give rear surfaces a sensible paint order in non-composited snapshots.
-   This does not flatten the structural 3D wrappers. */
-.atlas-surface-back,
-.atlas-pop-back {
-  z-index: -1;
+/* Enhanced surfaces share one projection, avoiding nested-transform flattening.
+   Without JS the original hinged DOM remains a fully open CSS paper scene. */
+.atlas-board:not(.is-projected) :is(.atlas-surface-back, .atlas-pop-back) {
   visibility: hidden;
 }
-/* This bounded camera/fold range always faces the front of the paper. Explicit
-   rear-face culling also avoids rear-surface fragments in software snapshots.
-   Front/back surfaces remain separate; the hinge hierarchy is never flattened. */
+.atlas-stage.is-projected {
+  perspective: none;
+}
+.atlas-board.is-projected .atlas-book {
+  transform: none;
+}
+.atlas-board.is-projected .atlas-leaf,
+.atlas-board.is-projected .atlas-hinge {
+  display: contents;
+}
+.atlas-board.is-projected
+  :is(.atlas-spine, .atlas-surface, .atlas-pop-face, .atlas-pop-back) {
+  inset: auto;
+  left: 0;
+  top: 0;
+  width: var(--plane-width);
+  height: var(--plane-height);
+  transform-origin: 0 0;
+  transform: var(--plane-transform);
+  visibility: var(--plane-visible);
+  z-index: var(--plane-order);
+}
 .atlas-hinge-sign {
   width: 76%;
-  height: 55%;
+  height: 40%;
   left: 14%;
-  bottom: 12%;
+  bottom: 7%;
 }
 .atlas-hinge-sign .atlas-pop-face {
   background: var(--paper-light);
@@ -800,10 +818,10 @@
   letter-spacing: 0.08em;
 }
 .atlas-hinge-tree {
-  height: 75%;
+  height: 60%;
   width: 40%;
   left: 10%;
-  bottom: 44%;
+  bottom: 36%;
 }
 .atlas-tree svg {
   width: 100%;
@@ -811,9 +829,9 @@
 }
 .atlas-hinge-photo {
   width: 80%;
-  height: 90%;
+  height: 64%;
   left: 16%;
-  bottom: 43%;
+  bottom: 29%;
 }
 .atlas-photo {
   padding: 7px 7px 24px;
@@ -835,10 +853,10 @@
   text-transform: uppercase;
 }
 .atlas-hinge-buildings {
-  width: 110%;
-  height: 36%;
-  left: -7%;
-  bottom: 23%;
+  width: 92%;
+  height: 28%;
+  left: 4%;
+  bottom: 17%;
 }
 .atlas-hinge-buildings svg {
   width: 100%;
@@ -858,9 +876,9 @@
 }
 .atlas-hinge-foreground {
   width: 90%;
-  height: 15%;
+  height: 12%;
   left: 3%;
-  bottom: 8%;
+  bottom: 3%;
 }
 .atlas-hinge-foreground .atlas-pop-face {
   color: var(--blue);
@@ -880,22 +898,22 @@
 }
 [data-motif="porch"] .atlas-hinge-tree {
   width: 55%;
-  left: -3%;
+  left: 3%;
 }
 [data-motif="garden"] .atlas-hinge-tree {
   left: 0;
   width: 60%;
-  height: 90%;
+  height: 64%;
 }
 [data-motif="garden"] .atlas-hinge-photo {
   width: 76%;
   left: 18%;
-  height: 100%;
+  height: 68%;
 }
 [data-motif="tower"] .atlas-hinge-photo {
-  width: 90%;
+  width: 82%;
   left: 14%;
-  height: 85%;
+  height: 64%;
 }
 [data-motif="tower"] .atlas-hinge-tree {
   height: 45%;
@@ -904,19 +922,19 @@
   bottom: 50%;
 }
 [data-motif="workshop"] .atlas-hinge-photo {
-  height: 80%;
+  height: 60%;
   width: 84%;
   left: 12%;
 }
 [data-motif="waterfront"] .atlas-hinge-photo {
   width: 80%;
-  height: 100%;
+  height: 68%;
   left: 18%;
 }
 [data-motif="waterfront"] .atlas-hinge-tree {
   width: 32%;
   left: 60%;
-  height: 65%;
+  height: 60%;
 }
 .atlas-compass {
   position: absolute;
@@ -1072,8 +1090,8 @@
     font-size: 14px;
   }
   .atlas-book {
-    height: 48%;
-    top: 42%;
+    height: 60%;
+    top: 36%;
   }
 }
 @media (max-width: 700px) {
@@ -1260,13 +1278,13 @@
   }
   .atlas-stage {
     height: 335px;
-    perspective: 900px;
+    --atlas-perspective: 900;
   }
   .atlas-book {
     width: 90%;
     left: 5%;
-    height: 50%;
-    top: 40%;
+    height: 60%;
+    top: 36%;
   }
   .atlas-board {
     --book-tilt: 48deg;
@@ -1274,6 +1292,12 @@
   }
   .atlas-hinge-sign .atlas-pop-face {
     padding: 9px;
+  }
+  .atlas-surface-back {
+    padding: 14px;
+  }
+  .atlas-surface-back > small {
+    font-size: 8px;
   }
   .atlas-hinge-sign span {
     font-size: 35px;

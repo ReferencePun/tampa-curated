@@ -17,9 +17,11 @@ export const motion = Object.freeze({
   qualitySampleFrames: 24,
   maxFrameMs: 25,
   maxDrawMs: 8,
-  foldAngle: 30,
-  riseClosed: -18,
+  foldAngle: 180,
+  riseClosed: 0,
   riseOpen: -76,
+  atlasFoldZoom: 0.32,
+  atlasFoldYaw: -14,
 });
 export const clamp = (n: number, min = 0, max = 1) =>
   Math.min(max, Math.max(min, n));

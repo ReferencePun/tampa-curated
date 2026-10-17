@@ -1,5 +1,6 @@
 import { clamp, motion, reducedMotion, type Scene } from "./settings";
 import { scrollProgress } from "./progress";
+import { measureBook } from "./atlas-book";
 export function init(root: HTMLElement): Scene {
   const boards = [...root.querySelectorAll<HTMLElement>("[data-atlas-board]")];
   const captions = [
@@ -29,7 +30,9 @@ export function init(root: HTMLElement): Scene {
     ),
     open = root.dataset.open !== "false",
     progress = 1,
-    frame = 0;
+    frame = 0,
+    resizeFrame = 0;
+  let drawBook = (_progress: number) => {};
   const hashIndex = captions.findIndex(
     (caption) => `#${caption.id}` === location.hash,
   );
@@ -39,15 +42,20 @@ export function init(root: HTMLElement): Scene {
   const events = new AbortController();
   const apply = (p: number) => {
     progress = p;
-    boards.forEach((board) => {
-      board.style.setProperty("--fold", `${(1 - p) * motion.foldAngle}deg`);
-      board.style.setProperty(
-        "--rise",
-        `${motion.riseClosed + p * (motion.riseOpen - motion.riseClosed)}deg`,
-      );
-    });
+    drawBook(p);
     root.dataset.progress = p.toFixed(3);
+    if (root.classList.contains("is-pinned")) open = p >= 0.5;
+    root.dataset.open = String(open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.innerHTML = `${open ? "Close" : "Open"} atlas <span aria-hidden="true">${open ? "↙" : "↗"}</span>`;
+    hint.textContent =
+      p >= 0.99 ? "OPEN ATLAS · SIX PLACES TO EXPLORE" : "SCROLL TO UNFOLD ↓";
   };
+  function measure() {
+    drawBook = measureBook(boards[selected], stage);
+    stage.classList.add("is-projected");
+    apply(progress);
+  }
   function select(index: number, announce = true) {
     selected = index;
     root.dataset.selected = String(index);
@@ -71,6 +79,7 @@ export function init(root: HTMLElement): Scene {
       "aria-label",
       `Paper atlas of ${name}. Schematic street grid with illustrative photography, architecture, and palms; not a geographic map.`,
     );
+    measure();
     if (announce) announcement.textContent = `${name} guide selected.`;
   }
   function configure() {
@@ -78,11 +87,10 @@ export function init(root: HTMLElement): Scene {
     cancelAnimationFrame(frame);
     const pinned = desktop.matches && !reduced && !direct;
     root.classList.toggle("is-pinned", pinned);
-    toggle.hidden = pinned || reduced;
+    toggle.hidden = reduced;
     hint.hidden = !pinned;
     if (pinned) disposeScroll = scrollProgress(root, apply, true);
     else apply(reduced || open ? 1 : 0);
-    toggle.setAttribute("aria-expanded", String(reduced || open));
   }
   selectors.forEach((selector, i) =>
     selector.addEventListener(
@@ -99,6 +107,14 @@ export function init(root: HTMLElement): Scene {
   toggle.addEventListener(
     "click",
     () => {
+      if (root.classList.contains("is-pinned")) {
+        const top = root.getBoundingClientRect().top + scrollY;
+        window.scrollTo({
+          top: top - 16 + (open ? 0 : root.offsetHeight - innerHeight),
+          behavior: "smooth",
+        });
+        return;
+      }
       open = !open;
       root.dataset.open = String(open);
       toggle.setAttribute("aria-expanded", String(open));
@@ -122,7 +138,7 @@ export function init(root: HTMLElement): Scene {
     () => {
       if (document.hidden) {
         cancelAnimationFrame(frame);
-        if (!desktop.matches) apply(open ? 1 : 0);
+        if (!root.classList.contains("is-pinned")) apply(open ? 1 : 0);
       }
     },
     { signal: events.signal },
@@ -149,11 +165,18 @@ export function init(root: HTMLElement): Scene {
   select(selected, false);
   root.classList.add("is-ready");
   configure();
+  const resize = new ResizeObserver(() => {
+    cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(measure);
+  });
+  resize.observe(stage);
   return {
     dispose() {
       events.abort();
       disposeScroll();
       cancelAnimationFrame(frame);
+      cancelAnimationFrame(resizeFrame);
+      resize.disconnect();
     },
   };
 }
