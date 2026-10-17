@@ -1,5 +1,5 @@
 export interface Setting {
-  key:string; label:string; type:'range'|'toggle'|'color'|'select'|'number'; default:string|number|boolean;
+  key:string; label:string; type:'range'|'toggle'|'color'|'select'|'number'|'path'; default:string|number|boolean|number[][];
   min?:number; max?:number; step?:number; options?:{value:string;label:string}[];
 }
 export interface Experiment {

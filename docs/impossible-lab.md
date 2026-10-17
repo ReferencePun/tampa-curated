@@ -8,9 +8,10 @@ A Git checkpoint was created before implementation: `checkpoint/before-impossibl
 
 - A searchable, filterable catalog, local favorites, visual plates, category/technology/status metadata, independent URLs, and a small comparison desk.
 - Two deliberately small working reference studies, **Line Field** and **Hinge Study**, demonstrating a complete framework-independent effect lifecycle.
-- Twelve clearly marked proposals: Draw a World, Impossible Rooms, Folding Paper, Living Ink, Particle Photos, Time Machine, Photo Portals, Living City, Site Memory, Spatial Sound, Personal Zines, World Composer.
+- **Draw a World**, a working Three.js drawing-to-architecture instrument with editable paths, three architectural styles, and reversible camera travel.
+- Eleven clearly marked proposals: Impossible Rooms, Folding Paper, Living Ink, Particle Photos, Time Machine, Photo Portals, Living City, Site Memory, Spatial Sound, Personal Zines, World Composer.
 - The proposals show a neutral calibration plate to exercise the inspector. It is not an implementation of the named future effect. Their downloads are complete scaffolds, explicitly labeled as such.
-- Range, numeric, checkbox, color, and select controls; default reset, pause/resume, replay, fullscreen/expanded preview, measured diagnostics, and browser-local named presets.
+- Range, numeric, checkbox, color, and select controls; validated structured path state for drawing instruments; default reset, pause/resume, replay, fullscreen/expanded preview, measured diagnostics, and browser-local named presets.
 - Validated JSON preset import/export and complete ZIP exports from the UI or command line. Current UI settings are embedded in a source download; the static default download works without JavaScript.
 
 ## Structure
@@ -69,6 +70,8 @@ export function mount(host, settings, report) {
 
 The host lazily imports and mounts a study when its demonstration enters the viewport. It pauses offscreen and when the document is hidden. Reduced motion starts paused but allows explicit opt-in. `dispose()` must cancel frames and remove observers, listeners, graphics resources, and DOM nodes; it must be safe to call again. Page departure and Astro's pre-swap lifecycle dispose mounted effects. BFCache restoration mounts a fresh instance.
 
+Drawing instruments can emit a bubbling `lab:settings` event from inside their mount. The host validates its settings payload before applying it, so drawn paths use the same device storage, named presets, JSON exchange, and current-source download as inspector controls. The `path` setting type accepts an empty array or 2–96 finite normalized coordinate pairs; it is edited by the instrument rather than a scalar inspector field.
+
 The neutral Canvas helper paints once for a parameter change or resize even while paused. Continuous frames require `setRunning(true)`. Diagnostics report measured animation FPS, actual backing-buffer dimensions, primitive count, rendered-frame count, and running state. These are not a frame-rate guarantee or GPU profiling tool.
 
 ## Presets and local storage
@@ -100,7 +103,7 @@ pnpm lab:export line-field --out path/to/exports
 
 The default destination is the ignored `lab-exports/` directory. Re-exporting a slug replaces that slug's ZIP. The package includes all files in the isolated experiment directory, the transitive closure of relative JS imports, local referenced assets, the preset validator, source license, dependency manifest, compatibility notes, source documentation, and a runnable HTML/JS example. Symlinks, escaping imports, undeclared runtime packages, and computed imports without an adapter fail packaging instead of silently producing a broken bundle.
 
-Unzip, run `python3 -m http.server 8080` in the extracted directory, and open `http://localhost:8080/example.html`. The current studies need no package installation. ES modules must be served over HTTP rather than opened with `file://`. The example includes visibility/offscreen pausing, reduced-motion handling, replay, and disposal.
+Unzip, run `python3 -m http.server 8080` in the extracted directory, and open `http://localhost:8080/example.html`. The current studies need no package installation. Draw a World includes the exact installed Three.js browser ESM modules and their license in `vendor/three`, with a local import map. Its portable `geometry.js` has no DOM dependencies; its README documents path injection and camera sampling. ES modules must be served over HTTP rather than opened with `file://`. The example includes visibility/offscreen pausing, reduced-motion handling, replay, and disposal.
 
 The browser source button fetches the static source manifest only when requested, adds the current validated preset, and creates the ZIP locally. It does not send the configuration to a server. The static ZIP link contains the default preset. No original Tampa photos, fonts, business logic, credentials, or unrelated experiments are bundled.
 
@@ -123,6 +126,7 @@ pnpm lint:lab
 pnpm build
 pnpm verify
 pnpm test:lab
+pnpm test:draw-world
 pnpm test:navigation
 ```
 
@@ -138,3 +142,11 @@ Screenshots and extracted QA packages are in the ignored `test-results/lab/` dir
 - All 14 default ZIPs passed independent archive integrity checks. A custom CLI export ran from a separate HTTP server; browser-generated ZIPs retained current settings. The standalone example passed departure cleanup and BFCache-style restoration.
 - Existing navigation: all ten destinations, keyboard/focus, mobile coordination, no JavaScript, and 16 reflows passed in both engines. Existing responsive site suite: 92 page checks passed, including all three homepage editions.
 - Desktop and mobile catalog, workbench, and comparison screenshots were visually reviewed. This is local validation, not a physical-device certification or published deployment.
+
+### Draw a World implementation
+
+Checkpoint: `checkpoint/before-draw-a-world-2026-10-17` at `1eb734e`. The study lives entirely in `experiments/draw-a-world`. Pointer samples are resampled, smoothed into a centripetal spline and turned into batched native 3D linework. An independent arc-length camera follows that same spline with a fixed upright axis. Tight bends and crossings remain editable with an explanation.
+
+The per-study README documents the complete mount and geometry APIs, coordinate schema, limits, and lifecycle. `test:draw-world` exercises distinct generated geometry/camera routes, pointer and touch input, editable controls, reverse travel, presets, actual-path source exports, and the standalone example. Screenshots and source packages are in `test-results/draw-world/`.
+
+Draw a World verification: Astro check reported no errors, warnings, or hints. The build verified 65 pages and 5,539 local links/assets. Geometry tests and Chromium/WebKit interaction tests passed, including distinct freehand camera routes, upright reverse travel, helical rise, point editing, presets, actual-path source exports and the standalone package. Chromium additionally exercised real touch drawing/swiping, context loss/restoration, and the no-WebGL editor. Lab and navigation regressions passed in both engines. No homepage or other experiment implementation was changed.

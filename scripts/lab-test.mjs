@@ -43,7 +43,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await page.goto(href(''));await expect(page.locator('[data-card]')).toHaveCount(14);await expect(page.locator('canvas')).toHaveCount(0);await page.evaluate(()=>document.fonts.ready);
  await page.screenshot({path:path.join(out,`${name}-catalog.png`),fullPage:true});
  await page.getByRole('searchbox').fill('sound');await expect(page.locator('[data-card]:visible')).toHaveCount(1);
- await page.locator('[data-clear-filters]').click();await page.locator('select[name="status"]').selectOption('working');await expect(page.locator('[data-card]:visible')).toHaveCount(2);
+ await page.locator('[data-clear-filters]').click();await page.locator('select[name="status"]').selectOption('working');await expect(page.locator('[data-card]:visible')).toHaveCount(entries.filter(e=>e.status==='working').length);
  await page.locator('[data-clear-filters]').click();await page.locator('[data-favorite="line-field"]').click();await page.getByLabel('Favorites only').check();await expect(page.locator('[data-card]:visible')).toHaveCount(1);
  await page.reload();await expect(page.locator('[data-favorite="line-field"]')).toHaveAttribute('aria-pressed','true');
  await page.locator('[data-compare="line-field"]').check();await page.locator('[data-compare="hinge-study"]').check();await expect(page.locator('[data-compare-link]')).toBeVisible();
@@ -58,7 +58,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await page.locator('[data-comparison-view]').selectOption('both');await page.screenshot({path:path.join(out,`${name}-comparison.png`),fullPage:true});
  for(const entry of entries){
   await page.goto(href(`${entry.slug}/`));await expect(page.locator('h1')).toContainText(entry.name);
-  await page.locator('[data-demo]').scrollIntoViewIfNeeded();await expect(page.locator('[data-lab-host]')).toHaveAttribute('data-mounted','true');await expect(page.locator('canvas')).toHaveCount(1);
+  await page.locator('[data-demo]').scrollIntoViewIfNeeded();await expect(page.locator('[data-lab-host]')).toHaveAttribute('data-mounted','true');await expect(page.locator('canvas')).toHaveCount(entry.slug==='draw-a-world'?0:1);
   if(entry.placeholder)await expect(page.locator('.il-placeholder-note')).toContainText('has not been built yet');
  }
  await page.goto(href('line-field/'));const root=page.locator('[data-lab-host]');await page.locator('[data-demo]').scrollIntoViewIfNeeded();await expect(root).toHaveAttribute('data-mounted','true');

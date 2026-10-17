@@ -1,1 +1,5 @@
-.impossible-effect { position: relative; width: 100%; min-height: 320px; height: min(70vh, 640px); overflow: hidden; background: #f2eee3; }
+/* Standalone host size. The portable mount inserts its own fully scoped UI styles. */
+.impossible-effect{position:relative;width:100%;height:min(82vh,820px);min-height:570px;overflow:hidden;background:#f2eee3;}
+.il-host[data-slug="draw-a-world"] .il-demo{height:700px;max-height:85svh;min-height:570px;}
+.il-host[data-slug="draw-a-world"] .il-annotation,.il-host[data-slug="draw-a-world"] .il-demo-index{display:none;}
+@media(max-width:600px){.il-host[data-slug="draw-a-world"] .il-demo{height:680px;max-height:none;min-height:570px;}}

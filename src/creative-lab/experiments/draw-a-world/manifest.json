@@ -4,82 +4,111 @@
   "number": "01",
   "order": 3,
   "name": "Draw a World",
-  "description": "A line becomes a landscape. Sketch an opening and see a world take shape.",
+  "description": "Draw a line. Watch it become unfinished architecture. Then travel inside your own drawing.",
   "category": "Drawing",
   "tags": [
     "drawing",
     "generative",
     "gesture"
   ],
-  "status": "prototype",
-  "placeholder": true,
+  "status": "working",
+  "placeholder": false,
   "technology": [
-    "Canvas 2D",
-    "JavaScript"
+    "Three.js",
+    "WebGL2",
+    "JavaScript",
+    "SVG"
   ],
-  "plannedTechnology": "Canvas 2D / pointer input",
-  "dependencies": {},
+  "plannedTechnology": null,
+  "dependencies": {
+    "three": "0.186.1"
+  },
   "settings": [
     {
-      "key": "density",
-      "label": "Line count",
-      "type": "range",
-      "min": 8,
-      "max": 64,
-      "step": 1,
-      "default": 32
-    },
-    {
-      "key": "speed",
-      "label": "Motion speed",
-      "type": "range",
-      "min": 0,
-      "max": 2,
-      "step": 0.1,
-      "default": 0.6
-    },
-    {
-      "key": "guides",
-      "label": "Construction guides",
-      "type": "toggle",
-      "default": true
-    },
-    {
-      "key": "ink",
-      "label": "Graphite",
-      "type": "color",
-      "default": "#37342e"
-    },
-    {
-      "key": "accent",
-      "label": "Pencil accent",
-      "type": "color",
-      "default": "#a75239"
-    },
-    {
-      "key": "mode",
-      "label": "Arrangement",
+      "key": "style",
+      "label": "Architectural style",
       "type": "select",
-      "default": "contours",
+      "default": "corridor",
       "options": [
         {
-          "value": "contours",
-          "label": "Circular"
+          "value": "corridor",
+          "label": "Open corridor"
         },
         {
-          "value": "open",
-          "label": "Open"
+          "value": "vault",
+          "label": "Vaulted passage"
+        },
+        {
+          "value": "staircase",
+          "label": "Rising staircase"
         }
       ]
     },
     {
-      "key": "seed",
-      "label": "Drawing variation",
-      "type": "number",
-      "min": 1,
-      "max": 99,
+      "key": "smoothing",
+      "label": "Path smoothing",
+      "type": "range",
+      "min": 0,
+      "max": 1,
+      "step": 0.05,
+      "default": 0.65
+    },
+    {
+      "key": "width",
+      "label": "Corridor width",
+      "type": "range",
+      "min": 2,
+      "max": 9,
+      "step": 0.5,
+      "default": 5
+    },
+    {
+      "key": "density",
+      "label": "Structural density",
+      "type": "range",
+      "min": 12,
+      "max": 70,
       "step": 1,
-      "default": 7
+      "default": 38
+    },
+    {
+      "key": "depth",
+      "label": "Perspective depth",
+      "type": "range",
+      "min": 80,
+      "max": 200,
+      "step": 10,
+      "default": 120
+    },
+    {
+      "key": "irregularity",
+      "label": "Ink irregularity",
+      "type": "range",
+      "min": 0,
+      "max": 1,
+      "step": 0.05,
+      "default": 0.35
+    },
+    {
+      "key": "speed",
+      "label": "Camera travel speed",
+      "type": "range",
+      "min": 0.25,
+      "max": 2,
+      "step": 0.05,
+      "default": 1
+    },
+    {
+      "key": "guides",
+      "label": "Construction lines",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "path",
+      "label": "Drawn path",
+      "type": "path",
+      "default": []
     }
   ],
   "entry": "index.js",
@@ -92,25 +121,28 @@
   "assets": [
     {
       "path": "assets/preview.svg",
-      "credit": "Original geometric line study \u00b7 Tampa Curated",
+      "credit": "Original perspective construction drawing \u00b7 Tampa Curated",
       "license": "MIT"
     }
   ],
   "compatibility": [
-    "Current Chrome, Firefox, Safari, and Edge with Canvas 2D and ES modules.",
-    "Static preview and documentation work without JavaScript.",
-    "Reduced motion starts paused. Touch does not require hovering.",
-    "Fullscreen uses the browser API when available, with an expanded-page fallback."
+    "Current Chrome, Firefox, Safari, and Edge with WebGL2 and ES modules. Drawing and JSON export remain available if 3D graphics are unavailable.",
+    "Mouse, trackpad, pen, and touch. Keyboard users can choose a path, edit points with arrow keys, and travel with the slider or arrow keys.",
+    "Reduced motion applies changes immediately. Rendering sleeps when settled, paused, hidden, or outside the viewport.",
+    "No JavaScript: the architectural study plate, instructions, and default source download remain available."
   ],
   "notes": [
-    "This is a planned experiment. The live calibration plate tests the lab controls; it is not an implementation of the proposed effect.",
-    "The exported scaffold includes the neutral plate renderer and the complete lifecycle contract. Replace its mount function when developing this experiment."
+    "Every stroke creates a new centripetal spline, structural linework, translucent surfaces, and camera route. Nothing is prerecorded.",
+    "Draw one open, generous line. Crossings, closed loops, and bends tighter than the corridor width are rejected. Narrow the passage or increase smoothing to recover a tight drawing.",
+    "Select Edit points to reshape the spline. Enter drawing moves into the passage; scrolling or dragging vertically travels in either direction. Return to paper and Erase are always available.",
+    "The rising staircase gains height along the actual path. A spiral therefore becomes a helical stair passage. Structural surfaces are intentionally unfinished.",
+    "Drawing points rebuild the architecture on release. Setting changes are debounced; the renderer batches linework and rests between interactions. This study is intentionally excluded from simultaneous comparison."
   ],
   "reuse": [
-    "Extract the source ZIP, then serve the folder over local HTTP. Open example.html.",
-    "Import mount from the experiment entry, pass a sized element and settings, then call setRunning(true).",
-    "Call update(settings) to apply changes, replay() to restart, and dispose() before removing the host.",
-    "Use the included validated preset.json. Framework integration belongs in your application, outside the effect."
+    "Download the complete source with your current settings; it includes your drawn path and an offline copy of the Three.js runtime with its license.",
+    "Serve the extracted folder over HTTP and open example.html. No package installation or external CDN is needed for this example.",
+    "Import mount from index.js for the complete instrument, or generateEnvironment from geometry.js to use the procedural scene in your own Three.js application.",
+    "Pass normalized [x, y] coordinate pairs and settings. See the reuse guide for camera sampling, lifecycle cleanup, and the path JSON schema."
   ],
   "comparison": "none"
 }

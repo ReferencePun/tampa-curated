@@ -24,7 +24,8 @@
     "test:mechanical": "node scripts/mechanical-test.mjs",
     "test:engraving": "node scripts/engraving-test.mjs",
     "test:atlas": "node scripts/atlas-regression.mjs",
-    "test:glass": "node scripts/sea-glass-test.mjs"
+    "test:glass": "node scripts/sea-glass-test.mjs",
+    "test:draw-world": "node scripts/draw-world-geometry-test.mjs && node scripts/draw-world-browser-test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

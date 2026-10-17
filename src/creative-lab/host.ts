@@ -1,6 +1,6 @@
 import type {Experiment} from './registry';
 import {defaults,validateSettings,createPreset,readPreset} from './shared/presets.js';
-type Settings=Record<string,string|number|boolean>;
+type Settings=Record<string,string|number|boolean|number[][]>;
 type Stats={fps:number;width:number;height:number;primitives:number;frames:number;running:boolean;renderer:string};
 type Effect={update:(settings:Settings)=>void;setRunning:(running:boolean)=>void;replay:()=>void;dispose:()=>void};
 type Module={mount:(host:HTMLElement,settings:Settings,report:(stats:Stats)=>void)=>Effect};
@@ -67,6 +67,12 @@ function createHost(root:HTMLElement){
  document.addEventListener('visibilitychange',()=>void sync(),{signal});
  motion.addEventListener('change',()=>{paused=motion.matches;void sync();},{signal});
  root.addEventListener('lab:set-pause',event=>{paused=Boolean((event as CustomEvent).detail);void sync();},{signal});
+ // Portable instruments can commit structured state (such as a drawn path) into
+ // the same validated preset/export pipeline as the inspector's scalar controls.
+ root.addEventListener('lab:settings',event=>{
+  if(!mount.contains(event.target as Node))return;
+  try{apply({...settings,...(event as CustomEvent).detail});}catch(error){say((error as Error).message);}
+ },{signal});
  pause.addEventListener('click',()=>{paused=!paused;void sync();},{signal});
  replay.addEventListener('click',()=>{effect?.replay();say(paused?'Returned to the first frame. Resume to animate.':'Replayed from the first frame.');},{signal});
  get<HTMLInputElement>('[data-debug]').addEventListener('change',event=>{get('[data-statistics]').hidden=!(event.target as HTMLInputElement).checked;},{signal});

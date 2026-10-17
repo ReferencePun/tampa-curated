@@ -5,6 +5,7 @@ import LabLayout from '../../layouts/LabLayout.astro';
 import ExperimentHost from '../../creative-lab/components/ExperimentHost.astro';
 import {experiments} from '../../creative-lab/registry';
 import {url} from '../../lib/urls';
+import '../../creative-lab/experiments/draw-a-world/style.css';
 export function getStaticPaths(){return experiments.map(experiment=>({params:{slug:experiment.slug},props:{experiment}}));}
 const {experiment:e}=Astro.props;
 const readme=await readFile(path.resolve(`src/creative-lab/experiments/${e.slug}/README.md`),'utf8');

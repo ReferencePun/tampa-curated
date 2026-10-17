@@ -15,10 +15,10 @@ const {experiment:e,uid=e.slug,compact=false}=Astro.props;
   </div>
   <details class="il-inspector" open><summary><span>Adjust the study</span><span aria-hidden="true">±</span></summary>
     <fieldset data-settings disabled><legend class="il-sr-only">Effect parameters</legend>
-      {e.settings.map(field=><div class:list={['il-field',{'il-toggle':field.type==='toggle','il-color':field.type==='color'}]}>
+      {e.settings.filter(field=>field.type!=='path').map(field=><div class:list={['il-field',{'il-toggle':field.type==='toggle','il-color':field.type==='color'}]}>
         <label for={`${uid}-${field.key}`}>{field.label}{field.type==='range'&&<output data-value={field.key}>{String(field.default)}</output>}</label>
         {field.type==='select'?<select id={`${uid}-${field.key}`} data-setting={field.key}>{field.options?.map(option=><option value={option.value} selected={option.value===field.default}>{option.label}</option>)}</select>:
-         <input id={`${uid}-${field.key}`} data-setting={field.key} type={field.type==='toggle'?'checkbox':field.type} value={String(field.default)} checked={field.type==='toggle'?Boolean(field.default):undefined} min={field.min} max={field.max} step={field.step}/>}
+         <input id={`${uid}-${field.key}`} data-setting={field.key} type={field.type==='toggle'?'checkbox':field.type==='path'?'text':field.type} value={String(field.default)} checked={field.type==='toggle'?Boolean(field.default):undefined} min={field.min} max={field.max} step={field.step}/>}
       </div>)}
       <button type="button" class="il-button il-reset" data-reset>Reset to defaults ↺</button>
     </fieldset>

@@ -19,8 +19,10 @@ export function validateSettings(manifest, input) {
       if (typeof value !== 'string' || !/^#[0-9a-f]{6}$/i.test(value)) throw new Error(`${field.label} must be a six-digit hex color.`);
     } else if (field.type === 'select') {
       if (!field.options.some(option => option.value === value)) throw new Error(`Choose a valid ${field.label.toLowerCase()}.`);
+    } else if (field.type === 'path') {
+      if (!Array.isArray(value) || value.length > 96 || value.length === 1 || value.some(point => !Array.isArray(point) || point.length !== 2 || point.some(n => typeof n !== 'number' || !Number.isFinite(n) || n < 0 || n > 1))) throw new Error(`${field.label} must contain 2–96 normalized coordinate pairs, or be empty.`);
     } else throw new Error(`Unsupported field type: ${field.type}`);
-    result[field.key] = value;
+    result[field.key] = field.type === 'path' ? value.map(point => [...point]) : value;
   }
   return result;
 }

@@ -1,9 +1,11 @@
 {
-  "density": 32,
-  "speed": 0.6,
+  "style": "corridor",
+  "smoothing": 0.65,
+  "width": 5,
+  "density": 38,
+  "depth": 120,
+  "irregularity": 0.35,
+  "speed": 1,
   "guides": true,
-  "ink": "#37342e",
-  "accent": "#a75239",
-  "mode": "contours",
-  "seed": 7
+  "path": []
 }

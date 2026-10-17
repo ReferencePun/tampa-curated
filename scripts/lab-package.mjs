@@ -1,5 +1,6 @@
 import {readFile,readdir,lstat} from 'node:fs/promises';
 import path from 'node:path';
+import {createRequire} from 'node:module';
 import {defaults,createPreset,readPreset} from '../src/creative-lab/shared/presets.js';
 // Both pnpm commands and Astro's prerenderer run from the project root. Resolving
 // from cwd also survives the build tool relocating this module into dist.
@@ -46,6 +47,18 @@ export async function bundle(slug,preset){
     }
   }
   await add(`experiments/${slug}`);await add('shared/presets.js');await add('shared/standalone.js');await add('LICENSE');
+  let importMap='';
+  if(manifest.dependencies.three){
+    // Keep the browser example self-contained. Only the two upstream ESM files
+    // needed by Three's main entry are vendored; no CDN or build step is required.
+    const require=createRequire(path.join(process.cwd(),'package.json'));
+    const build=path.dirname(require.resolve('three'));
+    const installed=JSON.parse(await readFile(path.join(build,'../package.json'),'utf8'));
+    if(installed.version!==manifest.dependencies.three)throw new Error('Exported Three.js version must match the manifest.');
+    for(const file of ['three.module.js','three.core.js'])files[`vendor/three/${file}`]=new Uint8Array(await readFile(path.join(build,file)));
+    files['vendor/three/LICENSE']=new Uint8Array(await readFile(path.join(build,'../LICENSE')));
+    importMap='<script type="importmap">{"imports":{"three":"./vendor/three/three.module.js"}}</script>';
+  }
   const saved=preset?readPreset(manifest,preset):createPreset(manifest,defaults(manifest),'Default');
   files['preset.json']=JSON.stringify(saved,null,2)+'\n';
   files['package.json']=JSON.stringify({name:`impossible-lab-${slug}`,version:'1.0.0',private:true,type:'module',description:manifest.description,license:manifest.license,dependencies:manifest.dependencies},null,2)+'\n';
@@ -59,5 +72,10 @@ import {runStandalone} from './creative-lab/shared/standalone.js';
 const manifest=await fetch('./creative-lab/experiments/${slug}/manifest.json').then(r=>r.json()),preset=readPreset(manifest,await fetch('./preset.json').then(r=>r.json()));
 runStandalone(mount,preset.settings);
 `;
+  if(importMap){
+    files['example.html']=files['example.html'].replace('</head>',`${importMap}</head>`);
+    files['README.md']=files['README.md'].replace('Install the exact dependencies in package.json using your package manager, then integrate with your bundler.','Run `python3 -m http.server 8080` in this folder, then open http://localhost:8080/example.html. The exact Three.js ESM runtime is included locally, with an import map and its MIT license. For integration with a bundler, install the version declared in package.json.').replace('Runtime dependencies, if any, are declared at exact versions in package.json and must be installed; node_modules is not bundled.','Three.js is included in vendor/three under its own MIT license. No node_modules directory is bundled.');
+    files['ASSETS.md']+='- vendor/three/: Three.js authors, version '+manifest.dependencies.three+'. MIT; see vendor/three/LICENSE.\n';
+  }
   return {manifest,files};
 }
