@@ -1,0 +1,8 @@
+---
+import {pencilColors,scribblePaths,type PencilColor} from '../lib/scribbles';
+interface Props {x?:number;y?:number;width?:number;height?:number;rotate?:number;color?:PencilColor;seed?:number;weight?:number;}
+const {x=0,y=0,width=24,height=12,rotate=0,color='amber',seed=1,weight=1.05}=Astro.props;
+---
+<g data-scribble-accent={color} transform={`translate(${x} ${y}) rotate(${rotate})`} aria-hidden="true" pointer-events="none">
+ {scribblePaths(width,height,seed).map((d,i)=><path d={d} style={`fill:none;stroke:${pencilColors[color]};stroke-width:${weight};stroke-linecap:round;stroke-linejoin:round;opacity:${i===1?.55:.84}`} />)}
+</g>

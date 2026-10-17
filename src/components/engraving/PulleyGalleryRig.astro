@@ -1,5 +1,6 @@
 ---
 import DraftingGuides from './DraftingGuides.astro';
+import ScribbleAccent from '../ScribbleAccent.astro';
 import PulleySystem from './PulleySystem.astro';
 import EngravedGear from './EngravedGear.astro';
 ---
@@ -13,7 +14,7 @@ import EngravedGear from './EngravedGear.astro';
   <path data-weight-cable="59" d="M59 85V480" class="hairline"/><path data-weight-cable="718" d="M718 85V480" class="hairline"/>
   <path data-lift-cable="left" d="M155 85V192H160"/><path data-lift-cable="right" d="M622 85V192H640"/>
   <g data-counterweight="40" transform="translate(40 480)"><rect width="38" height="75" fill="url(#tc-hatch)"/><path d="M4 5H34M4 10H34M4 65H34M4 70H34"/><circle cx="19" cy="36" r="9"/><text x="19" y="39" text-anchor="middle" class="diagram-label">W</text></g>
-  <g data-counterweight="699" transform="translate(699 480)"><rect width="38" height="75" fill="url(#tc-hatch)"/><path d="M4 5H34M4 10H34M4 65H34M4 70H34"/><circle cx="19" cy="36" r="9"/></g>
+  <g data-counterweight="699" transform="translate(699 480)"><rect width="38" height="75" fill="url(#tc-hatch)"/><path d="M4 5H34M4 10H34M4 65H34M4 70H34"/><circle cx="19" cy="36" r="9"/><ScribbleAccent x={6} y={50} width={23} height={10} color="amber" seed={5}/></g>
   <path d="M751 150V570M744 155H758M744 565H758" class="construction"/>
   {Array.from({length:32},(_,i)=><path d={`M746 ${160+i*13}h${i%5?6:12}`} class="hairline"/>)}
   <text x="241" y="48" class="diagram-label">FIG. 03 / THE PORTRAIT ELEVATOR</text>

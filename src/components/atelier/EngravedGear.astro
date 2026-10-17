@@ -1,6 +1,7 @@
 ---
 import {gearPath,circlePath,point,TAU} from '../../lib/mechanisms';
 import {contour,ringHatch} from '../../lib/etching';
+import ScribbleAccent from '../ScribbleAccent.astro';
 interface Props {x?:number;y?:number;radius:number;teeth:number;rate?:number;phase?:number;design?:'ring'|'spoked'|'disc';class?:string;}
 const {x=0,y=0,radius:r,teeth,rate=1,phase=0,design='spoked',class:className=''}=Astro.props;
 const hole=design==='ring'?r*.78:r*.71;
@@ -34,5 +35,6 @@ const hatch=ringHatch(r,teeth);
       <path d={contour(Math.max(1.8,r*.018),i,0,TAU,.24)} fill="var(--paper)"/><path d="M-2.5 .3L2.2-.4M-.3-2L.4 2" class="drypoint"/>
     </g>})}
     <path d={`M${r*.3} ${r*.8}l5-2m-8-1l6-3M${-r*.8} ${-r*.2}l-3-8m6 5l-2-9`} class="ink-scratch"/>
+    {r>=150&&<ScribbleAccent x={r*.66} y={-r*.61} width={r*.22} height={r*.08} rotate={46} color="blue" seed={teeth+r} weight={1.25}/>}
   </g>
 </g>

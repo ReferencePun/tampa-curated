@@ -1,5 +1,6 @@
 ---
 import HandwrittenNote from './HandwrittenNote.astro';
+import ScribbleAccent from '../ScribbleAccent.astro';
 import DraftingGuides from './DraftingGuides.astro';
 import MaritimeMark from '../engraving/MaritimeMark.astro';
 import CompassDial from '../engraving/CompassDial.astro';
@@ -22,6 +23,9 @@ const locations=[{name:'Seminole Heights',x:350,y:97,id:'seminole-heights'},{nam
     {locations.map((place,i)=><g transform={`translate(${place.x} ${place.y})`}><circle r="19" class="construction"/><circle r="11" fill="var(--paper)"/><circle r="3" fill="var(--brass)"/><path d="M-26 0H-16M16 0H26M0-26V-16M0 16V26"/><text x="29" y="5" class="diagram-label">0{i+1}</text></g>)}
     <g class="map-landmarks"><path d="M480 196V179H492V163H511V179H526V196M482 184H524M490 185V191M503 185V191M517 185V191"/><path d="M382 313V280H390V272H408V313M414 313V290H433V313M383 287H407M383 299H407"/><path d="M169 343V328L191 310L214 328V343M177 342V327H185V342M199 342V327H206V342"/><path d="M327 79V58H368V79M338 79V62H348V79M355 64H361V70"/></g>
     <CompassDial x={617} y={91} radius={45} rate={.5}/>
+    <ScribbleAccent x={423} y={451} width={38} height={10} rotate={27} color="blue" seed={14}/>
+    <ScribbleAccent x={488} y={185} width={27} height={9} color="rust" seed={3}/>
+    <ScribbleAccent x={339} y={64} width={9} height={12} color="amber" seed={2} weight={.8}/>
     <g transform="translate(611 410) scale(.72)" aria-hidden="true"><MaritimeMark/></g>
     <EngravedGear x={102} y={144} radius={35} teeth={28} rate={1} design="disc"/><EngravedGear x={102} y={89} radius={20} teeth={16} rate={-28/16} phase={meshPhase(28,16,-90)} design="spoked"/>
     <g transform="translate(102 144)"><g data-gear data-rate="1" data-phase="0"><path d="M0-3H78L91 0L78 3H0Z" fill="var(--brass)"/><circle r="5" fill="var(--paper)"/></g></g>

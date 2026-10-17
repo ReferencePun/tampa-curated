@@ -59,6 +59,9 @@ function plantHall(){
  for(const y of [.4,3.4,6.9,9.9])ledge(group,pen,24.5,y,.22,5.35);
  pen.path([[-12,10.4,.08],[-5.4,10.4,.08],[-5.4,10.85,.08],[-2.6,10.85,.08],[-2.6,11.3,.08],[2.6,11.3,.08],[2.6,10.85,.08],[5.4,10.85,.08],[5.4,10.4,.08],[12,10.4,.08]]);
  for(let x=-10.9;x<12;x+=2.1){window(pen,x,7.7,.1,1.1,1.65,true);window(pen,x,.55,.12,1.05,2.35,true);}
+ pen.scribble([-6.63,7.82,.16],.95,1.12,5,13);
+ pen.scribble([3.87,7.82,.16],.95,1.12,6,18);
+ pen.scribble([8.07,.7,.17],.9,1.7,4,24);
  for(let x=-11.9;x<12;x+=3.4){
   pen.box(x,3.4,1.15,.16,3.3,-.18);arch(pen,x+.18,3.65,1.2,3.1,2.7);
   arch(pen,x+.3,3.7,1.22,2.85,2.52,1);
@@ -91,6 +94,7 @@ function floridan(){
  mass(group,pen,-4.8,0,0,9.6,25.4,5);
  for(const y of [.5,3.9,5.5,20.5,24.8,25.3])ledge(group,pen,y>24?10.3:9.9,y,.18,5.3);
  for(let row=0;row<14;row++)for(let col=0;col<6;col++)window(pen,-4.1+col*1.42,5.9+row*1.31,.08,.68,.91);
+ for(const [row,col,tone] of [[2,1,5],[5,4,6],[8,3,3],[11,0,4]])pen.scribble([-4.06+col*1.42,5.95+row*1.31,.13],.6,.81,tone,row+col);
  for(let x=-3.85;x<4.5;x+=1.9){arch(pen,x,.6,.13,1.35,3);arch(pen,x-.1,.6,.13,1.55,3.12,1);pen.line([x+.67,.7,.13],[x+.67,2.9,.13],1);}
  // Windowed return gives the tower an actual corner, rather than a flat cutout.
  const side=new T.Group();side.rotation.y=-Math.PI/2;side.position.set(-4.81,0,-2.5);group.add(side);const sideInk=new Ink();
@@ -116,6 +120,7 @@ function tampaTheatre(){
   pen.line([x-.14,5.4,.12],[x-.14,15.3,.12],1);
  }
  for(const x of [-3.8,2.6]){mass(group,pen,x,17.3,.12,1.2,.7,4.1);pen.circle(x+.6,17.75,.17,.22);}
+ for(const [row,col,tone] of [[1,1,6],[4,3,5],[6,0,3]])pen.scribble([-3.35+col*1.32,5.7+row*1.38,.15],.67,.88,tone,row+col+3);
  for(let x=-3.5;x<3.9;x+=1.15){arch(pen,x,.15,.18,.9,2.7);pen.circle(x+.45,4.55,.19,.28);pen.circle(x+.45,4.55,.2,.12,1);}
  // Projecting canopy, ornamental crest, and the five-letter vertical blade.
  mass(group,pen,-4.65,2.9,2.2,9.3,.85,2.4);
@@ -136,7 +141,7 @@ function tampaTheatre(){
 function rivergate(compact:boolean){
  const group=new T.Group(),pen=new Ink();group.name='Rivergate Tower';
  const radius=4.1,height=31;
- // A few occupied rooms, fixed in object space. Overdrawn amber pencil marks
+ // A few occupied rooms, fixed in object space. Overdrawn colored pencil marks
  // wander beyond the frames, with paper still visible between the strokes.
  const litWindows=new Set(['3:5','7:2','10:4','14:1','15:1','19:6','23:3','26:7','28:2','8:11','21:14','17:22','25:28']);
  const shell=new T.Mesh(new T.CylinderGeometry(radius,radius,height,56),pale);shell.position.y=height/2;group.add(shell);
@@ -150,12 +155,13 @@ function rivergate(compact:boolean){
    if(compact&&Math.sin(a)<-.4)continue;
    if(litWindows.has(`${row}:${col}`)){
     const wobble=Math.sin(row*2.7+col)*.12,rr=radius+.085;
+    const tone=[5,6,5,3,4,5][(row+col)%6];
     const stroke=(u:number,v:number):P=>{const angle=a-half+2*half*u;return [rr*Math.cos(angle),y+h*v,rr*Math.sin(angle)];};
     const scribble=[[-.12,.04],[.97,.35+wobble],[.02,.32],[1.14,.72+wobble],[.08,.62],[.92,1.08],[.31,.88]];
     // Close, imperfect retracing makes a heavier pencil stroke even on WebGL
     // implementations that only support one-pixel native line widths.
-    for(const offset of [-.045,0,.045])pen.path(scribble.map(([u,v],i)=>stroke(u+offset+Math.sin(i*2.4+row)*.035,v+offset*.6)),5);
-    pen.path([stroke(.14,.22),stroke(.52,-.12),stroke(.37,.76),stroke(.77,.33)],5);
+    for(const offset of [-.045,0,.045])pen.path(scribble.map(([u,v],i)=>stroke(u+offset+Math.sin(i*2.4+row)*.035,v+offset*.6)),tone);
+    pen.path([stroke(.14,.22),stroke(.52,-.12),stroke(.37,.76),stroke(.77,.33)],tone);
    }
    pen.path([[r*Math.cos(a-half),y,r*Math.sin(a-half)],[r*Math.cos(a+half),y,r*Math.sin(a+half)],[r*Math.cos(a+half),y+h,r*Math.sin(a+half)],[r*Math.cos(a-half),y+h,r*Math.sin(a-half)]],0,true);
    if(col%3===0)pen.line([r*Math.cos(a-half),y+.05,r*Math.sin(a-half)],[r*Math.cos(a+half),y+.05,r*Math.sin(a+half)],1);

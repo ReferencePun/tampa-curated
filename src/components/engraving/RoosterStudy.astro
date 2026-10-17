@@ -1,6 +1,7 @@
 ---
 interface Props {idPrefix?:string;}
 const {idPrefix='rooster-study'}=Astro.props;
+import ScribbleAccent from '../ScribbleAccent.astro';
 // Short barbs follow the actual curve of each feather, with fixed pen variation.
 type Point = [number, number];
 function barbs(points: Point[], count: number, width: number) {
@@ -75,4 +76,7 @@ const tailEtching=[
   <g class="study-detail"><path d="M121 255L125 256M120 260L124 261M119 266L123 267M118 272L122 273M162 252L166 251M163 257L167 256M164 263L168 262M165 268L169 267M118 243L124 244M158 240L164 239"/></g>
   <path d="M73 177Q71 202 96 223M108 231Q138 246 164 231M138 169Q160 169 177 184" class="sketch-retrace"/>
   <g class="study-ground"><path d="M75 302L112 303M122 306L149 304M160 302L193 301M200 304L228 302M93 310L124 309M167 310L185 309M233 296L249 294M53 299L63 297"/></g>
+  <ScribbleAccent x={92} y={72} width={26} height={12} rotate={-9} color="rust" seed={6}/>
+  <ScribbleAccent x={85} y={113} width={9} height={15} rotate={-9} color="rust" seed={13} weight={.8}/>
+  <ScribbleAccent x={243} y={112} width={31} height={10} rotate={-18} color="sage" seed={9}/>
 </svg>

@@ -1,10 +1,11 @@
 import * as T from 'three';
+import {pencilColors,scribbleStrokes} from '../../lib/scribbles';
 export type P=[number,number,number];
 export const paper=0xeee7d8,ink=0x38332c,rust=0x97513b;
 export const TAU=Math.PI*2;
 export const surfaces=new T.MeshBasicMaterial({color:0xe8dfcd,side:T.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1});
 export const pale=new T.MeshBasicMaterial({color:paper,side:T.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1});
-export const materials=[new T.LineBasicMaterial({color:ink,transparent:true,opacity:.85}),new T.LineBasicMaterial({color:0x847361,transparent:true,opacity:.25}),new T.LineBasicMaterial({color:rust,transparent:true,opacity:.72}),new T.LineBasicMaterial({color:0x436c86,transparent:true,opacity:.76}),new T.LineBasicMaterial({color:0x617652,transparent:true,opacity:.72}),new T.LineBasicMaterial({color:0xb88328,transparent:true,opacity:.85})];
+export const materials=[new T.LineBasicMaterial({color:ink,transparent:true,opacity:.85}),new T.LineBasicMaterial({color:0x847361,transparent:true,opacity:.25}),new T.LineBasicMaterial({color:rust,transparent:true,opacity:.72}),new T.LineBasicMaterial({color:pencilColors.blue,transparent:true,opacity:.76}),new T.LineBasicMaterial({color:pencilColors.sage,transparent:true,opacity:.72}),new T.LineBasicMaterial({color:pencilColors.amber,transparent:true,opacity:.85}),new T.LineBasicMaterial({color:pencilColors.rose,transparent:true,opacity:.8})];
 
 /** Object-space pen deviations are baked once. Nothing is rerandomized per frame. */
 export class Ink {
@@ -22,6 +23,9 @@ export class Ink {
   if(rough&&tone===0&&seed%3===0)this.line(a.map((v,i)=>v+(i===1?.028:-.019)) as P,b.map((v,i)=>v+(i===1?.026:.016)) as P,1,false);
  }
  path(points:P[],tone=0,closed=false){for(let i=1;i<points.length;i++)this.line(points[i-1],points[i],tone);if(closed)this.line(points.at(-1)!,points[0],tone);}
+ scribble(origin:P,width:number,height:number,tone=5,seed=1,horizontal:P=[1,0,0],vertical:P=[0,1,0]){
+  for(const stroke of scribbleStrokes(width,height,seed))this.path(stroke.map(([x,y])=>origin.map((v,i)=>v+horizontal[i]*x+vertical[i]*y) as P),tone);
+ }
  circle(x:number,y:number,z:number,r:number,tone=0,start=0,end=TAU){this.path(Array.from({length:73},(_,i)=>{const a=start+(end-start)*i/72;const wobble=.008*Math.sin(a*7+x);return [x+Math.cos(a)*(r+wobble),y+Math.sin(a)*(r+wobble),z] as P;}),tone);}
  rect(x:number,y:number,z:number,w:number,h:number,tone=0){this.path([[x,y,z],[x+w,y,z],[x+w,y+h,z],[x,y+h,z]],tone,true);}
  box(x:number,y:number,z:number,w:number,h:number,d:number,tone=0){this.rect(x,y,z,w,h,tone);this.rect(x,y,z+d,w,h,tone);for(const [u,v] of [[x,y],[x+w,y],[x,y+h],[x+w,y+h]])this.line([u,v,z],[u,v,z+d],tone);}

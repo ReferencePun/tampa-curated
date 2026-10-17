@@ -2,6 +2,7 @@
 interface Props {idPrefix?:string;}
 const {idPrefix='cigar-study'}=Astro.props;
 import {sketchLine} from '../../lib/drafting';
+import ScribbleAccent from '../ScribbleAccent.astro';
 ---
 <svg class="engraving-svg tampa-study cigar-study" viewBox="0 0 340 350" role="img" aria-labelledby={`${idPrefix}-title`}>
   <title id={`${idPrefix}-title`}>A fine-line study of tobacco leaf, two banded cigars, and a crescent cigar-making knife</title>
@@ -19,6 +20,7 @@ import {sketchLine} from '../../lib/drafting';
       <path d="M144 80L147 69M135 104L132 92M127 127L120 116M129 155L118 151M132 177L122 175M149 202L139 201M193 92L194 79M202 117L213 113M202 135L219 134M195 153L214 153M197 181L215 180M183 199L201 200"/>
     </g>
     <path d="M114 86Q97 114 100 137M109 177Q114 204 132 217M218 96Q233 124 229 146" class="sketch-retrace"/>
+    <ScribbleAccent x={172} y={119} width={27} height={12} rotate={31} color="sage" seed={4}/>
   </g>
   <!-- Unlit cigars; the diagonal seams describe the wrapped leaf. -->
   <g transform="translate(49 244) rotate(-27)">
@@ -32,6 +34,7 @@ import {sketchLine} from '../../lib/drafting';
     <path d="M124-13Q120 0 124 13H156Q152 0 156-13Z" fill="var(--paper-light)"/>
     <path d="M128-12Q125 0 128 12M152-12Q149 0 152 12" class="study-detail"/>
     <path d="M140-8L147-1L140 8L132 0Z" fill="url(#tc-hatch)"/>
+    <ScribbleAccent x={130} y={-9} width={19} height={17} color="amber" seed={8}/>
     <path d="M10 15Q100 13 202 14" class="sketch-retrace"/>
   </g>
   <g transform="translate(60 272) rotate(-13)">

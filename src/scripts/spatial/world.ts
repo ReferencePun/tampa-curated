@@ -17,6 +17,7 @@ function gear(radius:number,teeth:number,hole:number){
  drawing.circle(0,0,.22,hole);drawing.circle(0,0,.23,radius*.89,2);
  for(let i=0;i<teeth;i++){const a=TAU*i/teeth;drawing.line([Math.cos(a)*radius*.78,Math.sin(a)*radius*.78,.22],[Math.cos(a)*radius*.87,Math.sin(a)*radius*.87,.22],1);}
  for(let i=0;i<8;i++){const a=TAU*i/8;drawing.circle(Math.cos(a)*radius*.8,Math.sin(a)*radius*.8,.24,.055);}
+ if(radius>3)drawing.scribble([radius*.67,-radius*.62,.25],radius*.23,radius*.07,3,teeth,[.7,.7,0],[-.7,.7,0]);
  drawing.build(group);return group;
 }
 function wall(parent:T.Object3D,x:number,z:number,direction:number){
@@ -59,8 +60,8 @@ export function createWorld(compact:boolean){
  }
  // A counterweight and sliding panel share one conserved rope length.
  const liftPanel=new T.Group();liftPanel.position.set(-5,2,-9);scene.add(liftPanel);
- plane(liftPanel,2.5,3,[0,0,0]);const panelInk=new Ink();panelInk.rect(-1.25,-1.5,.05,2.5,3);panelInk.path([[-1.2,-1.4,.06],[1.2,1.4,.06],[-1.2,1.4,.06],[1.2,-1.4,.06]],1);panelInk.build(liftPanel);
- const weight=new T.Group();weight.position.set(-7,8,-9);scene.add(weight);const weightInk=new Ink();weightInk.box(-.4,-.6,-.3,.8,1.2,.6);weightInk.build(weight);
+ plane(liftPanel,2.5,3,[0,0,0]);const panelInk=new Ink();panelInk.rect(-1.25,-1.5,.05,2.5,3);panelInk.path([[-1.2,-1.4,.06],[1.2,1.4,.06],[-1.2,1.4,.06],[1.2,-1.4,.06]],1);panelInk.scribble([-.9,.8,.09],.7,.3,6,5);panelInk.build(liftPanel);
+ const weight=new T.Group();weight.position.set(-7,8,-9);scene.add(weight);const weightInk=new Ink();weightInk.box(-.4,-.6,-.3,.8,1.2,.6);weightInk.scribble([-.27,-.35,.33],.55,.25,5,11);weightInk.build(weight);
  const pulley=gear(.65,16,.15);pulley.position.set(-6,10,-9);scene.add(pulley);
  const cableGeometry=new T.BufferGeometry();const cablePoints=new Float32Array([-5.35,10,-9,-5.35,3.5,-9,-6.65,10,-9,-6.65,8.6,-9]);cableGeometry.setAttribute('position',new T.BufferAttribute(cablePoints,3));scene.add(new T.LineSegments(cableGeometry,materials[0]));
  // A deep arcade with an open left side at the final bay.

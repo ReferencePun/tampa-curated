@@ -1,5 +1,6 @@
 ---
 interface Props {kind:string;}
+import ScribbleAccent from '../ScribbleAccent.astro';
 const {kind}=Astro.props;
 ---
 <svg class="experiment-mark" viewBox="0 0 500 350" fill="none" aria-hidden="true">
@@ -9,17 +10,23 @@ const {kind}=Astro.props;
  <path d="M213 91L271 88L272 110L214 113ZM232 261L288 257M191 227L257 220M210 224Q205 241 239 238Q263 236 257 220"/>
  <path d="M123 185Q143 133 171 179Q172 198 142 209Q133 201 123 185ZM144 199L153 169M285 180L330 171L337 195L293 204ZM306 179L315 194"/>
  <path d="M58 318L449 286M53 48L418 30M25 195L31 259" stroke-dasharray="3 5" opacity=".3"/>
+ <ScribbleAccent x={217} y={94} width={43} height={12} rotate={-3} color="amber" seed={3}/>
+ <ScribbleAccent x={139} y={173} width={15} height={22} rotate={14} color="sage" seed={8}/>
 </>:kind==='tracing-city'?<>
  <path d="M70 56L394 34L436 263L110 301Z" fill="var(--paper-light)"/><path d="M40 86L368 67L410 302L81 325Z" fill="var(--paper-light)" fill-opacity=".6"/>
  <path d="M253 52Q185 96 237 127T219 211Q194 254 247 291M276 51Q209 97 260 128T242 212Q220 249 271 287" stroke="var(--lab-teal)"/>
  <path d="M107 110L374 93M114 143L380 126M120 179L388 164M126 218L395 203M134 254L402 240M146 93L176 288M197 90L229 285M301 82L334 277M349 80L380 274" opacity=".45"/>
  <path d="M75 70L63 64M81 63L77 51M390 294L398 310M380 304L382 318" stroke="var(--red)"/>
  <circle cx="162" cy="164" r="11"/><circle cx="311" cy="199" r="11"/><path d="M162 164L311 199" stroke-dasharray="3 5"/>
+ <ScribbleAccent x={237} y={232} width={16} height={26} rotate={-14} color="blue" seed={4}/>
+ <ScribbleAccent x={143} y={130} width={27} height={11} rotate={-4} color="rust" seed={9}/>
 </>:<>
  <path d="M105 46Q256 22 388 47L409 282Q258 255 126 293ZM105 46L126 293M124 43L144 288" fill="var(--paper-light)"/>
  <path d="M388 47L401 38L423 274L409 282M133 300L411 289M138 305L414 295"/>
  <path d="M162 94L339 80L346 159L169 174Z" fill="var(--lab-teal)" fill-opacity=".09"/><path d="M176 150L204 119L231 139L260 104L331 143M173 182L345 168M175 194L317 182M178 221L356 207M180 236L347 222M182 251L306 240"/>
  <path d="M346 38L356 19Q377 9 380 27L391 124Q389 140 377 134L363 34Q362 22 370 23L383 124"/>
  <path d="M94 56L80 40M88 74L67 67M423 250L444 257" stroke="var(--red)"/>
+ <ScribbleAccent x={248} y={113} width={27} height={15} rotate={-7} color="sage" seed={12}/>
+ <ScribbleAccent x={303} y={228} width={34} height={8} rotate={-5} color="rose" seed={6}/>
 </>}
 </svg>

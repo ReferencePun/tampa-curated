@@ -2,6 +2,7 @@
 import {Image} from 'astro:assets';
 import ExperimentLayout from '../../layouts/ExperimentLayout.astro';
 import SaveButton from '../../components/experiments/SaveButton.astro';
+import ScribbleAccent from '../../components/ScribbleAccent.astro';
 import archive from '../../assets/archive/tampa-sanborn-1887-sheet1.jpg';
 import {url} from '../../lib/urls';
 const observations=[
@@ -22,6 +23,8 @@ const observations=[
       <path d="M155 132L454 130L459 449L156 453ZM148 570L460 568L464 886L154 890ZM579 571L887 570L891 885L585 891ZM154 1001L464 1004L468 1316L161 1319ZM581 1004L885 1001L891 1318L587 1322ZM160 1432L470 1430L474 1750L167 1758ZM583 1431L890 1435L896 1754L587 1753Z"/>
       <path d="M72 470L520 474M71 946L979 940M76 1375L984 1370M86 1808L988 1801M523 534L532 1775M965 922L973 1831" stroke-dasharray="6 11"/>
       <path d="M277 235L342 234L346 354L274 353ZM383 760L435 761L436 844L382 842M164 1455L251 1452L251 1584L166 1587M331 1454L435 1451L436 1554L336 1556" stroke="var(--red)"/>
+      <ScribbleAccent x={286} y={271} width={42} height={35} color="amber" seed={8} weight={2.3}/>
+      <ScribbleAccent x={389} y={783} width={34} height={29} color="rose" seed={14} weight={2.3}/>
      </g>
      <g data-trace-layer="water" stroke="var(--lab-teal)" stroke-width="3"><path d="M56 954L86 953M103 953Q242 974 358 960L500 963Q543 967 543 950M542 922Q549 901 577 895M863 22Q856 129 870 202T929 301L940 336L929 340L934 360L955 356L963 387L972 400L965 410L975 439L994 438L1005 485"/><path d="M121 968Q290 982 500 972M854 23Q845 173 867 227T920 314" opacity=".3" stroke-width="7"/></g>
      <g data-trace-layer="notes" stroke="var(--red)" stroke-width="1.6"><path d="M376 297L591 261L673 263M432 951L642 1043M1215 219L1460 126"/><circle cx="310" cy="292" r="83"/><circle cx="419" cy="958" r="26"/><circle cx="1136" cy="213" r="88"/></g>

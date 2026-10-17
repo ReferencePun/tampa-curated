@@ -135,6 +135,10 @@ export function createStreetscape(parent:T.Object3D,compact:boolean){
    for(let y=4.15;y<h-1.2;y+=2.6){
     const wh=Math.min(1.65,h-y-.6);
     panel(u+.2,y,bw-.4,wh,.025,1);rect(u+.2,y,bw-.4,wh,.06);
+    const floor=Math.round((y-4.15)/2.6),floors=Math.ceil((h-5.35)/2.6);
+    if(j===(index*3+1)%bays&&floor===index%floors){
+     pen.scribble(p(u+.24,y+.08,.13),bw-.48,wh-.16,[5,3,6,4][index%4],index+7,[dir,0,0]);
+    }
     rect(u+.12,y-.12,bw-.24,.15,.14,1);
     line([u+bw*.5,y,.08],[u+bw*.5,y+wh,.08],j===0?accent:1);
     line([u+.2,y+wh*.5,.08],[u+bw-.2,y+wh*.5,.08],1);

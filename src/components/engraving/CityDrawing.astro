@@ -1,5 +1,6 @@
 ---
 import DraftingGuides from './DraftingGuides.astro';
+import ScribbleAccent from '../ScribbleAccent.astro';
 import EngravedGear from './EngravedGear.astro';
 import MechanicalImageFrame from './MechanicalImageFrame.astro';
 import {meshPhase} from '../../lib/mechanisms';
@@ -19,7 +20,7 @@ const facade='M157 392V220H181V201H329V183H385V168H424V183H478V201H627V220H650V3
         <path d="M150 221L327 220.3M329 178.8L385 180.1M425 180.5L481 179M479 200L635 199.2M159 226L158.2 398M647.8 214L648.6 399M146 278L660 277.3M150 328L658 327.2M136 402.2L670 401.4" class="sketch-retrace"/>
         <defs><clipPath id="city-reveal"><rect data-drawing-window x="158" y="202" width="492" height="205"/></clipPath></defs>
         <g clip-path="url(#city-reveal)"><MechanicalImageFrame id="ybor-study" photo="ybor" x={158} y={202} width={492} height={205}/></g>
-        <g class="drawn-facade"><path data-drawing pathLength="1" d={facade}/><path data-drawing pathLength="1" d={windows} class="hairline"/></g>
+        <g class="drawn-facade"><path data-drawing pathLength="1" d={facade}/><path data-drawing pathLength="1" d={windows} class="hairline"/><ScribbleAccent x={219} y={241} width={15} height={21} seed={7}/><ScribbleAccent x={508} y={289} width={15} height={21} color="rose" seed={11}/><ScribbleAccent x={566} y={337} width={15} height={21} color="blue" seed={3}/></g>
         <g transform="translate(82 374)"><EngravedGear radius={37.5} teeth={30} rate={1} design="disc"/><EngravedGear x={0} y={-60} radius={22.5} teeth={18} rate={-30/18} phase={meshPhase(30,18,-90)} design="spoked"/>
           <g data-drafting-arm><path data-arm-under d="M0 0L160-130L286-85" stroke="var(--paper)" stroke-width="6"/><path data-arm-upper d="M0 0L160-130"/><path data-arm-lower d="M160-130L286-85"/><circle data-arm-elbow cx="160" cy="-130" r="5" fill="var(--paper)"/><circle data-arm-pen cx="286" cy="-85" r="4" fill="var(--brass)"/><circle r="6" fill="var(--paper)"/></g>
         </g>

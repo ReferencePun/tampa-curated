@@ -2,6 +2,7 @@
 interface Props {idPrefix?:string;}
 const {idPrefix='ship-study'}=Astro.props;
 import MaritimeMark from './MaritimeMark.astro';
+import ScribbleAccent from '../ScribbleAccent.astro';
 const sails = [
   {x:112,y:88,w:64,h:44}, {x:97,y:139,w:92,h:61},
   {x:214,y:55,w:69,h:45}, {x:199,y:106,w:98,h:62}, {x:189,y:174,w:115,h:66},
@@ -49,4 +50,7 @@ const sails = [
   <path d="M56 251Q160 279 308 253M128 296Q236 302 321 293" class="sketch-retrace"/>
   <g class="study-water"><path d="M43 292Q63 287 82 292T120 292M32 299Q67 295 103 300M126 301Q150 296 177 301T232 301M257 300Q278 295 301 299M324 299Q349 294 374 299T424 299M376 288Q396 283 418 287M112 308H167M204 309H278M352 307H391"/></g>
   <g transform="translate(425 319) scale(.35)"><MaritimeMark/></g>
+  <ScribbleAccent x={263} y={27} width={25} height={9} rotate={9} color="rust" seed={2}/>
+  <ScribbleAccent x={238} y={128} width={26} height={14} rotate={-12} color="amber" seed={12}/>
+  <ScribbleAccent x={126} y={301} width={41} height={7} rotate={-2} color="blue" seed={17}/>
 </svg>

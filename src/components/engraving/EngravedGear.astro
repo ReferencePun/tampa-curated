@@ -1,6 +1,7 @@
 ---
 import {gearPath, circlePath, point, TAU} from '../../lib/mechanisms';
 import {sketchArc, sketchLine} from '../../lib/drafting';
+import ScribbleAccent from '../ScribbleAccent.astro';
 interface Props { x?:number; y?:number; radius:number; teeth:number; rate?:number; phase?:number; design?:'ring'|'spoked'|'disc'; class?:string; }
 const {x=0,y=0,radius:r,teeth,rate=1,phase=0,design='spoked',class:className=''}=Astro.props;
 const hole = design === 'ring' ? r*.78 : r*.71;
@@ -21,5 +22,6 @@ const hatch=Array.from({length:teeth*2},(_,i)=>{const a=(i+.15*Math.sin(i*3))*TA
       <path d={sketchArc(r*.22,2)} fill="var(--paper)"/><path d={sketchArc(r*.15,4)}/><circle r={r*.07} fill="url(#tc-crosshatch)"/>
     </>}
     {spokes.map(a=>{const p=point(r*.87,a);return <g transform={`translate(${p.join(' ')}) rotate(${a*180/Math.PI})`}><circle r={Math.max(1.8,r*.018)} fill="var(--paper)"/><path d="M-2 0H2"/></g>})}
+    {r>=150&&<ScribbleAccent x={r*.66} y={-r*.61} width={r*.22} height={r*.08} rotate={46} color="amber" seed={teeth+r}/>}
   </g>
 </g>
