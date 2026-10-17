@@ -56,7 +56,13 @@ export async function mountSpatial(root:HTMLElement,onFailure:(message:string)=>
   projected.copy(world.photoPoint).project(camera);
   const photoVisible=city&&!drawingOnly&&Math.abs(projected.x)<.9&&Math.abs(projected.y)<.95&&projected.z<1;
   photoLink.hidden=!photoVisible;
-  if(photoVisible){photoLink.style.left=`${(projected.x*.5+.5)*100}%`;photoLink.style.top=`${(-projected.y*.5+.5)*100}%`;}
+  if(photoVisible){
+   const halfWidth=photoLink.offsetWidth/2,halfHeight=photoLink.offsetHeight/2;
+   const caption=root.querySelector<HTMLElement>('.spatial-caption')!;
+   const bottom=width<700?caption.offsetTop-14:height-85;
+   photoLink.style.left=`${Math.max(halfWidth+14,Math.min(width-halfWidth-14,(projected.x*.5+.5)*width))}px`;
+   photoLink.style.top=`${Math.max(110+halfHeight,Math.min(bottom-halfHeight,(-projected.y*.5+.5)*height))}px`;
+  }
   if(current>.60&&!photoRequested){photoRequested=true;void world.loadPhoto(root.dataset.photo!,request);}
   // Diagnostics describe rendered state, so tests can prove reversal and coupling.
   Object.assign(root.dataset,{progress:current.toFixed(6),cameraPosition:position.toArray().join(','),cameraQuaternion:quaternion.toArray().join(','),fold:mechanical.fold.toFixed(6),gear:mechanical.gear.toFixed(6),pinion:mechanical.pinion.toFixed(6),lift:mechanical.lift.toFixed(6),photoReveal:mechanical.reveal.toFixed(6),drawCalls:String(renderer.info.render.calls),resolution:dpr.toFixed(2)});

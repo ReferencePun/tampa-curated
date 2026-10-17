@@ -11,8 +11,8 @@ export const checkpoints: {progress:number;position:Point;target:Point;roll:numb
  {progress:.53,position:[0,4.5,-21],target:[-2,4.5,-32],roll:.08},
  {progress:.65,position:[-4,4.7,-31],target:[-19,5,-34],roll:.21},
  {progress:.75,position:[-17,4.4,-34],target:[-37,6,-34],roll:-.05},
- {progress:.88,position:[-32,4.8,-34],target:[-54,6.7,-34],roll:0},
- {progress:1,position:[-42,5,-34],target:[-54,6.7,-34],roll:0},
+ {progress:.88,position:[-26,4.8,-34],target:[-63,9.5,-34],roll:0},
+ {progress:1,position:[-32,5,-34],target:[-63,9.5,-34],roll:0},
 ];
 const points=checkpoints.map(c=>new Vector3(...c.position));
 const path=new CatmullRomCurve3(points,false,'centripetal');
@@ -30,6 +30,6 @@ export const rooms=[
  {id:'drawing',name:'The drawing',progress:0,description:'A building, still deciding what to become. Scroll to lift it from the paper.'},
  {id:'threshold',name:'The threshold',progress:.27,description:'A wheel becomes a doorway. There is more room on the other side.'},
  {id:'corridor',name:'The impossible corridor',progress:.48,description:'Keep going. The passage has a turn the drawing did not promise.'},
- {id:'city',name:'The city',progress:.94,description:'Somewhere between the imagined city and the one outside. Enter a photograph.'},
+ {id:'city',name:'The city',progress:.94,description:'Familiar silhouettes, unfinished lines. Four Tampa landmarks gathered into one imaginary street.'},
 ];
 export function roomAt(p:number){return p<.18?0:p<.38?1:p<.73?2:3;}

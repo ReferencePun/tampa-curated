@@ -71,6 +71,9 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await expect.poll(()=>phone.locator('[data-spatial-root]').getAttribute('data-progress').then(Number),{timeout:10000}).toBeCloseTo(.27,2);
  await phone.locator('[data-stage-nav] [data-room-link="city"]').tap();await expect.poll(()=>phone.locator('[data-spatial-root]').getAttribute('data-progress').then(Number)).toBeCloseTo(.94,2);
  await expect(phone.locator('[data-photo-link]')).toBeVisible();await phone.screenshot({path:`test-results/spatial/${name}-mobile-city.png`});
+ const photoCaption=await phone.locator('[data-photo-link],.spatial-caption').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right};}));
+ assert.ok(photoCaption[0].bottom+8<=photoCaption[1].top,'The photograph entrance stays above the mobile caption');
+ assert.ok(photoCaption[0].left>=0&&photoCaption[0].right<=390,'The photograph entrance remains inside the viewport');
  assert.ok(await phone.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
  const rectangles=await phone.locator('[data-spatial-instruments],.reading-tools').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right};}));
  if(rectangles.length===2)assert.ok(rectangles[0].bottom<=rectangles[1].top||rectangles[1].bottom<=rectangles[0].top||rectangles[0].right<=rectangles[1].left,'Controls do not cover reading preferences');
