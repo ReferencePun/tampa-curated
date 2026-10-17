@@ -133,11 +133,13 @@ Empty values show coming-soon text, not fake links or subscription confirmations
 
 Repository: https://github.com/ReferencePun/tampa-curated
 
-Expected site address: https://referencepun.github.io/tampa-curated/
+Published site address: https://dylanforsberg.com/tampa-curated/
+
+The standard address, https://referencepun.github.io/tampa-curated/, redirects there because this account already has a custom domain on its GitHub Pages user site. This was discovered from GitHub's Pages API and verified over HTTPS. No project-specific custom domain was assumed or added; HTTPS is enabled for this project.
 
 In GitHub, open **Settings → Pages → Build and deployment → Source → GitHub Actions**. Push to `main`, or run **Actions → Deploy Tampa Curated to GitHub Pages → Run workflow**. The workflow installs the locked dependencies, checks types/content, builds, verifies links/assets, uploads the static artifact, and uses the official GitHub Pages deployment actions. Pull requests run the build checks without deploying.
 
-The workflow uses `GITHUB_REPOSITORY` automatically. Locally, Astro reads the GitHub `origin` URL:
+The workflow reads the actual origin and base path from the official `actions/configure-pages` action, so canonical URLs, social previews, the sitemap, and assets follow the published domain. Without those overrides, Astro uses `GITHUB_REPOSITORY` or reads the GitHub `origin` URL locally:
 
 - `ReferencePun/tampa-curated` → `site: https://ReferencePun.github.io`, `base: /tampa-curated`.
 - `ReferencePun/ReferencePun.github.io` → the same domain, `base: /`.
@@ -145,7 +147,7 @@ The workflow uses `GITHUB_REPOSITORY` automatically. Locally, Astro reads the Gi
 
 `SITE_URL` and `BASE_PATH` environment variables explicitly override those settings when needed. Do not set a custom domain until it is actually configured. No `CNAME` file is included. Page-specific canonical and Open Graph URLs, the sitemap, and robots sitemap location all use the resolved site/base.
 
-The deployment job needs `pages: write` and `id-token: write`; the build job only needs `contents: read`. No stored credentials are used in the workflow. If the repository is moved, update its origin and build again.
+The deployment job needs `pages: write` and `id-token: write`; the build job needs only `contents: read` and `pages: read` to retrieve its URL. No stored credentials are used in the workflow. If the repository is moved, update its origin and build again.
 
 ## Validation
 

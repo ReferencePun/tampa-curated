@@ -2,7 +2,8 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import { execFileSync } from "node:child_process";
 
-// CI supplies GITHUB_REPOSITORY. Locally, infer the same identity from origin.
+// CI passes SITE_URL/BASE_PATH from official GitHub Pages metadata, including
+// an existing inherited custom domain. Fall back to repository identity locally.
 let repository = process.env.GITHUB_REPOSITORY || "";
 if (!repository) {
   try {
