@@ -1,0 +1,13 @@
+---
+interface Props {id:string;title:string;}
+const {id,title}=Astro.props;
+---
+<button type="button" class="notebook-save" data-notebook-save={id} data-save-title={title} aria-pressed="false" hidden><span aria-hidden="true">＋</span> <span data-save-label>Keep in notebook</span><span class="sr-only">: {title}</span></button>
+<script>import '../../scripts/experiments/notebook-store';</script>
+<style>
+.notebook-save {font: 600 var(--reading-small, 1rem)/1.4 var(--condensed); letter-spacing: .035em; color:var(--ink); background:transparent; border:1px solid var(--rule); padding:12px 16px; min-height:46px; text-align:left;}
+.notebook-save[aria-pressed="true"] {background:var(--ink);color:var(--paper-light);}
+.notebook-save:hover {outline:1px solid currentColor;outline-offset:3px;}
+.article-body .notebook-save,.profile-copy .notebook-save {margin:0 0 24px;}
+@media print {.notebook-save {display:none!important;}}
+</style>

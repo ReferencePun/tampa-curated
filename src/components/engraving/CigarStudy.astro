@@ -1,8 +1,10 @@
 ---
+interface Props {idPrefix?:string;}
+const {idPrefix='cigar-study'}=Astro.props;
 import {sketchLine} from '../../lib/drafting';
 ---
-<svg class="engraving-svg tampa-study cigar-study" viewBox="0 0 340 350" role="img" aria-labelledby="cigar-study-title">
-  <title id="cigar-study-title">A fine-line study of tobacco leaf, two banded cigars, and a crescent cigar-making knife</title>
+<svg class="engraving-svg tampa-study cigar-study" viewBox="0 0 340 350" role="img" aria-labelledby={`${idPrefix}-title`}>
+  <title id={`${idPrefix}-title`}>A fine-line study of tobacco leaf, two banded cigars, and a crescent cigar-making knife</title>
   <g class="construction">
     <path d="M27 57H113M27 52V62M111 52V62M295 87V275M290 87H300M290 275H300M42 296H294"/>
     <path d="M66 39L271 275M39 300H63M51 288V312" stroke-dasharray="2 6"/>

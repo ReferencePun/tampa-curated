@@ -1,0 +1,16 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import {experiments} from '../data/experiments';
+import {url} from '../lib/urls';
+import '../styles/experiments.css';
+interface Props {title:string;description:string;active?:string;}
+const {title,description,active=''}=Astro.props;
+---
+<BaseLayout title={`${title} — Experiments`} description={description} edition="experiments">
+  <nav class="experiment-nav" aria-label="Experiments"><a href={url('experiments/')} aria-current={active===''?'page':undefined}>The experiment room <span>↗</span></a><div>{experiments.map(e=><a href={url(`experiments/${e.slug}/`)} aria-current={active===e.slug?'page':undefined}><small>{e.number}</small>{e.short}{e.slug==='notebook'&&<span class="notebook-count" data-notebook-count>0</span>}</a>)}</div></nav>
+  <slot/>
+  <p class="experiment-footnote">A place to try things. &nbsp; <a href={url()}>Home</a> / <a href={url('home2/')}>Home 2</a> / <a href={url('home3/')}>Home 3</a></p>
+  <p class="storage-warning" data-storage-warning hidden>Your browser cannot save this notebook. Changes will last only while this page stays open.</p>
+  <p class="sr-only" role="status" data-notebook-status></p>
+</BaseLayout>
+<script>import '../scripts/experiments/notebook-store';</script>

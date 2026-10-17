@@ -1,0 +1,9 @@
+---
+import CigarStudy from '../engraving/CigarStudy.astro';
+import ShipStudy from '../engraving/ShipStudy.astro';
+import RoosterStudy from '../engraving/RoosterStudy.astro';
+import Photo from '../Photo.astro';
+interface Props{kind:string;idPrefix?:string;}
+const {kind,idPrefix}=Astro.props;
+---
+{kind==='cigar'?<CigarStudy idPrefix={idPrefix}/>:kind==='ship'?<ShipStudy idPrefix={idPrefix}/>:kind==='rooster'?<RoosterStudy idPrefix={idPrefix}/>:kind==='quote'?<div class="curiosity-quotation"><span>TC / A MARGIN NOTE</span><p>A city is a<br/>collection of<br/><em>small things.</em></p><i>The editors</i></div>:<div class:list={['curiosity-photo',kind]}><Photo name={kind==='night'?'tampa-night':'ybor'} alt={kind==='night'?'Tampa skyline reflected in the water at night':'The Ybor Factory Building'} treatment="mono" sizes="(max-width: 700px) 85vw, 440px"/><span>TAMPA, FLORIDA / A COLLECTED VIEW</span></div>}

@@ -1,4 +1,6 @@
 ---
+interface Props {idPrefix?:string;}
+const {idPrefix='rooster-study'}=Astro.props;
 // Short barbs follow the actual curve of each feather, with fixed pen variation.
 type Point = [number, number];
 function barbs(points: Point[], count: number, width: number) {
@@ -26,8 +28,8 @@ const tailEtching=[
   barbs([[249,181],[252,196],[236,219],[225,225]],12,3),
 ];
 ---
-<svg class="engraving-svg tampa-study rooster-study" viewBox="0 0 340 350" role="img" aria-labelledby="rooster-study-title">
-  <title id="rooster-study-title">A natural-history drawing of a Ybor rooster, with finely etched plumage and long curved tail feathers</title>
+<svg class="engraving-svg tampa-study rooster-study" viewBox="0 0 340 350" role="img" aria-labelledby={`${idPrefix}-title`}>
+  <title id={`${idPrefix}-title`}>A natural-history drawing of a Ybor rooster, with finely etched plumage and long curved tail feathers</title>
   <g class="construction"><path d="M42 294H291M51 47V277M46 47H56M46 277H56M286 102V266"/><path d="M48 171H296M171 38V307" stroke-dasharray="2 7"/></g>
   <!-- Sickle feathers arc from the rump, each with a separate rachis. -->
   <g class="rooster-tail">

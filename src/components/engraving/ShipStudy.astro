@@ -1,4 +1,6 @@
 ---
+interface Props {idPrefix?:string;}
+const {idPrefix='ship-study'}=Astro.props;
 import MaritimeMark from './MaritimeMark.astro';
 const sails = [
   {x:112,y:88,w:64,h:44}, {x:97,y:139,w:92,h:61},
@@ -6,9 +8,9 @@ const sails = [
   {x:311,y:111,w:55,h:43}, {x:303,y:160,w:72,h:58},
 ];
 ---
-<svg class="engraving-svg tampa-study ship-study" viewBox="0 0 470 350" role="img" aria-labelledby="ship-study-title ship-study-desc">
-  <title id="ship-study-title">A three-masted pirate ship, drawn in fine blue ink</title>
-  <desc id="ship-study-desc">An original maritime study with curved sails, intricate rigging, a planked hull, crossed cutlasses on a pennant, and a small rope-wrapped anchor.</desc>
+<svg class="engraving-svg tampa-study ship-study" viewBox="0 0 470 350" role="img" aria-labelledby={`${idPrefix}-title ${idPrefix}-desc`}>
+  <title id={`${idPrefix}-title`}>A three-masted pirate ship, drawn in fine blue ink</title>
+  <desc id={`${idPrefix}-desc`}>An original maritime study with curved sails, intricate rigging, a planked hull, crossed cutlasses on a pennant, and a small rope-wrapped anchor.</desc>
   <g class="construction"><path d="M20 279H453M247 14V310M80 315H392M80 310V320M392 310V320"/><path d="M36 256Q234 194 431 256M57 207Q247 145 414 207" stroke-dasharray="2 6"/></g>
   <!-- Standing rigging is behind the canvas; its endpoints meet the masts and hull. -->
   <g class="study-rigging">

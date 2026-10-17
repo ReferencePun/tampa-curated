@@ -43,6 +43,10 @@ TypeScript is pinned to 6.0.3 because the current `astro check` does not support
 | `/` | Original editorial cover, featured-story worktable, five-portrait sleeve, six-spread pop-up book, directory, newsletter |
 | `/home2/` | Clockwork City concept: illustrated machinery, cigar/ship/rooster studies, pulley portraits, stories, map, pop-up book |
 | `/home3/` | Working Notes concept: expressive ink, pencil, torn photos, and scroll-operated machinery, with all existing content and book features |
+| `/experiments/` | Comparison room for three separate working experiments |
+| `/experiments/cabinet/` | Six opening drawers of drawings, photographs and words, with linked stories and notebook saves |
+| `/experiments/tracing-city/` | An archival 1887 map with draggable tracing paper, adjustable layers and observations |
+| `/experiments/notebook/` | Personal collection, notes, ordering, undo, text download and print/PDF layout |
 | `/places/` | Editorial place index |
 | `/places/[slug]/` | Place descriptions, categories, neighborhood, address and optional links |
 | `/people/` | People to Watch |
@@ -62,7 +66,17 @@ TypeScript is pinned to 6.0.3 because the current `astro check` does not support
 | `/credits/` | Photographer attribution and licenses |
 | `/404.html` | Custom GitHub Pages error page |
 
-There are 44 generated HTML pages, plus robots and sitemap files. The seven reading-room additions are reachable through the mobile menu, footer, edition navigation, and search; the desktop Issue 001 marker opens the issue. Home 2 and Home 3 are linked from the mobile menu and footer. All links and assets respect the configured repository subpath. Search and directory filters work without a backend, preserve their state in the URL, and include empty and reset states. The reading-room pages add no client runtime and remain fully navigable without JavaScript.
+There are 48 generated HTML pages, plus robots and sitemap files. The seven reading-room additions are reachable through the mobile menu, footer, edition navigation, and search; the desktop Issue 001 marker opens the issue. Home 2, Home 3, and Experiments are linked from the mobile menu and footer. All links and assets respect the configured repository subpath. Search and directory filters work without a backend, preserve their state in the URL, and include empty and reset states. The reading-room pages add no client runtime and remain fully navigable without JavaScript.
+
+## Three editorial experiments
+
+The experiments share a paper-and-ink palette while keeping their layout and interactions in `src/pages/experiments/`, `src/components/experiments/`, `src/scripts/experiments/`, and `src/styles/experiments.css`. They do not replace Home, Home 2, or Home 3. Only a small notebook save control is added to existing neighborhood, story, person, and place detail pages.
+
+- **Cabinet:** six native disclosure drawers work with a pointer, touch, keyboard, or JavaScript disabled. With JavaScript, opening one closes the previous drawer. Direct links such as `/experiments/cabinet/#drawer-sail` open an individual drawer. Original cigar, ship, and rooster drawings, two credited photographs, and an editorial quotation can be collected.
+- **Tracing city:** the underlying image is sheet 1 of the [June 1887 Sanborn Fire Insurance Map of Tampa](https://www.loc.gov/item/sanborn01352_002/), courtesy of the Library of Congress, Geography and Map Division, Sanborn Maps Collection. The Library identifies the collection as public domain. A locally stored 1613×1913 JPEG in `src/assets/archive/` was obtained from the [Library's image service](https://tile.loc.gov/image-services/iiif/service:gmd:gmd393m:g3934m:g3934tm:g3934tm_g013521887:01352_1887-0001/full/pct:25/0/default.jpg); Astro generates the displayed WebP. The tracing is our interpretive drawing of the same historical sheet, not present-day cartography. Drag the tab, use arrow keys (Shift for larger steps, Home to reset), or lift with the slider. Ink and individual layers are adjustable. The original map and all observations remain readable without JavaScript.
+- **Field notebook:** a 31-piece shelf combines existing editorial entries, the three drawings, photographs, and a quotation. Collect from other pages, name the collection, write personal notes, move items earlier or later, remove with undo, and download a readable text copy with links and notes. Print/Save PDF uses the browser's print dialog and a collection-only layout. Records remain in this browser under `tc-field-notebook-v1`; there is no account, remote storage, or cross-device sync. Clearing browser storage removes the collection. If storage is blocked, the page explicitly warns that changes last only until navigation or reload. Printed and downloaded copies remain available independently.
+
+The interactions use native controls and small event-driven scripts; there is no animation loop, new runtime dependency, or third-party request. Reduced motion disables decorative transitions. Existing demonstration-content disclosures remain on saved pieces. Run `pnpm test:experiments` against the local preview with Chromium and WebKit installed. It exercises drawer keyboard/touch behavior, cross-page and cross-tab persistence, notes, order, undo, download, print styles, tracing pointer/keyboard controls, storage failures, no-JavaScript fallbacks, and all four pages at 320–1440px with normal and doubled body text. These are browser-engine checks, not claims of physical iPhone/Safari testing.
 
 ## Project map
 

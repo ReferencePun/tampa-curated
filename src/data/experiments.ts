@@ -1,0 +1,14 @@
+export const experiments = [
+  {slug:'cabinet',number:'01',title:'A cabinet of curiosities',short:'The cabinet',verb:'Open a drawer',description:'Small objects. Unexpected doors into the city.',note:'Tactile discovery / six collected objects'},
+  {slug:'tracing-city',number:'02',title:'The city, in layers',short:'Tracing the city',verb:'Lift the paper',description:'An 1887 map, a sheet of tracing paper, and another way to look.',note:'Archival map / a movable drawing'},
+  {slug:'notebook',number:'03',title:'A notebook of your own',short:'Your notebook',verb:'Start collecting',description:'Keep the places and stories that catch your eye. Make something of them.',note:'Save / arrange / write / print'},
+] as const;
+
+export const curiosities = [
+ {id:'leaf',name:'Leaf & labor',object:'The rolled leaf',kind:'cigar',number:'01',note:'The smallest piece of a much larger story. A leaf, a rolling table, a community built around a craft.',context:'An original drawing inspired by Ybor’s cigar-making heritage.',route:'neighborhoods/ybor-city/',link:'Walk through Ybor',save:'objects:leaf'},
+ {id:'sail',name:'Salt & rigging',object:'A ship on paper',kind:'ship',number:'02',note:'Follow a line from mast to hull, then from the harbor into the city. An imagined vessel for Tampa’s maritime imagination.',context:'An original imaginary ship, not an identified historic vessel.',route:'neighborhoods/downtown/',link:'Find the waterfront',save:'objects:sail'},
+ {id:'feather',name:'Street life',object:'The early riser',kind:'rooster',number:'03',note:'A bird in the margins of a city guide. A reminder to look down, slow down, and notice who else is using the sidewalk.',context:'An original study of a rooster, inspired by Ybor’s streetscape.',route:'neighborhoods/ybor-city/',link:'Explore the neighborhood',save:'objects:feather'},
+ {id:'light',name:'After hours',object:'A little borrowed light',kind:'night',number:'04',note:'The skyline becomes a second city in the water. Keep this photograph, or follow it into our sample essay about Tampa after dark.',context:'Downtown Tampa photograph by Bhargava Marripati / Unsplash.',route:'stories/after-hours/',link:'Read After hours',save:'photos:tampa-night'},
+ {id:'brick',name:'Brick & memory',object:'A familiar façade',kind:'ybor',number:'05',note:'Windows repeat. A doorway interrupts the rhythm. The Ybor Factory Building is a place to practice looking closely.',context:'Ybor Factory Building photograph by Ikuna / Unsplash.',route:'neighborhoods/ybor-city/',link:'Take a closer look',save:'photos:ybor'},
+ {id:'margin',name:'Words to keep',object:'A thought in the margin',kind:'quote',number:'06',note:'“A city is a collection of small things.” A line from our sample opening essay; a starting point for your own observations.',context:'The editors / The city now / sample editorial.',route:'stories/the-city-now/',link:'Read The city now',save:'quotes:small-things'},
+] as const;

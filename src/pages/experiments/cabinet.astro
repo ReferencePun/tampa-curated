@@ -1,0 +1,28 @@
+---
+import ExperimentLayout from '../../layouts/ExperimentLayout.astro';
+import CuriosityArt from '../../components/experiments/CuriosityArt.astro';
+import SaveButton from '../../components/experiments/SaveButton.astro';
+import MechanicalDefs from '../../components/atelier/MechanicalDefs.astro';
+import {curiosities} from '../../data/experiments';
+import {url} from '../../lib/urls';
+---
+<ExperimentLayout active="cabinet" title="A cabinet of curiosities" description="Open six illustrated drawers of Tampa curiosities. Discover objects, photographs and words, follow their stories, and keep them in your notebook.">
+<MechanicalDefs/>
+<header class="lab-intro"><div><span class="lab-kicker">EXPERIMENT 01 / A STUDY IN DISCOVERY</span><h1>A city in<br/> <em>small things.</em></h1></div><p>Not everything needs to be<br/> laid out at once.<br/> <span>Choose a drawer. See what’s inside.</span></p></header>
+<div class="cabinet-meta"><span>COLLECTION TC—001</span><span>SIX DRAWERS / NO PARTICULAR ORDER</span><a href={url('experiments/notebook/')}>Your notebook <span data-notebook-count>0</span> ↗</a></div>
+<section class="curiosity-cabinet" aria-label="Cabinet of six curiosities">
+{curiosities.map((item,i)=><details class="cabinet-drawer" id={`drawer-${item.id}`} open={i===0}>
+ <summary><span class="drawer-number">{item.number}</span><span class="drawer-label">{item.name}</span><span class="drawer-pull" aria-hidden="true"></span><span class="drawer-cue"><span class="closed-cue">Open</span><span class="open-cue">Close</span> ↗</span></summary>
+ <div class="drawer-tray"><div class="drawer-object"><CuriosityArt kind={item.kind}/></div><div class="drawer-dossier"><span class="lab-kicker">OBJECT / {item.number}</span><h2>{item.object}</h2><p>{item.note}</p><p class="object-context">{item.context}</p><div class="object-actions"><SaveButton id={item.save} title={item.object}/><a class="lab-link" href={url(item.route)}>{item.link} ↗</a></div></div></div>
+</details>)}
+</section>
+<div class="lab-colophon"><span>NOTES ON THE COLLECTION</span><p>The drawings are original studies. Photographs and quotations lead back to their sources and editorial context.</p><a href={url('experiments/tracing-city/')}>Next: the city, in layers ↗</a></div>
+</ExperimentLayout>
+<script>
+ const drawers=[...document.querySelectorAll<HTMLDetailsElement>('.cabinet-drawer')];
+ drawers.forEach(drawer=>drawer.addEventListener('toggle',()=>{
+   if(drawer.open)drawers.forEach(other=>{if(other!==drawer)other.open=false;});
+ }));
+ const openHash=()=>{const target=drawers.find(drawer=>`#${drawer.id}`===location.hash);if(target)target.open=true;};
+ window.addEventListener('hashchange',openHash);openHash();
+</script>

@@ -1,0 +1,42 @@
+---
+import ExperimentLayout from '../../layouts/ExperimentLayout.astro';
+import Photo from '../../components/Photo.astro';
+import SaveButton from '../../components/experiments/SaveButton.astro';
+import ExperimentMark from '../../components/experiments/ExperimentMark.astro';
+import CuriosityArt from '../../components/experiments/CuriosityArt.astro';
+import MechanicalDefs from '../../components/atelier/MechanicalDefs.astro';
+import {getNotebookCatalog} from '../../lib/notebook-catalog';
+import {url} from '../../lib/urls';
+const catalog=await getNotebookCatalog();
+const kinds=['All','Neighborhood','Story','Place','Person','Photograph','Drawing','Quotation'];
+---
+<ExperimentLayout active="notebook" title="Your field notebook" description="Collect Tampa Curated's places, photographs and stories, arrange them in your own order, add personal notes, and print a field guide to keep.">
+<MechanicalDefs/>
+<header class="lab-intro notebook-intro"><div><span class="lab-kicker">EXPERIMENT 03 / AN UNFINISHED COLLECTION</span><h1>Your eye.<br/> <em>Your Tampa.</em></h1></div><p>A photograph. A place.<br/> A line you want to remember.<br/> <span>Collect a few things. Make them yours.</span></p></header>
+<h2 class="notebook-print-title" data-note-print-title>My Tampa field notes</h2>
+<section class="notebook-workspace" aria-labelledby="notebook-label">
+ <div class="notebook-toolbar"><div><label id="notebook-label" for="notebook-title">ON THE COVER</label><input id="notebook-title" data-notebook-title type="text" maxlength="100" value="My Tampa field notes" autocomplete="off"/></div><div class="notebook-tools" data-notebook-tools hidden><button type="button" data-note-print>Print / Save PDF ↗</button><button type="button" data-note-export>Download collection ↓</button></div></div>
+ <div class="notebook-summary"><span><strong data-notebook-count>0</strong> collected pieces</span><span>Saved in this browser · no account</span><a href="#collection-shelf">Find something to keep ↓</a></div>
+ <div class="notebook-empty" data-notebook-empty><ExperimentMark kind="notebook"/><div><h2>Leave room<br/> <em>for what you find.</em></h2><p>Your notebook starts empty. Add a piece from the shelf below, or keep something as you explore the site.</p><button type="button" class="lab-button" data-note-starter hidden>Add a three-piece starter collection ＋</button></div></div>
+ <ol class="notebook-board" data-notebook-board aria-label="Collected pieces"></ol>
+ <div class="notebook-undo" data-note-undo-wrap hidden><p data-note-undo-copy></p><button type="button" data-note-undo>Undo removal ↶</button></div>
+ <p class="sr-only" role="status" data-notebook-board-status></p>
+ <noscript><p class="lab-notice">Collecting and personal notes need JavaScript. All the stories and places on the shelf below are still available to read.</p></noscript>
+</section>
+<section class="collection-shelf" id="collection-shelf" aria-labelledby="shelf-title">
+ <div class="shelf-heading"><div><span class="lab-kicker">THE COLLECTION SHELF</span><h2 id="shelf-title">Something worth <em>keeping.</em></h2></div><p>Real neighborhoods and credited photographs, alongside the publication’s clearly labeled sample stories, people, and places.</p></div>
+ <form class="shelf-filters" data-shelf-filters hidden role="search" aria-label="Find pieces to collect"><label>Look for something<input type="search" name="q" placeholder="A place, a person, a phrase…"/></label><label>Kind of piece<select name="kind">{kinds.map(kind=><option value={kind}>{kind==='All'?'All pieces':kind}</option>)}</select></label><button type="reset">Reset</button><span role="status" data-shelf-count>{catalog.length} pieces</span></form>
+ <div class="shelf-grid">{catalog.map(entry=><article class="shelf-piece" data-shelf-piece data-piece-kind={entry.kind} data-piece-search={`${entry.title} ${entry.description} ${entry.kind}`.toLowerCase()}>
+  <div class="shelf-piece-art">{entry.image?<Photo name={entry.image} alt={entry.alt||entry.title} treatment="mono" sizes="(max-width:600px) 90vw, 400px"/>:entry.art?<CuriosityArt kind={entry.art} idPrefix={`shelf-${entry.id}`}/>:<p class="shelf-quote">“{entry.title}”</p>}</div><span class="lab-kicker">{entry.kind}</span><h3><a href={url(entry.route)}>{entry.title} ↗</a></h3><p>{entry.description}</p><small>{entry.disclosure}</small><SaveButton id={entry.id} title={entry.title}/>
+ </article>)}</div>
+ <p class="lab-notice" data-shelf-empty hidden>No pieces match that search. Try a different word or reset the filters.</p>
+</section>
+{catalog.map(entry=><template data-note-template={entry.id}><li class="notebook-piece" data-note-id={entry.id}>
+ <div class="note-piece-top"><span data-piece-number></span><span>{entry.kind}</span><button type="button" data-note-remove aria-label={`Remove ${entry.title}`}>Remove ×</button></div>
+ {entry.image?<Photo name={entry.image} alt={entry.alt||entry.title} treatment="mono" sizes="(max-width:700px) 85vw, 600px"/>:entry.art?<div class="note-drawing"><CuriosityArt kind={entry.art} idPrefix={`note-${entry.id}`}/></div>:<div class="note-quote-mark" aria-hidden="true">“</div>}
+ <h2>{entry.title}</h2><p>{entry.description}</p><a class="lab-link" href={url(entry.route)}>Open {entry.kind.toLowerCase()} ↗</a><small class="note-disclosure">{entry.disclosure}</small>
+ <label class="note-writing">My notes<textarea data-note-text rows="3" maxlength="2000" placeholder="What caught your eye?" aria-label={`My notes on ${entry.title}`}></textarea></label><p class="note-print-text" data-note-print-text></p>
+ <div class="note-order"><span>Move this piece</span><button type="button" data-note-move="-1" aria-label={`Move ${entry.title} earlier`}>↑ Earlier</button><button type="button" data-note-move="1" aria-label={`Move ${entry.title} later`}>↓ Later</button></div>
+ </li></template>)}
+</ExperimentLayout>
+<script>import '../../scripts/experiments/notebook';</script>
