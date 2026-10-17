@@ -17,6 +17,7 @@ const pages = [
   "",
   "home2/",
   "home3/",
+  "unfinished-city/",
   "experiments/",
   "experiments/cabinet/",
   "experiments/tracing-city/",

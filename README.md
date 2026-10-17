@@ -43,6 +43,7 @@ TypeScript is pinned to 6.0.3 because the current `astro check` does not support
 | `/` | Original editorial cover, featured-story worktable, five-portrait sleeve, six-spread pop-up book, directory, newsletter |
 | `/home2/` | Clockwork City concept: illustrated machinery, cigar/ship/rooster studies, pulley portraits, stories, map, pop-up book |
 | `/home3/` | Working Notes concept: expressive ink, pencil, torn photos, and scroll-operated machinery, with all existing content and book features |
+| `/unfinished-city/` | A continuous 3D drawing: folding threshold, geared doorway, turning corridor, photographic city, and a full static alternative |
 | `/experiments/` | Comparison room for three separate working experiments |
 | `/experiments/cabinet/` | Six opening drawers of drawings, photographs and words, with linked stories and notebook saves |
 | `/experiments/tracing-city/` | An archival 1887 map with draggable tracing paper, adjustable layers and observations |
@@ -66,7 +67,9 @@ TypeScript is pinned to 6.0.3 because the current `astro check` does not support
 | `/credits/` | Photographer attribution and licenses |
 | `/404.html` | Custom GitHub Pages error page |
 
-There are 48 generated HTML pages, plus robots and sitemap files. The seven reading-room additions are reachable through the mobile menu, footer, edition navigation, and search; the desktop Issue 001 marker opens the issue. Home 2, Home 3, and Experiments are linked from the mobile menu and footer. All links and assets respect the configured repository subpath. Search and directory filters work without a backend, preserve their state in the URL, and include empty and reset states. The reading-room pages add no client runtime and remain fully navigable without JavaScript.
+There are 49 generated HTML pages, plus robots and sitemap files. The seven reading-room additions are reachable through the mobile menu, footer, edition navigation, and search; the desktop Issue 001 marker opens the issue. Home 2, Home 3, and Experiments are linked from the mobile menu and footer. All links and assets respect the configured repository subpath. Search and directory filters work without a backend, preserve their state in the URL, and include empty and reset states. The reading-room pages add no client runtime and remain fully navigable without JavaScript.
+
+The spatial vertical slice at `/unfinished-city/` adds one native Three.js canvas and a reversible journey through an unfinished architectural drawing. It shares the existing mechanical geometry, photographs, stories, and notebook. See [architecture, reference licenses, verification, and next scenes](docs/unfinished-city.md). Review remains local.
 
 ## Three editorial experiments
 

@@ -1,0 +1,26 @@
+import {chromium,expect} from '@playwright/test';
+import {mkdir,writeFile} from 'node:fs/promises';
+const origin=process.env.TEST_ORIGIN||'http://127.0.0.1:4321';
+const base=process.env.TEST_BASE??'/tampa-curated';
+await mkdir('test-results/spatial',{recursive:true});
+const browser=await chromium.launch();
+const context=await browser.newContext({viewport:{width:1280,height:800},recordVideo:{dir:'test-results/spatial',size:{width:1280,height:800}}});
+const page=await context.newPage();
+await page.goto(`${origin}${base}/unfinished-city/#drawing`);
+await expect(page.locator('[data-spatial-root]')).toHaveAttribute('data-renderer','ready');
+await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(1200);
+const travel=async(from,to,duration)=>page.evaluate(async({from,to,duration})=>{
+ const track=document.querySelector('[data-spatial-track]'),stage=document.querySelector('[data-spatial-stage]');
+ const start=track.getBoundingClientRect().top+scrollY,length=track.offsetHeight-stage.clientHeight,begin=performance.now();
+ const frames=[];let previous=begin;
+ await new Promise(resolve=>{function step(time){const t=Math.min(1,(time-begin)/duration);if(time-previous<200)frames.push(time-previous);previous=time;scrollTo({top:start+length*(from+(to-from)*t),behavior:'instant'});if(t<1)requestAnimationFrame(step);else resolve();}requestAnimationFrame(step);});
+ return frames;
+},{from,to,duration});
+const intervals=await travel(0,.94,18000);
+await page.waitForTimeout(1300);await page.locator('[data-show-drawing]').click();await page.waitForTimeout(1000);await page.locator('[data-show-drawing]').click();await page.waitForTimeout(1000);
+intervals.push(...await travel(.94,.27,9000));await page.waitForTimeout(1200);
+const sorted=intervals.sort((a,b)=>a-b),state=await page.locator('[data-spatial-root]').evaluate(el=>({...el.dataset}));
+const metrics={viewport:'1280x800',medianAnimationFrameMs:sorted[Math.floor(sorted.length*.5)],p95AnimationFrameMs:sorted[Math.floor(sorted.length*.95)],resolution:state.resolution,drawCalls:state.drawCalls,note:'Headless Chromium while recording; not a physical Safari benchmark.'};
+await writeFile('test-results/spatial/recording-metrics.json',JSON.stringify(metrics,null,2));
+const video=page.video();await context.close();await video.saveAs('test-results/spatial/unfinished-city.webm');await video.delete();await browser.close();
+console.log('Saved test-results/spatial/unfinished-city.webm');console.log(metrics);

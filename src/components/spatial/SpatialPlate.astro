@@ -1,0 +1,11 @@
+---
+const ribs=Array.from({length:8},(_,i)=>i);
+const teeth=Array.from({length:48},(_,i)=>{const a=i*Math.PI/24;return [470+Math.cos(a)*125,285+Math.sin(a)*125,470+Math.cos(a)*137,285+Math.sin(a)*137];});
+---
+<svg class="spatial-plate" viewBox="0 0 1200 700" fill="none" role="img" aria-labelledby="spatial-plate-title"><title id="spatial-plate-title">An unfinished architectural drawing: a geared doorway, a receding corridor, folded planes and a small city beyond</title>
+<g stroke="currentColor" stroke-width=".8" opacity=".3"><path d="M75 580L1100 675M130 640L1025 260M170 605L945 170M240 620L1010 195M60 560L1130 630M420 135V630M310 200L635 590M110 470L1070 630"/>{ribs.map(i=><path d={`M${120+i*115} ${590+i*9}L${700+i*30} ${180+i*10}`}/>)}</g>
+<g stroke="currentColor" stroke-width="1.2"><path d="M330 540V120L625 170V590M320 543V110L638 164V592M330 120L580 80L875 130L625 170M625 170L875 130V520L625 590M330 540L580 490L875 520M638 588L1020 410L1065 170L875 130"/>{ribs.map(i=><path d={`M${650+i*38} ${570-i*19}V${195+i*4}L${880+i*19} ${150+i*3}V${508-i*13}`}/>)}<circle cx="470" cy="285" r="133"/><circle cx="470" cy="285" r="120"/><circle cx="470" cy="285" r="96"/>{teeth.map(([x1,y1,x2,y2])=><path d={`M${x1} ${y1}L${x2} ${y2}`}/>)}<circle cx="642" cy="298" r="39"/><circle cx="642" cy="298" r="29"/><path d="M642 298L669 311M380 384L470 442L561 384M380 384V254M561 384V254M170 540L330 540L420 590L250 625ZM625 590L770 640L915 570L875 520M165 540L251 620M1040 200L1140 210V430L1025 440Z"/></g>
+<g stroke="#97513b" stroke-width=".9"><path d="M270 160L298 185M290 158L272 190M700 590L720 615M720 590L700 615M470 156V405M340 285H600M688 245L742 204L840 206M175 495L245 460"/><circle cx="642" cy="298" r="6"/></g>
+<g stroke="currentColor" stroke-width=".6" opacity=".5">{ribs.map(i=><path d={`M${342+i*6} 132L${345+i*6} 172M${636+i*5} 410L${653+i*5} 450M${1045+i*9} 235V292M${1045+i*9} 318V376`}/>)}</g>
+<g fill="#97513b" stroke="none" font-family="Georgia,serif" font-style="italic"><text x="755" y="195" font-size="18" transform="rotate(-3 755 195)">a way through, perhaps</text><text x="120" y="478" font-size="18" transform="rotate(-7 120 478)">not quite a building</text><text x="740" y="660" font-size="14">TAMPA / AN UNFINISHED STUDY</text></g>
+</svg>

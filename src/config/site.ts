@@ -25,6 +25,7 @@ export const editionNavigation = [
   ["10", "Home 2", "home2/"],
   ["11", "Home 3", "home3/"],
   ["12", "Experiments", "experiments/"],
+  ["13", "Unfinished city", "unfinished-city/"],
 ] as const;
 
 export const categories = [

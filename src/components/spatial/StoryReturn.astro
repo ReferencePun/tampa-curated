@@ -1,0 +1,9 @@
+---
+import {url} from '../../lib/urls';
+---
+<a href={url('unfinished-city/#city')} class="spatial-return" data-spatial-return hidden>← Return to the unfinished city</a>
+<script>
+ const returnLink=document.querySelector<HTMLElement>('[data-spatial-return]');
+ if(returnLink&&new URLSearchParams(location.search).get('from')==='unfinished-city')returnLink.hidden=false;
+</script>
+<style>.spatial-return {display:inline-block;font:600 var(--reading-small,1rem)/1.5 var(--condensed);padding:14px 18px;border:1px solid var(--rule);margin-block:18px 0;}.spatial-return[hidden]{display:none;}</style>

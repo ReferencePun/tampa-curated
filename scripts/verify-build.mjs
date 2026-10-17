@@ -73,6 +73,7 @@ for (const route of [
   "index.html",
   "home2/index.html",
   "home3/index.html",
+  "unfinished-city/index.html",
   "experiments/index.html",
   "experiments/cabinet/index.html",
   "experiments/tracing-city/index.html",
