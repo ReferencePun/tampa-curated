@@ -12,16 +12,15 @@ if (tools && lens) {
     ".reading-lens-indicator",
   )!;
   const status = tools.querySelector<HTMLElement>("[data-reading-status]")!;
-  const content = lens.querySelector<HTMLElement>(".reading-lens-content")!;
+  let glass: ReturnType<typeof import("./sea-glass").createSeaGlass> | null =
+    null;
+  let loadingGlass: Promise<void> | null = null;
   const sizes = [
     ...tools.querySelectorAll<HTMLInputElement>('input[name="reading-size"]'),
   ];
   const finePointer = matchMedia("(any-hover: hover) and (any-pointer: fine)");
   let enabled = false;
   let point: { x: number; y: number } | null = null;
-  let source: HTMLElement | null = null;
-  let sourceWidth = 0;
-  let sourceText = "";
   let frame = 0;
 
   function save(key: string, value: string) {
@@ -34,8 +33,7 @@ if (tools && lens) {
 
   function hideLens() {
     lens!.hidden = true;
-    source = null;
-    content.replaceChildren();
+    glass?.clear();
   }
 
   function setPanel(open: boolean, restoreFocus = false) {
@@ -53,10 +51,25 @@ if (tools && lens) {
     indicator.hidden = !enabled;
     save("tc-reading-lens", String(enabled));
     hideLens();
+    if (enabled && !glass && !loadingGlass) {
+      loadingGlass = import("./sea-glass")
+        .then(({ createSeaGlass }) => {
+          glass = createSeaGlass(lens!);
+          schedule();
+        })
+        .catch(() => {
+          setLens(false, false);
+          status.textContent =
+            "Sea glass could not load. Comfortable text is still available.";
+        })
+        .finally(() => {
+          loadingGlass = null;
+        });
+    }
     if (announce)
       status.textContent = enabled
-        ? "Text lens on. Move over text or tab to a link. Press Escape to turn it off."
-        : "Text lens off.";
+        ? "Sea glass on. Move across the page or tab to a link. Press Escape to put the glass away."
+        : "Sea glass off.";
   }
 
   function updateSize(value: string) {
@@ -70,141 +83,34 @@ if (tools && lens) {
     window.dispatchEvent(new Event("resize"));
   }
 
-  // Only duplicate a small text block. Never clone a page, interactive scene,
-  // image, form, ID or link, and never expose duplicate content to assistive tech.
-  function textAtPoint(x: number, y: number): HTMLElement | null {
-    const hit = document.elementFromPoint(x, y);
-    if (
-      !(hit instanceof HTMLElement) ||
-      hit.closest(
-        '[data-reading-tools], [aria-hidden="true"], [inert], input, select, textarea, .atlas-stage',
-      )
-    )
-      return null;
-    let candidate: HTMLElement | null = hit.closest(
-      "p, h1, h2, h3, h4, dt, dd, figcaption, label, button, .eyebrow, .text-link",
-    );
-    if (!candidate || candidate.querySelector("img, svg, canvas, input"))
-      candidate = hit;
-    while (
-      candidate &&
-      !candidate.matches("body, main, section, article, nav, header, footer")
-    ) {
-      const text = candidate.textContent?.trim() || "";
-      if (
-        text &&
-        text.length < 3000 &&
-        candidate.childElementCount < 30 &&
-        !candidate.querySelector("img, svg, canvas, input, select, textarea")
-      )
-        return candidate;
-      candidate = candidate.parentElement;
-    }
-    return null;
-  }
-
-  const textStyles = [
-    "font-family",
-    "font-size",
-    "font-weight",
-    "font-style",
-    "font-stretch",
-    "font-variant",
-    "font-kerning",
-    "font-feature-settings",
-    "line-height",
-    "letter-spacing",
-    "word-spacing",
-    "text-transform",
-    "text-decoration",
-    "text-align",
-    "text-indent",
-    "white-space",
-    "overflow-wrap",
-    "word-break",
-    "hyphens",
-    "direction",
-    "writing-mode",
-    "vertical-align",
-    "display",
-    "box-sizing",
-    "padding-top",
-    "padding-right",
-    "padding-bottom",
-    "padding-left",
-    "margin-top",
-    "margin-right",
-    "margin-bottom",
-    "margin-left",
-    "border-top-width",
-    "border-right-width",
-    "border-bottom-width",
-    "border-left-width",
-    "border-style",
-    "gap",
-    "flex-direction",
-    "flex-wrap",
-    "align-items",
-    "justify-content",
-  ];
-
-  function copyText(node: Node): Node {
-    if (node.nodeType === Node.TEXT_NODE)
-      return document.createTextNode(node.textContent || "");
-    if (!(node instanceof HTMLElement)) return document.createTextNode("");
-    if (node.tagName === "BR") return document.createElement("br");
-    if (node.matches("script, style, template") || node.hidden)
-      return document.createTextNode("");
-    const copy = document.createElement("span");
-    const style = getComputedStyle(node);
-    for (const property of textStyles)
-      copy.style.setProperty(property, style.getPropertyValue(property));
-    copy.style.color = "var(--ink)";
-    copy.style.borderColor = "transparent";
-    for (const child of node.childNodes) copy.append(copyText(child));
-    return copy;
-  }
-
   function renderLens() {
     frame = 0;
-    if (!enabled || !point || !panel.hidden || document.hidden) {
+    if (!enabled || !glass || !point || !panel.hidden || document.hidden) {
       hideLens();
       return;
     }
-    const target = textAtPoint(point.x, point.y);
-    if (!target) {
-      hideLens();
-      return;
-    }
-    const rect = target.getBoundingClientRect();
-    if (!rect.width || !rect.height) {
-      hideLens();
-      return;
-    }
+    const hit = document.elementFromPoint(point.x, point.y);
     if (
-      source !== target ||
-      sourceWidth !== rect.width ||
-      sourceText !== target.textContent
+      !hit ||
+      tools!.contains(hit) ||
+      point.x < 0 ||
+      point.y < 0 ||
+      point.x > innerWidth ||
+      point.y > innerHeight
     ) {
-      source = target;
-      sourceWidth = rect.width;
-      sourceText = target.textContent || "";
-      const copy = copyText(target) as HTMLElement;
-      copy.style.width = `${rect.width}px`;
-      copy.style.maxWidth = "none";
-      copy.style.margin = "0";
-      if (getComputedStyle(target).display === "inline")
-        copy.style.display = "block";
-      content.replaceChildren(copy);
+      hideLens();
+      return;
     }
-    const size = parseFloat(
+    const width = parseFloat(
       getComputedStyle(lens!).getPropertyValue("--lens-size"),
     );
-    const radius = size / 2;
-    const left = Math.max(8, Math.min(innerWidth - size - 8, point.x - radius));
-    const top = Math.max(8, Math.min(innerHeight - size - 8, point.y - radius));
+    const height = (width * 280) / 320;
+    // Keep the optical center under the pointer, including at viewport edges.
+    // Clamping the glass to the window would make it slide away from the target.
+    const left = point.x - (width * 154) / 320;
+    const top = point.y - (height * 137) / 280;
+    glass.render(left, top, width, height);
     lens!.style.transform = `translate3d(${left}px, ${top}px, 0)`;
-    content.style.transform = `translate(${radius - 3 + (rect.left - point.x) * 2}px, ${radius - 3 + (rect.top - point.y) * 2}px) scale(2)`;
     lens!.hidden = false;
   }
 
@@ -302,8 +208,8 @@ if (tools && lens) {
     lensButton.disabled = !finePointer.matches;
     tools!.querySelector("[data-reading-lens-help]")!.textContent =
       finePointer.matches
-        ? "Move your mouse over text to magnify it. Links still work. Press Esc to turn the lens off."
-        : "The lens works with a mouse or trackpad. On a touchscreen, choose Comfortable text or pinch to zoom.";
+        ? "Move the sea glass across the page to bend and gently magnify everything underneath. Links still work. Press Esc to put it away."
+        : "Sea glass works with a mouse or trackpad. On a touchscreen, choose Comfortable text or pinch to zoom.";
     if (!finePointer.matches) setLens(false, false);
   }
   finePointer.addEventListener("change", updatePointer);

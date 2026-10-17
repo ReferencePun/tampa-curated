@@ -247,10 +247,6 @@ body:has(.reading-tools:not([hidden])) {
   margin-top: 22px;
   padding-top: 20px;
 }
-.reading-lens-option b {
-  color: var(--blue);
-  margin-left: 6px;
-}
 .reading-lens-option button {
   border: 1px solid var(--blue);
   background: transparent;
@@ -267,64 +263,35 @@ body:has(.reading-tools:not([hidden])) {
   color: var(--muted);
   border-color: var(--rule);
 }
-.reading-lens {
-  --lens-size: 260px;
+.sea-glass-viewport {
   position: fixed;
+  inset: 0;
+  overflow: hidden;
+  contain: strict;
+  pointer-events: none;
+  z-index: 25;
+}
+.reading-lens {
+  --lens-size: 320px;
+  position: absolute;
   top: 0;
   left: 0;
   width: var(--lens-size);
-  height: var(--lens-size);
+  height: calc(var(--lens-size) * 0.875);
   z-index: 25;
   pointer-events: none;
   contain: layout style;
 }
-.reading-lens-window {
-  position: absolute;
-  inset: 0;
-  border: 3px solid var(--blue);
-  border-radius: 50%;
-  overflow: hidden;
-  background: var(--paper-light);
-  box-shadow:
-    0 0 0 4px var(--paper-light),
-    0 8px 28px #17171438;
+.sea-glass-surface {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(3px 7px 5px #214b3e26) drop-shadow(0 1px 1px #f5fff04d);
 }
-.reading-lens::after {
-  content: "";
-  position: absolute;
-  width: 44px;
-  height: 10px;
-  background: var(--blue);
-  border: 2px solid var(--paper-light);
-  right: -12px;
-  bottom: 10px;
-  transform: rotate(45deg);
-  border-radius: 3px;
-}
-.reading-lens-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform-origin: 0 0;
-}
-.reading-lens-content,
-.reading-lens-content * {
+.reading-lens,
+.reading-lens * {
   pointer-events: none !important;
-}
-.reading-lens-content *::before,
-.reading-lens-content *::after {
-  content: none !important;
-}
-.reading-lens-mark {
-  position: absolute;
-  bottom: 11px;
-  left: 50%;
-  transform: translateX(-50%);
-  font: 600 1rem/1.3 var(--condensed);
-  background: var(--paper-light);
-  color: var(--blue);
-  padding: 1px 7px;
-  border: 1px solid var(--blue);
 }
 @media (max-width: 1200px) and (min-width: 1061px) {
   html:not([data-reading-size="original"]) .site-header {
@@ -365,12 +332,15 @@ body:has(.reading-tools:not([hidden])) {
 }
 @media (max-width: 420px) {
   .reading-lens {
-    --lens-size: 220px;
+    --lens-size: 260px;
   }
 }
 @media print {
+  [data-sea-glass-surface] {
+    filter: none !important;
+  }
   .reading-tools,
-  .reading-lens {
+  .sea-glass-viewport {
     display: none !important;
   }
   body:has(.reading-tools) {

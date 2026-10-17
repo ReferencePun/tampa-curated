@@ -54,30 +54,30 @@ for (const [name, engine] of [
     await body.evaluate((el) => getComputedStyle(el).fontSize),
     "15px",
   );
-  await page.getByRole("button", { name: "Text lens 2× Off" }).click();
+  await page.getByRole("button", { name: "Sea glass Off" }).click();
   await expect(page.locator("#reading-panel")).toBeHidden();
   await page.locator(".editors-letter").scrollIntoViewIfNeeded();
   const rect = await body.boundingBox();
   await page.mouse.move(rect.x + 140, rect.y + 40);
   await expect(lens).toBeVisible();
   const lensInfo = await lens.evaluate((el) => ({
-    text: el.querySelector(".reading-lens-content").textContent,
-    scale: new DOMMatrix(
-      getComputedStyle(el.querySelector(".reading-lens-content")).transform,
-    ).a,
     pointer: getComputedStyle(el).pointerEvents,
     hidden: el.getAttribute("aria-hidden"),
     inert: el.inert,
+    text: el.textContent.trim(),
     interactiveCopies: el.querySelectorAll(
-      "a, button, input, [id], img, canvas, script",
+      "a, button, input, img, canvas, script",
     ).length,
   }));
-  assert.equal(lensInfo.text, await body.textContent());
-  assert.equal(lensInfo.scale, 2);
+  assert.equal(lensInfo.text, "", "The glass contains no duplicated page text");
   assert.equal(lensInfo.pointer, "none");
   assert.equal(lensInfo.hidden, "true");
   assert.equal(lensInfo.inert, true);
   assert.equal(lensInfo.interactiveCopies, 0);
+  await expect(page.locator(".editors-letter")).toHaveAttribute(
+    "data-sea-glass-surface",
+    "",
+  );
   await page.screenshot({ path: `${output}/${name}-lens.png` });
   // The actual link underneath the lens remains clickable, and both settings
   // persist across full page navigation and a reload.
@@ -91,9 +91,7 @@ for (const [name, engine] of [
   await page.keyboard.press(name === "webkit" ? "Alt+Tab" : "Tab");
   await expect(guides).toBeFocused();
   await expect(lens).toBeVisible();
-  await expect(lens.locator(".reading-lens-content")).toHaveText(
-    "Reading guides",
-  );
+  await expect(page.locator("[data-sea-glass-surface]")).not.toHaveCount(0);
   await guides.hover();
   await expect(lens).toBeVisible();
   await guides.click();
@@ -103,7 +101,7 @@ for (const [name, engine] of [
     await page.locator("html").getAttribute("data-reading-size"),
     "original",
   );
-  await expect(launcher).toContainText("Lens on");
+  await expect(launcher).toContainText("Glass on");
   await page.keyboard.press("Escape");
   await expect(lens).toBeHidden();
   await expect(page.locator(".reading-lens-indicator")).toBeHidden();
@@ -170,7 +168,7 @@ for (const [name, engine] of [
   await touchPage.goto(href("issues/001/"));
   await touchPage.getByRole("button", { name: "Reading", exact: true }).click();
   await expect(
-    touchPage.getByRole("button", { name: "Text lens 2× Off" }),
+    touchPage.getByRole("button", { name: "Sea glass Off" }),
   ).toBeDisabled();
   await expect(touchPage.locator("[data-reading-lens-help]")).toContainText(
     "pinch to zoom",
@@ -191,7 +189,7 @@ for (const [name, engine] of [
   await staticContext.close();
   assert.deepEqual(errors, []);
   console.log(
-    `${name}: ${checks} responsive/enlarged text checks; original/comfortable preferences; 2× lens; click through; persistence; Escape/focus; touch; no JavaScript.`,
+    `${name}: ${checks} responsive/enlarged text checks; original/comfortable preferences; live sea-glass refraction; click through; persistence; Escape/focus; touch; no JavaScript.`,
   );
   await browser.close();
 }
