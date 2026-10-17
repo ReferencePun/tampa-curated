@@ -13,8 +13,8 @@ import { url } from '../lib/urls';
 import { siteConfig } from '../config/site';
 import { photos } from '../lib/photos';
 import NativeImageTransitions from '../components/NativeImageTransitions.astro';
-interface Props { title?: string; description?: string; image?: string; type?: 'website' | 'article'; noindex?: boolean; }
-const { title, description = siteConfig.description, image = 'tampa-palms', type = 'website', noindex = false } = Astro.props;
+interface Props { title?: string; description?: string; image?: string; type?: 'website' | 'article'; noindex?: boolean; edition?: 'engraved'; }
+const { title, description = siteConfig.description, image = 'tampa-palms', type = 'website', noindex = false, edition } = Astro.props;
 const fullTitle = title ? `${title} — Tampa Curated` : 'Tampa Curated — An independent eye on the city';
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(photos[image]?.src || url('favicon.svg'), Astro.site);
@@ -36,7 +36,7 @@ const ogImage = new URL(photos[image]?.src || url('favicon.svg'), Astro.site);
     <meta property="og:title" content={fullTitle}/><meta property="og:description" content={description}/><meta property="og:type" content={type}/><meta property="og:url" content={canonical}/><meta property="og:image" content={ogImage}/><meta property="og:site_name" content="Tampa Curated"/>
     <meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={fullTitle}/><meta name="twitter:description" content={description}/><meta name="twitter:image" content={ogImage}/>
   </head>
-  <body style={`--paper-texture: url('${url('paper.svg')}'); --ink-texture: url('${url('ink.svg')}')`}>
+  <body class={edition} style={`--paper-texture: url('${url('paper.svg')}'); --ink-texture: url('${url('ink.svg')}')`}>
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="page-shell"><Header/><main id="main"><slot/></main><Footer/></div>
     <ReadingTools/>

@@ -141,7 +141,9 @@ for (const [name, engine] of [
   });
   // Five actual page turns connect the six existing scenes. Check the moving
   // sheet's edge in screen space, both sides, and the underlying open pages.
-  const turnSamples = [0.001, 0.1, 0.25, 0.5, 0.75, 0.9, 0.999];
+  // Stay more than a device pixel inside the turn at both ends. WebKit rounds
+  // scroll offsets, so subpixel targets can land on the stationary boundary.
+  const turnSamples = [0.005, 0.1, 0.25, 0.5, 0.75, 0.9, 0.995];
   for (let index = 0; index < 6; index++) {
     await scrollSpread(index);
     await expect(atlas).toHaveAttribute("data-progress", "1.000");

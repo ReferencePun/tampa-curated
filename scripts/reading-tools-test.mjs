@@ -128,14 +128,14 @@ for (const [name, engine] of [
           `${name}: overflow at ${width}px /${route}, text ${size / 16}×`,
         );
         if (!route) {
-          for (const selector of [".cover-main-copy", ".cover-portrait-copy"]) {
+          for (const selector of [".hero-name", ".hero-editorial", ".engraved-copy"]) {
             assert.ok(
-              await page.locator(selector).evaluate((el) => {
+              await page.locator(selector).evaluateAll((elements) => elements.every(el => {
                 const copy = el.getBoundingClientRect();
-                const cover = el.parentElement.getBoundingClientRect();
-                return copy.top >= cover.top && copy.bottom <= cover.bottom;
-              }),
-              `${name}: cover text is clipped at ${width}px, text ${size / 16}×`,
+                const cover = (el.closest('.clockwork-hero-inner') || el.parentElement).getBoundingClientRect();
+                return copy.top >= cover.top - 1 && copy.bottom <= cover.bottom + 1;
+              })),
+              `${name}: editorial text is clipped at ${width}px, text ${size / 16}×`,
             );
           }
         }

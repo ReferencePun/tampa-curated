@@ -1,0 +1,29 @@
+---
+import EngravedGear from './EngravedGear.astro';
+import MechanicalImageFrame from './MechanicalImageFrame.astro';
+import {meshPhase} from '../../lib/mechanisms';
+import {url} from '../../lib/urls';
+const windows=Array.from({length:14},(_,i)=>`M${190+i*29} 265v-26h15v26ZM${190+i*29} 313v-26h15v26ZM${190+i*29} 361v-26h15v26Z`).join('');
+const facade='M157 392V220H181V201H329V183H385V168H424V183H478V201H627V220H650V392ZM157 229H650M157 276H650M157 325H650M142 398H666M142 407H666M169 220V393M638 220V393M329 201V392M478 201V392M363 392V353Q401 317 439 353V392';
+---
+<section class="city-drawing engraving-section" data-machine="drawing" aria-labelledby="drawing-title">
+  <div class="plate-heading"><span class="plate-label">01 / A CITY, DRAWN FROM LIFE</span><a href={url('neighborhoods/ybor-city/')} class="plate-link">Ybor City ↗</a></div>
+  <div class="drawing-layout">
+    <figure class="drawing-figure">
+      <svg class="engraving-svg" viewBox="0 0 820 510" role="img" aria-labelledby="drawing-image-title"><title id="drawing-image-title">A schematic architectural study reveals the Ybor Factory Building photograph</title>
+        <path d="M62 407H760M157 130V450M650 130V450M140 153H665M143 146V160M663 146V160M145 448H667M150 442V455M655 442V455" class="construction"/>
+        <path d="M144 420H660M144 425H660M150 435H653" class="hairline"/>
+        <g class="draft-facade"><path d={facade} fill="url(#tc-hatch)" class="construction"/><path d={windows} class="construction"/></g>
+        <defs><clipPath id="city-reveal"><rect data-drawing-window x="158" y="202" width="492" height="205"/></clipPath></defs>
+        <g clip-path="url(#city-reveal)"><MechanicalImageFrame id="ybor-study" photo="ybor" x={158} y={202} width={492} height={205}/></g>
+        <g class="drawn-facade"><path data-drawing pathLength="1" d={facade}/><path data-drawing pathLength="1" d={windows} class="hairline"/></g>
+        <g transform="translate(82 374)"><EngravedGear radius={37.5} teeth={30} rate={1} design="disc"/><EngravedGear x={0} y={-60} radius={22.5} teeth={18} rate={-30/18} phase={meshPhase(30,18,-90)} design="spoked"/>
+          <g data-drafting-arm><path data-arm-under d="M0 0L160-130L286-85" stroke="var(--paper)" stroke-width="6"/><path data-arm-upper d="M0 0L160-130"/><path data-arm-lower d="M160-130L286-85"/><circle data-arm-elbow cx="160" cy="-130" r="5" fill="var(--paper)"/><circle data-arm-pen cx="286" cy="-85" r="4" fill="var(--brass)"/><circle r="6" fill="var(--paper)"/></g>
+        </g>
+        <text x="380" y="141" class="diagram-label">ELEVATION / AN ILLUSTRATED STUDY</text><text x="205" y="479" class="diagram-note">A line becomes a window. A window becomes a place.</text><text x="680" y="249" class="diagram-label">BRICK</text><text x="680" y="273" class="diagram-label">IRON</text><text x="680" y="297" class="diagram-label">MEMORY</text><path d="M654 263H673M654 288H673" class="hairline"/>
+      </svg>
+      <figcaption>Ybor Factory Building · original schematic drawing, not a measured elevation.</figcaption>
+    </figure>
+    <div class="engraved-copy"><span class="chapter-numeral" aria-hidden="true">I.</span><h2 id="drawing-title">Look closer.<br/><em>There’s a story<br/>in the lines.</em></h2><p>Brick streets. Iron balconies. A familiar doorway, seen for the first time. Start with the details, and a different city comes into view.</p><a class="engraved-link" href={url('neighborhoods/ybor-city/')}>Take a detour through Ybor <span aria-hidden="true">↗</span></a></div>
+  </div>
+</section>

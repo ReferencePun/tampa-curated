@@ -1,0 +1,25 @@
+---
+import CompassDial from './CompassDial.astro';
+import EngravedGear from './EngravedGear.astro';
+import {meshPhase} from '../../lib/mechanisms';
+import {url} from '../../lib/urls';
+const locations=[{name:'Seminole Heights',x:350,y:97,id:'seminole-heights'},{name:'Tampa Heights',x:365,y:211,id:'tampa-heights'},{name:'Ybor City',x:532,y:227,id:'ybor-city'},{name:'Downtown',x:369,y:336,id:'downtown'},{name:'Hyde Park',x:205,y:369,id:'hyde-park'},{name:'Water Street',x:484,y:390,id:'water-street'}];
+---
+<section class="mechanical-map engraving-section" data-machine="map" aria-labelledby="map-title">
+  <div class="plate-heading"><span class="plate-label">04 / THE NEIGHBORHOOD ATLAS</span><a href="#pop-up-book" class="plate-link">Open the pop-up book ↓</a></div>
+  <div class="map-layout"><div class="engraved-copy"><span class="chapter-numeral" aria-hidden="true">IV.</span><h2 id="map-title">Follow a thread.<br/><em>Find your Tampa.</em></h2><p>Six neighborhoods. Countless connections. Turn the compass, trace the river, and leave room for a detour.</p><nav aria-label="Map destinations" class="map-destinations">{locations.map((place,i)=><a href={url(`neighborhoods/${place.id}/`)}><span>0{i+1}</span>{place.name}<span aria-hidden="true">↗</span></a>)}</nav><p class="art-context">An editorial map of real neighborhoods. Schematic, not for navigation.</p></div>
+  <figure class="map-figure"><svg class="engraving-svg" viewBox="0 0 760 570" role="img" aria-labelledby="map-image-title"><title id="map-image-title">An engraved schematic map connecting Tampa’s six neighborhood guides</title>
+    <defs><pattern id="map-streets" width="38" height="32" patternUnits="userSpaceOnUse" patternTransform="rotate(-8)"><path d="M0 3H38M3 0V32" stroke="var(--ink)" stroke-width=".5" opacity=".25"/></pattern></defs>
+    <path d="M126 52L550 28L677 165L682 378L547 488L259 509L97 386Z" fill="url(#map-streets)" class="construction"/>
+    <path d="M286 33Q228 116 309 157T315 265Q273 304 350 371Q414 424 345 533L497 554Q559 497 481 448Q413 410 396 355Q344 275 367 255T356 151Q299 123 348 27" fill="var(--water-ink)" stroke="none"/>
+    <path d="M286 33Q228 116 309 157T315 265Q273 304 350 371Q414 424 345 533M348 27Q299 123 356 151T367 255Q344 275 396 355Q413 410 481 448Q559 497 497 554" class="hairline"/>
+    <path d="M112 463Q202 450 255 500M120 472Q196 461 242 506M457 537Q491 509 494 493" class="construction"/>
+    <path data-drawing pathLength="1" class="map-route" d="M350 97Q394 128 365 211L532 227Q485 303 369 336L205 369Q353 444 484 390"/>
+    {locations.map((place,i)=><g transform={`translate(${place.x} ${place.y})`}><circle r="19" class="construction"/><circle r="11" fill="var(--paper)"/><circle r="3" fill="var(--brass)"/><path d="M-26 0H-16M16 0H26M0-26V-16M0 16V26"/><text x="29" y="5" class="diagram-label">0{i+1}</text></g>)}
+    <g class="map-landmarks"><path d="M480 196V179H492V163H511V179H526V196M482 184H524M490 185V191M503 185V191M517 185V191"/><path d="M382 313V280H390V272H408V313M414 313V290H433V313M383 287H407M383 299H407"/><path d="M169 343V328L191 310L214 328V343M177 342V327H185V342M199 342V327H206V342"/><path d="M327 79V58H368V79M338 79V62H348V79M355 64H361V70"/></g>
+    <CompassDial x={617} y={91} radius={45} rate={.5}/>
+    <EngravedGear x={102} y={144} radius={35} teeth={28} rate={1} design="disc"/><EngravedGear x={102} y={89} radius={20} teeth={16} rate={-28/16} phase={meshPhase(28,16,-90)} design="spoked"/>
+    <g transform="translate(102 144)"><g data-gear data-rate="1" data-phase="0"><path d="M0-3H78L91 0L78 3H0Z" fill="var(--brass)"/><circle r="5" fill="var(--paper)"/></g></g>
+    <text x="103" y="543" class="diagram-note">All roads lead to a different story.</text><text x="510" y="519" class="diagram-label">TAMPA BAY / FLORIDA</text>
+  </svg></figure></div>
+</section>

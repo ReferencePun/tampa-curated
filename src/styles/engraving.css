@@ -1,0 +1,181 @@
+/* The engraved edition keeps the reading tools and all existing routes. */
+.engraved {
+  --paper: #f3eddf;
+  --paper-light: #f9f5ec;
+  --ink: #3d382f;
+  --blue: #544f41;
+  --red: #826039;
+  --rule: #b9ab91;
+  --muted: #6e6658;
+  --brass: #a48950;
+  --water-ink: #d8ddd1;
+  background: var(--paper);
+  color: var(--ink);
+}
+.engraved::before { opacity: .1; }
+.engraved .page-shell { max-width: 1680px; padding-inline: clamp(20px, 3.5vw, 64px); }
+.engraved .site-header { min-height: 82px; border-color: var(--rule); }
+.engraved .monogram { font-family: var(--serif); letter-spacing: -4px; }
+.engraved .monogram i { left: 48px; }
+.engraved .desktop-nav a { letter-spacing: .12em; font-weight: 500; }
+.engraved .edition { font-weight: 500; letter-spacing: .07em; }
+.mechanical-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.engraving-svg { display: block; width: 100%; height: auto; fill: none; stroke: var(--ink); stroke-width: .8; stroke-linejoin: round; stroke-linecap: round; }
+.engraving-svg .construction { stroke-width: .6; opacity: .4; }
+.engraving-svg .hairline { stroke-width: .55; }
+.engraving-svg .engraved-hatch { stroke-width: .45; opacity: .72; }
+.engraving-svg .gear-spoke { stroke-width: 3; }
+.engraving-svg .diagram-label { font: 500 11px var(--condensed); letter-spacing: 1.5px; fill: var(--ink); stroke: none; }
+.engraving-svg .diagram-note { font: italic 13px var(--serif); fill: var(--muted); stroke: none; }
+.engraved-photo { filter: sepia(.32) saturate(.65) contrast(1.04); }
+.plate-label, .plate-link { font: 500 var(--reading-small, 1rem)/1.5 var(--condensed); letter-spacing: .12em; }
+.plate-label { color: var(--muted); }
+.plate-link { letter-spacing: .04em; padding-block: 10px; }
+.plate-link:hover, .engraved-link:hover { color: var(--red); }
+.plate-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid var(--rule); padding-top: 19px; }
+.clockwork-hero { position: relative; min-height: 800px; }
+.clockwork-hero-inner { display: grid; grid-template-columns: minmax(0, .83fr) minmax(0, 1.35fr); align-items: center; gap: 0; min-height: 790px; padding-block: 58px 42px; }
+.clockwork-copy { position: relative; padding: 0 0 0 3%; }
+.clockwork-copy h1 { font: 400 clamp(76px, 8.3vw, 142px)/1.1 var(--serif); letter-spacing: -.075em; margin: 35px 0 32px -5px; }
+.clockwork-copy h1 span { display: block; font: 400 clamp(16px, 1.3vw, 21px)/1.5 var(--serif); letter-spacing: .22em; margin: 19px 0 0 6px; }
+.hero-intro { font: italic clamp(21px, 1.75vw, 28px)/1.65 var(--serif); margin: 0 0 20px; }
+.hero-deck { max-width: 30ch; font: var(--reading-body, 1.1875rem)/1.75 var(--serif); color: var(--muted); margin-bottom: 27px; }
+.engraved-link { display: inline-flex; align-items: center; gap: 30px; border-bottom: 1px solid var(--rule); min-height: 44px; padding-bottom: 5px; font: var(--reading-body, 1.1875rem)/1.5 var(--serif); }
+.hero-scroll { display: flex; gap: 15px; align-items: center; margin-top: 45px; font: 500 var(--reading-small, 1rem)/1.7 var(--condensed); letter-spacing: .06em; }
+.hero-scroll small { display: block; font: italic var(--reading-small, 1rem)/1.6 var(--serif); letter-spacing: 0; }
+.scroll-wheel { flex: 0 0 36px; height: 46px; border: 1px solid var(--rule); border-radius: 50%; display: grid; place-items: center; font: 21px var(--serif); }
+.hero-coordinate { display: block; font: 500 var(--reading-small, 1rem)/1.5 var(--condensed); letter-spacing: .13em; margin-top: 40px; color: var(--muted); }
+.hero-instrument { min-width: 0; position: relative; }
+.instrument-caption { display: block; font: italic var(--reading-small, 1rem)/1.6 var(--serif); text-align: center; color: var(--muted); margin-top: -15px; }
+.edition-rule { display: flex; justify-content: space-between; gap: 20px; border-block: 1px solid var(--rule); padding-block: 17px; font: 500 var(--reading-small, 1rem)/1.6 var(--condensed); letter-spacing: .13em; }
+.engraved .motion-preference { margin-block: 18px 38px; }
+.engraving-section:not(.clockwork-hero) { padding-block: 32px 75px; }
+.engraved-copy h2 { font: 400 clamp(32px, 3.4vw, 54px)/1.3 var(--serif); letter-spacing: -.04em; margin: 20px 0 24px; }
+.engraved-copy h2 em { font-weight: 400; color: var(--muted); }
+.engraved-copy > p { font: var(--reading-body, 1.1875rem)/1.85 var(--serif); max-width: 40ch; margin-bottom: 28px; }
+.chapter-numeral { font: italic 24px var(--serif); color: var(--red); }
+.drawing-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: center; gap: 6%; padding-top: 48px; }
+.drawing-figure { margin: 0; min-width: 0; }
+.drawing-figure figcaption, .engraved-copy .art-context { font: var(--reading-small, 1rem)/1.65 var(--condensed); color: var(--muted); }
+.drawing-figure figcaption { max-width: 56ch; margin: 0 auto; padding: 20px 25px; text-align: center; }
+.drawn-facade { stroke: var(--ink); stroke-width: .8; }
+[data-arm-upper], [data-arm-lower] { stroke-width: 2.5; }
+.engraved .photographic-sleeve { border-color: var(--rule); padding-block: 24px 70px; }
+.engraved .section-heading { font-family: var(--condensed); }
+.engraved .section-heading h2 { letter-spacing: .12em; font-weight: 500; }
+.engraved .sleeve-heading { grid-template-columns: 1.2fr 1fr; padding-block: 40px 0; gap: 30px; }
+.engraved .sleeve-heading h2 { font: 400 clamp(36px, 4vw, 62px)/1.25 var(--serif); letter-spacing: -.04em; }
+.engraved .sleeve-heading h2 span { font-style: italic; color: var(--muted); }
+.engraved .sleeve-heading > p { font-style: normal; max-width: 35ch; font-size: var(--reading-body, 1.1875rem); }
+.engraved .sleeve-heading > .eyebrow { display: none; }
+.engraved .sleeve-layout { grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr); gap: 6%; align-items: center; }
+.pulley-assembly { position: relative; aspect-ratio: 800 / 660; }
+.gallery-rig { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pulley-lift { position: absolute; left: 20%; right: 20%; top: 29.0909%; height: 65%; background: var(--paper-light); border: 1px solid var(--rule); }
+.engraved .pulley-lift .sleeve-stage { width: 100%; height: 100%; border: 0; background: transparent; }
+.engraved .sleeve-axis { font-size: 10px; letter-spacing: .1em; }
+.engraved .sleeve-print { box-shadow: 1px 5px 9px #49392020; }
+.engraved .sleeve-treated, .engraved .sleeve-optics { filter: sepia(.8) saturate(.35); }
+.engraved .sleeve-under { margin: 15px 12% 0; }
+.engraved .sleeve-under .registration-wheels { display: none; }
+.engraved .sleeve-caption-column { padding-top: 20px; }
+.engraved .sleeve-caption h3 { font: 400 clamp(30px, 3vw, 48px)/1.3 var(--serif); text-transform: none; letter-spacing: -.03em; }
+.engraved .sleeve-caption > p { line-height: 1.8; }
+.engraved .sleeve-index { margin-top: 32px; }
+.engraved .sleeve-index a { min-height: 48px; font-family: var(--serif); font-size: var(--reading-small, 1rem); }
+.engraved .sleeve-disclosure { line-height: 1.7; }
+.aperture-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); align-items: center; gap: 7%; padding-top: 45px; }
+.aperture-figure { margin: 0; }
+.engraved-copy .art-context { margin-top: 25px; }
+.story-register { margin-top: 55px; border-top: 1px solid var(--rule); padding-top: 22px; }
+.story-register > div { display: grid; grid-template-columns: 1fr 1fr; gap: 0 7%; margin-top: 15px; }
+.story-register a { display: grid; grid-template-columns: 28px 1fr 20px; gap: 18px; padding: 25px 0; border-bottom: 1px solid var(--rule); }
+.register-number { font: italic 21px var(--serif); color: var(--red); }
+.story-register small { font: var(--reading-small, 1rem)/1.5 var(--condensed); letter-spacing: .06em; color: var(--muted); }
+.story-register h3 { font: 400 clamp(22px, 2vw, 29px)/1.4 var(--serif); margin: 9px 0; letter-spacing: -.025em; }
+.story-register p { font: var(--reading-body, 1.1875rem)/1.7 var(--serif); }
+.story-register a:hover h3 { text-decoration: underline; text-underline-offset: .15em; }
+.map-layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.5fr); gap: 5%; align-items: center; padding-top: 50px; }
+.map-figure { margin: 0; }
+.map-route { stroke: var(--red); stroke-width: 1.5; }
+.map-landmarks { stroke-width: 1; }
+.map-destinations { margin-top: 30px; }
+.map-destinations a { display: grid; grid-template-columns: 22px 1fr 20px; gap: 12px; border-bottom: 1px solid var(--rule); min-height: 45px; align-items: center; padding-block: 7px; font: var(--reading-body, 1.1875rem)/1.6 var(--serif); }
+.map-destinations a span:first-child { color: var(--muted); font: italic 15px var(--serif); }
+.map-destinations a:hover { color: var(--red); }
+.engraved .neighborhood-atlas { border-color: var(--rule); }
+.engraved .atlas-heading h2 { font-family: var(--serif); font-size: clamp(30px, 3.4vw, 52px); letter-spacing: -.04em; line-height: 1.25; }
+.engraved .atlas-heading h2 span { font-style: italic; }
+.engraved .list-teaser { border-color: var(--rule); padding-block: 65px; }
+.engraved .list-number { font: italic clamp(65px, 9vw, 135px)/1 var(--serif); }
+.engraved .list-teaser h2 { font: 400 clamp(38px, 5vw, 75px)/1.3 var(--serif); letter-spacing: -.045em; }
+.engraved .list-index a { font-family: var(--serif); }
+.engraved .newsletter { padding-block: 45px; border-color: var(--rule); }
+.engraved .newsletter-title h2 { font: 400 clamp(28px, 3.5vw, 50px)/1.3 var(--serif); letter-spacing: -.04em; }
+.engraved .newsletter-title h2 span { font-size: inherit; }
+.engraved .newsletter-copy { border-color: var(--rule); }
+.engraved .site-footer { border-color: var(--rule); }
+.engraved .footer-name { font: 400 32px/1.18 var(--serif); letter-spacing: -.045em; }
+@media (min-width: 1050px) and (min-height: 760px) {
+  html:not([data-motion="reduced"]) .clockwork-hero { min-height: calc(100svh + 250px); }
+  html:not([data-motion="reduced"]) .clockwork-hero-inner { position: sticky; top: 0; min-height: min(850px, 100svh); }
+}
+@media (max-width: 1100px) {
+  .clockwork-hero-inner { min-height: 700px; }
+  .clockwork-copy h1 { font-size: clamp(70px, 8.3vw, 110px); }
+  .hero-intro { font-size: 21px; }
+  .hero-scroll { margin-top: 28px; }
+  .hero-coordinate { margin-top: 25px; }
+  .drawing-layout { gap: 4%; }
+  .engraved .sleeve-layout { gap: 4%; }
+  .map-layout { grid-template-columns: 1fr 1.3fr; gap: 3%; }
+}
+@media (max-width: 800px) {
+  .engraved .site-header { min-height: 72px; }
+  .clockwork-hero { min-height: 0; }
+  .clockwork-hero-inner { min-height: 0; grid-template-columns: 1fr; padding-block: 48px 25px; gap: 14px; }
+  .clockwork-copy { display: contents; }
+  .hero-name { order: 0; padding-inline: 3%; }
+  .hero-editorial { order: 3; padding: 22px 3% 15px; }
+  .clockwork-copy h1 { font-size: clamp(76px, 15vw, 120px); margin-block: 25px; }
+  .clockwork-copy h1 span { font-size: 17px; letter-spacing: .23em; }
+  .hero-intro { font-size: 22px; }
+  .hero-deck { max-width: 42ch; margin-bottom: 15px; }
+  .hero-scroll { order: 1; margin: 0 3% 10px; }
+  .hero-coordinate { display: none; }
+  .hero-instrument { order: 2; overflow: hidden; }
+  .hero-instrument .mobile-secondary { display: none; }
+  .hero-assembly { width: 115%; max-width: none; margin-left: -12%; }
+  .instrument-caption { padding-inline: 15px; }
+  .edition-rule { flex-wrap: wrap; gap: 5px; font-size: var(--reading-small, 1rem); }
+  .engraving-section:not(.clockwork-hero) { padding-block: 24px 45px; }
+  .plate-heading { align-items: flex-start; gap: 12px; }
+  .plate-label { font-size: var(--reading-small, 1rem); letter-spacing: .07em; }
+  .plate-link { padding-top: 0; text-align: right; min-width: 0; max-width: 50%; font-size: var(--reading-small, 1rem); }
+  .drawing-layout, .aperture-layout, .map-layout { grid-template-columns: 1fr; gap: 20px; padding-top: 34px; }
+  .drawing-figure { order: 2; }
+  .engraved-copy h2 { font-size: clamp(31px, 6vw, 46px); margin-block: 15px 20px; }
+  .engraved-copy > p { max-width: 47ch; }
+  .engraved-copy h2 br { display: none; }
+  .engraved-copy h2 em::before { content: ' '; }
+  .engraved-copy .art-context { margin-bottom: 0; }
+  .drawing-figure figcaption { padding-inline: 0; }
+  .engraved .sleeve-heading { grid-template-columns: 1fr; gap: 18px; padding-top: 30px; }
+  .engraved .sleeve-heading h2 { font-size: clamp(36px, 7vw, 50px); }
+  .engraved .sleeve-heading > p br { display: none; }
+  .engraved .sleeve-layout { grid-template-columns: 1fr; gap: 20px; }
+  .engraved .sleeve-caption-column { border: 0; padding: 10px 0 0; }
+  .engraved .sleeve-under { margin-inline: 0; }
+  .engraved .sleeve-caption h3 { font-size: 34px; }
+  .story-register { margin-top: 30px; }
+  .story-register > div { grid-template-columns: 1fr; }
+  .map-destinations { max-width: 500px; }
+  .map-figure { margin-top: 15px; }
+  .engraved .atlas-heading h2 { font-size: 34px; }
+  .engraved .list-teaser, .engraved .newsletter { padding-block: 35px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .clockwork-hero { min-height: 0 !important; }
+  .clockwork-hero-inner { position: relative !important; }
+}
+html[data-motion="reduced"] .hero-scroll { display: none; }

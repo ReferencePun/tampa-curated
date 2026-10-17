@@ -76,7 +76,9 @@ export function init(root: HTMLElement): Scene {
       );
     });
     const view = new DOMMatrix();
-    if (turning) {
+    // Fit the open spread as well as a turning pair. Narrow page gutters can
+    // otherwise push a resting corner beyond the stage at phone widths.
+    {
       const left = Math.min(...poses.map((pose) => pose.bounds.left));
       const right = Math.max(...poses.map((pose) => pose.bounds.right));
       const top = Math.min(...poses.map((pose) => pose.bounds.top));

@@ -1,0 +1,11 @@
+---
+import {radialMarks} from '../../lib/mechanisms';
+interface Props {x:number;y:number;radius?:number;rate?:number;}
+const {x,y,radius:r=42,rate=.4}=Astro.props;
+---
+<g transform={`translate(${x} ${y})`} class="compass-dial">
+  <circle r={r+7} class="construction"/><circle r={r}/><circle r={r-5}/><path d={radialMarks(r-10,40,3)} class="hairline"/>
+  <path d={`M${-r-13} 0H${r+13}M0 ${-r-13}V${r+13}`} class="construction"/>
+  <g data-gear data-rate={rate} data-phase="-18" transform="rotate(-18)"><path d={`M0 ${-r+13}L5 0L0 ${r-13}L-5 0Z`} fill="var(--paper)"/><path d={`M0 ${-r+13}L5 0H-5Z`} fill="var(--ink)"/><circle r="3" fill="var(--paper)"/></g>
+  <text y={-r-18} text-anchor="middle" class="diagram-label">N</text>
+</g>

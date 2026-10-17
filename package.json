@@ -14,14 +14,18 @@
     "verify": "node scripts/verify-build.mjs",
     "test:browser": "node scripts/browser-test.mjs",
     "test:reading": "node scripts/reading-tools-test.mjs",
-    "test:mechanical": "node scripts/mechanical-test.mjs"
+    "test:mechanical": "node scripts/mechanical-test.mjs",
+    "test:engraving": "node scripts/engraving-test.mjs",
+    "test:atlas": "node scripts/atlas-regression.mjs",
+    "test:glass": "node scripts/sea-glass-test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
     "@fontsource/anton": "5.3.0",
     "@fontsource/barlow-condensed": "5.3.0",
     "@fontsource/libre-caslon-text": "5.3.0",
-    "astro": "7.4.0"
+    "astro": "7.4.0",
+    "gsap": "3.15.0"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",

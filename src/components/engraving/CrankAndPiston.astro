@@ -1,0 +1,16 @@
+---
+import {crankPosition} from '../../lib/mechanisms';
+interface Props {x:number;y:number;radius?:number;rod?:number;rate?:number;phase?:number;}
+const {x,y,radius=24,rod=128,rate=1,phase=0}=Astro.props;
+const p=crankPosition(phase,radius,rod);
+---
+<g transform={`translate(${x} ${y})`} class="crank-system" data-crank data-radius={radius} data-rod-length={rod} data-rate={rate} data-phase={phase}>
+  <path d={`M-17 ${rod-radius-16}V${rod+radius+25}M17 ${rod-radius-16}V${rod+radius+25}`} stroke-width="2"/>
+  <path d={`M-24 ${rod-radius-16}H24M-24 ${rod+radius+25}H24`} />
+  <circle r={radius} class="construction" stroke-dasharray="2 3"/>
+  <g data-crank-arm transform={`rotate(${phase})`}><path d={`M0-4H${radius}V4H0Z`} fill="var(--paper)"/><circle cx={radius} r="5" fill="var(--paper)"/></g>
+  <path data-connecting-rod d={`M${p.x} ${p.y}L0 ${p.slider}`} stroke="var(--paper)" stroke-width="7"/>
+  <path data-connecting-rod d={`M${p.x} ${p.y}L0 ${p.slider}`} stroke-width="1.3"/>
+  <g data-piston transform={`translate(0 ${p.slider})`}><rect x="-14" y="-12" width="28" height="24" fill="url(#tc-hatch)"/><circle r="4" fill="var(--paper)"/></g>
+  <circle r="7" fill="var(--paper)"/><circle r="2"/>
+</g>

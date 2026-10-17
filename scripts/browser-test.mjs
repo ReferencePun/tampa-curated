@@ -49,16 +49,16 @@ for (const width of [1600, 1440, 768, 390]) {
     assert.deepEqual(broken, [], `Broken images ${route}`);
     if (!route) {
       const coverTextFits = await page
-        .locator(".cover-main-copy .cover-label")
+        .locator(".hero-editorial")
         .evaluate((el) => {
-          const cover = el.closest(".cover-main");
+          const cover = el.closest(".clockwork-hero-inner");
           return (
             !!cover &&
             el.getBoundingClientRect().bottom <=
-              cover.getBoundingClientRect().bottom - 2
+              cover.getBoundingClientRect().bottom + 1
           );
         });
-      assert.equal(coverTextFits, true, `Cover caption clipped at ${width}px`);
+      assert.equal(coverTextFits, true, `Hero introduction clipped at ${width}px`);
       await page.locator("img").evaluateAll((imgs) =>
         Promise.all(
           imgs.map(async (img) => {

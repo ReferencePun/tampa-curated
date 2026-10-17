@@ -2,7 +2,7 @@
 
 An independent editorial website about Tampa’s people, places, neighborhoods, and ideas. Built with Astro 7.4, TypeScript, custom CSS, and static content collections. Designed for GitHub Pages: no server, database, UI framework, remote fonts, or paid hosting is required.
 
-The local Mechanical Atlas revision replaces the three middle homepage sections with an editorial worktable, an interactive photographic sleeve, and an unfolding neighborhood atlas. See [the implementation and review notes](docs/mechanical-atlas.md) for controls, fallbacks, measured costs, verification evidence, and device-testing limits. This revision is not published.
+The local Clockwork City revision turns the homepage into an engraved, scroll-operated illustration: meshing gears, working linkages, a pulley portrait gallery, photographic apertures, a schematic map, and the existing six-spread pop-up book. See [the implementation and review notes](docs/clockwork-city.md) for controls, mechanics, fallbacks, verification, and device-testing limits. This revision is not published.
 
 The initial release is a **demonstration edition**. All five profiles and eight businesses are fictional. Six essays are sample editorial content, not verified reporting. Six real neighborhood names are paired with sample introductions. Stock portraits do not depict the named fictional people. These distinctions appear throughout the site.
 
@@ -38,7 +38,7 @@ TypeScript is pinned to 6.0.3 because the current `astro check` does not support
 
 | Route | Contents |
 | --- | --- |
-| `/` | Cover collage, four featured stories, five profiles, six neighborhoods, directory, newsletter |
+| `/` | Clockwork city, architectural reveal, five portrait profiles, four featured stories, mechanical map, six-spread pop-up book, directory, newsletter |
 | `/places/` | Editorial place index |
 | `/places/[slug]/` | Place descriptions, categories, neighborhood, address and optional links |
 | `/people/` | People to Watch |
@@ -114,9 +114,9 @@ For a real business, supply its verified address and optionally `website` and `i
 
 Common fields are `title`, `deck`, `image`, `imageAlt`, `treatment`, `order`, and `demo`. Lower `order` values appear first. Available image treatments: `natural`, `mono`, `blue`, `red`, `ochre`.
 
-Stories additionally require `category`, `neighborhood`, `date`, and `readTime`; `featured: true` places a story in the homepage grid. Profiles require `profession` and `neighborhood` and accept `website` and `instagram`. Their interview text lives in Markdown. Neighborhoods additionally require `character`.
+Stories additionally require `category`, `neighborhood`, `date`, and `readTime`; `featured: true` places a story in the homepage story register. Profiles require `profession` and `neighborhood` and accept `website` and `instagram`. Their interview text lives in Markdown. Neighborhoods additionally require `character`.
 
-Adding an entry requires no route or template changes. Associated neighborhood pages and site search include it automatically. For the launch edition, also update the demonstration-specific homepage cover, intro copy, footer label, and About page once all of the sample material has been replaced. The homepage’s selected cover story and portrait are composed in `src/pages/index.astro`.
+Adding an entry requires no route or template changes. Associated neighborhood pages and site search include it automatically. For the launch edition, also update the demonstration-specific homepage cover, intro copy, footer label, and About page once all of the sample material has been replaced. The homepage’s illustrated sections are composed in `src/pages/index.astro` and `src/components/engraving/`.
 
 ### Photography
 

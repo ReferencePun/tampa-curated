@@ -1,0 +1,18 @@
+---
+import PulleySystem from './PulleySystem.astro';
+import EngravedGear from './EngravedGear.astro';
+---
+<svg class="engraving-svg gallery-rig" viewBox="0 0 800 660" aria-hidden="true">
+  <path d="M34 80H760M90 42V635M712 42V635M70 628H735" class="construction"/>
+  <path d="M48 85H750M48 89H750"/>
+  <path d="M66 60H148V110H66ZM629 60H711V110H629Z" fill="url(#tc-hatch)"/>
+  <PulleySystem x1={107} y1={85} r1={48} x2={670} y2={85} r2={48} rate={-1} crossed/>
+  <EngravedGear x={107} y={85} radius={29} teeth={24} rate={-1} design="spoked"/>
+  <path data-weight-cable="59" d="M59 85V480" class="hairline"/><path data-weight-cable="718" d="M718 85V480" class="hairline"/>
+  <path data-lift-cable="left" d="M155 85V192H160"/><path data-lift-cable="right" d="M622 85V192H640"/>
+  <g data-counterweight="40" transform="translate(40 480)"><rect width="38" height="75" fill="url(#tc-hatch)"/><path d="M4 5H34M4 10H34M4 65H34M4 70H34"/><circle cx="19" cy="36" r="9"/><text x="19" y="39" text-anchor="middle" class="diagram-label">W</text></g>
+  <g data-counterweight="699" transform="translate(699 480)"><rect width="38" height="75" fill="url(#tc-hatch)"/><path d="M4 5H34M4 10H34M4 65H34M4 70H34"/><circle cx="19" cy="36" r="9"/></g>
+  <path d="M751 150V570M744 155H758M744 565H758" class="construction"/>
+  {Array.from({length:32},(_,i)=><path d={`M746 ${160+i*13}h${i%5?6:12}`} class="hairline"/>)}
+  <text x="241" y="48" class="diagram-label">FIG. 03 / THE PORTRAIT ELEVATOR</text>
+</svg>

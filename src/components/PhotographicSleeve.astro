@@ -3,15 +3,16 @@ import type { CollectionEntry } from 'astro:content';
 import Photo from './Photo.astro';
 import SectionHeading from './SectionHeading.astro';
 import RegistrationWheels from './RegistrationWheels.astro';
+import PulleyGalleryRig from './engraving/PulleyGalleryRig.astro';
 import { url } from '../lib/urls';
 interface Props { people: CollectionEntry<'people'>[]; }
 const { people } = Astro.props;
 ---
-<section class="photographic-sleeve" data-scene="sleeve" aria-labelledby="sleeve-heading" data-renderer="dom">
-  <SectionHeading label="The next wave" number="03" href={url('people/')} linkLabel="Meet everyone"/>
-  <div class="sleeve-heading"><h2 id="sleeve-heading">PEOPLE<br/><span>TO WATCH.</span></h2><p>The makers, thinkers, and independent spirits<br/>behind a more interesting city.</p><span class="eyebrow">A PORTRAIT COLLECTION<br/>FIVE FICTIONAL PROFILES ↘</span></div>
+<section class="photographic-sleeve" data-scene="sleeve" data-machine="pulley" aria-labelledby="sleeve-heading" data-renderer="dom">
+  <SectionHeading label="The pulley gallery" number="02" href={url('people/')} linkLabel="Meet everyone"/>
+  <div class="sleeve-heading"><h2 id="sleeve-heading">The people<br/><span>in the picture.</span></h2><p>The makers, thinkers, and independent spirits<br/>behind a more interesting city.</p><span class="eyebrow">A PORTRAIT COLLECTION<br/>FIVE FICTIONAL PROFILES ↘</span></div>
   <div class="sleeve-layout">
-    <div class="sleeve-apparatus">
+    <div class="sleeve-apparatus"><div class="pulley-assembly"><PulleyGalleryRig/><div class="pulley-lift">
       <div class="sleeve-stage" tabindex="-1" role="group" aria-label="Illustrative portrait viewed through an archival sleeve." aria-describedby="sleeve-help">
         <span class="sleeve-axis" aria-hidden="true">IMAGE / 001—005</span>
         <div class="sleeve-back" aria-hidden="true"></div>
@@ -29,7 +30,7 @@ const { people } = Astro.props;
         </div>
         <div class="sleeve-front" aria-hidden="true"><span>ARCHIVE / TC—01</span><i></i><b>+</b></div>
       </div>
-      <div class="sleeve-under"><p id="sleeve-help"><span class="sleeve-drag-hint">Slide a print through the sleeve.</span> <span class="sleeve-static-hint">Five perspectives, one city.</span><br/><em>Look a little closer.</em></p><div aria-hidden="true"><RegistrationWheels single/><span class="sleeve-travel">001</span></div></div>
+      </div></div><div class="sleeve-under"><p id="sleeve-help"><span class="sleeve-drag-hint">Slide a print through the sleeve.</span> <span class="sleeve-static-hint">Five perspectives, one city.</span><br/><em>Look a little closer.</em></p><div aria-hidden="true"><RegistrationWheels single/><span class="sleeve-travel">001</span></div></div>
     </div>
     <div class="sleeve-caption-column">
       <div class="sleeve-controls" hidden><span class="sleeve-counter" aria-hidden="true">01 / 05</span><div><button type="button" data-sleeve-prev aria-label="Previous portrait">←</button><button type="button" data-sleeve-next aria-label="Next portrait">→</button></div></div>

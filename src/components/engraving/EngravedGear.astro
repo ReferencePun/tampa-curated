@@ -1,0 +1,22 @@
+---
+import {gearPath, circlePath, point, TAU} from '../../lib/mechanisms';
+interface Props { x?:number; y?:number; radius:number; teeth:number; rate?:number; phase?:number; design?:'ring'|'spoked'|'disc'; class?:string; }
+const {x=0,y=0,radius:r,teeth,rate=1,phase=0,design='spoked',class:className=''}=Astro.props;
+const hole = design === 'ring' ? r*.78 : r*.71;
+const spokes=Array.from({length:design==='disc'?8:6},(_,i)=>i*TAU/(design==='disc'?8:6));
+const hatch=Array.from({length:teeth*2},(_,i)=>{const a=i*TAU/(teeth*2); const p=point(r*.83,a),q=point(r*.92,a+.02);return `M${p.join(' ')}L${q.join(' ')}`}).join('');
+---
+<g transform={`translate(${x} ${y})`} class:list={['engraved-gear',className]}>
+  <circle r={r+10} class="construction" stroke-dasharray="2 5"/>
+  <g data-gear data-rate={rate} data-phase={phase} data-teeth={teeth} data-pitch-radius={r} transform={`rotate(${phase})`}>
+    <path d={gearPath(r,teeth)+circlePath(hole)} fill="var(--paper)" fill-rule="evenodd"/>
+    <path d={hatch} class="engraved-hatch"/>
+    <circle r={r*.94}/><circle r={r*.82}/><circle r={r*.79} class="hairline"/>
+    {design !== 'ring' && <>
+      {spokes.map(a=>{const p=point(r*.2,a),q=point(r*.7,a);return <path d={`M${p.join(' ')}L${q.join(' ')}`} class="gear-spoke"/>})}
+      {design==='disc' && <circle r={r*.55} fill="url(#tc-hatch)"/>}
+      <circle r={r*.22} fill="var(--paper)"/><circle r={r*.15}/><circle r={r*.07} fill="var(--brass)"/>
+    </>}
+    {spokes.map(a=>{const p=point(r*.87,a);return <g transform={`translate(${p.join(' ')}) rotate(${a*180/Math.PI})`}><circle r={Math.max(1.8,r*.018)} fill="var(--paper)"/><path d="M-2 0H2"/></g>})}
+  </g>
+</g>

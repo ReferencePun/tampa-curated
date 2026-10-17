@@ -18,14 +18,17 @@ await p.locator(".sleeve-stage").evaluate((e) =>
 await p.waitForTimeout(800);
 const cdp = await context.newCDPSession(p);
 let y = await p.evaluate(() => scrollY);
+const verticalBox = await p.locator(".sleeve-stage").boundingBox();
+const touchX = verticalBox.x + verticalBox.width / 2;
+const touchY = verticalBox.y + verticalBox.height * .85;
 await cdp.send("Input.dispatchTouchEvent", {
   type: "touchStart",
-  touchPoints: [{ x: 190, y: 430 }],
+  touchPoints: [{ x: touchX, y: touchY }],
 });
 for (let n = 1; n <= 12; n++) {
   await cdp.send("Input.dispatchTouchEvent", {
     type: "touchMove",
-    touchPoints: [{ x: 190, y: 430 - n * 15 }],
+    touchPoints: [{ x: touchX, y: touchY - n * 12 }],
   });
   await p.waitForTimeout(16);
 }
@@ -42,15 +45,19 @@ await p.locator(".sleeve-stage").evaluate((e) =>
     behavior: "instant",
   }),
 );
-await p.waitForTimeout(200);
+await p.waitForTimeout(300);
+const swipeBox = await p.locator(".sleeve-stage").boundingBox();
+const swipeX = swipeBox.x + swipeBox.width * .8;
+const swipeY = swipeBox.y + swipeBox.height * .5;
+const swipeDistance = await p.locator('[data-print="0"]').evaluate(e => e.offsetWidth * .84 * .85);
 await cdp.send("Input.dispatchTouchEvent", {
   type: "touchStart",
-  touchPoints: [{ x: 290, y: 260 }],
+  touchPoints: [{ x: swipeX, y: swipeY }],
 });
 for (let n = 1; n <= 12; n++) {
   await cdp.send("Input.dispatchTouchEvent", {
     type: "touchMove",
-    touchPoints: [{ x: 290 - n * 17, y: 260 }],
+    touchPoints: [{ x: swipeX - n / 12 * swipeDistance, y: swipeY }],
   });
   await p.waitForTimeout(16);
 }

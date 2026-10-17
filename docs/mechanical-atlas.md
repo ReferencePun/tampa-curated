@@ -1,4 +1,6 @@
-# Mechanical Atlas — local review
+# Mechanical Atlas — historical implementation notes
+
+The following records the earlier atlas revision. The current homepage, animation dependencies, and verification notes are described in [The Clockwork City](clockwork-city.md). Its six-spread book and portrait controls build on this implementation.
 
 This is a revision of TAMPA CURATED, on `feature/mechanical-atlas`. The baseline is commit `aa8fed04f25b468f08149b4c22833addec2fbc4e`. Nothing in this revision has been pushed or published. The existing deployment workflow, content collections, image credits, navigation, search, directory, masthead, hero, The List, and footer are retained.
 

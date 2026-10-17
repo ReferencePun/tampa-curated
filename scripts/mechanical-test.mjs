@@ -85,32 +85,32 @@ for (const name of subset) {
     "Optics must not load with the hero",
   );
   await capture(page, `${name}-cover`);
-  await scrollTo(page, ".editorial-worktable", -420);
+  await scrollTo(page, ".city-drawing", -420);
   await pause(page);
   const before = await page
-    .locator(".editorial-worktable")
-    .getAttribute("data-progress");
-  await scrollTo(page, ".editorial-worktable", 250);
+    .locator(".city-drawing")
+    .getAttribute("data-machine-progress");
+  await scrollTo(page, ".city-drawing", 250);
   await pause(page);
   const after = await page
-    .locator(".editorial-worktable")
-    .getAttribute("data-progress");
-  assert(Number(after) > Number(before), "Worktable follows forward scroll");
-  await scrollTo(page, ".editorial-worktable", -420);
+    .locator(".city-drawing")
+    .getAttribute("data-machine-progress");
+  assert(Number(after) > Number(before), "Architectural drawing follows forward scroll");
+  await scrollTo(page, ".city-drawing", -420);
   await pause(page);
   assert(
     Math.abs(
       Number(
         await page
-          .locator(".editorial-worktable")
-          .getAttribute("data-progress"),
+          .locator(".city-drawing")
+          .getAttribute("data-machine-progress"),
       ) - Number(before),
     ) < 0.01,
-    "Worktable reverses to its absolute position",
+    "Architectural drawing reverses to its absolute position",
   );
-  await scrollTo(page, ".editorial-worktable");
+  await scrollTo(page, ".city-drawing");
   await pause(page);
-  await capture(page, `${name}-worktable`);
+  await capture(page, `${name}-drawing`);
   await scrollTo(page, ".photographic-sleeve");
   await expect(page.locator(".photographic-sleeve")).toHaveClass(/is-ready/);
   await page.waitForTimeout(950);
@@ -223,6 +223,7 @@ for (const name of subset) {
   for (let i = 0; i < 6; i++) {
     await page.locator(`[data-atlas-select="${i}"]`).click();
     await expect(page.locator(`[data-atlas-caption="${i}"]`)).toBeVisible();
+    await expect(atlas).toHaveAttribute("data-page-turn", "");
     assert.equal(await page.locator("[data-atlas-board]:visible").count(), 1);
   }
   await page.locator('[data-atlas-caption="5"] a').click();
@@ -347,7 +348,7 @@ if (subset.includes("chromium")) {
     await page.goto(href(""));
     await page.evaluate(() => document.fonts.ready);
     for (const [key, selector] of [
-      ["worktable", ".editorial-worktable"],
+      ["drawing", ".city-drawing"],
       ["sleeve", ".photographic-sleeve"],
       ["atlas", ".neighborhood-atlas"],
       ["list", ".list-teaser"],
