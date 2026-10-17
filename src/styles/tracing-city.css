@@ -1,0 +1,70 @@
+/* This room has its own native-scroll choreography. Static paper is the baseline. */
+.tracing-journey {margin-bottom:70px;}
+.tracing-stage {border-block:1px solid var(--rule);background:var(--paper);padding:16px 0 24px;}
+.tracing-stage-top,.tracing-stage-bottom {display:flex;align-items:center;justify-content:space-between;gap:16px;font:600 var(--reading-small,1rem)/1.5 var(--condensed);letter-spacing:.06em;}
+.tracing-stage-top a {min-height:44px;display:flex;align-items:center;text-decoration:underline;text-underline-offset:5px;letter-spacing:0;}
+.tracing-stage-bottom {color:var(--muted);margin-top:18px;}
+.tracing-stage-layout {display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.8fr);gap:7%;align-items:center;padding-block:22px;}
+.tracing-figure {margin:0;min-width:0;min-height:0;display:grid;place-items:center;}
+.tracing-board {position:relative;aspect-ratio:1613/1913;width:100%;max-width:640px;overflow:hidden;background:#e8ddc6;box-shadow:0 3px 9px #45382722,0 0 0 1px #6b584b35;}
+.tracing-board .archive-map {display:block;width:100%;height:100%;object-fit:contain;}
+.tracing-sheet {position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.tracing-sheet path,.tracing-sheet circle {stroke-linecap:round;stroke-linejoin:round;}
+.tracing-narrative {min-width:0;max-width:360px;padding-right:12px;}
+.tracing-narrative h2,.tracing-notes h2 {font:400 clamp(36px,4.3vw,64px)/1.12 var(--serif);letter-spacing:-.045em;margin:22px 0;}
+.tracing-narrative h2 em,.tracing-notes h2 em {font-weight:400;color:var(--red);}
+.tracing-narrative p,.tracing-notes p {font:var(--reading-body,1.1875rem)/1.7 var(--serif);}
+.tracing-scroll-cue {display:block;margin-top:28px;font:600 var(--reading-small,1rem)/1.5 var(--condensed);letter-spacing:.08em;color:var(--red);}
+.tracing-sequence-key {display:flex;flex-wrap:wrap;gap:12px 22px;border-top:1px solid var(--rule);padding-top:18px;margin-top:38px;font:600 var(--reading-small,1rem)/1.4 var(--condensed);color:var(--muted);}
+.tracing-sequence-key [data-current] {color:var(--red);text-decoration:underline;text-underline-offset:6px;}
+.tracing-progress {display:none;height:2px;background:#a99d8730;}
+.tracing-progress>span {display:block;background:var(--red);width:100%;height:100%;transform:scaleX(var(--trace-progress,0));transform-origin:left;}
+.tracing-credit {font:var(--reading-small,1rem)/1.7 var(--serif);color:var(--muted);max-width:85ch;margin-top:24px;}
+.tracing-credit a {text-decoration:underline;text-underline-offset:4px;}
+.tracing-still-original {margin:45px 0 25px;max-width:640px;}
+.tracing-still-original img {display:block;width:100%;height:auto;margin-top:18px;}
+.tracing-notes {scroll-margin-top:25px;padding-block:0 65px;}
+.tracing-notes>header {display:grid;grid-template-columns:1fr 1fr;gap:0 8%;align-items:end;margin-bottom:45px;}
+.tracing-notes>header .lab-kicker {grid-column:1/-1;}
+.tracing-notes>header p {max-width:40ch;margin-bottom:22px;}
+.trace-observations {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4%;}
+.trace-observations article {border-top:1px solid var(--rule);padding-top:23px;min-width:0;}
+.trace-observations h3 {font:400 clamp(28px,2.4vw,36px)/1.25 var(--serif);letter-spacing:-.03em;margin:18px 0;}
+.trace-observations p {margin-block:0 18px;}
+.trace-observations .notebook-save {display:flex;margin-top:20px;}
+[data-tracing-mode="scroll"] .tracing-scroll-track {height:500svh;position:relative;}
+[data-tracing-mode="scroll"] .tracing-stage {position:sticky;top:0;height:100svh;display:grid;grid-template-rows:auto minmax(0,1fr) auto 2px;gap:10px;padding:12px 0 52px;}
+[data-tracing-mode="scroll"] .tracing-stage-layout {height:100%;min-height:0;padding-block:10px;grid-template-columns:minmax(0,1fr) minmax(280px,.65fr);grid-template-rows:minmax(0,1fr);}
+[data-tracing-mode="scroll"] .tracing-figure {height:100%;container-type:size;}
+[data-tracing-mode="scroll"] .tracing-board {width:min(100cqw,84.3178cqh);max-width:none;}
+[data-tracing-mode="scroll"] .tracing-narrative h2 {font-size:clamp(36px,min(4.3vw,6svh),64px);}
+[data-tracing-mode="scroll"] .tracing-progress {display:block;}
+[data-tracing-mode="scroll"] .tracing-still-original {display:none;}
+@media(max-width:760px) {
+ .tracing-stage-layout {grid-template-columns:1fr;gap:30px;}
+ .tracing-narrative {max-width:100%;padding:0;}
+ .tracing-narrative h2 {font-size:36px;}
+ .tracing-sequence-key {margin-top:20px;}
+ .tracing-stage-top {gap:12px;letter-spacing:0;}
+ .tracing-stage-bottom {letter-spacing:0;font-size:1rem;}
+ .tracing-stage-bottom>span:last-child {display:none;}
+ [data-tracing-mode="scroll"] .tracing-scroll-track {height:460svh;}
+ [data-tracing-mode="scroll"] .tracing-stage {gap:6px;padding-bottom:58px;}
+ [data-tracing-mode="scroll"] .tracing-stage-layout {grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;gap:16px;padding:4px 0 0;}
+ [data-tracing-mode="scroll"] .tracing-narrative h2 {font-size:28px;line-height:1.2;margin:8px 0;}
+ [data-tracing-mode="scroll"] .tracing-narrative h2 br {display:none;}
+ [data-tracing-mode="scroll"] .tracing-narrative p {font-size:1rem;line-height:1.5;max-width:48ch;min-height:4.5em;}
+ [data-tracing-mode="scroll"] .tracing-sequence-key {margin-top:12px;padding-top:10px;gap:16px;}
+ [data-tracing-mode="scroll"] .tracing-scroll-cue {display:none;}
+ .tracing-notes>header,.trace-observations {grid-template-columns:1fr;gap:25px;}
+ .tracing-notes>header {gap:0;margin-bottom:25px;}
+ .tracing-notes>header p {max-width:100%;}
+ .trace-observations h3 {font-size:30px;}
+}
+@media print {
+ [data-tracing-mode] .tracing-scroll-track {height:auto;}
+ [data-tracing-mode] .tracing-stage {display:none;}
+ [data-tracing-mode] .tracing-still-original {display:block;max-width:400px;}
+ .trace-observations {display:block;}.trace-observations article {break-inside:avoid;margin-bottom:28px;}
+ .tracing-notes p {font-size:11pt;}
+}

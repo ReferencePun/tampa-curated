@@ -19,7 +19,7 @@
 .lab-intro>p span {display:block;margin-top:22px;color:var(--muted);font-style:italic;}
 .lab-link {display:inline-flex;align-items:center;gap:24px;min-height:44px;border-bottom:1px solid var(--rule);font:var(--reading-small,1rem)/1.5 var(--serif);padding-block:8px;}
 .lab-link:hover {color:var(--red);}
-.lab-button,.notebook-tools button,.paper-actions button,.notebook-undo button {border:1px solid var(--ink);background:var(--ink);color:var(--paper-light);min-height:46px;padding:12px 18px;font:600 var(--reading-small,1rem)/1.4 var(--condensed);}
+.lab-button,.notebook-tools button,.notebook-undo button {border:1px solid var(--ink);background:var(--ink);color:var(--paper-light);min-height:46px;padding:12px 18px;font:600 var(--reading-small,1rem)/1.4 var(--condensed);}
 .experiments button:disabled {opacity:.4;}
 .experiment-mark {width:100%;stroke:var(--ink);stroke-width:1.05;stroke-linecap:round;stroke-linejoin:round;}
 .experiment-collection {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4%;padding-block:35px 90px;}
@@ -71,41 +71,6 @@
 .curiosity-quotation p {font:400 clamp(28px,3vw,45px)/1.25 var(--serif);letter-spacing:-.035em;margin:30px 0;}
 .curiosity-quotation em {color:var(--red);}
 .curiosity-quotation i {font:italic 17px var(--serif);}
-/* A real archival sheet, with a separately movable drawing above it. */
-.tracing-layout {display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr);gap:6%;padding-block:20px 65px;align-items:start;}
-.tracing-figure {min-width:0;margin:0;}
-.tracing-board {position:relative;overflow:hidden;border:1px solid var(--rule);background:#c9bc9e;--trace-ink:.75;--sheet-x:0%;--sheet-y:0%;--sheet-angle:0deg;box-shadow:3px 5px 0 #b5a98f;}
-.archive-map {width:100%;height:auto;display:block;}
-.tracing-sheet {position:absolute;inset:0;background:#f9f4e9b3;box-shadow:-2px 2px 8px #4d422f40;transform:translate(var(--sheet-x),var(--sheet-y)) rotate(var(--sheet-angle));transform-origin:85% 6%;pointer-events:none;}
-.trace-lines {width:100%;height:100%;opacity:var(--trace-ink);}
-.trace-paper-label {position:absolute;left:9%;top:5%;font:500 clamp(10px,1vw,15px)/1.6 var(--condensed);letter-spacing:.12em;color:var(--red);transform:rotate(-3deg);}
-.paper-handle {position:absolute;right:12px;top:40%;display:flex;gap:12px;align-items:center;touch-action:none;user-select:none;cursor:grab;background:var(--paper-light);border:1px solid var(--ink);padding:12px;font:600 var(--reading-small,1rem) var(--condensed);box-shadow:3px 3px 0 #4d422f40;z-index:3;}
-.is-moving .paper-handle {cursor:grabbing;}
-.paper-handle span {font-size:24px;}
-.trace-pins {position:absolute;inset:0;pointer-events:none;}
-.trace-pins button {position:absolute;left:var(--pin-x);top:var(--pin-y);transform:translate(-50%,-50%);width:44px;height:44px;background:var(--paper-light);border:1px solid var(--red);color:var(--red);border-radius:50%;font:italic 19px var(--serif);pointer-events:auto;box-shadow:0 2px 7px #30282030;}
-.trace-pins button[aria-pressed="true"] {background:var(--red);color:var(--paper-light);}
-.tracing-board[data-original="true"] .trace-pins {visibility:hidden;}
-.tracing-figure figcaption {font:var(--reading-small,1rem)/1.7 var(--condensed);color:var(--muted);padding:18px 5px;}
-.tracing-figure figcaption a {text-decoration:underline;text-underline-offset:3px;}
-.tracing-sidebar {position:sticky;top:20px;}
-.paper-controls {border-top:1px solid var(--ink);padding:22px 0 30px;}
-.paper-range {display:grid;grid-template-columns:1fr auto;gap:12px;font:var(--reading-body,1.1875rem)/1.5 var(--serif);margin-top:22px;}
-.paper-range output {font:600 var(--reading-small,1rem) var(--condensed);align-self:center;color:var(--red);}
-.paper-range input {grid-column:1/-1;width:100%;margin:0;height:28px;accent-color:var(--red);cursor:ew-resize;}
-.paper-controls fieldset {border:0;padding:22px 0;margin:0;display:grid;gap:12px;}
-.paper-controls legend {font:600 var(--reading-small,1rem) var(--condensed);padding-top:15px;}
-.paper-controls fieldset label {display:flex;gap:10px;align-items:center;font:var(--reading-small,1rem)/1.6 var(--serif);min-height:32px;}
-.paper-controls input[type="checkbox"] {width:19px;height:19px;accent-color:var(--red);}
-.paper-actions {display:flex;flex-wrap:wrap;gap:10px;}
-.paper-actions button:last-child {background:transparent;color:var(--ink);}
-#paper-help,.tracing-context {font:var(--reading-small,1rem)/1.65 var(--condensed);color:var(--muted);margin-top:18px;}
-.trace-observations {border-top:1px dashed var(--rule);padding-top:28px;}
-.trace-observations article+article {margin-top:25px;}
-.trace-observations h2 {font:400 clamp(30px,3vw,43px)/1.2 var(--serif);letter-spacing:-.04em;margin:14px 0 22px;}
-.trace-observations p {font:var(--reading-body,1.1875rem)/1.75 var(--serif);margin-bottom:18px;}
-.trace-observations .notebook-save {display:block;margin-top:22px;}
-.trace-back {display:none;}
 /* Collecting is a usable notebook, not a decorative empty album. */
 .notebook-workspace {border:1px solid var(--rule);border-left:12px solid var(--red);background:var(--paper-light);box-shadow:4px 6px 0 #bfb299;margin-bottom:75px;padding:30px;}
 .notebook-toolbar {display:flex;justify-content:space-between;gap:30px;align-items:end;}
@@ -167,19 +132,16 @@
 @media(max-width:1000px){
  .experiment-nav {align-items:start;flex-direction:column;gap:8px;}.experiment-nav>div {width:100%;justify-content:space-between;gap:12px;}
  .lab-intro {gap:5%;}.lab-intro h1 {font-size:clamp(53px,7.5vw,78px);}
- .tracing-layout {grid-template-columns:minmax(0,1.3fr) minmax(250px,1fr);gap:4%;}.tracing-sidebar {position:static;}
  .notebook-toolbar {display:block;}.notebook-tools {justify-content:flex-start;margin-top:20px;}
  .shelf-grid {grid-template-columns:repeat(2,minmax(0,1fr));}.notebook-piece {padding:18px;}
 }
 @media(max-width:700px){
- .trace-back {display:inline-flex;margin-top:18px;padding-block:10px;min-height:44px;font:var(--reading-small,1rem)/1.5 var(--condensed);text-decoration:underline;text-underline-offset:4px;}[data-observation],#tracing-map {scroll-margin-top:20px;}
  .experiments .page-shell {padding-inline:20px;}.experiment-nav {padding-block:12px;}.experiment-nav>div {flex-wrap:wrap;gap:8px 20px;justify-content:flex-start;}.experiment-nav a {font-size:1rem;}
  .lab-intro {grid-template-columns:1fr;gap:26px;padding-block:38px 40px;}.lab-intro h1 {font-size:clamp(48px,10vw,70px);margin-top:23px;}.lab-intro>p br {display:none;}.lab-intro>p span {margin-top:12px;}
  .experiment-collection {grid-template-columns:1fr;gap:50px;padding-top:10px;padding-bottom:50px;}.experiment-entry:nth-child(n) {padding-top:0;}.experiment-entry .experiment-mark {max-height:280px;margin:0;}.experiment-entry h2 {font-size:36px;}.experiment-entry>p {max-width:45ch;}
  .lab-colophon {grid-template-columns:1fr;gap:18px;padding-block:27px 40px;}.lab-colophon>p {max-width:46ch;}
  .cabinet-meta {font-size:1rem;gap:8px;}.cabinet-meta span:nth-child(2) {display:none;}.curiosity-cabinet {padding:5px 9px 15px;margin-bottom:40px;}.cabinet-drawer summary {grid-template-columns:30px 1fr 45px;padding:20px 13px;gap:10px;min-height:90px;}.drawer-label {font-size:24px;}.drawer-pull {display:none;}.drawer-cue {font-size:14px;}.drawer-number {font-size:21px;}
  .drawer-tray {grid-template-columns:1fr;padding:20px 7% 30px;gap:10px;}.drawer-object {max-width:400px;margin:auto;width:100%;}.drawer-object .engraving-svg {max-height:280px;}.drawer-dossier h2 {font-size:34px;}.drawer-dossier>p {max-width:42ch;}.object-actions {flex-direction:column;align-items:flex-start;}.curiosity-quotation p {font-size:35px;}.curiosity-quotation {padding:20px;}
- .tracing-layout {grid-template-columns:1fr;gap:20px;padding-top:0;}.paper-handle {right:7px;padding:9px;font-size:1rem;gap:6px;}.paper-handle span {font-size:20px;}.trace-pins button {width:40px;height:40px;font-size:17px;}.paper-controls {padding-bottom:25px;}.paper-range {margin-top:18px;}.trace-observations h2 {font-size:36px;}.tracing-context {margin-bottom:15px;}
  .notebook-workspace {padding:18px 14px;border-left-width:6px;margin-bottom:50px;}.notebook-toolbar input {font-size:27px;}.notebook-tools {gap:8px;}.notebook-tools button {font-size:1rem;padding:10px;}.notebook-summary {gap:8px 20px;}.notebook-empty {grid-template-columns:1fr;padding:10px 2% 20px;gap:0;}.notebook-empty .experiment-mark {max-height:230px;}.notebook-empty h2 {font-size:37px;}.notebook-empty p {max-width:42ch;}
  .notebook-board {grid-template-columns:1fr;gap:24px;}.notebook-piece {padding:18px 14px;}.notebook-piece h2 {font-size:32px;}.note-piece-top {gap:10px;}.note-order {gap:8px;}.note-order span {flex-basis:100%;}
  .shelf-heading {display:block;}.shelf-heading h2 {font-size:36px;}.shelf-heading>p {margin-top:22px;max-width:44ch;}.shelf-filters {flex-wrap:wrap;gap:15px;}.shelf-filters label:first-child {flex-basis:100%;}.shelf-filters label {min-width:0;}.shelf-filters select {max-width:200px;}.shelf-filters>span {padding-bottom:14px;}.shelf-grid {grid-template-columns:1fr;gap:40px;}.shelf-piece h3 {font-size:32px;}.shelf-quote {font-size:32px;}

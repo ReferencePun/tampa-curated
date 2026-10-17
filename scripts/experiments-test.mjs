@@ -1,6 +1,24 @@
 import assert from 'node:assert/strict';
 import {mkdir, readFile} from 'node:fs/promises';
 import {chromium, webkit, expect} from '@playwright/test';
+import {paperFold, paperWidth, paperHeight, tracingTimeline} from '../src/scripts/experiments/tracing-sequence.ts';
+
+// Folded and unpeeled polygons partition the page; points on the crease stay fixed.
+const area = points => Math.abs(points.reduce((sum,a,i) => {const b=points[(i+1)%points.length];return sum+a[0]*b[1]-b[0]*a[1];},0))/2;
+let previousArea=Infinity;
+for(let step=0;step<=100;step++){
+ const fold=paperFold(step/100),frontArea=area(fold.front);
+ assert.ok(frontArea<=previousArea+.001);previousArea=frontArea;
+ assert.ok(Math.abs(frontArea+area(fold.lifted)-paperWidth*paperHeight)<.001);
+ assert.ok(fold.matrix.every(Number.isFinite));
+ const [a,b,c,d,e,f]=fold.matrix;
+ for(const [x,y] of fold.crease){assert.ok(Math.abs(a*x+c*y+e-x)<.001);assert.ok(Math.abs(b*x+d*y+f-y)<.001);}
+}
+assert.equal(area(paperFold(1).front),0);
+assert.equal(tracingTimeline(.64).ink,1);
+assert.equal(tracingTimeline(.64).peel,0);
+assert.equal(tracingTimeline(1).peel,1);
+
 
 const origin=process.env.TEST_ORIGIN||'http://127.0.0.1:4321';
 const base=process.env.TEST_BASE??'/tampa-curated';
@@ -101,39 +119,80 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await page.screenshot({path:`${output}/${name}-print.png`,fullPage:true,animations:'disabled'});
  await page.emulateMedia({media:'screen'});
 
- // The original map stays stationary while only the tracing sheet moves.
+ // Native scrolling draws the ink, then folds the sheet off the stationary archive.
  await goto('experiments/tracing-city/');
- const board=page.locator('[data-tracing-board]'),sheet=page.locator('[data-tracing-sheet]');
+ const journey=page.locator('[data-tracing-journey]'),sheet=page.locator('[data-tracing-sheet]');
+ const scrollTrace=async (progress,targetPage=page)=>{
+  await targetPage.evaluate(progress=>{
+   const track=document.querySelector('[data-tracing-track]'),stage=document.querySelector('[data-tracing-stage]');
+   scrollTo({top:track.getBoundingClientRect().top+scrollY+(track.offsetHeight-stage.offsetHeight)*progress,behavior:'instant'});
+  },progress);
+  await expect.poll(async()=>Math.abs(Number(await targetPage.locator('[data-tracing-journey]').getAttribute('data-tracing-progress'))-progress)).toBeLessThan(.002);
+ };
+ await expect(journey).toHaveAttribute('data-tracing-mode','scroll');
+ await expect(page.locator('[data-paper-handle], [data-paper-lift], [data-paper-ink]')).toHaveCount(0);
+ await scrollTrace(0);
+ await expect(journey).toHaveAttribute('data-ink-progress','0.0000');
+ assert.equal(await page.locator('[data-trace-layer="streets"] path').first().evaluate(el=>getComputedStyle(el).visibility),'hidden');
+ await page.screenshot({path:`${output}/${name}-trace-blank.png`});
+ await scrollTrace(.35);
+ const strokeState=()=>page.locator('[data-trace-layer] path').evaluateAll(paths=>paths.map(path=>path.getAttribute('style')));
+ const drawing=await strokeState();
+ await page.screenshot({path:`${output}/${name}-trace-drawing.png`});
+ await scrollTrace(.64);
+ await expect(journey).toHaveAttribute('data-ink-progress','1.0000');
+ await expect(journey).toHaveAttribute('data-peel-progress','0.0000');
  const mapPosition=await page.locator('.archive-map').boundingBox();
- await page.locator('[data-paper-lift]').fill('65');
- await expect(page.locator('[data-lift-output]')).toHaveText('65%');
- assert.notEqual(await sheet.evaluate(el=>getComputedStyle(el).transform),'matrix(1, 0, 0, 1, 0, 0)');
+ await page.screenshot({path:`${output}/${name}-trace-drawn.png`});
+ await scrollTrace(.80);
+ assert.ok(Number(await journey.getAttribute('data-peel-progress'))>.1);
+ await expect(page.locator('[data-trace-fold]')).toHaveAttribute('opacity','1');
  assert.deepEqual(await page.locator('.archive-map').boundingBox(),mapPosition);
- await page.locator('[data-paper-ink]').fill('20');
- assert.equal(await page.locator('.trace-lines').evaluate(el=>getComputedStyle(el).opacity),'0.2');
- await page.locator('[data-layer-toggle="water"]').uncheck();
- await expect(page.locator('[data-trace-layer="water"]')).toBeHidden();
- await page.locator('[data-paper-peek]').click();
+ await page.screenshot({path:`${output}/${name}-trace-peel.png`});
+ await scrollTrace(1);
  await expect(sheet).toBeHidden();
- await expect(page.locator('[data-trace-pins]')).toBeHidden();
- await page.locator('[data-paper-reset]').click();
+ await page.screenshot({path:`${output}/${name}-trace-original.png`});
+ await scrollTrace(.35);
+ assert.deepEqual(await strokeState(),drawing,'Reverse scroll restores the same strokes');
+ const frames=await journey.getAttribute('data-render-frames');
+ await page.waitForTimeout(250);
+ assert.equal(await journey.getAttribute('data-render-frames'),frames,'No rendering while idle');
+ const before=await page.evaluate(()=>scrollY);
+ await page.keyboard.press('PageDown');
+ await expect.poll(()=>page.evaluate(()=>scrollY)).toBeGreaterThan(before);
+ await page.locator('a[href="#tracing-notes"]').click();
+ await expect(page.locator('#tracing-notes')).toBeInViewport();
+ await expect(page.locator('[data-observation]:visible')).toHaveCount(3);
+ const traceSave=page.locator('[data-observation="water"] [data-notebook-save]');
+ await traceSave.click();
+ assert.ok((await state()).items.some(item=>item.id==='stories:the-city-now'));
+ // Motion preferences can change without a reload, including midway through a peel.
+ await scrollTrace(.8);
+ await page.emulateMedia({reducedMotion:'reduce'});
+ await expect(journey).toHaveAttribute('data-tracing-mode','still');
+ await expect(page.locator('.tracing-still-original')).toBeVisible();
  await expect(sheet).toBeVisible();
- await expect(page.locator('[data-layer-toggle="water"]')).toBeChecked();
- const handle=page.locator('[data-paper-handle]');
- await handle.focus();await page.keyboard.press('Shift+ArrowRight');
- assert.equal(await board.evaluate(el=>el.style.getPropertyValue('--sheet-x')),'5%');
- await page.keyboard.press('Home');
- assert.equal(await board.evaluate(el=>el.style.getPropertyValue('--sheet-x')),'0%');
- const box=await handle.boundingBox();
- await page.mouse.move(box.x+20,box.y+20);await page.mouse.down();
- await page.mouse.move(box.x-60,box.y+65,{steps:6});await page.mouse.up();
- assert.ok(parseFloat(await board.evaluate(el=>el.style.getPropertyValue('--sheet-x')))<-5);
- await page.locator('[data-trace-pin="water"]').click();
- await expect(page.locator('[data-observation="water"]')).toBeVisible();
- await expect(page.locator('[data-observation="blocks"]')).toBeHidden();
- await page.locator('[data-paper-reset]').click();
- await page.evaluate(()=>scrollTo(0,0));
- await page.screenshot({path:`${output}/${name}-tracing-city.png`,fullPage:true,animations:'disabled'});
+ await page.emulateMedia({reducedMotion:'no-preference'});
+ await expect(journey).toHaveAttribute('data-tracing-mode','scroll');
+ await scrollTrace(.64);
+ await expect(journey).toHaveAttribute('data-ink-progress','1.0000');
+
+ // Short windows must never overlap the map, captions, or footer during a turn.
+ for(const [width,height] of [[1440,650],[768,650],[320,600]]){
+  await page.setViewportSize({width,height});
+  for(const progress of [.64,.8,.97]){
+   await scrollTrace(progress);
+   const bounds=await page.evaluate(()=>{
+    const r=s=>document.querySelector(s).getBoundingClientRect();
+    return {map:r('.tracing-board').toJSON(),text:r('.tracing-narrative').toJSON(),footer:r('.tracing-stage-bottom').top,header:r('.tracing-stage-top').bottom};
+   });
+   assert.ok(bounds.map.bottom<=bounds.footer && bounds.text.bottom<=bounds.footer,`${name}: content fits ${width}×${height}`);
+   assert.ok(bounds.map.top>=bounds.header && bounds.text.top>=bounds.header);
+   if(width<760) assert.ok(bounds.map.bottom<=bounds.text.top,`${name}: map never overlaps the caption`);
+  }
+ }
+ await page.evaluate(()=>document.documentElement.style.fontSize='20px');
+ await expect(journey).toHaveAttribute('data-tracing-mode','still');
 
  // Reflow, doubled body text, reduced motion and touch controls.
  let checks=0;
@@ -144,6 +203,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
    for(const size of [16,32]){
     await page.evaluate(size=>document.documentElement.style.fontSize=`${size}px`,size);
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`${name}: overflow ${route} ${width}px, text ${size/16}×`);
+    if(route==='experiments/tracing-city/'&&size===32) await expect(page.locator('[data-tracing-journey]')).toHaveAttribute('data-tracing-mode','still');
     checks++;
    }
    if(width===390){await page.evaluate(()=>document.documentElement.style.fontSize='16px');await page.screenshot({path:`${output}/${name}-${route.split('/')[1]||'index'}-mobile.png`,fullPage:true,animations:'disabled'});}
@@ -157,9 +217,12 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await touchPage.locator('#drawer-sail summary').tap();
  await expect(touchPage.locator('#drawer-sail')).toHaveAttribute('open','');
  await touchPage.goto(href('experiments/tracing-city/'));
- await touchPage.locator('[data-trace-pin="index"]').tap();
- await expect(touchPage.locator('[data-observation="index"]')).toBeVisible();
- await expect(touchPage.locator('[data-observation="index"]')).toBeFocused();
+ await touchPage.evaluate(async()=>{await document.fonts.ready;await document.querySelector('.archive-map').decode();});
+ await scrollTrace(.8,touchPage);
+ await touchPage.screenshot({path:`${output}/${name}-trace-mobile-peel.png`});
+ await touchPage.locator('a[href="#tracing-notes"]').tap();
+ await expect(touchPage.locator('#tracing-notes')).toBeInViewport();
+ await expect(touchPage.locator('[data-observation]:visible')).toHaveCount(3);
  await touch.close();
 
  // Native drawer and all editorial content remain readable without scripts.
@@ -170,6 +233,8 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await expect(staticPage.locator('[data-notebook-save]').first()).toBeHidden();
  await staticPage.goto(href('experiments/tracing-city/'));
  await expect(staticPage.locator('[data-observation]:visible')).toHaveCount(3);
+ await expect(staticPage.locator('.tracing-still-original')).toBeVisible();
+ await expect(staticPage.locator('[data-tracing-journey]')).toHaveAttribute('data-tracing-mode','still');
  await staticPage.goto(href('experiments/notebook/'));
  await expect(staticPage.locator('[data-shelf-piece]')).toHaveCount(total);
  await expect(staticPage.locator('noscript')).toBeVisible();await noJS.close();
@@ -191,6 +256,6 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  assert.equal((await state()).version,1);
  await expect(page.locator('[data-storage-warning]')).toBeHidden();
  assert.deepEqual(errors,[],`${name}: console or asset errors`);
- console.log(`${name}: drawers, keyboard, cross-page/tab saves, notes, order, undo, export, print, tracing controls, pointer drag, ${checks} reflow checks, touch, reduced motion, no JS, blocked/corrupt storage passed.`);
+ console.log(`${name}: drawers, keyboard, cross-page/tab saves, notes, order, undo, export, print, scroll drawing, reversible paper peel, ${checks} reflow checks, touch, reduced motion, no JS, blocked/corrupt storage passed.`);
  await context.close();await browser.close();
 }

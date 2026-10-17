@@ -2,54 +2,74 @@
 import {Image} from 'astro:assets';
 import ExperimentLayout from '../../layouts/ExperimentLayout.astro';
 import SaveButton from '../../components/experiments/SaveButton.astro';
-import ScribbleAccent from '../../components/ScribbleAccent.astro';
+import TracingArtwork from '../../components/experiments/TracingArtwork.astro';
+import '../../styles/tracing-city.css';
 import archive from '../../assets/archive/tampa-sanborn-1887-sheet1.jpg';
 import {url} from '../../lib/urls';
 const observations=[
- {id:'blocks',n:'01',title:'A city measured in blocks.',x:25,y:17,text:'On this 1887 sheet, the courthouse occupies a large block facing Madison. The drawing records footprints, materials, and the spaces between buildings.',after:'Our tracing picks out a few of those shapes. Lift it away and return to the evidence underneath.',link:'neighborhoods/downtown/',label:'Read the Downtown guide',save:'neighborhoods:downtown',saveTitle:'Downtown'},
- {id:'water',n:'02',title:'Water has a way through.',x:28,y:49,text:'Look along Jackson Street on the original sheet: a narrow blue creek crosses the plan. In the index at the upper right, the Hillsborough River gives the street grid its edge.',after:'A reminder to read the water as carefully as the buildings.',link:'stories/the-city-now/',label:'Read The city now',save:'stories:the-city-now',saveTitle:'The city now'},
- {id:'index',n:'03',title:'A map inside a map.',x:74,y:13,text:'The small index at the upper right puts the detailed sheets back into a larger street pattern. Its numbered areas tell the reader where to look next.',after:'A paper navigation system, made visible again.',link:'neighborhoods/',label:'Explore today’s guides',save:'neighborhoods:downtown',saveTitle:'Downtown'},
+ {id:'blocks',n:'01',title:'A city measured in blocks.',text:'On this 1887 sheet, the courthouse occupies a large block facing Madison. The drawing records footprints, materials, and the spaces between buildings.',after:'Our tracing picks out a few of those shapes. Lift it away and return to the evidence underneath.',link:'neighborhoods/downtown/',label:'Read the Downtown guide',save:'neighborhoods:downtown',saveTitle:'Downtown'},
+ {id:'water',n:'02',title:'Water has a way through.',text:'Look along Jackson Street on the original sheet: a narrow blue creek crosses the plan. In the index at the upper right, the Hillsborough River gives the street grid its edge.',after:'A reminder to read the water as carefully as the buildings.',link:'stories/the-city-now/',label:'Read The city now',save:'stories:the-city-now',saveTitle:'The city now'},
+ {id:'index',n:'03',title:'A map inside a map.',text:'The small index at the upper right puts the detailed sheets back into a larger street pattern. Its numbered areas tell the reader where to look next.',after:'A paper navigation system, made visible again.',link:'neighborhoods/',label:'Explore today’s guides',save:'neighborhoods:downtown',saveTitle:'Downtown'},
 ];
 ---
-<ExperimentLayout active="tracing-city" title="The city, in layers" description="Explore a public-domain 1887 Sanborn map of Tampa with a movable tracing-paper layer, adjustable ink, and annotated discoveries you can keep.">
-<header class="lab-intro"><div><span class="lab-kicker">EXPERIMENT 02 / THE TRACING TABLE</span><h1>The city<br/> <em>leaves a trace.</em></h1></div><p>A real sheet from June 1887.<br/> A new drawing over the top.<br/> <span>Lift the paper. Follow a line.</span></p></header>
-<div class="tracing-layout">
- <figure class="tracing-figure">
-  <div class="tracing-board" data-tracing-board id="tracing-map">
-   <Image src={archive} alt="Sheet 1 of the June 1887 Sanborn Fire Insurance Map of Tampa, showing building footprints, street names, a creek, and a small city index" width={1613} format="webp" quality={86} loading="eager" class="archive-map"/>
-   <div class="tracing-sheet" data-tracing-sheet aria-hidden="true">
-    <svg viewBox="0 0 1613 1913" fill="none" class="trace-lines">
-     <g data-trace-layer="streets" stroke="var(--lab-teal)" stroke-width="2.2">
-      <path d="M155 132L454 130L459 449L156 453ZM148 570L460 568L464 886L154 890ZM579 571L887 570L891 885L585 891ZM154 1001L464 1004L468 1316L161 1319ZM581 1004L885 1001L891 1318L587 1322ZM160 1432L470 1430L474 1750L167 1758ZM583 1431L890 1435L896 1754L587 1753Z"/>
-      <path d="M72 470L520 474M71 946L979 940M76 1375L984 1370M86 1808L988 1801M523 534L532 1775M965 922L973 1831" stroke-dasharray="6 11"/>
-      <path d="M277 235L342 234L346 354L274 353ZM383 760L435 761L436 844L382 842M164 1455L251 1452L251 1584L166 1587M331 1454L435 1451L436 1554L336 1556" stroke="var(--red)"/>
-      <ScribbleAccent x={286} y={271} width={42} height={35} color="amber" seed={8} weight={2.3}/>
-      <ScribbleAccent x={389} y={783} width={34} height={29} color="rose" seed={14} weight={2.3}/>
-     </g>
-     <g data-trace-layer="water" stroke="var(--lab-teal)" stroke-width="3"><path d="M56 954L86 953M103 953Q242 974 358 960L500 963Q543 967 543 950M542 922Q549 901 577 895M863 22Q856 129 870 202T929 301L940 336L929 340L934 360L955 356L963 387L972 400L965 410L975 439L994 438L1005 485"/><path d="M121 968Q290 982 500 972M854 23Q845 173 867 227T920 314" opacity=".3" stroke-width="7"/></g>
-     <g data-trace-layer="notes" stroke="var(--red)" stroke-width="1.6"><path d="M376 297L591 261L673 263M432 951L642 1043M1215 219L1460 126"/><circle cx="310" cy="292" r="83"/><circle cx="419" cy="958" r="26"/><circle cx="1136" cy="213" r="88"/></g>
-     <g fill="var(--red)" stroke="none" font-family="Georgia,serif" font-style="italic" font-size="30"><text x="550" y="250">a room in the city</text><text x="600" y="1080">follow the water</text><text x="1050" y="535">the wider view</text></g>
-    </svg>
-    <span class="trace-paper-label">TC / TRACING 001<br/> AFTER SANBORN, 1887</span>
+<ExperimentLayout active="tracing-city" title="The city, in layers" description="Scroll through a drawing of Tampa's 1887 Sanborn map. Ink traces the streets, then the paper peels away to reveal the archive underneath.">
+<header class="lab-intro"><div><span class="lab-kicker">EXPERIMENT 02 / THE TRACING TABLE</span><h1>The city<br/> <em>leaves a trace.</em></h1></div><p>A real sheet from June 1887.<br/> A new drawing over the top.<br/> <span>Scroll. The ink finds its way.<br/> Then the paper lets go.</span></p></header>
+<section class="tracing-journey" data-tracing-journey data-tracing-mode="still" aria-label="A drawing of Tampa, unfolding with your scroll">
+ <div class="tracing-scroll-track" data-tracing-track id="tracing-map">
+  <div class="tracing-stage" data-tracing-stage>
+   <header class="tracing-stage-top"><span>TC / A CITY IN LAYERS</span><a href="#tracing-notes">Skip to the field notes ↘</a></header>
+   <div class="tracing-stage-layout">
+    <figure class="tracing-figure">
+     <div class="tracing-board" data-tracing-board>
+      <Image src={archive} alt="Sheet 1 of the June 1887 Sanborn map of Tampa, with building footprints, streets, a creek, and an index" width={1613} format="webp" quality={86} loading="eager" class="archive-map"/>
+      <svg class="tracing-sheet" data-tracing-sheet viewBox="0 0 1613 1913" fill="none" aria-hidden="true">
+       <defs>
+        <g id="tracing-artwork"><TracingArtwork/></g>
+        <clipPath id="trace-front-clip"><path data-trace-front-clip d="M0 0H1613V1913H0Z"/></clipPath>
+        <clipPath id="trace-fold-clip"><path data-trace-fold-clip d="M1613 1913Z"/></clipPath>
+        <linearGradient id="trace-paper-tone" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbf7ed" stop-opacity=".92"/><stop offset="1" stop-color="#f4eddc" stop-opacity=".8"/></linearGradient>
+        <linearGradient id="trace-curl-tone" gradientUnits="userSpaceOnUse" data-trace-gradient><stop stop-color="#796448" stop-opacity=".12"/><stop offset=".35" stop-color="#fffaf0" stop-opacity=".95"/><stop offset=".74" stop-color="#d8c9ad" stop-opacity=".85"/><stop offset="1" stop-color="#65533d" stop-opacity=".06"/></linearGradient>
+        <linearGradient id="trace-fold-shadow" gradientUnits="userSpaceOnUse" data-trace-gradient><stop stop-color="#51412e" stop-opacity="0"/><stop offset=".76" stop-color="#51412e" stop-opacity=".2"/><stop offset="1" stop-color="#51412e" stop-opacity="0"/></linearGradient>
+        <pattern id="trace-paper-fiber" width="47" height="39" patternUnits="userSpaceOnUse"><path d="M4 8L21 7M33 27L44 28M9 35L14 36" stroke="#a0927a" stroke-width=".8" opacity=".12"/></pattern>
+       </defs>
+       <g clip-path="url(#trace-front-clip)" data-trace-front>
+        <path d="M0 0H1613V1913H0Z" fill="url(#trace-paper-tone)"/>
+        <path d="M0 0H1613V1913H0Z" fill="url(#trace-paper-fiber)"/>
+        <use href="#tracing-artwork"/>
+        <text x="145" y="86" fill="#97513b" font-size="20" font-family="Georgia,serif" font-style="italic">a city, reconsidered / 1887</text>
+       </g>
+       <path data-trace-shadow fill="url(#trace-fold-shadow)"/>
+       <g data-trace-fold opacity="0">
+        <g clip-path="url(#trace-fold-clip)">
+         <path d="M0 0H1613V1913H0Z" fill="#eee4d0"/>
+         <path d="M0 0H1613V1913H0Z" fill="url(#trace-paper-fiber)"/>
+         <use href="#tracing-artwork" opacity=".14"/>
+        </g>
+       </g>
+       <path data-trace-curl fill="url(#trace-curl-tone)"/>
+       <path data-trace-edge stroke="#a39378" stroke-width="1.3"/>
+      </svg>
+     </div>
+    </figure>
+    <div class="tracing-narrative">
+     <span class="lab-kicker" data-tracing-chapter>AN ARCHIVE / AN INTERPRETATION</span>
+     <h2 data-tracing-heading>A city,<br/><em>in layers.</em></h2>
+     <p data-tracing-copy>Streets, water, and the spaces in between. Our drawing follows a few of the marks left on this 1887 sheet.</p>
+     <span class="tracing-scroll-cue" data-tracing-cue hidden>SCROLL TO DRAW ↓</span>
+     <div class="tracing-sequence-key" aria-hidden="true"><span data-trace-step="0">01 / INK</span><span data-trace-step="1">02 / PAPER</span><span data-trace-step="2">03 / ARCHIVE</span></div>
+    </div>
    </div>
-   <button class="paper-handle" data-paper-handle type="button" hidden aria-label="Move the tracing paper" aria-describedby="paper-help"><span aria-hidden="true">↔</span> Move paper</button>
-   <div class="trace-pins" data-trace-pins hidden>{observations.map((o,i)=><button type="button" data-trace-pin={o.id} aria-controls={`observation-${o.id}`} aria-pressed={i===0?'true':'false'} aria-label={`Read observation ${o.n}: ${o.title}`} style={`--pin-x:${o.x}%;--pin-y:${o.y}%`}>{o.n}</button>)}</div>
+   <footer class="tracing-stage-bottom"><span>SANBORN / TAMPA / JUNE 1887</span><span data-tracing-direction hidden>Draw forward. Scroll back to retrace.</span></footer>
+   <div class="tracing-progress" aria-hidden="true"><span></span></div>
   </div>
-  <figcaption>Sanborn Map Company, June 1887, sheet 1. <a href="https://www.loc.gov/item/sanborn01352_002/" target="_blank" rel="noreferrer">Library of Congress, Geography and Map Division, Sanborn Maps Collection ↗</a>. Public domain. <a href={archive.src} target="_blank">View the full original sheet ↗</a></figcaption>
- </figure>
- <div class="tracing-sidebar">
-  <div class="paper-controls" data-paper-controls hidden>
-   <span class="lab-kicker">ON THE DRAWING TABLE</span>
-   <label class="paper-range">Lift the sheet <output data-lift-output>0%</output><input type="range" data-paper-lift min="0" max="100" value="0" aria-label="Lift the tracing sheet"/></label>
-   <label class="paper-range">Ink strength <output data-ink-output>75%</output><input type="range" data-paper-ink min="0" max="100" value="75" aria-label="Tracing ink strength"/></label>
-   <fieldset><legend>On the tracing paper</legend><label><input type="checkbox" data-layer-toggle="streets" checked/> Buildings &amp; streets</label><label><input type="checkbox" data-layer-toggle="water" checked/> Water</label><label><input type="checkbox" data-layer-toggle="notes" checked/> Marginal notes</label></fieldset>
-   <div class="paper-actions"><button type="button" data-paper-peek aria-pressed="false">Original only</button><button type="button" data-paper-reset>Realign everything ↶</button></div>
-   <p id="paper-help">Drag the paper tab, or focus it and use the arrow keys. Home realigns it. Lift the sheet with the slider to uncover the map.</p><span class="sr-only" role="status" data-paper-status></span>
-  </div>
-  <div class="trace-observations">{observations.map(o=><article data-observation={o.id} id={`observation-${o.id}`}><span class="lab-kicker">OBSERVATION / {o.n}</span><h2>{o.title}</h2><p>{o.text}</p><p>{o.after}</p><a class="lab-link" href={url(o.link)}>{o.label} ↗</a><SaveButton id={o.save} title={o.saveTitle}/><a class="trace-back" href="#tracing-map">Back to the map ↑</a></article>)}</div>
-  <p class="tracing-context">Our tracing is an interpretive drawing of this historical sheet. The pins are editorial observations; this is not a present-day street map.</p>
  </div>
-</div>
-<div class="lab-colophon"><span>AN ARCHIVE YOU CAN TOUCH</span><p>The original remains underneath. Each new layer is a way of looking, with its own marks and omissions.</p><a href={url('experiments/notebook/')}>Next: keep a few things ↗</a></div>
+ <figure class="tracing-still-original"><span class="lab-kicker">THE ORIGINAL SHEET</span><Image src={archive} alt="The original 1887 Sanborn map of Tampa, unobstructed by tracing paper" width={1000} format="webp" quality={86} loading="lazy"/></figure>
+ <p class="tracing-credit">Sanborn Map Company, June 1887, sheet 1. <a href="https://www.loc.gov/item/sanborn01352_002/" target="_blank" rel="noreferrer">Library of Congress, Geography and Map Division, Sanborn Maps Collection ↗</a>. Public domain. <a href={archive.src} target="_blank">View the full original sheet ↗</a></p>
+</section>
+<section class="tracing-notes" id="tracing-notes" aria-labelledby="tracing-notes-title">
+ <header><span class="lab-kicker">WHAT THE DRAWING LEAVES BEHIND</span><h2 id="tracing-notes-title">A few things<br/><em>worth noticing.</em></h2><p>An interpretive drawing of a historical sheet. These are observations, not a present-day street map.</p></header>
+ <div class="trace-observations">{observations.map(o=><article data-observation={o.id} id={`observation-${o.id}`}><span class="lab-kicker">OBSERVATION / {o.n}</span><h3>{o.title}</h3><p>{o.text}</p><p>{o.after}</p><a class="lab-link" href={url(o.link)}>{o.label} ↗</a><SaveButton id={o.save} title={o.saveTitle}/></article>)}</div>
+</section>
+<div class="lab-colophon"><span>THE ORIGINAL REMAINS.</span><p>Each new layer is a way of looking, with its own marks and omissions. The city beneath is still there.</p><a href={url('experiments/notebook/')}>Next: keep a few things ↗</a></div>
 </ExperimentLayout>
 <script>import '../../scripts/experiments/tracing-city';</script>
