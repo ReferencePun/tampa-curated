@@ -4,6 +4,7 @@ import '@fontsource/barlow-condensed/latin-500.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ClockworkHero from '../components/engraving/ClockworkHero.astro';
 import CityDrawing from '../components/engraving/CityDrawing.astro';
+import TampaFieldnotes from '../components/engraving/TampaFieldnotes.astro';
 import ClockworkAperture from '../components/engraving/ClockworkAperture.astro';
 import MechanicalMap from '../components/engraving/MechanicalMap.astro';
 import MechanicalDefs from '../components/engraving/MechanicalDefs.astro';
@@ -24,6 +25,7 @@ const neighborhoods = (await getCollection('neighborhoods')).sort((a,b) => a.dat
   <div class="edition-rule"><span>AN INDEPENDENT JOURNAL OF PEOPLE &amp; PLACE</span><span>VOL. I — TAMPA, FLORIDA — EST. 2026</span></div>
   <MotionPreference/>
   <CityDrawing/>
+  <TampaFieldnotes/>
   <PhotographicSleeve people={people}/>
   <ClockworkAperture stories={stories}/>
   <MechanicalMap/>

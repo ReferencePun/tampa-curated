@@ -75,3 +75,11 @@ The illustrations now use much finer strokes, softly retraced rings, uneven hatc
 Astro check/build and all 2,581 link/asset checks pass. The Chromium and WebKit engraving suites pass, including physical gear/rod/cable relationships, stop/reverse behavior, reduced motion, responsive layouts, and static links. Updated visual captures are in `test-results/engraving/`. The more detailed server-rendered SVG brings homepage HTML to 365,097 bytes / 119,817 bytes gzip.
 
 The final local, unthrottled Chromium timing run recorded 119 intervals per scene: median 16.7ms, p95 16.7–16.8ms, zero intervals above 25ms, and no long tasks across all five scenes. An earlier run under heavy system load stuttered; the repeat measures automated cadence, not physical-device performance.
+
+### Tampa field notes
+
+The homepage now includes an illustrated folio after the Ybor architectural study: tobacco leaf, unlit banded cigars and a crescent maker’s blade; an imagined three-masted pirate ship with rigging, planked hull and crossed-cutlass pennant; and a rooster with individually etched feather barbs. A rope-wrapped anchor also appears in the neighborhood map. These are original SVG drawings in the existing fine blue ink, with descriptive accessible titles and readable HTML captions. The artwork is rendered at build time, adds no animation or dependencies, and the folio stacks into single studies on phones.
+
+The cultural references were checked against Visit Tampa Bay’s [Ybor City overview](https://www.visittampabay.com/ybor-city/) and [Gasparilla overview](https://www.visittampabay.com/tampa-events/gasparilla-season/). The ship is expressly described as imagined, rather than a measured depiction of the José Gasparilla.
+
+Validation: Astro reports no diagnostics; all 42 pages build and 2,584 internal links/assets resolve. Chromium and WebKit pass the existing five-mechanism suite, plus illustration layout checks at 1440, 800, 594, 390 and 320 pixels, enlarged text at 320 pixels, accessible image labeling and neighborhood navigation. Desktop and phone captures are saved in `test-results/tampa-studies/` and were visually inspected, including a final refinement of the rooster’s face and feather texture.

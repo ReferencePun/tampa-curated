@@ -1,0 +1,76 @@
+---
+// Short barbs follow the actual curve of each feather, with fixed pen variation.
+type Point = [number, number];
+function barbs(points: Point[], count: number, width: number) {
+  const [a,b,c,d]=points;
+  return Array.from({length:count},(_,i)=>{
+    const t=(i+1)/(count+1),s=1-t;
+    const x=s*s*s*a[0]+3*s*s*t*b[0]+3*s*t*t*c[0]+t*t*t*d[0];
+    const y=s*s*s*a[1]+3*s*s*t*b[1]+3*s*t*t*c[1]+t*t*t*d[1];
+    const dx=3*s*s*(b[0]-a[0])+6*s*t*(c[0]-b[0])+3*t*t*(d[0]-c[0]);
+    const dy=3*s*s*(b[1]-a[1])+6*s*t*(c[1]-b[1])+3*t*t*(d[1]-c[1]);
+    const l=Math.hypot(dx,dy),nx=-dy/l,ny=dx/l,tx=dx/l,ty=dy/l;
+    const w=width*(.6+.4*Math.sin(t*Math.PI))*(1+.1*Math.sin(i*3));
+    const p=(u:number,v:number)=>`${u.toFixed(1)} ${v.toFixed(1)}`;
+    return `M${p(x+nx*w-tx*4,y+ny*w-ty*4)}Q${p(x+nx*w*.5,y+ny*w*.5)} ${p(x+tx*2,y+ty*2)}M${p(x-nx*w-tx*4,y-ny*w-ty*4)}Q${p(x-nx*w*.5,y-ny*w*.5)} ${p(x+tx*2,y+ty*2)}`;
+  }).join('');
+}
+const tailEtching=[
+  barbs([[190,174],[218,108],[270,88],[293,124]],30,5),
+  barbs([[293,124],[306,146],[301,168],[295,188]],17,3),
+  barbs([[193,184],[222,128],[270,103],[283,141]],26,5),
+  barbs([[283,141],[291,154],[286,174],[280,186]],13,3),
+  barbs([[198,193],[223,153],[259,135],[266,161]],23,5),
+  barbs([[266,161],[273,180],[261,198],[252,206]],13,3),
+  barbs([[202,202],[225,175],[246,163],[249,181]],17,4),
+  barbs([[249,181],[252,196],[236,219],[225,225]],12,3),
+];
+---
+<svg class="engraving-svg tampa-study rooster-study" viewBox="0 0 340 350" role="img" aria-labelledby="rooster-study-title">
+  <title id="rooster-study-title">A natural-history drawing of a Ybor rooster, with finely etched plumage and long curved tail feathers</title>
+  <g class="construction"><path d="M42 294H291M51 47V277M46 47H56M46 277H56M286 102V266"/><path d="M48 171H296M171 38V307" stroke-dasharray="2 7"/></g>
+  <!-- Sickle feathers arc from the rump, each with a separate rachis. -->
+  <g class="rooster-tail">
+    <path d="M181 175C199 104 252 70 291 105C316 129 309 166 295 188C305 153 294 120 275 119C245 115 215 151 197 188Z" fill="var(--paper)"/>
+    <path d="M184 181C197 119 251 85 281 112C302 131 295 167 280 186C289 157 283 133 269 132C242 127 221 159 199 194Z" fill="var(--paper)"/>
+    <path d="M186 188C205 147 245 115 268 137C285 156 268 193 252 206C265 180 262 159 251 159C232 159 218 181 204 204Z" fill="var(--paper)"/>
+    <path d="M190 196C213 164 244 151 255 169C265 187 244 217 225 225C244 204 244 188 235 185C223 183 214 198 207 212Z" fill="var(--paper)"/>
+    <g class="study-detail"><path d="M190 174C218 108 270 88 293 124M193 184C222 128 270 103 283 141M198 193C223 153 259 135 266 161M202 202Q234 166 247 180"/><path d="M221 123L231 110M240 111L250 102M261 109L274 107M278 115L290 118M291 135L301 143M224 143L237 130M245 129L259 123M269 134L278 137M225 167L236 154M245 153L255 152M258 174L267 181"/></g>
+    <g class="study-etch">{tailEtching.map(d=><path d={d}/>)}</g>
+    <path d="M197 135Q240 84 274 101M301 130Q308 153 296 176M271 150Q279 178 262 197" class="sketch-retrace"/>
+  </g>
+  <!-- Tall neck, small alert head, full breast and a gently lifted back. -->
+  <path d="M102 79C92 77 84 84 84 94L78 99L83 105C77 123 70 143 73 165C69 188 81 215 103 227C126 244 157 240 179 228C195 217 209 197 207 178L192 161L180 177C158 176 145 167 137 150C128 133 123 110 121 97C120 86 112 79 102 79Z" fill="var(--paper)"/>
+  <!-- Irregular comb and hanging wattles; the beak and eye stay proportional. -->
+  <path d="M87 83Q85 80 86 75Q90 80 92 76L94 67Q98 75 101 71L106 61Q108 71 112 71L118 65Q117 77 122 76L128 73Q125 86 116 88" fill="url(#tc-crosshatch)"/>
+  <path d="M84 95Q76 95 69 102Q75 101 82 106M72 101L81 102M84 108C76 120 84 139 91 131C95 126 93 118 96 112M95 112C91 123 101 136 106 126Q109 121 107 109" fill="var(--paper)"/>
+  <path d="M97 90L100 88L106 88M110 93Q117 95 115 101L110 105L109 111M94 99L97 104L96 110M85 108L91 110" class="study-detail"/>
+  <ellipse cx="102" cy="93" rx="2.1" ry="1.8"/><circle cx="101.5" cy="92.8" r=".75" fill="var(--draft-ink)" stroke="none"/>
+  <g class="study-etch"><path d="M89 86L93 83M92 89L96 86M95 91L97 89M108 85L112 86M110 88L115 90M111 97L113 98M109 100L112 101M109 103L111 104M100 99L103 100M101 102L104 103M99 106L103 108M98 109L103 111M89 114Q85 121 88 126M99 117L103 123M91 78L98 76M101 76L108 74M110 79L119 78M96 81L104 79"/></g>
+  <!-- Long pointed neck feathers, layered rather than filled as a silhouette. -->
+  <g class="study-feather">
+    <path d="M95 128Q87 153 82 177Q94 166 100 151M102 121Q97 151 92 182Q103 171 108 151M109 117Q108 149 105 186Q117 172 116 147M116 112Q120 142 119 181Q129 168 125 145M122 125Q131 150 134 178Q142 170 135 155M87 140L78 167M99 146L95 172M110 143L110 174M122 142L125 165"/>
+    <path d="M78 181Q81 191 89 193M80 194Q85 203 94 202M88 207Q94 216 103 214M100 221Q108 227 116 223M114 229Q123 233 130 228M133 230Q141 232 148 225M153 226Q161 226 167 218M168 220Q176 215 178 208"/>
+  </g>
+  <g class="study-etch">
+    {Array.from({length:19},(_,i)=>{const y=134+i*3.1; const x=83+Math.sin(i*.23)*7; return <path d={`M${x} ${y}q-2 5-2 9M${x+12} ${y-4}q0 6-2 12M${x+23} ${y-8}q3 5 2 10M${x+31} ${y-4}l4 8`}/>;})}
+    {Array.from({length:9},(_,i)=>{const x=84+i*10,y=208+Math.sin(i*.32)*18; return <path d={`M${x} ${y}q3 5 8 4M${x+2} ${y+4}q3 4 7 3M${x+3} ${y-5}l5 4`}/>;})}
+  </g>
+  <!-- The folded wing has distinct, tapered flight feathers. -->
+  <path d="M122 172C147 159 173 171 189 194C174 218 149 226 124 209C112 202 111 185 122 172Z" fill="url(#tc-dots)"/>
+  <g class="study-feather">
+    <path d="M121 181Q131 171 140 180Q145 174 153 184Q160 180 167 190Q174 187 180 198M118 188Q127 181 136 190Q143 184 149 194Q155 188 164 198"/>
+    <path d="M119 196Q136 213 157 215Q145 202 132 194M133 197Q149 215 169 209Q157 196 148 193M150 194Q165 208 179 202L167 192M124 204Q137 216 148 217"/>
+    <path d="M185 177Q192 182 197 183L188 191M178 174L185 185M185 202L198 190M177 214L189 202"/>
+  </g>
+  <g class="study-etch">
+    {Array.from({length:12},(_,i)=>{const x=123+i*4.2,y=184+Math.sin(i*.3)*8;return <path d={`M${x} ${y}l5 5M${x+1} ${y+5}l6 5M${x+2} ${y+10}l5 5`}/>;})}
+    <path d="M179 182L187 188M181 186L188 192M176 208L180 203M171 212L174 208M111 226L115 233M117 227L122 234M124 229L128 237M131 230L134 235M157 226L160 235M163 224L165 232"/>
+  </g>
+  <!-- Hocks, scales and long toes ground the bird without a cartoon stance. -->
+  <path d="M117 230L119 246L126 249L129 237M153 234L157 245L164 244L168 232M122 248L116 279L112 290M127 248L122 280L118 290M159 245L163 272L174 286M164 245L168 271L179 285"/>
+  <path d="M113 288L92 297L91 299L113 295L128 299L132 298L119 291L138 291L142 289L120 288M173 285L156 292L154 295L175 291L194 295L197 293L181 287L200 283L200 281L178 284"/>
+  <g class="study-detail"><path d="M121 255L125 256M120 260L124 261M119 266L123 267M118 272L122 273M162 252L166 251M163 257L167 256M164 263L168 262M165 268L169 267M118 243L124 244M158 240L164 239"/></g>
+  <path d="M73 177Q71 202 96 223M108 231Q138 246 164 231M138 169Q160 169 177 184" class="sketch-retrace"/>
+  <g class="study-ground"><path d="M75 302L112 303M122 306L149 304M160 302L193 301M200 304L228 302M93 310L124 309M167 310L185 309M233 296L249 294M53 299L63 297"/></g>
+</svg>

@@ -1,0 +1,48 @@
+---
+import {sketchLine} from '../../lib/drafting';
+---
+<svg class="engraving-svg tampa-study cigar-study" viewBox="0 0 340 350" role="img" aria-labelledby="cigar-study-title">
+  <title id="cigar-study-title">A fine-line study of tobacco leaf, two banded cigars, and a crescent cigar-making knife</title>
+  <g class="construction">
+    <path d="M27 57H113M27 52V62M111 52V62M295 87V275M290 87H300M290 275H300M42 296H294"/>
+    <path d="M66 39L271 275M39 300H63M51 288V312" stroke-dasharray="2 6"/>
+  </g>
+  <!-- A pressed leaf, with its veins following the irregular outer contour. -->
+  <g transform="rotate(-23 166 150)">
+    <path d="M169 42C158 57 132 60 117 84C100 103 105 123 98 139C91 166 109 184 113 201C121 224 146 233 160 252C181 231 204 224 216 202C229 186 224 169 229 151C234 126 222 111 216 94C205 67 181 62 169 42Z" fill="url(#tc-dots)"/>
+    <path d="M169 44C162 99 175 157 161 250L158 269M170 50C165 117 177 171 163 246"/>
+    <g class="study-detail">
+      <path d="M167 69Q146 74 129 86M166 89Q140 92 116 113M166 111Q134 119 105 143M168 134Q136 144 110 169M168 155Q138 172 116 190M167 180Q146 197 128 212M164 207Q152 225 147 234"/>
+      <path d="M168 71Q190 76 203 92M167 92Q197 101 220 120M168 115Q202 130 228 150M169 140Q203 153 224 173M169 163Q198 179 216 198M167 185Q189 199 201 216M164 211Q180 218 182 231"/>
+      <path d="M144 80L147 69M135 104L132 92M127 127L120 116M129 155L118 151M132 177L122 175M149 202L139 201M193 92L194 79M202 117L213 113M202 135L219 134M195 153L214 153M197 181L215 180M183 199L201 200"/>
+    </g>
+    <path d="M114 86Q97 114 100 137M109 177Q114 204 132 217M218 96Q233 124 229 146" class="sketch-retrace"/>
+  </g>
+  <!-- Unlit cigars; the diagonal seams describe the wrapped leaf. -->
+  <g transform="translate(49 244) rotate(-27)">
+    <path d="M9-13Q-5-12-5 0Q-4 12 9 13L206 12Q217 9 218 0Q217-10 206-12Z" fill="var(--paper)"/>
+    <path d="M9-10Q0-8 0 0Q1 8 9 10M206-12Q199 0 206 12M211-10Q204 0 211 10"/>
+    <path d="M20-12Q36-2 36 13M57-12Q73-2 73 13M94-12Q110-2 110 13M164-12Q182-1 181 12"/>
+    <g class="study-detail">
+      {Array.from({length:5},(_,i)=><path d={sketchLine(15,-8+i*4,201,-7+i*3.6,i+4)}/>)}
+      <path d="M39-9L51-5M79 7L87 9M181-6L195-3M16 7L29 6M102 1L115 4"/>
+    </g>
+    <path d="M124-13Q120 0 124 13H156Q152 0 156-13Z" fill="var(--paper-light)"/>
+    <path d="M128-12Q125 0 128 12M152-12Q149 0 152 12" class="study-detail"/>
+    <path d="M140-8L147-1L140 8L132 0Z" fill="url(#tc-hatch)"/>
+    <path d="M10 15Q100 13 202 14" class="sketch-retrace"/>
+  </g>
+  <g transform="translate(60 272) rotate(-13)">
+    <path d="M8-11Q-4-11-4 0Q-3 11 8 12L187 11Q198 8 198 0Q197-9 187-11Z" fill="var(--paper)"/>
+    <path d="M6-8Q1-5 1 0Q1 6 7 8M187-11Q181 0 187 11M22-11Q37 1 37 11M61-11Q76 0 76 11M149-11Q165 0 165 11"/>
+    <g class="study-detail">{Array.from({length:4},(_,i)=><path d={sketchLine(13,-6+i*4,181,-7+i*4,i+9)}/>)}</g>
+    <path d="M107-12Q104 0 107 12H134Q131 0 134-12Z" fill="var(--paper-light)"/>
+    <path d="M111-11Q108 0 111 11M130-11Q127 0 130 11M120-7L126 0L120 7L114 0Z" class="study-detail"/>
+  </g>
+  <!-- The broad crescent of a chaveta, drawn as a working tool. -->
+  <g transform="translate(218 300) rotate(14)">
+    <path d="M-33-5Q0 8 33-5L30 9Q0 38-30 9Z" fill="url(#tc-hatch)"/>
+    <path d="M-30 7Q0 30 30 7M-15-4L-12-13Q0-19 12-13L15-4"/>
+    <path d="M-11-10Q0-14 11-10M-29 10Q-9 30 14 21" class="sketch-retrace"/>
+  </g>
+</svg>

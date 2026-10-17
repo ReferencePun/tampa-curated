@@ -1,0 +1,28 @@
+---
+import CigarStudy from './CigarStudy.astro';
+import ShipStudy from './ShipStudy.astro';
+import RoosterStudy from './RoosterStudy.astro';
+import {url} from '../../lib/urls';
+---
+<section class="tampa-fieldnotes" id="tampa-fieldnotes" aria-labelledby="fieldnotes-title">
+  <div class="plate-heading"><span class="plate-label">FROM THE CITY’S MARGINS</span><span class="plate-label">LEAF / SAIL / FEATHER</span></div>
+  <div class="fieldnotes-intro">
+    <h2 id="fieldnotes-title">The marks of <em>this place.</em></h2>
+    <p>A few things that could only feel like Tampa.<br/>Collected here, in ink.</p>
+  </div>
+  <div class="fieldnotes-studies">
+    <figure class="fieldnote fieldnote-cigar">
+      <div class="fieldnote-art"><CigarStudy/></div>
+      <figcaption><span class="plate-label">I. &nbsp; LEAF &amp; LABOR</span><h3>The cigar city.</h3><p>A rolled leaf, a crescent blade, a craft passed from hand to hand. A study of Ybor’s cigar-making heritage.</p><a class="fieldnote-link" href={url('neighborhoods/ybor-city/')}>Discover Ybor <span aria-hidden="true">↗</span></a></figcaption>
+    </figure>
+    <figure class="fieldnote fieldnote-ship">
+      <div class="fieldnote-art"><ShipStudy/></div>
+      <figcaption><span class="plate-label">II. &nbsp; SALT &amp; LEGEND</span><h3>A pirate’s port.</h3><p>Canvas, rigging, and a pennant on the breeze. An imagined ship for the city’s Gasparilla spirit.</p><a class="fieldnote-link" href={url('neighborhoods/downtown/')}>Along the waterfront <span aria-hidden="true">↗</span></a></figcaption>
+    </figure>
+    <figure class="fieldnote fieldnote-rooster">
+      <div class="fieldnote-art"><RoosterStudy/></div>
+      <figcaption><span class="plate-label">III. &nbsp; FEATHER &amp; FOOTPATH</span><h3>The early riser.</h3><p>Ybor’s free-roaming roosters, as much a part of the streetscape as its brick and iron.</p><a class="fieldnote-link" href={url('neighborhoods/ybor-city/')}>Walk the neighborhood <span aria-hidden="true">↗</span></a></figcaption>
+    </figure>
+  </div>
+  <div class="fieldnotes-colophon"><span>FIELD NOTES / TAMPA, FLORIDA</span><span>Three studies in the character of a city.</span></div>
+</section>

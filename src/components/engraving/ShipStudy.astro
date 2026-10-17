@@ -1,0 +1,50 @@
+---
+import MaritimeMark from './MaritimeMark.astro';
+const sails = [
+  {x:112,y:88,w:64,h:44}, {x:97,y:139,w:92,h:61},
+  {x:214,y:55,w:69,h:45}, {x:199,y:106,w:98,h:62}, {x:189,y:174,w:115,h:66},
+  {x:311,y:111,w:55,h:43}, {x:303,y:160,w:72,h:58},
+];
+---
+<svg class="engraving-svg tampa-study ship-study" viewBox="0 0 470 350" role="img" aria-labelledby="ship-study-title ship-study-desc">
+  <title id="ship-study-title">A three-masted pirate ship, drawn in fine blue ink</title>
+  <desc id="ship-study-desc">An original maritime study with curved sails, intricate rigging, a planked hull, crossed cutlasses on a pennant, and a small rope-wrapped anchor.</desc>
+  <g class="construction"><path d="M20 279H453M247 14V310M80 315H392M80 310V320M392 310V320"/><path d="M36 256Q234 194 431 256M57 207Q247 145 414 207" stroke-dasharray="2 6"/></g>
+  <!-- Standing rigging is behind the canvas; its endpoints meet the masts and hull. -->
+  <g class="study-rigging">
+    <path d="M61 253L144 51L206 266M42 251L247 21L390 246M108 264L247 21L425 223M251 266L338 81L405 242M146 61L247 33L338 85M144 132L247 100L338 150"/>
+    <path d="M144 75L118 263M144 75L132 265M144 75L154 266M144 75L168 267M247 42L211 267M247 42L226 269M247 42L265 266M247 42L280 263M338 99L313 257M338 99L327 254M338 99L350 250M338 99L365 246"/>
+    {Array.from({length:15},(_,i)=>{const y=115+i*10;const t=(y-75)/192;return <path d={`M${144-26*t} ${y}L${144+24*t} ${y+.5}M${247-36*((y-42)/225)} ${y}L${247+33*((y-42)/225)} ${y+.6}`}/>;})}
+    <path d="M28 246L143 135L95 247M32 245L142 88L81 230M338 158L397 222L346 218"/>
+  </g>
+  <g class="study-sail">
+    {sails.map(({x,y,w,h})=><g>
+      <path d={`M${x} ${y}Q${x+w/2} ${y+4} ${x+w} ${y}Q${x+w-8} ${y+h/2} ${x+w+4} ${y+h}Q${x+w/2} ${y+h-13} ${x-4} ${y+h}Q${x+8} ${y+h/2} ${x} ${y}Z`} fill="var(--paper)"/>
+      <path d={`M${x-7} ${y-2}L${x+w+7} ${y-1}M${x-6} ${y+1}L${x+w+6} ${y+2}`}/>
+      <g class="study-detail">{[.2,.4,.6,.8].map((f)=><path d={`M${x+w*f} ${y+3}Q${x+w*f-5} ${y+h*.53} ${x+w*f+(f-.5)*5} ${y+h-5-Math.sin(f*Math.PI)*3}`}/>)}</g>
+      <path d={`M${x+2} ${y+h-4}Q${x+w*.5} ${y+h-16} ${x+w-2} ${y+h-4}`} class="sketch-retrace"/>
+      <path d={`M${x} ${y+h}L${x+w*.5} ${Math.min(y+h+21,266)}L${x+w+4} ${y+h}`} class="study-rigging"/>
+    </g>)}
+    <path d="M40 242L139 142Q111 200 99 239Q71 231 40 242ZM340 162Q370 185 394 222L348 216Z" fill="var(--paper)"/>
+    <path d="M52 237Q101 194 130 159M68 237Q108 195 130 167M348 176L385 216M347 187L372 215" class="study-detail"/>
+  </g>
+  <path d="M143 52L146 259M246 22L250 261M337 82L341 246M139 75H150M241 43H253M332 103H343"/>
+  <!-- A pair of crossed blades is a quiet heraldic detail on the pennant. -->
+  <g transform="translate(249 24)">
+    <path d="M0 0C18-9 31 7 54-2L46 8L54 16C32 24 17 7 0 15Z" fill="url(#tc-hatch)"/>
+    <path d="M16 2L30 15Q25 14 14 4M30 2L16 15Q17 10 32 2M12 5L17 0M28 16L33 11M12 12L17 17M28 0L33 5" class="study-detail"/>
+  </g>
+  <path d="M145 53Q164 44 178 53L163 57L176 61Q158 58 146 63M339 83Q356 76 370 83L355 86L367 90Q352 87 340 93"/>
+  <!-- Raised stern, gently swept decks, coppering and individual gunports. -->
+  <path d="M51 248Q166 277 319 249L352 233L394 226L386 255Q365 284 335 291L118 294Q91 284 73 269Z" fill="var(--paper)"/>
+  <path d="M48 245Q159 273 318 245L350 229L396 222L394 227M57 255Q167 280 319 256L352 241L390 234M73 268Q181 290 337 269L384 249M87 278Q203 298 343 280M116 291Q229 300 335 289M50 248L24 238L20 242L74 267"/>
+  <path d="M319 247V232H349V218H391V224M322 232L349 226M356 222V215H390V221M325 240H347M359 232L386 226"/>
+  <g class="study-detail">
+    {Array.from({length:14},(_,i)=><path d={`M${101+i*17} ${277-Math.max(0,i-9)*2}l-6 10`}/>)}
+    {Array.from({length:12},(_,i)=>{const x=104+i*19;const y=268+Math.sin(i/11*Math.PI)*4-i*.5;return <path d={`M${x} ${y}l8 .4v5l-8-.4Z`}/>;})}
+    <path d="M360 239V244M369 236V241M379 233V238M82 265L335 275M113 287L126 288M179 289L193 290M269 287L281 286"/>
+  </g>
+  <path d="M56 251Q160 279 308 253M128 296Q236 302 321 293" class="sketch-retrace"/>
+  <g class="study-water"><path d="M43 292Q63 287 82 292T120 292M32 299Q67 295 103 300M126 301Q150 296 177 301T232 301M257 300Q278 295 301 299M324 299Q349 294 374 299T424 299M376 288Q396 283 418 287M112 308H167M204 309H278M352 307H391"/></g>
+  <g transform="translate(425 319) scale(.35)"><MaritimeMark/></g>
+</svg>
