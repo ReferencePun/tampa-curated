@@ -3,8 +3,9 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { chromium, webkit, expect } from "@playwright/test";
 
 const base = process.env.TEST_BASE ?? "/tampa-curated";
-const url = `${process.env.TEST_ORIGIN || "http://127.0.0.1:4321"}${base}/`;
-const dir = "test-results/atlas-fix";
+const siteUrl = `${process.env.TEST_ORIGIN || "http://127.0.0.1:4321"}${base}/`;
+const url = `${siteUrl}${process.env.TEST_PAGE ? process.env.TEST_PAGE+'/' : ''}`;
+const dir = `test-results/atlas-fix${process.env.TEST_PAGE ? `-${process.env.TEST_PAGE}` : ""}`;
 mkdirSync(dir, { recursive: true });
 const report = [];
 for (const [name, engine] of [
@@ -305,7 +306,7 @@ for (const [name, engine] of [
   await expect(page.locator(".atlas-toggle")).toBeHidden();
   await page.locator('[data-atlas-select="3"]').click();
   await page.locator('[data-atlas-caption="3"] .text-link').click();
-  await expect(page).toHaveURL(`${url}neighborhoods/downtown/`);
+  await expect(page).toHaveURL(`${siteUrl}neighborhoods/downtown/`);
   await page.goBack();
   await expect(atlas).toHaveAttribute("data-selected", "3");
   assert.deepEqual(errors, []);

@@ -1,0 +1,61 @@
+---
+import DraftingGuides from './DraftingGuides.astro';
+import EngravedGear from './EngravedGear.astro';
+import PulleySystem from '../engraving/PulleySystem.astro';
+import CrankAndPiston from '../engraving/CrankAndPiston.astro';
+import CompassDial from '../engraving/CompassDial.astro';
+import RotatingAperture from './RotatingAperture.astro';
+import HandwrittenNote from './HandwrittenNote.astro';
+import {meshPhase,radialMarks} from '../../lib/mechanisms';
+import {url} from '../../lib/urls';
+const smallPhase=meshPhase(60,26,180);
+const upperPhase=meshPhase(60,20,-46);
+const skyline='M283 391V351L300 350V314L311 312V301L320 299V314L334 316V389M341 393L343 273L355 275V263L364 258L373 264V278L388 276V390M398 392V331L407 330V310L420 313V332L433 330V390M442 391V292L458 290V279L467 280V293L486 294V390M497 393V345L510 343V332L526 334V350L540 347V394M276 397L556 395';
+---
+<section class="clockwork-hero engraving-section" data-machine="hero" aria-labelledby="masthead">
+  <div class="clockwork-hero-inner">
+    <div class="clockwork-copy">
+      <div class="hero-name">
+        <span class="plate-label">TAMPA CURATED &nbsp; / &nbsp; A WORKING NOTEBOOK</span>
+        <h1 id="masthead">TAMPA<span>in pieces, <em>in motion.</em></span></h1>
+        <span class="masthead-note" aria-hidden="true">unfinished / always</span>
+      </div>
+      <div class="hero-editorial">
+        <p class="hero-intro">A place is more<br/>than its parts.</p>
+        <p class="hero-deck">An independent eye on the people, places, and ideas that keep this city turning.</p>
+        <a class="engraved-link" href={url('stories/the-city-now/')}>Come see how we fit together <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="hero-scroll"><span class="scroll-wheel" aria-hidden="true">↓</span><span>SCROLL TO OPERATE THE DRAWING<br/><small>A little at a time. Then back again.</small></span></div>
+      <span class="hero-coordinate">27° 57′ N &nbsp; / &nbsp; 82° 27′ W</span>
+    </div>
+    <div class="hero-instrument">
+      <svg class="engraving-svg hero-assembly" viewBox="0 0 800 680" role="img" aria-labelledby="hero-machine-title hero-machine-desc">
+        <title id="hero-machine-title">Working notes for a clockwork city</title><desc id="hero-machine-desc">An original pen and pencil assembly of meshing gears, a belt drive, and connecting rods. A torn photographic opening and unfinished skyline sit inside a large wheel. Scrolling turns the machine and traces its construction lines.</desc>
+        <DraftingGuides width={800} height={680}/>
+        <path d="M227 340C208 226 285 108 408 90C526 70 637 143 657 264L654 337C623 455 518 518 401 503" class="pencil-ghost"/>
+        <path data-drawing pathLength="1" d="M240 318C222 187 348 87 466 106C600 126 669 262 614 381C579 459 512 482 431 487" class="pencil-line"/>
+        <path data-drawing pathLength="1" d="M221 294C223 201 284 119 373 101M429 82L476 88L482 93M572 124L586 138L583 147M655 247L661 303" class="red-pencil"/>
+        <g class="construction"><path d="M35 300H778M440 37V615M116 78L740 576M172 588L697 70"/><path d="M52 600L750 602M65 593V607M740 593V607"/><path d={radialMarks(200,120,3)} transform="translate(440 300)"/></g>
+        <path d="M229 391L291 493L430 543L507 515L330 391Z" fill="url(#tc-crosshatch)" stroke="none" opacity=".45"/>
+        <g class="mobile-secondary"><path d="M130 473L267 475L266 502L129 501Z" fill="url(#tc-hatch)"/><path d="M129 502L266 503M137 506L259 507" class="pressure-stroke"/><circle cx="135" cy="488" r="3"/><circle cx="259" cy="488" r="3"/></g>
+        <RotatingAperture id="hero" x={440} y={300} radius={128} photo="tampa-night" eager/>
+        <EngravedGear x={440} y={300} radius={168} teeth={60} rate={1} design="ring"/>
+        <EngravedGear x={199.2} y={300} radius={72.8} teeth={26} rate={-60/26} phase={smallPhase} design="spoked"/>
+        <EngravedGear x={199.2} y={182.4} radius={44.8} teeth={16} rate={60/16} phase={meshPhase(26,16,-90,smallPhase)} design="disc" class="mobile-secondary"/>
+        <EngravedGear x={595.6} y={138.9} radius={56} teeth={20} rate={-3} phase={upperPhase} design="spoked"/>
+        <EngravedGear x={428} y={534.89} radius={67.2} teeth={24} rate={-2.5} phase={meshPhase(60,24,92.925)} design="disc" class="mobile-secondary"/>
+        <PulleySystem x1={595.6} y1={138.9} r1={25} x2={699} y2={465} r2={34} rate={-3}/>
+        <CrankAndPiston x={199.2} y={300} radius={26} rod={132} rate={-60/26} phase={smallPhase}/>
+        <CrankAndPiston x={699} y={465} radius={16} rod={91} rate={-75/34} phase={0}/>
+        <g class="skyline-fragment" transform="translate(-33 5)"><path d={skyline} class="pencil-ghost"/><path data-drawing pathLength="1" d={skyline} class="skyline-ink"/><path d="M343 323L386 321M343 329L387 327M343 334L387 332M343 340L387 338M343 345L387 343M343 352L387 350M343 358L387 356M344 364L387 362M344 370L387 368M344 377L387 375M344 384L387 382M445 338L482 336M445 346L482 344M445 355L483 353M445 365L483 363M445 374L483 372M445 384L483 382" class="drypoint"/></g>
+        <g class="mobile-secondary"><CompassDial x={83} y={130} radius={38}/><path data-drawing pathLength="1" d="M83 178V230H105M277 110H339L359 130M590 376H748V540H730M428 611V641H270" class="pencil-line"/><path d="M60 615L150 614M60 620L120 621" class="hairline"/></g>
+        <HandwrittenNote text="turn slowly" x={280} y={79} rotate={-10} scale={.85}/>
+        <HandwrittenNote text="a city in pieces" x={473} y={482} rotate={-5} scale={.9}/>
+        <HandwrittenNote text="look again" x={83} y={565} rotate={-7} scale={1.35} class="red-pencil"/>
+        <path d="M192 556Q285 547 307 469L300 482M307 469L311 489" class="red-pencil"/>
+        <g class="diagram-annotations"><text x="99" y="403" class="diagram-note" transform="rotate(-8 99 403)">26 : 60</text><text x="545" y="76" class="diagram-label">WORKING STUDY / 01</text><text x="547" y="574" class="diagram-note">iron / water / memory</text><text x="368" y="646" class="diagram-label">A CITY IS NEVER FINISHED.</text></g>
+      </svg>
+      <span class="instrument-caption">Ink, graphite &amp; a little curiosity. &nbsp; Tampa, Florida.</span>
+    </div>
+  </div>
+</section>

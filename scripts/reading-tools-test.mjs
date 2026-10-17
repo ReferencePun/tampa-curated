@@ -10,6 +10,7 @@ await mkdir(output, { recursive: true });
 const routes = [
   "",
   "home2/",
+  "home3/",
   "issues/001/",
   "guides/a-first-look/",
   "stories/the-city-now/",
@@ -128,8 +129,8 @@ for (const [name, engine] of [
           ),
           `${name}: overflow at ${width}px /${route}, text ${size / 16}×`,
         );
-        if (!route || route === "home2/") {
-          const selectors = route === "home2/"
+        if (!route || route === "home2/" || route === "home3/") {
+          const selectors = route === "home2/" || route === "home3/"
             ? [".hero-name", ".hero-editorial", ".engraved-copy"]
             : [".cover-main-copy", ".cover-portrait-copy"];
           for (const selector of selectors) {

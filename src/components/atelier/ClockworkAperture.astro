@@ -1,0 +1,28 @@
+---
+import HandwrittenNote from './HandwrittenNote.astro';
+import DraftingGuides from './DraftingGuides.astro';
+import type {CollectionEntry} from 'astro:content';
+import EngravedGear from './EngravedGear.astro';
+import RotatingAperture from './RotatingAperture.astro';
+import CompassDial from '../engraving/CompassDial.astro';
+import {meshPhase,radialMarks} from '../../lib/mechanisms';
+import {url} from '../../lib/urls';
+interface Props {stories:CollectionEntry<'stories'>[];}
+const {stories}=Astro.props;
+---
+<section class="clockwork-aperture engraving-section" data-machine="aperture" aria-labelledby="aperture-heading">
+  <div class="plate-heading"><span class="plate-label">THE HOURS BETWEEN</span><a href={url('stories/')} class="plate-link">All stories ↗</a></div>
+  <div class="aperture-layout">
+    <div class="engraved-copy"><span class="chapter-numeral" aria-hidden="true">after the light</span><h2 id="aperture-heading">As the light changes,<br/><em>so does the city.</em></h2><p>The familiar becomes unfamiliar. A reflection, a conversation, a room after dark. Keep your aperture open.</p><a class="engraved-link" href={url('stories/after-hours/')}>Read “After hours” <span aria-hidden="true">↗</span></a><p class="art-context">Downtown Tampa on the water. Sample editorial.</p></div>
+    <figure class="aperture-figure"><svg class="engraving-svg" viewBox="0 0 670 580" role="img" aria-labelledby="aperture-image-title"><title id="aperture-image-title">An eight-blade mechanical aperture reveals Tampa reflected in the water at night</title>
+      <DraftingGuides width={670} height={580}/>
+      <path d="M104 280C81 162 183 31 327 46C448 39 555 157 542 286C551 383 454 488 324 490" class="pencil-ghost"/><path d="M106 345L172 470L300 503L354 487L169 340Z" fill="url(#tc-crosshatch)" stroke="none" opacity=".5"/><path d="M40 270H624M325 17V530M115 480L535 60" class="construction"/><path d={radialMarks(204,96,4)} transform="translate(325 270)" class="hairline"/>
+      <RotatingAperture id="night" x={325} y={270} radius={157} photo="tampa-night"/>
+      <EngravedGear x={325} y={270} radius={195} teeth={60} design="ring"/>
+      <EngravedGear x={110.8} y={405.5} radius={58.5} teeth={18} rate={-60/18} phase={meshPhase(60,18,147.68)} design="disc"/>
+      <CompassDial x={566} y={452} radius={37} rate={.75}/>
+      <path data-drawing pathLength="1" d="M178 103H92V57H36M479 104H599V50M183 469V535H291" class="construction"/><HandwrittenNote text="leave room for the dark" x={48} y={34} rotate={-4} scale={.9}/><path data-drawing pathLength="1" d="M52 56L230 51M549 156Q613 261 560 345L562 330M560 345L575 339" class="red-pencil"/><text x="341" y="553" class="diagram-label">LIGHT / WATER / AFTER DARK</text>
+    </svg></figure>
+  </div>
+  <div class="story-register"><span class="plate-label">FROM THE EDITORS’ NOTEBOOK</span><div>{stories.map((entry,i)=><a href={url(`stories/${entry.id}/`)}><span class="register-number">0{i+1}</span><span><small>{entry.data.category} / sample story</small><h3>{entry.data.title}</h3><p>{entry.data.deck}</p></span><span aria-hidden="true">↗</span></a>)}</div></div>
+</section>

@@ -1,0 +1,18 @@
+---
+import {getImage} from 'astro:assets';
+import {photos} from '../../lib/photos';
+import {tornOval} from '../../lib/etching';
+interface Props {id:string;photo:string;x:number;y:number;width:number;height:number;circle?:boolean;eager?:boolean;}
+const {id,photo,x,y,width:w,height:h,circle=false}=Astro.props;
+const image=await getImage({src:photos[photo],width:960,format:'webp',quality:82});
+const outline=circle?tornOval(x+w/2,y+h/2,w*.46,h*.42,2):`M${x+3} ${y+8}L${x+w*.32} ${y+3}L${x+w*.34} ${y+7}L${x+w*.7} ${y-3}L${x+w-3} ${y+4}L${x+w+2} ${y+h*.24}L${x+w-4} ${y+h*.7}L${x+w+1} ${y+h-6}L${x+w*.6} ${y+h+2}L${x+w*.58} ${y+h-2}L${x+w*.2} ${y+h+5}L${x-3} ${y+h-1}L${x+1} ${y+h*.65}Z`;
+---
+<g class="mechanical-image-frame">
+  <defs>
+    <clipPath id={id}><path d={outline}/></clipPath>
+    <filter id={`${id}-ink`} color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values=".25 .67 .08 0 0 .23 .63 .08 0 0 .20 .56 .07 0 0 0 0 0 1 0"/></filter>
+  </defs>
+  <g filter={`url(#${id}-ink)`}><image href={image.src} x={x} y={y} width={w} height={h} preserveAspectRatio="xMidYMid slice" clip-path={`url(#${id})`}/></g>
+  <path d={outline} class="torn-edge"/>
+  <g class="pencil-line"><path d={`M${x-7} ${y+h*.3}l4 ${h*.6}M${x+w+5} ${y+h*.2}l-2 ${h*.5}M${x+w*.2} ${y+h+9}l${w*.45}-3`}/></g>
+</g>

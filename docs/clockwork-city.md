@@ -1,6 +1,6 @@
 # The Clockwork City — local review
 
-The October 2026 illustrated concept is preserved at **`/home2/`**. The main homepage has been restored to the editorial cover and pre-clockwork composition from `602cd38`, while retaining the working book and reading controls. New visual directions belong on separate pages for comparison. The work stays on `feature/mechanical-atlas`; the checkpoint branch `checkpoint/before-clockwork-city-20261017` points to `602cd38`. No push or publication is part of this revision.
+The October 2026 illustrated concept is preserved at **`/home2/`**. The main homepage has been restored to the editorial cover and pre-clockwork composition from `602cd38`, while retaining the working book and reading controls. New visual directions belong on separate pages for comparison. The original illustrated revision was developed on `feature/mechanical-atlas`; the checkpoint branch `checkpoint/before-clockwork-city-20261017` points to `602cd38`. No push or publication is part of this revision.
 
 The brief's referenced concept illustration was not attached, so the implementation follows its written art direction and reuses the existing licensed Tampa photographs. No external artwork or demo code was copied.
 
@@ -91,3 +91,37 @@ The original homepage and portrait-sleeve composition match the `602cd38` checkp
 Splitting the routes exposed a Chromium navigation cancellation when the transition opt-in depended on external route styles. The `@view-transition` declaration now lives inline in each document's head, retaining reduced-motion behavior. The reproduced error no longer occurs in the navigation/history checks. Cross-document opt-in requirements are described in the [Chrome documentation](https://developer.chrome.com/docs/web-platform/view-transitions/cross-document).
 
 Verification after the split: 43 HTML pages and 2,850 internal links/assets; zero Astro diagnostics; 64 responsive route checks; both homepage covers visually inspected; 100 responsive/enlarged-text checks per engine. Chromium and WebKit pass the illustrated mechanisms on Home 2, the original worktable/portraits/book/history/fallback checks on Home, and the sea-glass pixel and cleanup checks. Local captures are in `test-results/home-versions/`.
+
+### Home 3 — Working Notes (expressive notebook)
+
+The raw mechanical-art brief is implemented as a new comparison page, **`/home3/`**, on `feature/expressive-home3`. It starts from Home 2's working apparatus and retains its content. Home and Home 2 remain separate; the mobile menu and footer now include Home 3. Nothing has been pushed or published.
+
+The new composition places oversized, tilted serif lettering across a cropped assembly. Black-brown ink, red-pencil marks, sparse axes, erased contours, original path-drawn handwriting, local crosshatching, an unfinished skyline, and uneven photographic openings form the drawing. The field-note studies sit at different heights. Story entries are staggered, architectural and map drawings are angled, and the portrait sleeve keeps its rectangular prints. Mobile reflows the title, machine, and introduction in reading order. Essential copy uses the existing reading-size variables; tiny diagram marks are supplementary to HTML descriptions and links.
+
+`src/lib/etching.ts` precomputes the repeatable contour and hatching paths. `src/components/atelier/` holds this edition's compositions; all its new CSS is scoped to `.atelier`. Gear teeth, pitch radii, centers, phases, belt tangents, crank lengths, and linkage motion reuse the original geometry. The original pulley, compass, and crank components are imported directly. Surface hatching and exploratory lines use the existing scroll-linked drawing reveal. No loops, animated noise, extra animation dependency, or new runtime drawing generator was added.
+
+The controller's sole functional extension is an optional `data-iris-cutout` path that scales with the existing aperture opening and restores on reduced-motion teardown. The ragged photo mask and shutter share that same progress value. A static SVG color matrix applies warm monochrome to these photos: direct CSS filters on SVG images rendered inconsistently in the WebKit visual review. The color matrix works in both tested engines and is confined to the photographs.
+
+Formal research references included the [Leopold Museum's Schiele composition drafts](https://onlinecollection.leopoldmuseum.org/en/object/32536-sheet-with-compositional-drafts/), the [Met's Schiele self-portrait](https://www.metmuseum.org/art/collection/search/483438), and Piranesi's [Round Tower](https://www.metmuseum.org/art/collection/search/337725) and [Drawbridge](https://www.metmuseum.org/art/collection/search/337060). They informed contour tension, uneven density, unfinished construction, and open paper. No museum image or third-party illustration is embedded in the site.
+
+Verification for Home 3:
+
+- Astro check: 110 files, no errors, warnings, or hints. Build: 44 pages. Link/metadata validation: 3,102 internal links/assets.
+- General browser suite: 68 responsive route checks, including all three homepage variants.
+- Reading suite: 110 viewport/text-size combinations per engine in Chromium 156 and WebKit 27.2, including 320px and 200% text enlargement. Reading preferences, sea-glass behavior, touch fallback, keyboard focus, and persistence pass.
+- The mechanism suite passes on both Home 2 and Home 3 in both engines: seven physical gear meshes, fixed rod lengths, cable attachment, all five scroll sequences, exact reversal, no movement at rest, reduced-motion teardown, narrow screens, and static links.
+- Home 3's book regression passes in both engines: six scenes, five right-to-left page turns, reverse scroll, painted photographs, fold bounds, controls, keyboard, history, and reduced motion.
+- Reviewed desktop and mobile screenshots, plus WebKit photographic rendering. The saved Home/Home 2 opening screenshots are byte-identical at desktop and mobile when using the same desktop-to-mobile resize sequence. Fresh mobile captures choose different image sampling; that was not a layout difference. Footer/menu additions are outside those screenshot comparisons.
+
+Reproduce the new edition's focused checks with:
+
+```sh
+TEST_PAGE=home3 node scripts/engraving-test.mjs
+TEST_PAGE=home3 node scripts/atlas-regression.mjs
+TEST_PAGE=home3 node scripts/engraving-performance.mjs
+TEST_PAGE=home3 TEST_BROWSER=webkit node scripts/engraving-performance.mjs
+```
+
+Captures and machine-readable reports are in `test-results/expressive/`, with book evidence in `test-results/atlas-fix-home3/`. Physical Safari/iPhone testing remains outside this local browser-engine review.
+
+Home 3 performance and payload: 390,064 bytes HTML / 120,890 bytes gzip, compared with Home 2 at 403,598 / 133,634. Edition-specific CSS adds 13,407 / 3,387 bytes gzip. The shared controller adds 98 raw bytes (24 gzip bytes) for the optional opening; no new dependency is installed. In unthrottled local 1440×900 samples, Chromium recorded 16.7ms median and 16.7–16.8ms p95 across all five scenes, with no long tasks. WebKit recorded 17ms median, 18–25ms p95, and six intervals over 25ms across 595 measured intervals (worst 46ms). WebKit does not expose the long-task observer used here. These are headless timing observations, not physical-device FPS guarantees.

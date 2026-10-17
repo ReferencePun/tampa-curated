@@ -16,6 +16,7 @@ await mkdir("test-results", { recursive: true });
 const pages = [
   "",
   "home2/",
+  "home3/",
   "the-list/",
   "search/",
   "stories/the-city-now/",
@@ -48,12 +49,12 @@ for (const width of [1600, 1440, 768, 390]) {
           .map((img) => img.src),
       );
     assert.deepEqual(broken, [], `Broken images ${route}`);
-    if (!route || route === "home2/") {
-      const illustrated = route === "home2/";
+    if (!route || route === "home2/" || route === "home3/") {
+      const illustrated = route === "home2/" || route === "home3/";
       assert.equal(await page.locator("body.engraved").count(), illustrated ? 1 : 0, "Each homepage keeps its own visual edition");
       assert.equal(await page.locator(".cover").count(), illustrated ? 0 : 1, "The original cover belongs to Home");
-      assert.equal(await page.locator("[data-machine]").count(), illustrated ? 5 : 0, "Clockwork scenes belong to Home 2");
-      assert.equal(await page.locator(".tampa-fieldnotes").count(), illustrated ? 1 : 0, "Tampa studies stay on Home 2");
+      assert.equal(await page.locator("[data-machine]").count(), illustrated ? 5 : 0, "Clockwork scenes belong to the illustrated editions");
+      assert.equal(await page.locator(".tampa-fieldnotes").count(), illustrated ? 1 : 0, "Tampa studies stay on the illustrated editions");
       const coverTextFits = await page
         .locator(illustrated ? ".hero-editorial" : ".cover-main-copy .cover-label")
         .evaluate((el) => {
@@ -74,7 +75,7 @@ for (const width of [1600, 1440, 768, 390]) {
         ),
       );
       await page.screenshot({
-        path: `test-results/${illustrated ? "home2" : "home"}-${width}.png`,
+        path: `test-results/${illustrated ? route.slice(0, -1) : "home"}-${width}.png`,
         fullPage: true,
       });
     }
@@ -158,6 +159,6 @@ assert.equal(await staticPage.locator("noscript").isVisible(), true);
 await noJS.close();
 assert.deepEqual(errors, [], `Browser errors:\n${errors.join("\n")}`);
 console.log(
-  `Passed: ${pages.length * 4} responsive page checks; 8 homepage screenshots; menu and Escape/focus; category + neighborhood + name filtering; empty/reset and URL persistence; search; reduced motion; no-JS directory. Base: ${base || "/"}.`,
+  `Passed: ${pages.length * 4} responsive page checks; 12 homepage screenshots; menu and Escape/focus; category + neighborhood + name filtering; empty/reset and URL persistence; search; reduced motion; no-JS directory. Base: ${base || "/"}.`,
 );
 await browser.close();

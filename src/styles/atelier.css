@@ -1,0 +1,207 @@
+/* Home 3: an independent drawing experiment. Physical mechanisms use the
+   same pivots and scroll controller as Home 2; these marks are surface ink. */
+.atelier {
+  --paper: #f2ecdf;
+  --paper-light: #f8f3e9;
+  --ink: #302820;
+  --draft-ink: #3b3026;
+  --blue: #45382b;
+  --red: #853f32;
+  --rule: #a99c86;
+  --muted: #6a5845;
+  --brass: #aa8c64;
+  --water-ink: #dcd4c0;
+}
+.atelier::before { opacity: .055; }
+.atelier .page-shell { max-width: 1800px; padding-inline: clamp(20px, 3.2vw, 62px); }
+.atelier .site-header { border-bottom: 1px solid var(--ink); }
+.atelier .monogram { font-style: italic; }
+.atelier .engraving-svg { stroke-width: .65; stroke-linecap: butt; }
+.atelier .engraving-svg .construction { stroke-width: .38; opacity: .33; }
+.atelier .engraving-svg .hairline { stroke-width: .34; }
+.atelier .engraving-svg .pencil-ghost { fill: none; stroke: #847460; stroke-width: .65; opacity: .31; }
+.atelier .engraving-svg .pencil-line { fill: none; stroke: #78634b; stroke-width: .55; opacity: .66; }
+.atelier .engraving-svg .erased-line { fill: none; stroke: #9c8b71; stroke-width: 1.4; opacity: .13; stroke-dasharray: 24 4 7 2; }
+.atelier .engraving-svg .drypoint { stroke-width: .38; opacity: .8; }
+.atelier .engraving-svg .cross-pass { stroke-width: .28; opacity: .56; }
+.atelier .engraving-svg .ink-contour { stroke-width: .72; }
+.atelier .engraving-svg .gear-outline { stroke-width: .6; }
+.atelier .engraving-svg .pressure-stroke { stroke-width: 1.8; stroke: #2c241f; }
+.atelier .engraving-svg .ink-scratch { stroke-width: .7; opacity: .7; }
+.atelier .engraving-svg .sketch-retrace { stroke-width: .5; opacity: .51; }
+.atelier .engraving-svg .red-pencil { stroke: var(--red); stroke-width: .8; opacity: .78; }
+.atelier .engraving-svg .handwritten-note { fill: none; stroke: var(--muted); stroke-width: .7; stroke-linecap: round; stroke-linejoin: round; opacity: .9; }
+.atelier .engraving-svg .handwritten-note.red-pencil { stroke: var(--red); }
+.atelier .engraving-svg .diagram-label { letter-spacing: 1px; font-size: 11px; }
+.atelier .engraving-svg .diagram-note { fill: var(--muted); }
+.atelier .engraving-svg .torn-edge { stroke-width: .55; opacity: .67; }
+.atelier .engraving-svg .aperture-pencil { stroke-width: .5; opacity: .25; stroke-dasharray: 32 6 4 17; }
+.atelier .hero-assembly .skyline-ink { stroke: #302820; stroke-width: .9; }
+.atelier .hero-assembly .skyline-fragment { pointer-events: none; }
+.atelier .clockwork-hero { min-height: 0 !important; overflow: clip; margin-inline: calc(-1 * clamp(20px, 3.2vw, 62px)); padding-inline: clamp(20px, 3.2vw, 62px); }
+.atelier .clockwork-hero-inner { min-height: 1080px; position: relative !important; display: block; padding-block: 55px 75px; }
+.atelier .clockwork-copy { position: relative; padding: 0; }
+.atelier .hero-name { position: relative; z-index: 2; pointer-events: none; width: 78%; }
+.atelier .hero-name > .plate-label { display: block; margin-left: 3%; letter-spacing: .19em; }
+.atelier .clockwork-copy h1 { font-size: clamp(125px, 20.4vw, 350px); line-height: .95; letter-spacing: -.095em; margin: 30px 0 0 -10px; font-weight: 400; transform: rotate(-1.3deg); }
+.atelier .clockwork-copy h1 span { font: 400 clamp(26px, 3vw, 48px)/1.3 var(--serif); letter-spacing: -.045em; margin: 12px 0 0 10%; }
+.atelier .clockwork-copy h1 span em { display: inline-block; transform: rotate(-3deg); color: var(--red); }
+.atelier .masthead-note { display: block; width: max-content; max-width: 58%; font: italic var(--reading-small, 1rem)/1.5 var(--serif); margin: 30px 0 0 42%; transform: rotate(-6deg); color: var(--muted); }
+.atelier .hero-editorial { position: relative; z-index: 3; width: 30%; min-width: 330px; padding: 0; margin: 75px 0 0 5%; }
+.atelier .hero-intro { font-size: clamp(26px, 2.4vw, 36px); line-height: 1.3; letter-spacing: -.025em; font-style: normal; margin-bottom: 22px; }
+.atelier .hero-deck { font-size: var(--reading-body, 1.1875rem); line-height: 1.8; max-width: 28ch; }
+.atelier .hero-editorial .engraved-link { font-style: italic; gap: 10px; }
+.atelier .hero-scroll { position: relative; z-index: 3; width: fit-content; max-width: 38%; margin: 48px 0 0 2%; letter-spacing: .08em; }
+.atelier .scroll-wheel { border: 0; font-size: 40px; transform: rotate(8deg); }
+.atelier .hero-coordinate { position: absolute; right: 1%; top: 12px; writing-mode: vertical-rl; z-index: 2; font-size: 1rem; letter-spacing: .06em; }
+.atelier .hero-instrument { position: absolute; top: 65px; right: -27%; width: 105%; z-index: 1; pointer-events: none; background: radial-gradient(ellipse at 52% 51%, #bd9d7220 0, transparent 45%); }
+.atelier .hero-assembly { width: 100%; max-width: none; }
+.atelier .instrument-caption { text-align: left; padding-left: 23%; transform: rotate(-3deg); margin-top: -7%; max-width: 65%; }
+.atelier .edition-rule { border: 0; border-bottom: 1px solid var(--ink); width: 91%; margin: 0 0 0 auto; padding-block: 14px; letter-spacing: .08em; }
+.atelier .motion-preference { margin-top: 22px; }
+.atelier .plate-heading { border: 0; padding-top: 12px; }
+.atelier .plate-heading .plate-label { font-size: var(--reading-small, 1rem); letter-spacing: .13em; }
+.atelier .chapter-numeral { font-size: 19px; display: inline-block; transform: rotate(-6deg); }
+.atelier .engraved-copy h2 { line-height: 1.14; font-size: clamp(38px, 4.5vw, 69px); margin-block: 27px; }
+.atelier .engraved-copy h2 em { color: var(--red); }
+.atelier .engraved-copy > p { line-height: 1.8; }
+.atelier .engraved-link { border-color: var(--muted); }
+.atelier .engraving-section:not(.clockwork-hero) { padding-block: 70px 100px; }
+.atelier .city-drawing { position: relative; }
+.atelier .drawing-layout { grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap: 2%; align-items: start; padding-top: 70px; }
+.atelier .drawing-figure { margin-top: 90px; margin-left: -4%; background: radial-gradient(ellipse at 45% 72%, #ae8c5620, transparent 57%); }
+.atelier .drawing-figure > svg { transform: rotate(-2deg); }
+.atelier .drawing-figure figcaption { text-align: left; padding: 20px 0; margin-left: 20%; width: 70%; max-width: 50ch; transform: rotate(-2deg); }
+.atelier .drawn-facade { stroke-width: .8; }
+.atelier [data-arm-upper] { stroke-width: 1.25; }
+.atelier [data-arm-lower] { stroke-width: .7; }
+.atelier .tampa-fieldnotes { position: relative; padding-block: 40px 100px; }
+.atelier .fieldnotes-intro { align-items: center; padding: 40px 6% 0 8%; }
+.atelier .fieldnotes-intro h2 { font-size: clamp(40px, 5.5vw, 84px); line-height: 1.08; transform: rotate(-2deg); }
+.atelier .fieldnotes-intro p { max-width: 29ch; padding-right: 3%; }
+.atelier .margin-scrawl { width: 40%; margin: 25px 0 -30px 47%; transform: rotate(3deg); }
+.atelier .fieldnotes-studies { grid-template-columns: 1fr 1.5fr 1fr; gap: 3%; align-items: start; }
+.atelier .fieldnote, .atelier .fieldnote:first-child, .atelier .fieldnote:last-child { border: 0; padding: 0; }
+.atelier .fieldnote-cigar { margin-top: 150px; }
+.atelier .fieldnote-ship { margin-top: 15px; }
+.atelier .fieldnote-rooster { margin-top: 290px; }
+.atelier .fieldnote-art { height: auto; }
+.atelier .fieldnote-cigar .fieldnote-art { transform: rotate(-9deg); margin: 0 -6% 20px 0; }
+.atelier .fieldnote-ship .fieldnote-art { transform: rotate(3deg); }
+.atelier .fieldnote-rooster .fieldnote-art { transform: rotate(-4deg); margin-top: -90px; }
+.atelier .fieldnote-ship figcaption { margin-left: 18%; }
+.atelier .fieldnote h3 { font-size: clamp(29px, 2.8vw, 42px); line-height: 1.2; font-style: italic; }
+.atelier .fieldnote p { max-width: 30ch; }
+.atelier .fieldnote .plate-label { color: var(--red); }
+.atelier .tampa-study { stroke-width: .85; }
+.atelier .tampa-study .study-etch { stroke-width: .4; opacity: .85; }
+.atelier .tampa-study .study-feather { stroke-width: .7; }
+.atelier .tampa-study .study-detail { opacity: .85; }
+.atelier .fieldnotes-colophon { width: 73%; border: 0; margin: 55px 0 0 8%; }
+.atelier .photographic-sleeve { border: 0; padding-block: 60px 100px; }
+.atelier .photographic-sleeve .section-heading { border: 0; }
+.atelier .sleeve-heading { grid-template-columns: 1.3fr 1fr; align-items: end; padding-left: 11%; }
+.atelier .sleeve-heading h2 { font-size: clamp(45px, 6.3vw, 94px); line-height: 1.1; transform: rotate(-2deg); }
+.atelier .sleeve-heading h2 span { color: var(--red); }
+.atelier .sleeve-heading > p { margin-bottom: 0; padding-bottom: 8px; max-width: 32ch; }
+.atelier .sleeve-layout { gap: 6%; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); align-items: center; }
+.atelier .sleeve-apparatus { margin-left: -4%; }
+.atelier .pulley-lift { background: var(--paper-light); border-color: var(--muted); box-shadow: 2px 4px 0 #a08c6720; }
+.atelier .sleeve-caption-column { border: 0; margin-top: 80px; }
+.atelier .sleeve-caption h3 { font-style: italic; }
+.atelier .clockwork-aperture { overflow: clip; }
+.atelier .aperture-layout { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr); padding-top: 70px; gap: 2%; align-items: center; }
+.atelier .aperture-layout .engraved-copy { padding-left: 12%; z-index: 1; }
+.atelier .aperture-figure { margin: -100px -17% 0 0; transform: rotate(3deg); background: radial-gradient(ellipse at 40% 65%, #b7986d15, transparent 56%); }
+.atelier .story-register { border-top: 0; margin-top: 70px; width: 88%; margin-left: auto; }
+.atelier .story-register > div { grid-template-columns: 1fr 1fr; gap: 0 8%; }
+.atelier .story-register a { border-bottom-style: dashed; padding-block: 27px; }
+.atelier .story-register a:nth-child(even) { transform: translateY(36px); }
+.atelier .story-register h3 { font-style: italic; font-size: clamp(26px, 2.5vw, 38px); }
+.atelier .mechanical-map { position: relative; }
+.atelier .map-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr); gap: 5%; align-items: start; padding-top: 60px; }
+.atelier .map-layout .engraved-copy { padding-top: 70px; }
+.atelier .map-figure { margin: -10px -2% 0 -8%; transform: rotate(-3deg); }
+.atelier .map-route { stroke: var(--red); stroke-width: 1.2; }
+.atelier .map-destinations a { border-color: color-mix(in srgb, var(--rule) 55%, transparent); }
+.atelier .neighborhood-atlas { border-top-style: dashed; }
+.atelier .atlas-heading h2 { font-size: clamp(40px, 4.5vw, 68px); }
+.atelier .list-teaser { border: 0; padding-block: 100px; }
+.atelier .list-number { color: var(--red); transform: rotate(-12deg); }
+.atelier .newsletter { border-top: 1px solid var(--ink); }
+.atelier .newsletter-title h2 { font-style: italic; }
+.atelier .button { background: var(--ink); color: var(--paper-light); }
+/* Content can grow when the reader chooses larger type; no fixed text boxes. */
+@media (min-width: 1600px) {
+  .atelier .clockwork-hero-inner { min-height: 1250px; }
+}
+@media (min-width: 801px) and (max-width: 1100px) {
+  .atelier .clockwork-hero-inner { min-height: 1020px; }
+  .atelier .hero-instrument { width: 125%; right: -45%; top: 180px; }
+  .atelier .hero-editorial { width: 39%; min-width: 0; margin-left: 0; margin-top: 80px; }
+  .atelier .hero-scroll { max-width: 43%; margin-left: 0; }
+  .atelier .drawing-layout { grid-template-columns: 1.2fr 1fr; }
+  .atelier .fieldnotes-studies { gap: 5%; }
+  .atelier .fieldnote-ship figcaption { margin-left: 0; }
+  .atelier .sleeve-layout { grid-template-columns: 1.3fr 1fr; gap: 3%; }
+}
+@media (max-width: 800px) {
+  .atelier .page-shell { padding-inline: 20px; }
+  .atelier .clockwork-hero { margin-inline: -20px; padding-inline: 20px; }
+  .atelier .clockwork-hero-inner { display: flex; flex-direction: column; min-height: 0; padding-block: 40px 55px; gap: 0; }
+  .atelier .clockwork-copy { display: contents; }
+  .atelier .hero-name { width: 100%; padding: 0; }
+  .atelier .hero-name > .plate-label { margin: 0; font-size: 1rem; letter-spacing: .07em; }
+  .atelier .clockwork-copy h1 { font-size: clamp(87px, 22vw, 180px); margin: 35px 0 0 -4px; letter-spacing: -.095em; }
+  .atelier .clockwork-copy h1 span { font-size: clamp(24px, 5.2vw, 38px); margin: 17px 0 0 4%; letter-spacing: -.04em; }
+  .atelier .masthead-note { margin: 23px 0 25px 43%; font-size: 1rem; }
+  .atelier .hero-scroll { order: 1; max-width: 100%; margin: 15px 0 20px; width: 100%; font-size: var(--reading-small, 1rem); }
+  .atelier .hero-instrument { order: 2; position: relative; top: auto; right: auto; width: calc(100% + 40px); overflow: clip; margin-inline: -20px; }
+  .atelier .hero-assembly { width: 141%; margin-left: -23%; }
+  .atelier .instrument-caption { margin: -5% 0 0; padding: 0 30px 18px; max-width: 94%; font-size: var(--reading-small, 1rem); }
+  .atelier .hero-editorial { order: 3; margin: 30px 0 0; padding: 0 3%; width: 100%; min-width: 0; }
+  .atelier .hero-intro { font-size: 32px; }
+  .atelier .hero-deck { max-width: 42ch; }
+  .atelier .edition-rule { width: 100%; font-size: var(--reading-small, 1rem); }
+  .atelier .engraving-section:not(.clockwork-hero) { padding-block: 40px 60px; }
+  .atelier .engraved-copy h2 { font-size: clamp(36px, 7.5vw, 54px); }
+  .atelier .engraved-copy > p { max-width: 46ch; }
+  .atelier .plate-heading { align-items: start; }
+  .atelier .plate-heading .plate-label { max-width: 60%; letter-spacing: .07em; }
+  .atelier .drawing-layout, .atelier .aperture-layout, .atelier .map-layout { grid-template-columns: 1fr; gap: 40px; padding-top: 35px; }
+  .atelier .drawing-figure { margin: 0; }
+  .atelier .drawing-figure figcaption { max-width: 42ch; padding: 20px 0 0; margin-left: 8%; width: 90%; }
+  .atelier .tampa-fieldnotes { padding-block: 30px 60px; }
+  .atelier .fieldnotes-intro { padding: 35px 3% 0; }
+  .atelier .fieldnotes-intro h2 { font-size: clamp(43px, 8vw, 62px); }
+  .atelier .fieldnotes-intro p { max-width: 40ch; }
+  .atelier .margin-scrawl { width: 80%; margin: 10px 0 0 12%; }
+  .atelier .fieldnotes-studies { grid-template-columns: 1fr; gap: 50px; }
+  .atelier .fieldnote { margin: 0; }
+  .atelier .fieldnote-art { max-width: 430px; }
+  .atelier .fieldnote-cigar .fieldnote-art { width: 86%; margin: 0 auto 10px; transform: rotate(-6deg); }
+  .atelier .fieldnote-rooster .fieldnote-art { width: 70%; margin: 0 0 0 auto; }
+  .atelier .fieldnote-ship .fieldnote-art { width: 95%; margin: 0 auto; }
+  .atelier .fieldnote figcaption { padding: 15px 3% 0; }
+  .atelier .fieldnote-ship figcaption { margin-left: 0; }
+  .atelier .fieldnote h3 { font-size: 36px; }
+  .atelier .fieldnote p { max-width: 44ch; }
+  .atelier .fieldnotes-colophon { width: 100%; margin: 35px 0 0; }
+  .atelier .photographic-sleeve { padding-block: 40px 60px; }
+  .atelier .sleeve-heading { grid-template-columns: 1fr; padding-left: 3%; gap: 25px; }
+  .atelier .sleeve-heading h2 { font-size: clamp(43px, 9vw, 67px); }
+  .atelier .sleeve-layout { grid-template-columns: 1fr; gap: 25px; }
+  .atelier .sleeve-apparatus { margin: 0; }
+  .atelier .sleeve-caption-column { margin-top: 0; }
+  .atelier .aperture-layout .engraved-copy { padding-left: 3%; }
+  .atelier .aperture-figure { margin: 0 -6% 0 -3%; transform: rotate(2deg); }
+  .atelier .story-register { margin-top: 45px; width: 100%; }
+  .atelier .story-register > div { grid-template-columns: 1fr; }
+  .atelier .story-register a:nth-child(even) { transform: none; }
+  .atelier .story-register h3 { font-size: 30px; }
+  .atelier .map-layout .engraved-copy { padding: 0; }
+  .atelier .map-figure { margin: 0; }
+  .atelier .atlas-heading h2 { font-size: 36px; }
+  .atelier .list-teaser { padding-block: 60px; }
+  .atelier .hero-assembly .mobile-secondary { display: none; }
+}

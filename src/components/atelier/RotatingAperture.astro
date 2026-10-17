@@ -1,0 +1,19 @@
+---
+import MechanicalImageFrame from './MechanicalImageFrame.astro';
+import {contour,tornOval} from '../../lib/etching';
+interface Props {id:string;x:number;y:number;radius:number;photo:string;eager?:boolean;}
+const {id,x,y,radius:r,photo,eager=false}=Astro.props;
+---
+<g transform={`translate(${x} ${y})`} data-aperture data-radius={r}>
+  <MechanicalImageFrame id={`${id}-photo`} photo={photo} x={-r} y={-r} width={r*2} height={r*2} circle eager={eager}/>
+  <defs><mask id={`${id}-iris`} maskUnits="userSpaceOnUse" x={-r-1} y={-r-1} width={r*2+2} height={r*2+2}><circle r={r+1} fill="white"/><circle data-iris-hole r={r*.96} fill="none" stroke="none"/><path data-iris-cutout d={tornOval(0,0,r,r,5)} transform="scale(.96)" fill="black" stroke="none"/></mask></defs>
+  <g mask={`url(#${id}-iris)`}>
+    <circle r={r} fill="var(--paper)"/>
+    {Array.from({length:8},(_,i)=><g transform={`rotate(${i*45})`}><g data-iris-blade>
+      <path d={`M0 0Q${-r*.25} ${-r*.55} 0 ${-r}A${r} ${r} 0 0 1 ${r*.707} ${-r*.707}Q${r*.1} ${-r*.35} 0 0Z`} fill={i%2?'url(#tc-crosshatch)':'var(--paper-light)'}/>
+      <path d={`M-1-4Q${-r*.28} ${-r*.52} -2 ${-r+7}`} class="pressure-stroke"/>
+    </g></g>)}
+  </g>
+  <circle data-iris-rim r={r*.96} class="aperture-pencil"/>
+  <path d={contour(r*.98,2,.1,1.9,1.3)+contour(r*.99,4,2.7,4.4,1.3)} class="pencil-line"/>
+</g>

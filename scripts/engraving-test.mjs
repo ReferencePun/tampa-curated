@@ -2,8 +2,9 @@ import assert from 'node:assert/strict';
 import {mkdirSync, writeFileSync} from 'node:fs';
 import {chromium, webkit, expect} from '@playwright/test';
 
-const url=`${process.env.TEST_ORIGIN||'http://127.0.0.1:4321'}${process.env.TEST_BASE??'/tampa-curated'}/home2/`;
-const output='test-results/engraving';
+const variant=process.env.TEST_PAGE||'home2';
+const url=`${process.env.TEST_ORIGIN||'http://127.0.0.1:4321'}${process.env.TEST_BASE??'/tampa-curated'}/${variant}/`;
+const output=`test-results/${variant==='home2'?'engraving':'expressive'}`;
 mkdirSync(output,{recursive:true});
 const report=[];
 for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]) {
@@ -40,7 +41,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]) {
       return {length:Math.hypot(sx-x,sy-y),expected:Number(c.dataset.rodLength),radius:Math.hypot(x,y),expectedRadius:Number(c.dataset.radius),sliderX:sx};
     }),
     lift:el.querySelector('.pulley-lift')?.style.transform,
-    moving:[...el.querySelectorAll('[data-gear],[data-connecting-rod],[data-iris-hole],[data-drawing],[data-counterweight]')].map(e=>[e.getAttribute('transform'),e.getAttribute('r'),e.getAttribute('d'),e.getAttribute('style')]),
+    moving:[...el.querySelectorAll('[data-gear],[data-connecting-rod],[data-iris-hole],[data-iris-cutout],[data-drawing],[data-counterweight]')].map(e=>[e.getAttribute('transform'),e.getAttribute('r'),e.getAttribute('d'),e.getAttribute('style')]),
   }));
   let meshChecks=0;
   for(const kind of ['hero','drawing','pulley','aperture','map']) {

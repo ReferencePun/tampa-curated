@@ -1,0 +1,10 @@
+---
+interface Props {width:number;height:number;}
+const {width:w,height:h}=Astro.props;
+---
+<g class="drafting-guides" aria-hidden="true">
+  <path d={`M13 ${h*.28}L${w-13} ${h*.285}M${w*.53} 12L${w*.525} ${h-12}M${w*.16} ${h*.9}L${w*.9} ${h*.08}`} class="pencil-ghost"/>
+  <path d={`M${w*.2} ${h*.12}L${w*.202} ${h*.48}M${w*.1} ${h*.7}L${w*.88} ${h*.68}`} class="erased-line"/>
+  <path d={`M18 25l13-1m-6-6l-.6 13M${w-43} ${h-30}l14 1m-7-6l1 13`} class="red-pencil"/>
+  <path d={`M${w*.31} ${h*.71}l4 16m-1-18l5 11m4-8l2 16M${w*.75} ${h*.18}l11-3m-9 6l16-3`} class="pencil-line"/>
+</g>

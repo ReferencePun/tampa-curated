@@ -1,0 +1,38 @@
+---
+import {gearPath,circlePath,point,TAU} from '../../lib/mechanisms';
+import {contour,ringHatch} from '../../lib/etching';
+interface Props {x?:number;y?:number;radius:number;teeth:number;rate?:number;phase?:number;design?:'ring'|'spoked'|'disc';class?:string;}
+const {x=0,y=0,radius:r,teeth,rate=1,phase=0,design='spoked',class:className=''}=Astro.props;
+const hole=design==='ring'?r*.78:r*.71;
+const spokes=Array.from({length:design==='disc'?8:6},(_,i)=>i*TAU/(design==='disc'?8:6));
+const hatch=ringHatch(r,teeth);
+---
+<g transform={`translate(${x} ${y})`} class:list={['engraved-gear',className]}>
+  <path d={contour(r+15,teeth,-.3,4.3,1.6)} class="pencil-ghost"/>
+  <path d={contour(r+17,teeth+2,.5,3.1,1.3)} class="erased-line"/>
+  <path d={contour(r+7,teeth+3,3.8,6.4,.7)} class="construction" stroke-dasharray="12 3 1 8"/>
+  <g data-gear data-rate={rate} data-phase={phase} data-teeth={teeth} data-pitch-radius={r} transform={`rotate(${phase})`}>
+    <path d={gearPath(r,teeth)+circlePath(hole)} fill="var(--paper)" fill-rule="evenodd" class="gear-outline"/>
+    <path d={hatch.marks} class="drypoint"/><path data-drawing pathLength="1" d={hatch.cross} class="drypoint cross-pass"/>
+    <path d={contour(r*.94,teeth,0,TAU,.65)} class="ink-contour"/>
+    <path d={contour(r*.82,teeth+4,0,TAU,.85)} class="ink-contour"/>
+    <path d={contour(r*.942,teeth+5,.45,2.5,.6)} class="pressure-stroke"/>
+    <path d={contour(r*.817,teeth+6,2.1,3.3,.8)} class="pressure-stroke"/>
+    <path d={contour(r*.835,teeth+9,-.6,1.6,1.2)} class="sketch-retrace"/>
+    <path d={contour(r*.785,teeth+2,2.8,6.1,.8)} class="pencil-line"/>
+    {design!=='ring'&&<>
+      {spokes.map((a,i)=>{const p=point(r*.17,a),q=point(r*.71,a),s=point(r*.52,a+.035);return <g>
+        <path d={`M${p}L${s}L${q}`} class="ink-contour"/>
+        <path d={`M${p[0]+2} ${p[1]-.5}L${q[0]+1.4} ${q[1]+1}`} class="pencil-line"/>
+        <path d={`M${p[0]-.6} ${p[1]+.8}L${s[0]-.4} ${s[1]+.5}`} class={i%3?'drypoint':'pressure-stroke'}/>
+      </g>})}
+      {design==='disc'&&<path d={contour(r*.55,3)} fill="url(#tc-crosshatch)" class="hairline"/>}
+      <path d={contour(r*.22,2)} fill="var(--paper)"/>
+      <path d={contour(r*.15,7)} class="pressure-stroke"/><circle r={r*.065} fill="url(#tc-crosshatch)"/>
+    </>}
+    {spokes.map((a,i)=>{const p=point(r*.875,a);return <g transform={`translate(${p.join(' ')}) rotate(${a*180/Math.PI})`}>
+      <path d={contour(Math.max(1.8,r*.018),i,0,TAU,.24)} fill="var(--paper)"/><path d="M-2.5 .3L2.2-.4M-.3-2L.4 2" class="drypoint"/>
+    </g>})}
+    <path d={`M${r*.3} ${r*.8}l5-2m-8-1l6-3M${-r*.8} ${-r*.2}l-3-8m6 5l-2-9`} class="ink-scratch"/>
+  </g>
+</g>

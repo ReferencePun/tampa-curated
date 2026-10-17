@@ -1,0 +1,22 @@
+---
+interface Props {text:string;x?:number;y?:number;rotate?:number;scale?:number;class?:string;}
+const {text,x=0,y=0,rotate=0,scale=1,class:className=''}=Astro.props;
+// Original single-line marginal lettering; every glyph is a pen path, not an image.
+const glyphs:Record<string,string>={
+  a:'M8 4Q1 1 1 8Q1 13 7 8L8 3L7 11L11 9',b:'M2 11L5-7Q9-11 7-3L2 8Q8-2 10 5Q12 12 2 11',
+  c:'M9 3Q3 0 1 6Q-1 14 9 9',d:'M8 4Q1 1 1 8Q1 13 7 8L12-8L8 12L12 9',
+  e:'M1 7Q9 6 9 3Q5-1 1 6Q-1 14 10 9',f:'M1 19L7-5Q12-13 12-6M0 4L11 3',
+  g:'M9 3Q1 1 1 8Q2 13 8 7L6 18Q1 27-2 20L11 12',h:'M2 11L7-9L4 5Q11-3 11 5L9 11L13 9',
+  i:'M3 3L1 10L5 9M4-2L4.3-3',k:'M2 11L7-9M10 2L3 7L9 12',l:'M1 9L6-8Q9-12 8-4L2 7Q1 14 7 9',
+  m:'M1 11L3 3L2 7Q9-3 8 6L7 11Q14-3 15 4L13 11L17 9',n:'M1 11L3 3L2 7Q11-3 11 5L9 11L13 9',
+  o:'M9 4Q6-1 2 4Q-2 10 4 12Q11 11 9 4L12 5',p:'M0 21L5 3L3 8Q11-3 12 5Q12 13 4 10',
+  r:'M1 11L4 3L3 7Q7 0 10 4',s:'M10 2Q2 0 3 5L7 8Q9 13 0 10',t:'M3-4L0 10Q1 14 7 9M-2 3L8 2',
+  u:'M3 3L1 9Q1 15 8 6L9 2L7 11L12 9',v:'M1 3L3 12Q9 9 11 2',w:'M1 3L2 11L8 5L8 12Q15 9 16 2',
+  y:'M2 3L1 9Q2 13 8 6L10 2L4 20Q0 26-2 20L12 12', '.':'M2 11l.5.2', '/':'M0 14L8-6',
+};
+let cursor=0;
+const letters=[...text.toLowerCase()].map((letter,i)=>{const position=cursor;cursor+=letter===' '?7:letter==='m'||letter==='w'?17:letter==='i'||letter==='l'?7:12;return{d:glyphs[letter],x:position,y:Math.sin(i*2.4)*.65,angle:Math.sin(i*1.8)*3}});
+---
+<g transform={`translate(${x} ${y}) rotate(${rotate}) scale(${scale})`} class:list={['handwritten-note',className]} aria-hidden="true">
+  {letters.map(letter=>letter.d&&<path d={letter.d} transform={`translate(${letter.x} ${letter.y}) rotate(${letter.angle}) skewX(-9)`}/>)}
+</g>

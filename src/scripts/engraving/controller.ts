@@ -22,7 +22,7 @@ export function initMechanisms() {
       const window=root.querySelector<SVGRectElement>('[data-drawing-window]');
       const arm=root.querySelector<SVGGElement>('[data-drafting-arm]');
       // Restore the fully legible server-rendered plate for reduced motion.
-      const elements=[...root.querySelectorAll<SVGElement|HTMLElement>('[data-gear],[data-belt],[data-crank-arm],[data-connecting-rod],[data-piston],[data-drawing],[data-iris-hole],[data-iris-rim],[data-iris-blade],[data-lift-cable],[data-weight-cable],[data-counterweight],[data-drawing-window],[data-arm-upper],[data-arm-lower],[data-arm-under],[data-arm-elbow],[data-arm-pen],.pulley-lift')];
+      const elements=[...root.querySelectorAll<SVGElement|HTMLElement>('[data-gear],[data-belt],[data-crank-arm],[data-connecting-rod],[data-piston],[data-drawing],[data-iris-hole],[data-iris-cutout],[data-iris-rim],[data-iris-blade],[data-lift-cable],[data-weight-cable],[data-counterweight],[data-drawing-window],[data-arm-upper],[data-arm-lower],[data-arm-under],[data-arm-elbow],[data-arm-pen],.pulley-lift')];
       const original=elements.map(el=>({el,attrs:[...el.attributes].map(a=>[a.name,a.value])}));
       restorers.push(()=>{
         for(const {el,attrs} of original) {
@@ -56,6 +56,8 @@ export function initMechanisms() {
           const radius=Number(aperture.dataset.radius);
           const opening=kind==='hero'?.62+.34*clamp(p/.8):.14+.82*clamp((p-.06)/.72);
           aperture.querySelector('[data-iris-hole]')!.setAttribute('r',String(radius*opening));
+          // Optional hand-cut opening follows the same aperture, with no new timeline.
+          aperture.querySelector('[data-iris-cutout]')?.setAttribute('transform',`scale(${opening})`);
           aperture.querySelector('[data-iris-rim]')!.setAttribute('r',String(radius*opening));
           for(const blade of aperture.querySelectorAll('[data-iris-blade]')) blade.setAttribute('transform',`rotate(${p*18})`);
         }
