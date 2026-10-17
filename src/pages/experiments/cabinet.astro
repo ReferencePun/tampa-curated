@@ -18,11 +18,4 @@ import {url} from '../../lib/urls';
 </section>
 <div class="lab-colophon"><span>NOTES ON THE COLLECTION</span><p>The drawings are original studies. Photographs and quotations lead back to their sources and editorial context.</p><a href={url('experiments/tracing-city/')}>Next: the city, in layers ↗</a></div>
 </ExperimentLayout>
-<script>
- const drawers=[...document.querySelectorAll<HTMLDetailsElement>('.cabinet-drawer')];
- drawers.forEach(drawer=>drawer.addEventListener('toggle',()=>{
-   if(drawer.open)drawers.forEach(other=>{if(other!==drawer)other.open=false;});
- }));
- const openHash=()=>{const target=drawers.find(drawer=>`#${drawer.id}`===location.hash);if(target)target.open=true;};
- window.addEventListener('hashchange',openHash);openHash();
-</script>
+<script>import '../../scripts/experiments/cabinet';</script>

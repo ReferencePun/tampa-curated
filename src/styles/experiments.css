@@ -1,6 +1,11 @@
 /* Independent experiment rooms; the three homepage compositions stay separate. */
 .experiments {--paper:#eee7d8;--paper-light:#f8f3e9;--ink:#302b24;--muted:#655c50;--red:#8c3b2e;--blue:#345c5b;--rule:#a99d87;--lab-teal:#3f6864;--draft-ink:#3f3830;--brass:#a78c5f;}
 .experiments::before {opacity:.08;}
+.experiments :is(.experiment-entry h2,.drawer-dossier h2,.notebook-piece h2,.shelf-piece h3) {text-wrap:balance;}
+.experiments :is(.lab-intro>p,.experiment-entry>p,.drawer-dossier>p,.notebook-piece>p,.shelf-piece>p) {text-wrap:pretty;}
+.experiments :is(.lab-link,.experiment-nav a,.lab-button,.notebook-tools button,.note-order button,.note-piece-top button,.notebook-undo button) {transition:color .18s ease,background-color .18s ease,border-color .18s ease;}
+.lab-link>span[aria-hidden] {display:inline-block;transition:transform .22s ease;}
+.notebook-count,.note-piece-top [data-piece-number],.drawer-number {font-variant-numeric:tabular-nums;}
 .experiments .page-shell {max-width:1600px;padding-inline:clamp(20px,3.2vw,54px);}
 .experiments .monogram {font-family:var(--serif);font-style:italic;}
 .experiments .site-header {border-color:var(--ink);}
@@ -29,7 +34,10 @@
 .entry-number {border-top:1px solid var(--ink);padding-top:16px;display:flex;gap:18px;align-items:center;font:italic 35px var(--serif);color:var(--red);}
 .entry-number span {font:600 14px var(--condensed);letter-spacing:.12em;color:var(--muted);}
 .experiment-entry .experiment-mark {margin:0 0 16px;transition:transform .4s;}
-.experiment-entry:hover .experiment-mark {transform:translateY(-6px) rotate(-1.5deg);}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ html:not([data-motion="reduced"]) .experiment-entry:hover .experiment-mark {transform:translateY(-3px) rotate(-.6deg);}
+ html:not([data-motion="reduced"]) .lab-link:hover>span[aria-hidden] {transform:translate(3px,-2px);}
+}
 .experiment-entry h2 {font:400 clamp(29px,3vw,44px)/1.18 var(--serif);letter-spacing:-.035em;margin:16px 0 20px;}
 .experiment-entry>p {font:var(--reading-body,1.1875rem)/1.7 var(--serif);margin-bottom:22px;max-width:31ch;}
 .lab-colophon {display:grid;grid-template-columns:.7fr 1.4fr 1fr;gap:40px;padding-block:35px 65px;border-top:1px solid var(--rule);align-items:start;}
@@ -50,6 +58,13 @@
 .drawer-cue {font:600 var(--reading-small,1rem) var(--condensed);text-align:right;}
 .cabinet-drawer:not([open]) .open-cue,.cabinet-drawer[open] .closed-cue {display:none;}
 .cabinet-drawer[open] summary {box-shadow:0 8px 12px #513e2920;z-index:1;}
+.cabinet-drawer summary {transition:color .18s ease,box-shadow .25s ease;}
+.drawer-pull {transition:transform .3s ease,box-shadow .3s ease;}
+.cabinet-drawer summary:is(:hover,:focus-visible) {color:var(--red);}
+.cabinet-drawer summary[aria-expanded="true"] .drawer-pull {transform:perspective(180px) rotateX(-30deg) translateY(2px);box-shadow:0 6px 6px #6a4d2c30;}
+.cabinet-drawer[data-enhanced][open] .drawer-tray {animation:none;}
+.cabinet-drawer[data-enhanced] summary[aria-expanded="false"] .open-cue,.cabinet-drawer[data-enhanced] summary[aria-expanded="true"] .closed-cue {display:none;}
+.cabinet-drawer[data-enhanced] summary[aria-expanded="false"] .closed-cue {display:inline;}
 .drawer-tray {display:grid;grid-template-columns:1fr 1.1fr;gap:6%;padding:28px 6% 42px;background:linear-gradient(#8b73562a,transparent 25px),#eee4d1;}
 .cabinet-drawer[open] .drawer-tray {animation:drawer-in .35s ease-out;}
 @keyframes drawer-in {from {opacity:0;transform:translateY(-10px);}to {opacity:1;transform:none;}}
@@ -88,6 +103,12 @@
 .notebook-board {list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;margin:30px 0 0;padding:0;}
 .notebook-board:empty {margin:0;}
 .notebook-piece {min-width:0;background:#fdf9f1;border:1px solid #c7bca7;box-shadow:2px 3px 0 #cabda550;padding:24px;align-self:start;}
+.notebook-piece {transition:border-color .2s ease,box-shadow .2s ease;}
+.notebook-piece:focus-within {border-color:var(--muted);box-shadow:2px 4px 9px #58442c18;}
+.note-writing textarea::placeholder {color:var(--muted);opacity:.8;}
+.note-writing textarea:focus-visible {outline-offset:8px;}
+.note-order button:not(:disabled):is(:hover,:focus-visible),.notebook-tools button:last-child:is(:hover,:focus-visible) {background:var(--ink);border-color:var(--ink);color:var(--paper-light);}
+.lab-button:is(:hover,:focus-visible),.notebook-tools button:first-child:is(:hover,:focus-visible),.notebook-undo button:is(:hover,:focus-visible) {background:var(--red);border-color:var(--red);color:var(--paper-light);}
 .note-piece-top {display:flex;flex-wrap:wrap;align-items:center;gap:14px;justify-content:space-between;margin-bottom:20px;font:600 var(--reading-small,1rem)/1.5 var(--condensed);color:var(--muted);}
 .note-piece-top [data-piece-number] {font:italic 24px var(--serif);color:var(--red);white-space:nowrap;}
 .note-piece-top button {border:0;border-bottom:1px solid var(--rule);background:none;font:inherit;padding:10px 0;min-height:44px;}
@@ -147,6 +168,7 @@
  .shelf-heading {display:block;}.shelf-heading h2 {font-size:36px;}.shelf-heading>p {margin-top:22px;max-width:44ch;}.shelf-filters {flex-wrap:wrap;gap:15px;}.shelf-filters label:first-child {flex-basis:100%;}.shelf-filters label {min-width:0;}.shelf-filters select {max-width:200px;}.shelf-filters>span {padding-bottom:14px;}.shelf-grid {grid-template-columns:1fr;gap:40px;}.shelf-piece h3 {font-size:32px;}.shelf-quote {font-size:32px;}
 }
 @media(prefers-reduced-motion:reduce){.experiments * {animation:none!important;transition:none!important;scroll-behavior:auto!important;}}
+html[data-motion="reduced"] .experiments * {animation:none!important;transition:none!important;scroll-behavior:auto!important;}
 @media print {
  .experiments {background:white;color:black;--ink:#000;--muted:#444;--paper-light:#fff;}
  .experiments::before,.experiments .site-header,.experiments .site-footer,.experiments .reading-tools,.experiment-nav,.experiment-footnote,.notebook-intro,.notebook-toolbar,.notebook-summary,.notebook-empty,.collection-shelf,.note-order,.note-piece-top button,.note-writing,.notebook-undo,.storage-warning,.sea-glass-viewport {display:none!important;}

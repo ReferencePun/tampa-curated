@@ -1,3 +1,4 @@
+import {reducedMotion} from '../mechanical/settings';
 import {readNotebook,writeNotebook,notebookStorageAvailable,type SavedNote} from './notebook-store';
 const board=document.querySelector<HTMLOListElement>('[data-notebook-board]')!;
 const title=document.querySelector<HTMLInputElement>('[data-notebook-title]')!;
@@ -12,8 +13,32 @@ function render(){
  document.querySelector('[data-note-print-title]')!.textContent=state.title||'My Tampa field notes';
  const key=JSON.stringify(items.map(item=>item.id));
  if(key!==renderedIds){
-  board.replaceChildren(...items.map(item=>templates.get(item.id)!.content.cloneNode(true)));renderedIds=key;
-  board.querySelectorAll('img').forEach(image=>image.loading='eager');
+  const existing=new Map([...board.querySelectorAll<HTMLElement>('[data-note-id]')].map(card=>[card.dataset.noteId!,card]));
+  const previous=new Map([...existing].map(([id,card])=>[id,card.getBoundingClientRect()]));
+  // Capture the visible positions before cancelling an unfinished rearrangement.
+  existing.forEach(card=>card.getAnimations().forEach(animation=>animation.cancel()));
+  const focused=document.activeElement as HTMLElement|null;
+  const selection=focused instanceof HTMLTextAreaElement ? [focused.selectionStart,focused.selectionEnd] : null;
+  const wanted=new Set(items.map(item=>item.id));
+  existing.forEach((card,id)=>{if(!wanted.has(id)){card.getAnimations().forEach(animation=>animation.cancel());card.remove();}});
+  items.forEach((item,index)=>{
+   let card=existing.get(item.id);
+   if(!card){card=templates.get(item.id)!.content.firstElementChild!.cloneNode(true) as HTMLElement;card.querySelectorAll('img').forEach(image=>image.loading='eager');}
+   if(board.children[index]!==card)board.insertBefore(card,board.children[index]||null);
+  });
+  renderedIds=key;
+  document.querySelector<HTMLElement>('[data-notebook-empty]')!.hidden=items.length>0;
+  if(focused?.isConnected && document.activeElement!==focused){focused.focus({preventScroll:true});if(selection && focused instanceof HTMLTextAreaElement)focused.setSelectionRange(selection[0],selection[1]);}
+  if(!reducedMotion() && !document.hidden){
+   for(const card of board.querySelectorAll<HTMLElement>('[data-note-id]')){
+    const before=previous.get(card.dataset.noteId!),after=card.getBoundingClientRect();
+    if(after.bottom<0 || after.top>innerHeight)continue;
+    if(before){
+     const x=before.left-after.left,y=before.top-after.top;
+     if(Math.abs(x)+Math.abs(y)>1)card.animate([{transform:`translate(${x}px,${y}px)`},{transform:'translate(0,0)'}],{duration:340,easing:'cubic-bezier(.22,.68,.24,1)'});
+    }else card.animate([{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'translateY(0)'}],{duration:260,easing:'ease-out'});
+   }
+  }
  }
  [...board.querySelectorAll<HTMLElement>('[data-note-id]')].forEach((card,index)=>{
   card.querySelector('[data-piece-number]')!.textContent=String(index+1).padStart(2,'0');
@@ -30,6 +55,12 @@ function render(){
 }
 const announce=(text:string)=>{status.textContent=text;};
 function focusPiece(id:string){const h=[...board.querySelectorAll<HTMLElement>('[data-note-id]')].find(e=>e.dataset.noteId===id)?.querySelector('h2');if(h){h.tabIndex=-1;h.focus({preventScroll:true});}}
+const stopAnimations=()=>board.querySelectorAll('[data-note-id]').forEach(card=>card.getAnimations().forEach(animation=>animation.cancel()));
+matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',stopAnimations);
+window.addEventListener('pagehide',stopAnimations);
+window.addEventListener('beforeprint',stopAnimations);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stopAnimations();});
+new MutationObserver(()=>{if(reducedMotion())stopAnimations();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-motion']});
 window.addEventListener('notebook:change',render);window.addEventListener('notebook:external',render);window.addEventListener('pageshow',render);
 title.addEventListener('input',()=>{const state=readNotebook();state.title=title.value;writeNotebook(state);});
 board.addEventListener('input',event=>{
@@ -62,7 +93,7 @@ starter.addEventListener('click',()=>{
  writeNotebook(state);announce('Three pieces added. You can now add notes and change their order.');
 });
 document.querySelector<HTMLElement>('[data-notebook-tools]')!.hidden=false;
-document.querySelector('[data-note-print]')!.addEventListener('click',async()=>{render();await Promise.all([...board.querySelectorAll('img')].map(image=>image.decode().catch(()=>{})));window.print();});
+document.querySelector('[data-note-print]')!.addEventListener('click',async()=>{render();stopAnimations();await Promise.all([...board.querySelectorAll('img')].map(image=>image.decode().catch(()=>{})));window.print();});
 document.querySelector('[data-note-export]')!.addEventListener('click',()=>{
  const state=readNotebook();
  const pieces=state.items.filter(item=>templates.has(item.id)).map((item,index)=>{

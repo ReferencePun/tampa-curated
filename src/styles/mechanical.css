@@ -99,6 +99,11 @@
 .worktable-move {
   position: relative;
 }
+.worktable-copy h3 { text-wrap: balance; }
+.worktable-copy>p,.atlas-heading>p { text-wrap: pretty; }
+.worktable-print { transition: box-shadow .25s ease; }
+.worktable-print:is(:hover,:focus-visible) { box-shadow: 3px 8px 16px #342a2333; }
+.editorial-worktable .text-link,.neighborhood-atlas .text-link,.photographic-sleeve .text-link { transition: color .18s ease; }
 .worktable-print {
   display: block;
   background: var(--paper-light);

@@ -48,10 +48,11 @@ export function initMechanisms() {
           for(const rod of crank.querySelectorAll('[data-connecting-rod]')) rod.setAttribute('d',`M${point.x} ${point.y}L0 ${point.slider}`);
           crank.querySelector('[data-piston]')!.setAttribute('transform',`translate(0 ${point.slider})`);
         }
-        for(const line of drawings) {
+        drawings.forEach((line,index)=>{
+          const start=.025+index/Math.max(1,drawings.length-1)*.12;
           line.style.strokeDasharray='1';
-          line.style.strokeDashoffset=String(1-clamp((p-.04)/.72));
-        }
+          line.style.strokeDashoffset=String(1-clamp((p-start)/.62));
+        });
         for(const aperture of apertures) {
           const radius=Number(aperture.dataset.radius);
           const opening=kind==='hero'?.62+.34*clamp(p/.8):.14+.82*clamp((p-.06)/.72);
@@ -87,7 +88,7 @@ export function initMechanisms() {
       };
       gsap.to(state,{progress:1,ease:'none',onUpdate:render,scrollTrigger:{
         trigger:root,start:kind==='hero'?'top top':'top 85%',
-        end:kind==='hero'?'bottom 65%':'bottom 25%',scrub:true,
+        end:kind==='hero'?'bottom 65%':'bottom 25%',scrub:.18,
         invalidateOnRefresh:true,onRefresh:()=>{measure();render();},
       }});
       root.dataset.machineReady='true';

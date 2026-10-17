@@ -1,3 +1,4 @@
+import {settleProgress} from '../motion/settle';
 import {reducedMotion} from '../mechanical/settings';
 import {interval, tracingTimeline} from './tracing-sequence';
 
@@ -14,6 +15,8 @@ function mountTracing() {
  const heading = find<HTMLElement>('[data-tracing-heading]');
  const copy = find<HTMLElement>('[data-tracing-copy]');
  const cue = find<HTMLElement>('[data-tracing-cue]');
+ const narrative = find<HTMLElement>('.tracing-narrative');
+ let captionAnimation:Animation|undefined;
  const direction = find<HTMLElement>('[data-tracing-direction]');
  const steps = [...root.querySelectorAll<HTMLElement>('[data-trace-step]')];
  const initial = {chapter:chapter.textContent, heading:heading.innerHTML, copy:copy.textContent};
@@ -34,12 +37,16 @@ function mountTracing() {
  });
  let active: boolean | undefined;
  let visible = true, frame = 0, top = 0, travel = 1, phase = -1, lastProgress = -1, frames = 0;
+ let current:number|undefined, lastTime=0;
  const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
- function render() {
+ function render(time:number) {
   frame = 0;
   if (!active || !visible || document.hidden) return;
-  const state = tracingTimeline((scrollY-top)/travel);
-  if (state.progress === lastProgress) return;
+  const target=tracingTimeline((scrollY-top)/travel).progress;
+  current=settleProgress(current,target,lastTime?time-lastTime:16);lastTime=time;
+  const state = tracingTimeline(current);
+  root.dataset.tracingSettled=String(current===target);
+  if (state.progress === lastProgress) {if(current!==target)request();else lastTime=0;return;}
   lastProgress = state.progress;
   for (const stroke of strokes) {
    const amount = interval(state.progress, stroke.start, stroke.end);
@@ -57,6 +64,7 @@ function mountTracing() {
   sheet.style.transform = `translate(${state.slide * 104}%, ${state.slide * -8}%) rotate(${state.slide * -7}deg)`;
   sheet.style.visibility = state.slide === 1 ? 'hidden' : '';
   if (phase !== state.phase) {
+   if(phase!==-1){captionAnimation?.cancel();captionAnimation=narrative.animate([{opacity:.65},{opacity:1}],{duration:180,easing:'ease-out'});}
    phase = state.phase;
    const text = phases[phase];
    chapter.textContent=text.chapter;heading.innerHTML=text.heading;copy.textContent=text.copy;cue.textContent=text.cue;
@@ -68,10 +76,12 @@ function mountTracing() {
   root.dataset.slideProgress=state.slide.toFixed(4);
   root.dataset.tracingPhase=String(phase);
   root.dataset.renderFrames=String(++frames);
+  if(current!==target)request();else lastTime=0;
  }
  const request = () => {if (active && visible && !document.hidden && !frame) frame=requestAnimationFrame(render);};
  function reset() {
   for (const {path,style} of strokes) {if (style === null) path.removeAttribute('style');else path.setAttribute('style',style);}
+  captionAnimation?.cancel();
   labels.style.opacity='';sheet.style.visibility='';
   sheet.style.transform='';
   chapter.textContent=initial.chapter;heading.innerHTML=initial.heading;copy.textContent=initial.copy;
@@ -82,7 +92,7 @@ function mountTracing() {
   const enabled = !reducedMotion() && innerHeight >= 600 && parseFloat(getComputedStyle(document.documentElement).fontSize) <= 18;
   if (enabled !== active) {
    active=enabled;root.dataset.tracingMode=active?'scroll':'still';
-   cue.hidden=!active;direction.hidden=!active;phase=-1;lastProgress=-1;
+   cue.hidden=!active;direction.hidden=!active;phase=-1;lastProgress=-1;current=undefined;lastTime=0;
    if (!active) {cancelAnimationFrame(frame);frame=0;reset();}
   }
   if (!active) return;
@@ -90,7 +100,7 @@ function mountTracing() {
   travel=Math.max(1,track.offsetHeight-stage.offsetHeight);
   request();
  }
- const intersection = new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if (visible) request();else {cancelAnimationFrame(frame);frame=0;}},{rootMargin:'100px'});
+ const intersection = new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if (visible) request();else {cancelAnimationFrame(frame);frame=0;current=undefined;lastTime=0;}},{rootMargin:'100px'});
  intersection.observe(track);
  const resize = new ResizeObserver(measure);
  resize.observe(document.documentElement);resize.observe(stage);
@@ -100,7 +110,7 @@ function mountTracing() {
  document.addEventListener('visibilitychange',request);motionQuery.addEventListener('change',measure);
  measure();
  return () => {
-  cancelAnimationFrame(frame);intersection.disconnect();resize.disconnect();preference.disconnect();
+  captionAnimation?.cancel();cancelAnimationFrame(frame);intersection.disconnect();resize.disconnect();preference.disconnect();
   window.removeEventListener('scroll',request);window.removeEventListener('resize',measure);
   document.removeEventListener('visibilitychange',request);motionQuery.removeEventListener('change',measure);
   reset();

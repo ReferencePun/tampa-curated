@@ -27,9 +27,18 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await goto('experiments/cabinet/');
  await expect(page.locator('.cabinet-drawer')).toHaveCount(6);
  await expect(page.locator('.cabinet-drawer[open]')).toHaveCount(1);
+ assert.equal(await page.locator('.cabinet-drawer[open] .drawer-tray').evaluate(el=>getComputedStyle(el).animationName),'none','One coordinated height transition controls the enhanced drawer');
  await page.locator('#drawer-sail summary').click();
  await expect(page.locator('#drawer-sail')).toHaveAttribute('open','');
  await expect(page.locator('.cabinet-drawer[open]')).toHaveCount(1);
+ // A second input can reverse a moving drawer without leaving clipped content.
+ await page.locator('#drawer-sail summary').evaluate(summary=>summary.click());
+ await page.waitForTimeout(70);
+ await page.locator('#drawer-sail summary').evaluate(summary=>summary.click());
+ await expect(page.locator('#drawer-sail')).not.toHaveAttribute('data-moving','true');
+ await expect(page.locator('#drawer-sail summary')).toHaveAttribute('aria-expanded','true');
+ assert.equal(await page.locator('#drawer-sail .drawer-tray').evaluate(el=>el.inert),false);
+ assert.equal(await page.locator('#drawer-sail').evaluate(el=>el.style.height),'');
  await page.locator('#drawer-feather summary').focus();
  await page.keyboard.press('Enter');
  await expect(page.locator('#drawer-feather')).toHaveAttribute('open','');
@@ -49,8 +58,12 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  const note='Walk slowly.\nLook up at the brickwork. <script>text only</script>';
  await pieces.first().locator('textarea').fill(note);
  const rooster=pieces.filter({has:page.locator('[data-note-text][aria-label="My notes on The early riser"]')});
+ await rooster.evaluate(card=>{window.__retainedNote=card.querySelector('textarea');});
  await rooster.locator('[data-note-move="1"]').click();
  assert.equal((await state()).items[1].id,'objects:feather');
+ assert.ok(await rooster.evaluate(card=>card.querySelector('textarea')===window.__retainedNote),'Reordering retains the actual writing surface');
+ await expect(rooster.locator('h2')).toBeFocused();
+ await expect(rooster.locator('textarea')).toHaveValue(note);
  await page.reload();
  await expect(page.locator('[data-notebook-title]')).toHaveValue('A Saturday in Tampa');
  await expect(pieces.nth(1).locator('textarea')).toHaveValue(note);
@@ -115,6 +128,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
    scrollTo({top:track.getBoundingClientRect().top+scrollY+(track.offsetHeight-stage.offsetHeight)*progress,behavior:'instant'});
   },progress);
   await expect.poll(async()=>Math.abs(Number(await targetPage.locator('[data-tracing-journey]').getAttribute('data-tracing-progress'))-progress)).toBeLessThan(.002);
+  await expect(targetPage.locator('[data-tracing-journey]')).toHaveAttribute('data-tracing-settled','true');
  };
  await expect(journey).toHaveAttribute('data-tracing-mode','scroll');
  await expect(page.locator('[data-paper-handle], [data-paper-lift], [data-paper-ink]')).toHaveCount(0);

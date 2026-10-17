@@ -67,7 +67,8 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]) {
     }
     if(kind==='hero'||kind==='aperture')assert(b.iris>a.iris*1.2,`${kind}: photograph opens`);
     if(kind==='drawing')assert(b.reveal>a.reveal+200,'Photograph emerges through drawing');
-    if(b.line)assert(Number(b.line)<Number(a.line),'Construction lines draw forward');
+    // WebKit serializes a completed unitless SVG dash offset as "0px".
+    if(b.line)assert(parseFloat(b.line)<parseFloat(a.line),'Construction lines draw forward');
     if(kind==='pulley'){
       assert.notEqual(a.lift,b.lift,'Portrait frame travels');
       const attachment=await page.locator('.pulley-assembly').evaluate(el=>{

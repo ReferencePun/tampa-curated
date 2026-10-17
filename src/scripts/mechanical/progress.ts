@@ -1,6 +1,7 @@
 import { clamp } from "./settings";
+import { settleProgress } from "../motion/settle";
 
-/** Cached document geometry; one frame per scroll event, no idle animation. */
+/** Cached geometry and a short settle after input; no idle animation. */
 export function scrollProgress(
   root: HTMLElement,
   apply: (progress: number) => void,
@@ -12,17 +13,24 @@ export function scrollProgress(
     frame = 0,
     visible = false,
     disposed = false;
-  const draw = () => {
+  let current: number | undefined, painted: number | undefined, last = 0;
+  const draw = (time: number) => {
     frame = 0;
     if (disposed || document.hidden || !visible) return;
-    apply(
-      pinned
+    const target = pinned
         ? clamp((scrollY - top + 16) / Math.max(1, height - viewport))
         : clamp(
             (scrollY + viewport * 0.85 - top) /
               (viewport * 0.9 + height * 0.25),
-          ),
-    );
+          );
+    current = settleProgress(current, target, last ? time - last : 16);
+    last = time;
+    if (current !== painted) {
+      apply(current);
+      painted = current;
+    }
+    if (current !== target) request();
+    else last = 0;
   };
   const request = () => {
     if (!frame && !disposed && visible) frame = requestAnimationFrame(draw);
@@ -39,6 +47,11 @@ export function scrollProgress(
       if (visible) {
         measure();
         request();
+      } else {
+        cancelAnimationFrame(frame);
+        frame = 0;
+        current = undefined;
+        last = 0;
       }
     },
     { rootMargin: "100px" },
@@ -50,7 +63,14 @@ export function scrollProgress(
   visibility.observe(root);
   window.addEventListener("scroll", request, { passive: true });
   window.addEventListener("resize", measure, { passive: true });
-  document.addEventListener("visibilitychange", request);
+  const visibilityChange = () => {
+    cancelAnimationFrame(frame);
+    frame = 0;
+    current = undefined;
+    last = 0;
+    if (!document.hidden) request();
+  };
+  document.addEventListener("visibilitychange", visibilityChange);
   document.fonts.ready.then(() => {
     if (!disposed) measure();
   });
@@ -62,6 +82,6 @@ export function scrollProgress(
     visibility.disconnect();
     window.removeEventListener("scroll", request);
     window.removeEventListener("resize", measure);
-    document.removeEventListener("visibilitychange", request);
+    document.removeEventListener("visibilitychange", visibilityChange);
   };
 }

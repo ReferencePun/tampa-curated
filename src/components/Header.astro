@@ -1,6 +1,7 @@
 ---
 import { navigation, editionNavigation } from '../config/site';
 import { url } from '../lib/urls';
+import ConceptNavigation from './ConceptNavigation.astro';
 const current = Astro.url.pathname;
 ---
 <header class="site-header">
@@ -9,17 +10,45 @@ const current = Astro.url.pathname;
     {navigation.map(([number, label, path]) => <a href={url(path)} aria-current={current.startsWith(url(path)) ? 'page' : undefined}><span>{number}</span> {label}</a>)}
   </nav>
   <a class="edition" href={url('issues/001/')} aria-label="Read Issue 001: The City Now"><span class="edition-dot" aria-hidden="true"></span><span>ISSUE 001<br/>TAMPA, FLORIDA<br/>AN INDEPENDENT EYE</span></a>
+  <ConceptNavigation/>
   <a class="search-link" href={url('search/')}><span>Search</span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 6 6"/></svg></a>
   <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" type="button"><span>Menu</span><span class="menu-icon" aria-hidden="true">☰</span></button>
 </header>
 <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden>
   {[...navigation, ...editionNavigation].map(([number, label, path]) => <a href={url(path)} aria-current={current.startsWith(url(path)) ? 'page' : undefined}><small>{number}</small> {label}<span aria-hidden="true">↗</span></a>)}
 </nav>
+<style>
+  .site-header {position:relative;z-index:10;}
+  .site-header .search-link {margin-left:0;}
+  @media(max-width:1500px){.site-header .edition {display:none;}}
+  @media(max-width:600px){
+    .site-header .search-link {min-width:28px;min-height:44px;}
+    .site-header .search-link>span {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;}
+  }
+</style>
 <script>
   const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
   const menu = document.querySelector<HTMLElement>('#mobile-nav');
+  const concepts=document.querySelector<HTMLDetailsElement>('[data-concept-navigation]')!;
+  const conceptToggle=concepts.querySelector('summary')!;
+  const closeConcepts=(focus=false)=>{concepts.open=false;if(focus)conceptToggle.focus();};
+  conceptToggle.addEventListener('keydown',event=>{
+    if(event.key!=='ArrowDown'&&event.key!=='ArrowUp')return;
+    event.preventDefault();concepts.open=true;closeMenu();
+    const links=concepts.querySelectorAll<HTMLAnchorElement>('nav a');
+    links[event.key==='ArrowDown'?0:links.length-1].focus();
+  });
+  concepts.addEventListener('toggle',()=>{
+    if(!concepts.open)return;
+    closeMenu();const panel=concepts.querySelector('nav')!;
+    if(!panel.contains(document.activeElement))panel.scrollTop=0;
+  });
+  concepts.addEventListener('click',event=>{if((event.target as Element).closest('a'))closeConcepts();});
+  document.addEventListener('pointerdown',event=>{if(concepts.open&&!concepts.contains(event.target as Node))closeConcepts();});
+  document.addEventListener('focusin',event=>{if(concepts.open&&!concepts.contains(event.target as Node))closeConcepts();});
   function closeMenu() { if (!toggle || !menu) return; toggle.setAttribute('aria-expanded', 'false'); menu.hidden = true; }
-  toggle?.addEventListener('click', () => { if (!menu) return; const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded', String(open)); menu.hidden = !open; });
-  document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') { closeMenu(); toggle.focus(); } });
+  toggle?.addEventListener('click', () => { if (!menu) return; closeConcepts();const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded', String(open)); menu.hidden = !open; });
+  document.addEventListener('keydown', (event) => { if(event.key!=='Escape')return;if(concepts.open){closeConcepts(true);return;}if(toggle?.getAttribute('aria-expanded') === 'true') { closeMenu(); toggle.focus(); } });
+  window.addEventListener('pagehide',()=>{closeConcepts();closeMenu();});
   window.matchMedia('(min-width: 1061px)').addEventListener('change', (event) => { if (event.matches) closeMenu(); });
 </script>

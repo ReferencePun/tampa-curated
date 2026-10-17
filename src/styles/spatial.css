@@ -1,6 +1,11 @@
 /* This edition never changes the three homepage compositions. */
 .spatial {--paper:#eee7d8;--paper-light:#f7f2e8;--ink:#38332c;--muted:#746957;--red:#97513b;--blue:#534a3c;--rule:#b8aa92;}
 .spatial .page-shell {max-width:1800px;}
+.spatial :is(.spatial-caption h2,.spatial-notes-grid h3) {text-wrap:balance;}
+.spatial :is(.spatial-intro-note p,.spatial-caption p,.spatial-notes-grid p,.spatial-story p) {text-wrap:pretty;}
+.spatial :is(.spatial-room-nav a,.spatial-stage-nav a,.spatial-photo-link,.spatial-instruments button,.spatial-retry) {transition:color .18s ease,background-color .18s ease,border-color .18s ease;}
+.spatial-stage-heading,.spatial-stage-nav {font-variant-numeric:tabular-nums;}
+.spatial-instruments button:is(:hover,:focus-visible),.spatial-retry:is(:hover,:focus-visible) {background:var(--ink);color:var(--paper-light);}
 .spatial-topline {display:flex;gap:24px;justify-content:space-between;padding:22px 0;font:600 var(--reading-small,1rem)/1.5 var(--condensed);}
 .spatial-topline>span {letter-spacing:.1em;color:var(--muted);}
 .spatial-topline a {text-decoration:underline;text-underline-offset:5px;}

@@ -17,6 +17,17 @@ export async function mountSpatial(root:HTMLElement,onFailure:(message:string)=>
  const drawButton=root.querySelector<HTMLButtonElement>('[data-show-drawing]')!;
  const crank=root.querySelector<HTMLInputElement>('[data-crank]')!;
  const instruments=root.querySelector<HTMLElement>('[data-spatial-instruments]')!;
+ const caption=root.querySelector<HTMLElement>('.spatial-caption')!;
+ const roomNumber=root.querySelector<HTMLElement>('[data-room-number]')!;
+ const roomHeading=root.querySelector<HTMLElement>('[data-room-heading]')!;
+ const roomCopy=root.querySelector<HTMLElement>('[data-room-copy]')!;
+ const pencilNote=root.querySelector<HTMLElement>('[data-pencil-note]')!;
+ const crankLabel=root.querySelector<HTMLElement>('[data-crank-label]')!;
+ const coordinates=root.querySelector<HTMLElement>('[data-world-coordinates]')!;
+ let photoWidth=0,photoHeight=0,captionTop=0,displayedPercent=-1;
+ let captionAnimation:Animation|undefined;
+ const setHidden=(element:HTMLElement,hidden:boolean)=>{if(element.hidden!==hidden)element.hidden=hidden;};
+ const measureOverlay=()=>{photoWidth=photoLink.offsetWidth;photoHeight=photoLink.offsetHeight;captionTop=caption.offsetTop;};
  const position=new T.Vector3(),quaternion=new T.Quaternion(),projected=new T.Vector3();
  const links=[...document.querySelectorAll<HTMLAnchorElement>('[data-room-link]')];
  // The static articles own these anchors only in reading mode. Keeping their
@@ -25,11 +36,11 @@ export async function mountSpatial(root:HTMLElement,onFailure:(message:string)=>
  readingAnchors.forEach((element,index)=>element.id=`notes-${rooms[index].id}`);
  function measure(){
   width=Math.max(1,stage.clientWidth);height=Math.max(1,stage.clientHeight);
-  const caption=root.querySelector<HTMLElement>('.spatial-caption')!;
   if(height<480||caption.offsetHeight+instruments.offsetHeight+175>height*.92){onFailure('For this window size, the still drawing gives the text more room. All four rooms and stories are available below.');return;}
   start=track.getBoundingClientRect().top+scrollY;travel=Math.max(1,track.offsetHeight-height);
   camera.aspect=width/height;camera.fov=width<700?67:48;camera.updateProjectionMatrix();
   renderer.setPixelRatio(dpr);renderer.setSize(width,height,false);readScroll();
+  measureOverlay();
  }
  function readScroll(){target=clamp((scrollY-start)/travel);request();}
  function request(){if(!frame&&!disposed&&visible&&!document.hidden)frame=requestAnimationFrame(render);}
@@ -46,22 +57,26 @@ export async function mountSpatial(root:HTMLElement,onFailure:(message:string)=>
   root.dataset.renderFrames=String(++renderedFrames);
   const active=roomAt(current);
   const roomChanged=active!==room;
-  if(roomChanged){room=active;root.querySelector('[data-room-number]')!.textContent=`0${active+1} / ${rooms[active].name.toUpperCase()}`;root.querySelector('[data-room-heading]')!.textContent=rooms[active].name;root.querySelector('[data-room-copy]')!.textContent=rooms[active].description;links.forEach(link=>{if(link.dataset.roomLink===rooms[active].id)link.setAttribute('aria-current','step');else link.removeAttribute('aria-current');});}
+  if(roomChanged){
+   if(room!==-1){captionAnimation?.cancel();captionAnimation=caption.animate([{opacity:.7},{opacity:1}],{duration:180,easing:'ease-out'});}
+   room=active;roomNumber.textContent=`0${active+1} / ${rooms[active].name.toUpperCase()}`;roomHeading.textContent=rooms[active].name;roomCopy.textContent=rooms[active].description;links.forEach(link=>{if(link.dataset.roomLink===rooms[active].id)link.setAttribute('aria-current','step');else link.removeAttribute('aria-current');});
+  }
   if((roomChanged||current===target)&&current!==lastSavedProgress&&scrollY>=start-10&&scrollY<start+travel+height*.5){history.replaceState({...history.state,spatialRoom:rooms[active].id,spatialProgress:current},'',`#${rooms[active].id}`);lastSavedProgress=current;}
   const city=current>.89;
-  root.querySelector<HTMLElement>('[data-pencil-note]')!.hidden=current>.19;
-  root.querySelector<HTMLElement>('[data-crank-label]')!.hidden=current>.37;
-  drawButton.hidden=!city;
-  crank.value=String(Math.round(clamp(current/.32)*100));root.style.setProperty('--crank-angle',`${current*540}deg`);
+  setHidden(pencilNote,current>.19);
+  setHidden(crankLabel,current>.37);
+  setHidden(drawButton,!city);
+  const crankValue=String(Math.round(clamp(current/.32)*100));if(crank.value!==crankValue)crank.value=crankValue;
+  root.style.setProperty('--crank-angle',`${current*540}deg`);
   root.style.setProperty('--journey-progress',String(current));
-  root.querySelector('[data-world-coordinates]')!.textContent=`PLATE 0${active+1} / ${String(Math.round(current*100)).padStart(3,'0')}% THROUGH THE DRAWING`;
+  const percent=Math.round(current*100);
+  if(percent!==displayedPercent||roomChanged){coordinates.textContent=`PLATE 0${active+1} / ${String(percent).padStart(3,'0')}% THROUGH THE DRAWING`;displayedPercent=percent;}
   projected.copy(world.photoPoint).project(camera);
   const photoVisible=city&&!drawingOnly&&Math.abs(projected.x)<.9&&Math.abs(projected.y)<.95&&projected.z<1;
-  photoLink.hidden=!photoVisible;
+  if(photoLink.hidden===photoVisible){photoLink.hidden=!photoVisible;if(photoVisible)measureOverlay();}
   if(photoVisible){
-   const halfWidth=photoLink.offsetWidth/2,halfHeight=photoLink.offsetHeight/2;
-   const caption=root.querySelector<HTMLElement>('.spatial-caption')!;
-   const bottom=width<700?caption.offsetTop-14:height-85;
+   const halfWidth=photoWidth/2,halfHeight=photoHeight/2;
+   const bottom=width<700?captionTop-14:height-85;
    photoLink.style.left=`${Math.max(halfWidth+14,Math.min(width-halfWidth-14,(projected.x*.5+.5)*width))}px`;
    photoLink.style.top=`${Math.max(110+halfHeight,Math.min(bottom-halfHeight,(-projected.y*.5+.5)*height))}px`;
   }
@@ -92,7 +107,8 @@ export async function mountSpatial(root:HTMLElement,onFailure:(message:string)=>
  crank.addEventListener('input',()=>{window.scrollTo({top:start+travel*Number(crank.value)/100*.32,behavior:'instant'});readScroll();},{signal});
  drawButton.addEventListener('click',()=>{drawingOnly=!drawingOnly;drawButton.setAttribute('aria-pressed',String(drawingOnly));drawButton.textContent=drawingOnly?'Bring back the photograph':'See the drawing beneath';request();},{signal});
  renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();onFailure('The moving drawing is unavailable. The illustrated field notes and stories are ready below.');},{signal});
- const resize=new ResizeObserver(measure);resize.observe(stage);resize.observe(root.querySelector('.spatial-caption')!);resize.observe(instruments);resize.observe(document.querySelector('.spatial-intro')!);
+ const resize=new ResizeObserver(measure);resize.observe(stage);resize.observe(caption);resize.observe(instruments);resize.observe(document.querySelector('.spatial-intro')!);
+ const overlayResize=new ResizeObserver(()=>{measureOverlay();request();});overlayResize.observe(photoLink);
  const observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;last=0;if(visible){readScroll();request();}else{cancelAnimationFrame(frame);frame=0;}},{rootMargin:'0px'});observer.observe(stage);
  root.dataset.renderer='ready';instruments.hidden=false;root.querySelector<HTMLElement>('[data-spatial-progress]')!.hidden=false;root.querySelector<HTMLElement>('[data-stage-nav]')!.hidden=false;
  measure();
@@ -102,5 +118,5 @@ export async function mountSpatial(root:HTMLElement,onFailure:(message:string)=>
  const settleInitialLink=()=>{void document.fonts.ready.then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{if(disposed||interacted)return;measure();if(rooms.some(room=>`#${room.id}`===location.hash)){if(backForward)restoreLocation();else goTo(location.hash.slice(1));current=target;request();}})));};
  if(document.readyState==='complete')settleInitialLink();else window.addEventListener('load',settleInitialLink,{once:true,signal});
  request();
- return {dispose(){disposed=true;abort.abort();resize.disconnect();observer.disconnect();cancelAnimationFrame(frame);world.dispose();renderer.dispose();renderer.domElement.remove();readingAnchors.forEach((element,index)=>element.id=rooms[index].id);instruments.hidden=true;photoLink.hidden=true;root.querySelector<HTMLElement>('[data-stage-nav]')!.hidden=true;root.querySelector<HTMLElement>('[data-spatial-progress]')!.hidden=true;links.forEach(link=>link.removeAttribute('aria-current'));}};
+ return {dispose(){disposed=true;abort.abort();resize.disconnect();overlayResize.disconnect();observer.disconnect();captionAnimation?.cancel();cancelAnimationFrame(frame);world.dispose();renderer.dispose();renderer.domElement.remove();readingAnchors.forEach((element,index)=>element.id=rooms[index].id);instruments.hidden=true;photoLink.hidden=true;root.querySelector<HTMLElement>('[data-stage-nav]')!.hidden=true;root.querySelector<HTMLElement>('[data-spatial-progress]')!.hidden=true;links.forEach(link=>link.removeAttribute('aria-current'));}};
 }

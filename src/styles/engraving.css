@@ -14,6 +14,13 @@
   color: var(--ink);
 }
 .engraved::before { opacity: .13; }
+.engraved :is(.engraved-copy h2,.fieldnote h3,.story-register h3) { text-wrap: balance; }
+.engraved :is(.hero-deck,.engraved-copy>p,.fieldnote p,.story-register p) { text-wrap: pretty; }
+.engraved :is(.engraved-link,.plate-link,.fieldnote-link,.map-destinations a,.story-register a) { transition: color .18s ease,border-color .18s ease; }
+.engraved :is(.engraved-link,.fieldnote-link)>span[aria-hidden] { display:inline-block;transition:transform .22s ease; }
+@media(hover:hover) and (prefers-reduced-motion:no-preference) {
+ html:not([data-motion="reduced"]) .engraved :is(.engraved-link,.fieldnote-link):hover>span[aria-hidden] { transform:translate(3px,-2px); }
+}
 .engraved .page-shell { max-width: 1680px; padding-inline: clamp(20px, 3.5vw, 64px); }
 .engraved .site-header { min-height: 82px; border-color: var(--rule); }
 .engraved .monogram { font-family: var(--serif); letter-spacing: -4px; }
