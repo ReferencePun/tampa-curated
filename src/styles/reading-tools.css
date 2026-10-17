@@ -1,0 +1,379 @@
+/* GOV.UK's 19px body / 16px small scale, in relative units.
+   The original print scale remains available through each declaration's fallback. */
+:root {
+  --reading-body: 1.1875rem;
+  --reading-small: 1rem;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+html[data-reading-size="original"] {
+  --reading-body: initial;
+  --reading-small: initial;
+}
+html:not([data-reading-size="original"]) :is(main, .site-footer) {
+  overflow-wrap: anywhere;
+}
+html:not([data-reading-size="original"]) .sleeve-index a {
+  grid-template-columns: 2ch minmax(0, 1fr) 2ch;
+}
+html:not([data-reading-size="original"]) .atlas-index a {
+  min-width: 0;
+}
+html:not([data-reading-size="original"])
+  :is(.prose, .editors-letter p, .chapter-copy > p) {
+  line-height: 1.7;
+  max-width: 65ch;
+}
+html:not([data-reading-size="original"])
+  :is(.card-meta, .detail-byline, .footer-bottom, .section-heading) {
+  flex-wrap: wrap;
+}
+html:not([data-reading-size="original"]) .edition {
+  font-family: var(--condensed);
+  letter-spacing: 0.035em;
+  padding: 10px 18px;
+  flex-shrink: 0;
+}
+html:not([data-reading-size="original"]) .section-heading {
+  gap: 12px;
+}
+html:not([data-reading-size="original"])
+  :is(.site-header, .desktop-nav, .edition-navigation > div) {
+  flex-wrap: wrap;
+}
+html:not([data-reading-size="original"])
+  :is(.site-footer nav, .atlas-footnote > span) {
+  white-space: normal;
+}
+html:not([data-reading-size="original"])
+  :is(
+    .site-footer,
+    .contents-stories > a,
+    .journal-frame figcaption,
+    .directory-filters,
+    .detail-figure figcaption,
+    .list-index
+  )
+  > * {
+  min-width: 0;
+}
+html:not([data-reading-size="original"])
+  :is(
+    .site-footer,
+    .prose,
+    .contents-stories,
+    .journal-frame figcaption,
+    .detail-figure figcaption,
+    .list-index,
+    .cover-main-copy,
+    .atlas-footnote
+  ) {
+  overflow-wrap: anywhere;
+}
+html:not([data-reading-size="original"])
+  :is(.directory-filters input, .directory-filters select) {
+  height: auto;
+  min-height: 2.8em;
+}
+html:not([data-reading-size="original"]) .list-index a {
+  white-space: normal;
+}
+html:not([data-reading-size="original"])
+  :is(.text-link, .desktop-nav a, .search-link, .menu-toggle) {
+  min-height: 44px;
+}
+html:not([data-reading-size="original"]) .cover-main {
+  height: auto;
+  min-height: 580px;
+  max-height: none;
+}
+html:not([data-reading-size="original"]) .cover-main-copy {
+  position: relative;
+  top: auto;
+  padding-top: 6rem;
+  padding-bottom: 2rem;
+}
+html:not([data-reading-size="original"]) .cover-side {
+  height: auto;
+  max-height: none;
+}
+html:not([data-reading-size="original"]) .cover-portrait {
+  min-height: 600px;
+  height: auto;
+  max-height: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  padding-top: 10rem;
+}
+html:not([data-reading-size="original"]) .cover-portrait-copy {
+  position: relative;
+  inset: auto;
+  margin: 0 6% 22px 9%;
+}
+html:not([data-reading-size="original"]) .cover-main-copy .cover-label {
+  margin-top: 10px;
+}
+/* Reserve room at the bottom so the persistent control cannot cover footer links. */
+body:has(.reading-tools:not([hidden])) {
+  padding-bottom: 5rem;
+}
+.reading-tools {
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 30;
+  color: var(--ink);
+  font:
+    1rem/1.5 Arial,
+    sans-serif;
+  max-width: calc(100vw - 36px);
+  overflow-wrap: anywhere;
+}
+.reading-launcher {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  max-width: 100%;
+  padding: 10px 16px;
+  min-height: 48px;
+  border: 1px solid var(--blue);
+  background: var(--paper-light);
+  color: var(--blue);
+  box-shadow: 3px 3px 0 var(--blue);
+  font: 600 1rem/1.5 var(--condensed);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.reading-launcher > span:first-child {
+  font: 1.25rem var(--serif);
+  text-transform: none;
+  letter-spacing: -0.08em;
+}
+.reading-launcher[aria-expanded="true"] {
+  background: var(--blue);
+  color: var(--paper-light);
+}
+.reading-panel {
+  width: 370px;
+  max-width: 100%;
+  max-height: calc(100dvh - 110px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin-bottom: 14px;
+  padding: 22px;
+  border: 1px solid var(--blue);
+  background: var(--paper-light);
+  box-shadow: 5px 5px 0 #123f7326;
+}
+.reading-panel-heading {
+  display: flex;
+  align-items: start;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.reading-panel h2 {
+  font: 1.6rem/1.2 var(--serif);
+}
+.reading-panel-heading button {
+  font:
+    1.75rem/1 Arial,
+    sans-serif;
+  border: 0;
+  background: none;
+  min-width: 44px;
+  min-height: 44px;
+  margin: -10px -10px 0 0;
+}
+.reading-panel fieldset {
+  padding: 0;
+  border: 0;
+  margin: 0;
+  min-width: 0;
+}
+.reading-panel legend {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.reading-size-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.reading-size-options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--rule);
+  padding: 10px;
+  cursor: pointer;
+}
+.reading-size-options label:has(:checked) {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: #123f730c;
+}
+.reading-size-options input {
+  accent-color: var(--blue);
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  flex-shrink: 0;
+}
+.reading-panel p {
+  margin: 12px 0 0;
+  font:
+    1rem/1.5 Arial,
+    sans-serif;
+  color: var(--muted);
+}
+.reading-lens-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid var(--rule);
+  margin-top: 22px;
+  padding-top: 20px;
+}
+.reading-lens-option b {
+  color: var(--blue);
+  margin-left: 6px;
+}
+.reading-lens-option button {
+  border: 1px solid var(--blue);
+  background: transparent;
+  color: var(--blue);
+  padding: 8px 18px;
+  min-height: 44px;
+  min-width: 74px;
+}
+.reading-lens-option button[aria-pressed="true"] {
+  color: var(--paper-light);
+  background: var(--blue);
+}
+.reading-lens-option button:disabled {
+  color: var(--muted);
+  border-color: var(--rule);
+}
+.reading-lens {
+  --lens-size: 260px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--lens-size);
+  height: var(--lens-size);
+  z-index: 25;
+  pointer-events: none;
+  contain: layout style;
+}
+.reading-lens-window {
+  position: absolute;
+  inset: 0;
+  border: 3px solid var(--blue);
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--paper-light);
+  box-shadow:
+    0 0 0 4px var(--paper-light),
+    0 8px 28px #17171438;
+}
+.reading-lens::after {
+  content: "";
+  position: absolute;
+  width: 44px;
+  height: 10px;
+  background: var(--blue);
+  border: 2px solid var(--paper-light);
+  right: -12px;
+  bottom: 10px;
+  transform: rotate(45deg);
+  border-radius: 3px;
+}
+.reading-lens-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}
+.reading-lens-content,
+.reading-lens-content * {
+  pointer-events: none !important;
+}
+.reading-lens-content *::before,
+.reading-lens-content *::after {
+  content: none !important;
+}
+.reading-lens-mark {
+  position: absolute;
+  bottom: 11px;
+  left: 50%;
+  transform: translateX(-50%);
+  font: 600 1rem/1.3 var(--condensed);
+  background: var(--paper-light);
+  color: var(--blue);
+  padding: 1px 7px;
+  border: 1px solid var(--blue);
+}
+@media (max-width: 1200px) and (min-width: 1061px) {
+  html:not([data-reading-size="original"]) .site-header {
+    gap: 14px;
+  }
+  html:not([data-reading-size="original"]) .edition {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  html:not([data-reading-size="original"]) .cover-main {
+    height: auto;
+    min-height: 600px;
+  }
+  html:not([data-reading-size="original"]) .cover-main-copy {
+    width: 46%;
+    padding-top: 4rem;
+  }
+  html:not([data-reading-size="original"]) .cover-main:after {
+    width: 59%;
+  }
+  html:not([data-reading-size="original"]) .cover-portrait {
+    min-height: 530px;
+  }
+  html:not([data-reading-size="original"]) .atlas-index {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 480px) {
+  html:not([data-reading-size="original"]) .issue-opening {
+    grid-template-columns: 1fr;
+    padding-right: 0;
+  }
+  html:not([data-reading-size="original"]) .issue-opening-cover {
+    width: min(70%, 290px);
+    margin: 20px auto 10px;
+  }
+}
+@media (max-width: 420px) {
+  .reading-lens {
+    --lens-size: 220px;
+  }
+}
+@media print {
+  .reading-tools,
+  .reading-lens {
+    display: none !important;
+  }
+  body:has(.reading-tools) {
+    padding-bottom: 0;
+  }
+}

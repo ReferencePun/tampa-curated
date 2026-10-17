@@ -1,0 +1,21 @@
+<aside class="reading-tools" data-reading-tools aria-label="Reading preferences" hidden>
+  <div class="reading-panel" id="reading-panel" hidden>
+    <div class="reading-panel-heading"><h2>Make yourself comfortable.</h2><button type="button" data-reading-close aria-label="Close reading preferences">×</button></div>
+    <fieldset>
+      <legend>Text size</legend>
+      <div class="reading-size-options">
+        <label><input type="radio" name="reading-size" value="comfortable" checked/><span>Comfortable</span></label>
+        <label><input type="radio" name="reading-size" value="original"/><span>Original</span></label>
+      </div>
+    </fieldset>
+    <p class="reading-size-help">Larger type, with room to read. Or revisit the original magazine scale.</p>
+    <div class="reading-lens-option"><span id="reading-lens-label">Text lens <b>2×</b></span><button type="button" data-reading-lens aria-labelledby="reading-lens-label reading-lens-state" aria-pressed="false"><span id="reading-lens-state">Off</span></button></div>
+    <p data-reading-lens-help>Move your mouse over text to magnify it. Links still work. Press Esc to turn the lens off.</p>
+  </div>
+  <button class="reading-launcher" type="button" aria-expanded="false" aria-controls="reading-panel"><span aria-hidden="true">Aa</span> Reading <span class="reading-lens-indicator" hidden>· Lens on</span></button>
+  <span class="sr-only" role="status" aria-live="polite" data-reading-status></span>
+</aside>
+<div class="reading-lens" data-text-lens aria-hidden="true" inert hidden><div class="reading-lens-window"><div class="reading-lens-content"></div></div><span class="reading-lens-mark">2×</span></div>
+<script>
+  import '../scripts/reading-tools';
+</script>

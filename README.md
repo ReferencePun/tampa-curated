@@ -160,6 +160,14 @@ The deployment job needs `pages: write` and `id-token: write`; the build job nee
 
 ## Validation
 
+### Reading preferences
+
+The **Reading** control appears on every page. Comfortable text is the default: 19px body copy and at least 16px secondary text, expressed in `rem`. Display headlines and decorative printing inside the illustrated books retain their editorial scale. **Original** restores the earlier type sizes. Both size choices work with the optional **2× text lens** on a mouse or trackpad. The lens follows text, preserves normal clicks and scrolling, and turns off with Escape. Touch users retain normal pinch zoom and the Comfortable option. Preferences are stored locally; storage is optional. Without JavaScript, Comfortable typography remains available.
+
+The sizing draws on the [GOV.UK type scale](https://design-system.service.gov.uk/styles/type-scale/). [W3C Resize Text guidance](https://www.w3.org/WAI/WCAG21/Understanding/resize-text) calls for enlargement to 200% without loss of content or functionality; it does not specify a universal minimum font size. This is not a claim of full WCAG conformance.
+
+The reading suite (`pnpm test:reading`, with Chromium and WebKit installed) covers the two preferences, the 2× lens, clicking through the lens, persistence, Escape and focus, touch behavior, JavaScript disabled, and representative layouts at 320–1440px with normal and doubled text. Lens copies are inert, hidden from assistive technology, and contain only one small text block; no page/scene/image duplication or new rendering dependency is used.
+
 ```sh
 pnpm check
 pnpm build

@@ -6,7 +6,7 @@
   gap: 24px;
   border-bottom: 1px solid var(--rule);
   padding: 15px 0;
-  font: 600 14px var(--condensed);
+  font: 600 var(--reading-small, 0.875rem) var(--condensed);
   text-transform: uppercase;
 }
 .edition-navigation > a {
@@ -29,13 +29,13 @@
   text-underline-offset: 5px;
 }
 .reading-deck {
-  font: clamp(17px, 1.8vw, 25px)/1.5 var(--serif);
+  font: clamp(var(--reading-body, 1.0625rem), 1.8vw, 25px)/1.5 var(--serif);
 }
 .reading-note,
 .guide-opening figcaption,
 .reading-chapter figcaption {
   font:
-    11px/1.6 Arial,
+    var(--reading-small, 0.6875rem)/1.6 Arial,
     sans-serif;
   color: var(--muted);
 }
@@ -50,7 +50,7 @@
   margin-top: 40px;
 }
 .reading-bottom p {
-  font: clamp(17px, 2vw, 27px)/1.5 var(--serif);
+  font: clamp(var(--reading-body, 1.0625rem), 2vw, 27px)/1.5 var(--serif);
 }
 .reading-bottom .text-link {
   flex-shrink: 0;
@@ -128,13 +128,13 @@
 }
 .issue-feature-copy > p:not(.reading-deck) {
   font:
-    14px/1.75 Arial,
+    var(--reading-body, 0.875rem)/1.75 Arial,
     sans-serif;
   margin: 20px 0;
   max-width: 440px;
 }
 .issue-feature-copy > .reading-note {
-  font-size: 11px !important;
+  font-size: var(--reading-small, 0.6875rem) !important;
 }
 .issue-facts {
   border-top: 1px solid var(--rule);
@@ -147,7 +147,7 @@
   gap: 20px;
   padding: 12px 0;
   border-bottom: 1px solid #716b5e55;
-  font: 13px var(--condensed);
+  font: var(--reading-small, 0.8125rem) var(--condensed);
 }
 .issue-facts dt {
   text-transform: uppercase;
@@ -185,7 +185,7 @@
   right: 0;
   top: 55px;
   writing-mode: vertical-rl;
-  font: 600 11px var(--condensed);
+  font: 600 var(--reading-small, 0.6875rem) var(--condensed);
   letter-spacing: 0.12em;
 }
 .editors-letter {
@@ -202,7 +202,7 @@
 }
 .editors-letter p {
   font:
-    15px/1.9 Arial,
+    var(--reading-body, 0.9375rem)/1.9 Arial,
     sans-serif;
   max-width: 680px;
   margin-bottom: 20px;
@@ -240,7 +240,7 @@
 }
 .contents-stories p {
   font:
-    13px/1.6 Arial,
+    var(--reading-body, 0.8125rem)/1.6 Arial,
     sans-serif;
   max-width: 540px;
 }
@@ -268,12 +268,12 @@
   gap: 12px;
   padding: 13px 0;
   border-bottom: 1px solid #716b5e55;
-  font: 600 18px var(--condensed);
+  font: 600 1.125rem var(--condensed);
 }
 .contents-side small {
   display: block;
   font:
-    11px/1.6 Arial,
+    var(--reading-small, 0.6875rem)/1.6 Arial,
     sans-serif;
   margin-top: 3px;
   color: var(--muted);
@@ -309,7 +309,7 @@
   margin: 18px 0;
 }
 .guide-row-copy p {
-  font: 15px/1.7 var(--serif);
+  font: var(--reading-body, 0.9375rem)/1.7 var(--serif);
   max-width: 440px;
   margin-bottom: 28px;
 }
@@ -366,7 +366,7 @@
   padding: 35px 0;
 }
 .guide-introduction > div > p:first-child {
-  font: clamp(16px, 1.7vw, 23px)/1.7 var(--serif);
+  font: clamp(var(--reading-body, 1rem), 1.7vw, 23px)/1.7 var(--serif);
   max-width: 820px;
 }
 .guide-introduction .reading-note {
@@ -382,7 +382,7 @@
   display: flex;
   gap: 16px;
   align-items: center;
-  font: 600 15px var(--condensed);
+  font: 600 var(--reading-small, 0.9375rem) var(--condensed);
   padding: 18px 14px;
 }
 .chapter-nav a + a {
@@ -420,7 +420,7 @@
 .chapter-copy > p {
   margin: 24px 0;
   font:
-    15px/1.9 Arial,
+    var(--reading-body, 0.9375rem)/1.9 Arial,
     sans-serif;
   max-width: 540px;
 }
@@ -483,7 +483,7 @@
   gap: 25px;
 }
 .journal-opening p {
-  font: clamp(16px, 1.8vw, 25px)/1.5 var(--serif);
+  font: clamp(var(--reading-body, 1rem), 1.8vw, 25px)/1.5 var(--serif);
 }
 .journal-opening nav {
   display: flex;
@@ -493,7 +493,7 @@
   border: 1px solid var(--rule);
   padding: 14px 18px;
   min-height: 44px;
-  font: 600 16px var(--condensed);
+  font: 600 var(--reading-small, 1rem) var(--condensed);
 }
 .journal-frame {
   margin: 60px 0 80px;
@@ -507,7 +507,7 @@
   bottom: 16px;
   left: 18px;
   color: white;
-  font: 600 12px var(--condensed);
+  font: 600 var(--reading-small, 0.75rem) var(--condensed);
   letter-spacing: 0.14em;
   text-shadow: 0 1px 4px #000;
 }
@@ -547,7 +547,7 @@
 }
 .journal-frame figcaption p {
   font:
-    14px/1.8 Arial,
+    var(--reading-body, 0.875rem)/1.8 Arial,
     sans-serif;
   max-width: 550px;
   margin: 15px 0;
@@ -560,7 +560,7 @@
   flex-direction: column;
   gap: 10px;
   font:
-    12px/1.5 Arial,
+    var(--reading-small, 0.75rem)/1.5 Arial,
     sans-serif;
   border-left: 1px solid var(--rule);
   padding-left: 18px;
@@ -614,7 +614,7 @@
   .edition-navigation {
     gap: 8px;
     padding: 8px 0;
-    font-size: 13px;
+    font-size: var(--reading-small, 0.8125rem);
   }
   .edition-navigation > a {
     display: none;
@@ -664,7 +664,7 @@
     margin: 0;
   }
   .issue-opening .reading-deck {
-    font-size: 15px;
+    font-size: var(--reading-body, 0.9375rem);
   }
   .issue-opening-cover .issue-cover-top,
   .issue-opening-cover .issue-cover-bottom {
@@ -679,7 +679,7 @@
     padding: 28px 0;
   }
   .editors-letter p {
-    font-size: 14px;
+    font-size: var(--reading-body, 0.875rem);
   }
   .reading-section-heading {
     align-items: start;
@@ -687,7 +687,7 @@
     gap: 15px;
   }
   .reading-section-heading .eyebrow {
-    font-size: 10px;
+    font-size: var(--reading-small, 0.625rem);
   }
   .contents-layout {
     grid-template-columns: 1fr;
@@ -713,14 +713,14 @@
     margin-top: 12px;
   }
   .guide-row-copy p {
-    font-size: 14px;
+    font-size: var(--reading-body, 0.875rem);
   }
   .reading-guide-row figure {
     grid-column: 2;
     margin-top: 16px;
   }
   .guide-row-copy .eyebrow {
-    font-size: 10px;
+    font-size: var(--reading-small, 0.625rem);
   }
   .guide-opening {
     grid-template-columns: 1fr;
@@ -774,7 +774,7 @@
   }
   .chapter-copy > p {
     margin: 20px 0;
-    font-size: 14px;
+    font-size: var(--reading-body, 0.875rem);
   }
   .chapter-question {
     margin: 10px 8px;
@@ -814,10 +814,10 @@
     font-size: 36px;
   }
   .journal-frame figcaption p {
-    font-size: 13px;
+    font-size: var(--reading-body, 0.8125rem);
   }
   .journal-credit {
-    font-size: 11px;
+    font-size: var(--reading-small, 0.6875rem);
     gap: 12px;
   }
 }

@@ -16,7 +16,7 @@
   align-items: center;
   gap: 12px;
   margin: 18px 0 0;
-  font: 600 12px var(--condensed);
+  font: 600 var(--reading-small, 0.75rem) var(--condensed);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -139,7 +139,7 @@
   display: flex;
   justify-content: space-between;
   padding: 8px 1px;
-  font: 600 10px var(--condensed);
+  font: 600 var(--reading-small, 0.625rem) var(--condensed);
   letter-spacing: 0.12em;
 }
 .worktable-copy {
@@ -175,7 +175,7 @@
 }
 .worktable-copy > p {
   font:
-    14px/1.6 Arial,
+    var(--reading-body, 0.875rem)/1.6 Arial,
     sans-serif;
   max-width: 410px;
   margin: 12px 0;
@@ -205,7 +205,7 @@
   flex-shrink: 0;
 }
 .worktable-mechanism > span {
-  font: 600 11px/1.4 var(--condensed);
+  font: 600 var(--reading-small, 0.6875rem)/1.4 var(--condensed);
   letter-spacing: 0.08em;
 }
 .registration-rail {
@@ -247,7 +247,13 @@
   color: var(--blue);
 }
 .sleeve-heading > p {
-  font: italic clamp(13px, 1.2vw, 17px)/1.7 var(--serif);
+  font: italic
+    clamp(
+      var(--reading-body, 0.8125rem),
+      1.2vw,
+      var(--reading-body, 1.0625rem)
+    )/1.7
+    var(--serif);
   padding-bottom: 5px;
 }
 .sleeve-heading > .eyebrow {
@@ -428,12 +434,12 @@
   padding: 16px 5px 0;
 }
 .sleeve-under > p {
-  font: 600 13px/1.5 var(--condensed);
+  font: 600 var(--reading-small, 0.8125rem)/1.5 var(--condensed);
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 .sleeve-under em {
-  font: italic 14px/1.7 var(--serif);
+  font: italic var(--reading-small, 0.875rem)/1.7 var(--serif);
   text-transform: none;
   letter-spacing: 0;
 }
@@ -472,7 +478,7 @@
   padding: 0 0 16px;
 }
 .sleeve-counter {
-  font: 600 16px var(--condensed);
+  font: 600 var(--reading-small, 1rem) var(--condensed);
   letter-spacing: 0.12em;
 }
 .sleeve-controls > div {
@@ -510,7 +516,7 @@
   text-transform: uppercase;
 }
 .sleeve-caption > p {
-  font: 14px/1.65 var(--serif);
+  font: var(--reading-body, 0.875rem)/1.65 var(--serif);
   max-width: 320px;
   margin-bottom: 18px;
 }
@@ -524,11 +530,11 @@
   gap: 12px;
   align-items: center;
   min-height: 40px;
-  font: 600 16px var(--condensed);
+  font: 600 var(--reading-small, 1rem) var(--condensed);
   border-bottom: 1px solid #716b5e66;
 }
 .sleeve-index a > span {
-  font-size: 12px;
+  font-size: var(--reading-small, 0.75rem);
   color: var(--muted);
 }
 .sleeve-index a[aria-current="true"] {
@@ -540,7 +546,7 @@
 .sleeve-disclosure {
   color: var(--muted);
   font:
-    11px/1.6 Arial,
+    var(--reading-small, 0.6875rem)/1.6 Arial,
     sans-serif;
   margin-top: 18px;
 }
@@ -549,7 +555,7 @@
   text-underline-offset: 3px;
 }
 .sleeve-renderer {
-  font: 600 10px var(--condensed);
+  font: 600 var(--reading-small, 0.625rem) var(--condensed);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
@@ -579,7 +585,7 @@
   color: var(--blue);
 }
 .atlas-heading > p {
-  font: 14px/1.6 var(--serif);
+  font: var(--reading-body, 0.875rem)/1.6 var(--serif);
 }
 .atlas-instruction {
   display: flex;
@@ -589,12 +595,12 @@
   align-items: flex-end;
 }
 .atlas-scroll-hint {
-  font: 600 11px var(--condensed);
+  font: 600 var(--reading-small, 0.6875rem) var(--condensed);
   letter-spacing: 0.08em;
   color: var(--red);
 }
 .atlas-toggle {
-  font: 600 13px var(--condensed);
+  font: 600 var(--reading-small, 0.8125rem) var(--condensed);
   text-transform: uppercase;
   min-height: 44px;
   background: transparent;
@@ -615,7 +621,8 @@
 }
 .atlas-index a {
   padding: 13px 12px;
-  font: 600 clamp(13px, 1.2vw, 19px) var(--condensed);
+  font: 600 clamp(var(--reading-small, 0.8125rem), 1.2vw, 1.1875rem)
+    var(--condensed);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -625,7 +632,7 @@
   border-left: 1px solid #716b5e66;
 }
 .atlas-index a > span {
-  font-size: 10px;
+  font-size: var(--reading-small, 0.625rem);
 }
 .atlas-index a[aria-current="true"] {
   background: var(--blue);
@@ -972,19 +979,19 @@
   margin: 10px 0;
 }
 .atlas-character {
-  font: italic 13px/1.6 var(--serif);
+  font: italic var(--reading-body, 0.8125rem)/1.6 var(--serif);
   display: block;
 }
 .atlas-caption > p:not(.atlas-image-note) {
   font:
-    13px/1.65 Arial,
+    var(--reading-body, 0.8125rem)/1.65 Arial,
     sans-serif;
   margin: 15px 0;
   max-width: 310px;
 }
 .atlas-caption .atlas-image-note {
   font:
-    10px/1.5 Arial,
+    var(--reading-small, 0.625rem)/1.5 Arial,
     sans-serif;
   color: var(--muted);
   margin-top: 22px;
@@ -997,12 +1004,12 @@
   gap: 15px;
   padding: 11px 0;
   font:
-    11px/1.5 Arial,
+    var(--reading-small, 0.6875rem)/1.5 Arial,
     sans-serif;
   color: var(--muted);
 }
 .atlas-footnote > span {
-  font: 600 10px var(--condensed);
+  font: 600 var(--reading-small, 0.625rem) var(--condensed);
   letter-spacing: 0.07em;
   white-space: nowrap;
 }
@@ -1087,7 +1094,7 @@
   .atlas-index a {
     padding: 12px 8px;
     gap: 6px;
-    font-size: 14px;
+    font-size: var(--reading-small, 0.875rem);
   }
   .atlas-book {
     height: 60%;
@@ -1110,7 +1117,7 @@
     padding: 18px 0 24px;
   }
   .worktable-topline > .eyebrow {
-    font-size: 10px;
+    font-size: var(--reading-small, 0.625rem);
     max-width: 125px;
   }
   .worktable-spread {
@@ -1153,7 +1160,7 @@
     font-size: 36px;
   }
   .worktable-copy > p {
-    font-size: 13px;
+    font-size: var(--reading-body, 0.8125rem);
   }
   .worktable-mechanism {
     margin: 28px 0 0;
@@ -1173,7 +1180,7 @@
     font-size: 59px;
   }
   .sleeve-heading > p {
-    font-size: 12px;
+    font-size: var(--reading-body, 0.75rem);
     margin-top: 16px;
   }
   .sleeve-layout {
@@ -1205,10 +1212,10 @@
     width: 52px;
   }
   .sleeve-under > p {
-    font-size: 11px;
+    font-size: var(--reading-small, 0.6875rem);
   }
   .sleeve-under em {
-    font-size: 12px;
+    font-size: var(--reading-small, 0.75rem);
   }
   .sleeve-caption-column {
     border-left: 0;
@@ -1221,7 +1228,7 @@
     font-size: 44px;
   }
   .sleeve-caption > p {
-    font-size: 13px;
+    font-size: var(--reading-body, 0.8125rem);
   }
   .is-ready .sleeve-captions {
     min-height: 222px;
@@ -1249,11 +1256,11 @@
     max-width: 110px;
   }
   .atlas-instruction > .eyebrow {
-    font-size: 10px;
+    font-size: var(--reading-small, 0.625rem);
   }
   .atlas-toggle {
     padding: 8px 10px;
-    font-size: 12px;
+    font-size: var(--reading-small, 0.75rem);
   }
   .atlas-toggle > span {
     margin-left: 4px;
@@ -1264,7 +1271,7 @@
   .atlas-index a {
     min-height: 44px;
     padding: 10px;
-    font-size: 16px;
+    font-size: var(--reading-small, 1rem);
     gap: 9px;
   }
   .atlas-index a:nth-child(2n + 1) {
@@ -1337,7 +1344,7 @@
     font-size: 44px;
   }
   .atlas-caption > p:not(.atlas-image-note) {
-    font-size: 14px;
+    font-size: var(--reading-small, 0.875rem);
     max-width: 100%;
   }
   .atlas-caption .atlas-image-note {
@@ -1345,7 +1352,7 @@
   }
   .atlas-footnote {
     display: block;
-    font-size: 10px;
+    font-size: var(--reading-small, 0.625rem);
   }
   .atlas-footnote > span {
     display: none;

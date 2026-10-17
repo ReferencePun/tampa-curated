@@ -5,6 +5,8 @@ import '@fontsource/barlow-condensed/latin-700.css';
 import '@fontsource/libre-caslon-text/latin-400.css';
 import '@fontsource/libre-caslon-text/latin-400-italic.css';
 import '../styles/global.css';
+import '../styles/reading-tools.css';
+import ReadingTools from '../components/ReadingTools.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { url } from '../lib/urls';
@@ -21,6 +23,11 @@ const ogImage = new URL(photos[image]?.src || url('favicon.svg'), Astro.site);
 <html lang="en">
   <head>
     <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script is:inline>
+      try {
+        if (localStorage.getItem('tc-reading-size') === 'original') document.documentElement.dataset.readingSize = 'original';
+      } catch { /* Comfortable typography also works without storage or JavaScript. */ }
+    </script>
     <NativeImageTransitions/>
     <title>{fullTitle}</title><meta name="description" content={description}/><meta name="theme-color" content="#e9ddc7"/>
     <link rel="canonical" href={canonical}/><link rel="icon" type="image/svg+xml" href={url('favicon.svg')}/>
@@ -32,5 +39,6 @@ const ogImage = new URL(photos[image]?.src || url('favicon.svg'), Astro.site);
   <body style={`--paper-texture: url('${url('paper.svg')}'); --ink-texture: url('${url('ink.svg')}')`}>
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="page-shell"><Header/><main id="main"><slot/></main><Footer/></div>
+    <ReadingTools/>
   </body>
 </html>
