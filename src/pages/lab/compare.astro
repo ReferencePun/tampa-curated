@@ -1,0 +1,12 @@
+---
+import LabLayout from '../../layouts/LabLayout.astro';
+import ExperimentHost from '../../creative-lab/components/ExperimentHost.astro';
+import {experiments} from '../../creative-lab/registry';
+const choices=experiments.filter(e=>!e.placeholder&&e.comparison==='lightweight');
+---
+<LabLayout title="Compare studies — Impossible Lab" description="Two lightweight drawing experiments, with independent settings and pause controls. Compare side by side or give each study the whole page.">
+ <header class="il-compare-intro"><span class="il-label">TWO DRAWINGS / ONE DESK</span><h1>A conversation<br/><em>between studies.</em></h1><p>Two lightweight Canvas studies, with independent settings. The larger planned effects stay out of this workbench until they have a safe preview.</p></header>
+ <div class="il-comparison-tools" data-comparison-tools><label>View<select data-comparison-view><option value="both">Side by side</option><option value="left">Left study only</option><option value="right">Right study only</option></select></label><button type="button" class="il-button" data-pause-all>Pause both</button><span class="il-small">Each inspector belongs to its own drawing.</span></div>
+ <div class="il-comparison" data-comparison>{choices.slice(0,2).map((e,i)=><section data-compare-side={i===0?'left':'right'}><div class="il-section-title"><h2 data-slot-title>{e.name}</h2><span class="il-label">{i===0?'A':'B'} / LIVE STUDY</span></div><label class="il-slot-select">{i===0?'Left':'Right'} study<select data-study-select={i===0?'left':'right'}>{choices.map(option=><option value={option.slug} selected={option.slug===e.slug}>{option.name}</option>)}</select></label><div data-slot-host><ExperimentHost experiment={e} uid={`compare-${i}`} compact/></div></section>)}</div>
+ {choices.map(e=><template data-study-template={e.slug} data-name={e.name}><ExperimentHost experiment={e} uid={`template-${e.slug}`} compact/></template>)}
+</LabLayout>

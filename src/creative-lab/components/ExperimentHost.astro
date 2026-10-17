@@ -1,0 +1,37 @@
+---
+import type {Experiment} from '../registry';
+import {url} from '../../lib/urls';
+interface Props {experiment:Experiment;uid?:string;compact?:boolean;}
+const {experiment:e,uid=e.slug,compact=false}=Astro.props;
+---
+<section class:list={['il-host',{'il-host-compact':compact}]} data-lab-host data-slug={e.slug} data-source={url(`lab/${e.slug}/source.json`)} aria-label={`${e.name} demonstration`}>
+  <script type="application/json" data-lab-manifest set:html={JSON.stringify(e).replaceAll('<','\\u003c')}/>
+  <div class="il-demo-shell" data-demo-shell>
+    <div class="il-demo-toolbar"><span class="il-label">{e.placeholder?'CALIBRATION PLATE':'LIVE STUDY'} / {e.number}</span><div class="il-actions"><button type="button" data-pause disabled>Pause</button><button type="button" data-replay disabled>Replay</button><button type="button" data-fullscreen>Expand ↗</button></div></div>
+    <div class="il-demo" data-demo><img data-still src={url(`lab/${e.slug}/plate.svg`)} alt={`${e.name} — a static geometric study plate`} width="400" height="266"/><div class="il-mount" data-mount></div><span class="il-annotation" aria-hidden="true">{e.placeholder?'a question, still open.':'move through the lines.'}</span><span class="il-demo-index" aria-hidden="true">FIG. {e.number}</span></div>
+    <div class="il-demo-foot"><span data-playback>Still plate · preparing the study</span><label><input type="checkbox" data-debug/> Diagnostics</label></div>
+    <output class="il-diagnostics" data-statistics hidden>Waiting for the renderer.</output>
+    {e.placeholder&&<p class="il-placeholder-note">Proposal only. These controls adjust a calibration drawing; <strong>{e.name}</strong> has not been built yet.</p>}
+  </div>
+  <details class="il-inspector" open><summary><span>Adjust the study</span><span aria-hidden="true">±</span></summary>
+    <fieldset data-settings disabled><legend class="il-sr-only">Effect parameters</legend>
+      {e.settings.map(field=><div class:list={['il-field',{'il-toggle':field.type==='toggle','il-color':field.type==='color'}]}>
+        <label for={`${uid}-${field.key}`}>{field.label}{field.type==='range'&&<output data-value={field.key}>{String(field.default)}</output>}</label>
+        {field.type==='select'?<select id={`${uid}-${field.key}`} data-setting={field.key}>{field.options?.map(option=><option value={option.value} selected={option.value===field.default}>{option.label}</option>)}</select>:
+         <input id={`${uid}-${field.key}`} data-setting={field.key} type={field.type==='toggle'?'checkbox':field.type} value={String(field.default)} checked={field.type==='toggle'?Boolean(field.default):undefined} min={field.min} max={field.max} step={field.step}/>}
+      </div>)}
+      <button type="button" class="il-button il-reset" data-reset>Reset to defaults ↺</button>
+    </fieldset>
+    <details class="il-presets"><summary>Keep a configuration <span aria-hidden="true">+</span></summary>
+      <label for={`${uid}-preset-name`}>Preset name</label><input id={`${uid}-preset-name`} data-preset-name type="text" maxlength="60" value="My study"/>
+      <button class="il-button" data-save type="button">Save on this device</button>
+      <label for={`${uid}-saved`}>Saved presets</label><select id={`${uid}-saved`} data-saved><option value="">Choose a saved preset</option></select>
+      <button type="button" data-delete class="il-text-button">Delete selected preset</button>
+      <div class="il-preset-actions"><button class="il-button" type="button" data-export-preset>Export JSON ↓</button><label class="il-button il-import">Import JSON ↑<input type="file" data-import accept="application/json,.json" aria-label={`Import ${e.name} preset`}/></label></div>
+      <p class="il-small">Saved in this browser. Export a file to keep it elsewhere.</p>
+    </details>
+    <p class="il-feedback" data-feedback role="status" aria-live="polite">Settings stay with this study.</p>
+    {!compact&&<div class="il-takeaway"><span class="il-label">TAKE THE WHOLE DRAWING</span><button type="button" class="il-button il-primary" data-export-source>Download source + my settings ↓</button><a href={url(`lab/${e.slug}/source.zip`)} download={`${e.slug}.zip`}>Default source package ↗</a><p class="il-small">{e.placeholder?'Complete placeholder scaffold.':'Complete working source.'} Includes the example, assets, helpers, and license.</p></div>}
+  </details>
+  <noscript><p class="il-placeholder-note">JavaScript is off. The still plate, notes, and default source download remain available.</p></noscript>
+</section>

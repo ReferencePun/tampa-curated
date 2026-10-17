@@ -1,0 +1,21 @@
+---
+import {readFile} from 'node:fs/promises';
+import path from 'node:path';
+import LabLayout from '../../layouts/LabLayout.astro';
+import ExperimentHost from '../../creative-lab/components/ExperimentHost.astro';
+import {experiments} from '../../creative-lab/registry';
+import {url} from '../../lib/urls';
+export function getStaticPaths(){return experiments.map(experiment=>({params:{slug:experiment.slug},props:{experiment}}));}
+const {experiment:e}=Astro.props;
+const readme=await readFile(path.resolve(`src/creative-lab/experiments/${e.slug}/README.md`),'utf8');
+---
+<LabLayout title={`${e.name} — Impossible Lab`} description={`${e.description} ${e.placeholder?'A proposal with a reusable experiment scaffold.':'A working study with live controls and complete reusable source.'}`}>
+ <header class="il-experiment-intro"><div><a class="il-back" href={url('lab/')}>← All studies</a><span class="il-label">STUDY {e.number} / {e.category.toUpperCase()} / {e.placeholder?'PROTOTYPE · PLANNED':e.status.toUpperCase()}</span><h1>{e.name}<em>.</em></h1><p>{e.description}</p></div><button class="il-favorite-large" type="button" data-favorite={e.slug} aria-pressed="false" aria-label={`Favorite ${e.name}`}>☆</button></header>
+ <ExperimentHost experiment={e}/>
+ <div class="il-study-notes"><aside><span class="il-label">THE BACK OF THE DRAWING</span><h2>Notes for<br/><em>another place.</em></h2><div class="il-tags">{e.tags.map(tag=><span>{tag}</span>)}</div></aside><div>
+  <section><h3>The idea &amp; its construction</h3>{e.notes.map(note=><p>{note}</p>)}{e.placeholder&&<p><strong>Proposed technology:</strong> {e.plannedTechnology}. This is a planning note, not an installed dependency.</p>}</section>
+  <section><h3>Requirements &amp; compatibility</h3><p><strong>Current runtime:</strong> {e.technology.join(' + ')}. {Object.keys(e.dependencies).length?'Dependencies are listed in the export’s package.json.':'No third-party runtime packages.'}</p><ul>{e.compatibility.map(note=><li>{note}</li>)}</ul></section>
+  <section><h3>Use it in another project</h3><ol>{e.reuse.map(note=><li>{note}</li>)}</ol><div class="il-command"><code>pnpm lab:export {e.slug}</code><button type="button" data-copy-command={`pnpm lab:export ${e.slug}`}>Copy</button></div><p class="il-small">Include a saved configuration with <code>--preset path/to/preset.json</code>. Exports are written to <code>lab-exports/</code>; use <code>--out</code> to choose another folder.</p><a class="il-button" href={url(`lab/${e.slug}/source.zip`)} download={`${e.slug}.zip`}>Download default {e.placeholder?'scaffold':'source'} ↓</a></section>
+  <section><h3>Source &amp; attribution</h3><p><code>src/creative-lab/experiments/{e.slug}/</code></p><ul>{[e.entry,...e.styles,'config.json','manifest.json',e.readme,e.thumbnail,'LICENSE'].map(file=><li><code>{file}</code></li>)}</ul><p>Framework integration: <code>src/creative-lab/host.ts</code>. Portable helpers: <code>src/creative-lab/shared/</code>.</p>{e.assets.map(asset=><p>{asset.credit}. {asset.license} license. No third-party demonstration assets.</p>)}<details class="il-readme"><summary>Read the complete reuse guide +</summary><pre>{readme}</pre></details></section>
+ </div></div>
+</LabLayout>

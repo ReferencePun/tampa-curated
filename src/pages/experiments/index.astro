@@ -8,6 +8,7 @@ import {url} from '../../lib/urls';
 <header class="lab-intro lab-index-intro"><div><span class="lab-kicker">TAMPA CURATED / OPEN STUDIES</span><h1>Some things<br/> are better <em>discovered.</em></h1></div><p>Open a drawer.<br/> Lift a sheet of paper.<br/> Keep something for later.<br/> <span>Three ways into the city.</span></p></header>
 <div class="experiment-collection">{experiments.map(e=><a class={`experiment-entry entry-${e.slug}`} href={url(`experiments/${e.slug}/`)}><div class="entry-number">{e.number}<span>WORKING EXPERIMENT</span></div><ExperimentMark kind={e.slug}/><span class="lab-kicker">{e.note}</span><h2>{e.title}</h2><p>{e.description}</p><span class="lab-link">{e.verb} <span aria-hidden="true">↗</span></span></a>)}</div>
 <a class="spatial-study-invitation" href={url('unfinished-city/')}><span>NEW SPATIAL STUDY / 04</span><strong>The unfinished city.</strong><em>Step inside the drawing ↗</em></a>
+<a class="spatial-study-invitation" href={url('lab/')}><span>THE REUSABLE COLLECTION</span><strong>The Impossible Lab.</strong><em>Studies, settings, and complete source ↗</em></a>
 <div class="lab-colophon"><span>NOTES ON THE METHOD</span><p>Each room is a working idea. Explore them in any order; the notebook follows you between them.</p><a href={url('home3/')}>Back to the illustrated city ↗</a></div>
 </ExperimentLayout>
 

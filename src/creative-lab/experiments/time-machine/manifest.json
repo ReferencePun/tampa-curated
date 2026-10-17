@@ -1,0 +1,116 @@
+{
+  "id": "impossible-time-machine",
+  "slug": "time-machine",
+  "number": "06",
+  "order": 8,
+  "name": "Time Machine",
+  "description": "Scrub through layers of a place: what was, what is, what might be.",
+  "category": "Narrative",
+  "tags": [
+    "time",
+    "archive",
+    "scroll"
+  ],
+  "status": "prototype",
+  "placeholder": true,
+  "technology": [
+    "Canvas 2D",
+    "JavaScript"
+  ],
+  "plannedTechnology": "DOM / Canvas 2D",
+  "dependencies": {},
+  "settings": [
+    {
+      "key": "density",
+      "label": "Line count",
+      "type": "range",
+      "min": 8,
+      "max": 64,
+      "step": 1,
+      "default": 32
+    },
+    {
+      "key": "speed",
+      "label": "Motion speed",
+      "type": "range",
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "default": 0.6
+    },
+    {
+      "key": "guides",
+      "label": "Construction guides",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "ink",
+      "label": "Graphite",
+      "type": "color",
+      "default": "#37342e"
+    },
+    {
+      "key": "accent",
+      "label": "Pencil accent",
+      "type": "color",
+      "default": "#a75239"
+    },
+    {
+      "key": "mode",
+      "label": "Arrangement",
+      "type": "select",
+      "default": "contours",
+      "options": [
+        {
+          "value": "contours",
+          "label": "Circular"
+        },
+        {
+          "value": "open",
+          "label": "Open"
+        }
+      ]
+    },
+    {
+      "key": "seed",
+      "label": "Drawing variation",
+      "type": "number",
+      "min": 1,
+      "max": 99,
+      "step": 1,
+      "default": 7
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original geometric line study \u00b7 Tampa Curated",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "Current Chrome, Firefox, Safari, and Edge with Canvas 2D and ES modules.",
+    "Static preview and documentation work without JavaScript.",
+    "Reduced motion starts paused. Touch does not require hovering.",
+    "Fullscreen uses the browser API when available, with an expanded-page fallback."
+  ],
+  "notes": [
+    "This is a planned experiment. The live calibration plate tests the lab controls; it is not an implementation of the proposed effect.",
+    "The exported scaffold includes the neutral plate renderer and the complete lifecycle contract. Replace its mount function when developing this experiment."
+  ],
+  "reuse": [
+    "Extract the source ZIP, then serve the folder over local HTTP. Open example.html.",
+    "Import mount from the experiment entry, pass a sized element and settings, then call setRunning(true).",
+    "Call update(settings) to apply changes, replay() to restart, and dispose() before removing the host.",
+    "Use the included validated preset.json. Framework integration belongs in your application, outside the effect."
+  ],
+  "comparison": "none"
+}

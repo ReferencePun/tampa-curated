@@ -1,0 +1,117 @@
+{
+  "id": "impossible-line-field",
+  "slug": "line-field",
+  "number": "A",
+  "order": 1,
+  "name": "Line Field",
+  "description": "A breathing contour drawing. Move across it and the lines make room for you.",
+  "category": "Drawing",
+  "tags": [
+    "lines",
+    "pointer",
+    "generative"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Canvas 2D",
+    "JavaScript"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "settings": [
+    {
+      "key": "density",
+      "label": "Line count",
+      "type": "range",
+      "min": 8,
+      "max": 64,
+      "step": 1,
+      "default": 32
+    },
+    {
+      "key": "speed",
+      "label": "Motion speed",
+      "type": "range",
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "default": 0.6
+    },
+    {
+      "key": "guides",
+      "label": "Construction guides",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "ink",
+      "label": "Graphite",
+      "type": "color",
+      "default": "#37342e"
+    },
+    {
+      "key": "accent",
+      "label": "Pencil accent",
+      "type": "color",
+      "default": "#a75239"
+    },
+    {
+      "key": "mode",
+      "label": "Arrangement",
+      "type": "select",
+      "default": "contours",
+      "options": [
+        {
+          "value": "contours",
+          "label": "Circular"
+        },
+        {
+          "value": "open",
+          "label": "Open"
+        }
+      ]
+    },
+    {
+      "key": "seed",
+      "label": "Drawing variation",
+      "type": "number",
+      "min": 1,
+      "max": 99,
+      "step": 1,
+      "default": 7
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original geometric line study \u00b7 Tampa Curated",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "Current Chrome, Firefox, Safari, and Edge with Canvas 2D and ES modules.",
+    "Static preview and documentation work without JavaScript.",
+    "Reduced motion starts paused. Touch does not require hovering.",
+    "Fullscreen uses the browser API when available, with an expanded-page fallback."
+  ],
+  "notes": [
+    "Framework-independent Canvas 2D. No React, Three.js, external fonts, images, or network services are required.",
+    "The host controls animation. Reusable buffers are unnecessary for this small 2D study; drawing count is bounded by the inspector.",
+    "Pointer movement influences the drawing; the same study also works without pointer input."
+  ],
+  "reuse": [
+    "Extract the source ZIP, then serve the folder over local HTTP. Open example.html.",
+    "Import mount from the experiment entry, pass a sized element and settings, then call setRunning(true).",
+    "Call update(settings) to apply changes, replay() to restart, and dispose() before removing the host.",
+    "Use the included validated preset.json. Framework integration belongs in your application, outside the effect."
+  ],
+  "comparison": "lightweight"
+}

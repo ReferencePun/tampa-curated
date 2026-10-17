@@ -1,0 +1,12 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import '../styles/creative-lab.css';
+import {url} from '../lib/urls';
+interface Props {title:string;description:string;}
+const {title,description}=Astro.props;
+---
+<BaseLayout title={title} description={description} edition="laboratory">
+ <div class="il-page"><nav class="il-subnav" aria-label="Impossible Lab"><a class="il-wordmark" href={url('lab/')}><span aria-hidden="true">⌁</span> THE IMPOSSIBLE LAB</a><div><a href={url('lab/')}>The collection</a><a href={url('lab/compare/')}>Compare studies ↗</a></div></nav><slot/>
+ <footer class="il-colophon"><span class="il-label">TAMPA CURATED / REUSABLE CURIOSITIES</span><p>A place to keep the things<br/>we haven’t quite imagined yet.</p><a href={url('lab/#method')}>How to take a study with you ↗</a></footer></div>
+</BaseLayout>
+<script>import '../creative-lab/host';import '../creative-lab/catalog';</script>
