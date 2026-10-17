@@ -1,1 +1,4 @@
-.impossible-effect { position: relative; width: 100%; min-height: 320px; height: min(70vh, 640px); overflow: hidden; background: #f2eee3; }
+.impossible-effect{position:relative;width:100%;height:min(85vh,850px);min-height:660px;overflow:hidden;background:#f4f1e8;}
+.il-host[data-slug="living-ink"] .il-demo{height:760px;min-height:660px;max-height:90svh;}
+.il-host[data-slug="living-ink"] .il-annotation,.il-host[data-slug="living-ink"] .il-demo-index{display:none;}
+@media(max-width:600px){.il-host[data-slug="living-ink"] .il-demo{height:790px;max-height:none;}}

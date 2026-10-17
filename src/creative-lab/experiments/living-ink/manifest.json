@@ -4,82 +4,160 @@
   "number": "04",
   "order": 6,
   "name": "Living Ink",
-  "description": "Marks that gather, bleed, settle, and remember the hand that made them.",
+  "description": "Plant a drop of ink. Watch it branch, follow a drawing, or remember an image.",
   "category": "Drawing",
   "tags": [
     "ink",
-    "flow",
-    "gesture"
+    "reaction\u2013diffusion",
+    "drawing",
+    "image masks"
   ],
-  "status": "prototype",
-  "placeholder": true,
+  "status": "working",
+  "placeholder": false,
   "technology": [
+    "WebGL2",
     "Canvas 2D",
     "JavaScript"
   ],
-  "plannedTechnology": "Canvas 2D or WebGL",
+  "plannedTechnology": null,
   "dependencies": {},
   "settings": [
     {
-      "key": "density",
-      "label": "Line count",
-      "type": "range",
-      "min": 8,
-      "max": 64,
-      "step": 1,
-      "default": 32
-    },
-    {
-      "key": "speed",
-      "label": "Motion speed",
-      "type": "range",
-      "min": 0,
-      "max": 2,
-      "step": 0.1,
-      "default": 0.6
-    },
-    {
-      "key": "guides",
-      "label": "Construction guides",
-      "type": "toggle",
-      "default": true
-    },
-    {
-      "key": "ink",
-      "label": "Graphite",
-      "type": "color",
-      "default": "#37342e"
-    },
-    {
-      "key": "accent",
-      "label": "Pencil accent",
-      "type": "color",
-      "default": "#a75239"
-    },
-    {
       "key": "mode",
-      "label": "Arrangement",
+      "label": "Ink mode",
       "type": "select",
-      "default": "contours",
+      "default": "organic",
       "options": [
         {
-          "value": "contours",
-          "label": "Circular"
+          "value": "organic",
+          "label": "Reaction ink"
         },
         {
-          "value": "open",
-          "label": "Open"
+          "value": "architecture",
+          "label": "Guided architecture"
+        },
+        {
+          "value": "image",
+          "label": "Ink to image"
         }
       ]
     },
     {
-      "key": "seed",
-      "label": "Drawing variation",
-      "type": "number",
+      "key": "diffusionU",
+      "label": "Paper diffusion \u00b7 U",
+      "type": "range",
+      "default": 1,
+      "min": 0.4,
+      "max": 1.2,
+      "step": 0.01
+    },
+    {
+      "key": "diffusionV",
+      "label": "Ink diffusion \u00b7 V",
+      "type": "range",
+      "default": 0.5,
+      "min": 0.15,
+      "max": 0.65,
+      "step": 0.01
+    },
+    {
+      "key": "feed",
+      "label": "Reaction \u00b7 feed",
+      "type": "range",
+      "default": 0.036,
+      "min": 0.01,
+      "max": 0.07,
+      "step": 0.001
+    },
+    {
+      "key": "kill",
+      "label": "Reaction \u00b7 depletion",
+      "type": "range",
+      "default": 0.06,
+      "min": 0.035,
+      "max": 0.075,
+      "step": 0.001
+    },
+    {
+      "key": "concentration",
+      "label": "Ink concentration",
+      "type": "range",
+      "default": 0.8,
+      "min": 0.2,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "speed",
+      "label": "Growth speed",
+      "type": "range",
+      "default": 12,
       "min": 1,
-      "max": 99,
-      "step": 1,
-      "default": 7
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "influence",
+      "label": "Structure influence",
+      "type": "range",
+      "default": 0.8,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "radius",
+      "label": "Brush radius",
+      "type": "range",
+      "default": 12,
+      "min": 3,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "ink",
+      "label": "Ink color",
+      "type": "color",
+      "default": "#393730"
+    },
+    {
+      "key": "resolution",
+      "label": "Simulation resolution",
+      "type": "select",
+      "default": "384",
+      "options": [
+        {
+          "value": "192",
+          "label": "192 cells wide"
+        },
+        {
+          "value": "256",
+          "label": "256 cells wide"
+        },
+        {
+          "value": "384",
+          "label": "384 cells wide"
+        },
+        {
+          "value": "512",
+          "label": "512 cells wide \u00b7 fine"
+        }
+      ]
+    },
+    {
+      "key": "guides",
+      "label": "Show architectural guides",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "seed",
+      "label": "Seed variation",
+      "type": "number",
+      "default": 7,
+      "min": 1,
+      "max": 999,
+      "step": 1
     }
   ],
   "entry": "index.js",
@@ -92,25 +170,33 @@
   "assets": [
     {
       "path": "assets/preview.svg",
-      "credit": "Original geometric line study \u00b7 Tampa Curated",
+      "credit": "Original simulated ink study \u00b7 Tampa Curated",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/heron.svg",
+      "credit": "Original heron line drawing \u00b7 Tampa Curated",
       "license": "MIT"
     }
   ],
   "compatibility": [
-    "Current Chrome, Firefox, Safari, and Edge with Canvas 2D and ES modules.",
-    "Static preview and documentation work without JavaScript.",
-    "Reduced motion starts paused. Touch does not require hovering.",
-    "Fullscreen uses the browser API when available, with an expanded-page fallback."
+    "WebGL2 with floating-point framebuffer support runs two alternating GPU state textures. No third-party runtime packages.",
+    "If graphics are unsupported or interrupted, the same equations run on a smaller 160-cell-wide CPU grid. Graphics interruption starts a fresh field.",
+    "Pointer, touch, and keyboard seeds; reduced motion begins paused. Offscreen and hidden experiments stop advancing.",
+    "Image uploads accept PNG, JPEG and WebP up to 8 MB and 16 megapixels. They stay in this session and are never uploaded.",
+    "Still PNG export captures the current paper. Presets and source exports save the recipe, not the complete evolving state or a custom uploaded image."
   ],
   "notes": [
-    "This is a planned experiment. The live calibration plate tests the lab controls; it is not an implementation of the proposed effect.",
-    "The exported scaffold includes the neutral plate renderer and the complete lifecycle contract. Replace its mount function when developing this experiment."
+    "A Gray\u2013Scott reaction\u2013diffusion field stores two reacting concentrations, deposited pigment, and a memory of where the ink has travelled. Each new step depends on the last.",
+    "Architecture alters local reaction rates around a connected observatory drawing. The heron mask influences both chemistry and pigment: an untouched area cannot reveal its hidden image.",
+    "Five recipes explore branching roots, charcoal islands, sepia lace, growing architecture, and an image emerging from ink. Some parameter combinations deliberately fade or settle; reseed or choose a recipe to explore again.",
+    "Ink edges and hatching are rendered from the chemical field. There are no moving particles or prerecorded sequences. Changing resolution or mode begins a fresh field; other parameters act on the current ink."
   ],
   "reuse": [
-    "Extract the source ZIP, then serve the folder over local HTTP. Open example.html.",
-    "Import mount from the experiment entry, pass a sized element and settings, then call setRunning(true).",
-    "Call update(settings) to apply changes, replay() to restart, and dispose() before removing the host.",
-    "Use the included validated preset.json. Framework integration belongs in your application, outside the effect."
+    "Extract the source ZIP, serve it over local HTTP, and open example.html. No installation is needed.",
+    "For the complete instrument, import mount from index.js and pass a sized host element and settings. Call setRunning(true), then dispose() before removing it.",
+    "For your own interface, import createInkEngine from engine.js. Supply an RGBA mask or build one with pathMask or imageMask; send normalized brush inputs and call step() and render().",
+    "Read README.md for mask channels, equations, lifecycle, resource disposal, and portable usage. Preset JSON stores the recipe; read() exposes a numerical state snapshot."
   ],
   "comparison": "none"
 }

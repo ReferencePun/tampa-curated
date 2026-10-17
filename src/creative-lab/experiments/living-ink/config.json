@@ -1,9 +1,15 @@
 {
-  "density": 32,
-  "speed": 0.6,
+  "mode": "organic",
+  "diffusionU": 1,
+  "diffusionV": 0.5,
+  "feed": 0.036,
+  "kill": 0.06,
+  "concentration": 0.8,
+  "speed": 12,
+  "influence": 0.8,
+  "radius": 12,
+  "ink": "#393730",
+  "resolution": "384",
   "guides": true,
-  "ink": "#37342e",
-  "accent": "#a75239",
-  "mode": "contours",
   "seed": 7
 }
