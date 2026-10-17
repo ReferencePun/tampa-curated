@@ -9,14 +9,12 @@ const context = await b.newContext({
 });
 const p = await context.newPage();
 await p.goto("http://127.0.0.1:4321/tampa-curated/");
-await p
-  .locator(".sleeve-stage")
-  .evaluate((e) =>
-    scrollTo({
-      top: e.getBoundingClientRect().top + scrollY - 80,
-      behavior: "instant",
-    }),
-  );
+await p.locator(".sleeve-stage").evaluate((e) =>
+  scrollTo({
+    top: e.getBoundingClientRect().top + scrollY - 80,
+    behavior: "instant",
+  }),
+);
 await p.waitForTimeout(800);
 const cdp = await context.newCDPSession(p);
 let y = await p.evaluate(() => scrollY);
@@ -38,14 +36,12 @@ await cdp.send("Input.dispatchTouchEvent", {
 await p.waitForTimeout(400);
 const verticalDelta = (await p.evaluate(() => scrollY)) - y;
 if (verticalDelta < 100) throw Error("Vertical touch did not scroll");
-await p
-  .locator(".sleeve-stage")
-  .evaluate((e) =>
-    scrollTo({
-      top: e.getBoundingClientRect().top + scrollY - 80,
-      behavior: "instant",
-    }),
-  );
+await p.locator(".sleeve-stage").evaluate((e) =>
+  scrollTo({
+    top: e.getBoundingClientRect().top + scrollY - 80,
+    behavior: "instant",
+  }),
+);
 await p.waitForTimeout(200);
 await cdp.send("Input.dispatchTouchEvent", {
   type: "touchStart",
@@ -99,7 +95,7 @@ const perf = await d.evaluate(async () => {
     ),
   );
   obs.observe({ type: "longtask" });
-  const root = document.querySelector(".neighborhood-atlas"),
+  const root = document.querySelector(".atlas-scroll-track"),
     top = root.getBoundingClientRect().top + scrollY;
   let prev = 0;
   const started = performance.now();
@@ -108,7 +104,10 @@ const perf = await d.evaluate(async () => {
     if (prev) frames.push(t - prev);
     prev = t;
     scrollTo({
-      top: top + Math.sin((i / 179) * Math.PI) * 880,
+      top:
+        top -
+        16 +
+        Math.sin((i / 179) * Math.PI) * (root.offsetHeight - innerHeight),
       behavior: "instant",
     });
   }

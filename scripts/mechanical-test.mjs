@@ -15,16 +15,14 @@ const report = {
     "Local macOS; Playwright automation, not physical Safari/iOS. No CPU/network throttling.",
 };
 const scrollTo = (page, selector, offset = -20) =>
-  page
-    .locator(selector)
-    .evaluate(
-      (element, offset) =>
-        window.scrollTo({
-          top: element.getBoundingClientRect().top + scrollY + offset,
-          behavior: "instant",
-        }),
-      offset,
-    );
+  page.locator(selector).evaluate(
+    (element, offset) =>
+      window.scrollTo({
+        top: element.getBoundingClientRect().top + scrollY + offset,
+        behavior: "instant",
+      }),
+    offset,
+  );
 const pause = (page) => page.waitForTimeout(450);
 const capture = (page, name) =>
   page.screenshot({ path: `${directory}/${name}.png` });
@@ -204,18 +202,18 @@ for (const name of subset) {
     (await page.evaluate(() => scrollY)) > 500,
     "Back navigation restores a meaningful scroll position",
   );
-  await scrollTo(page, ".neighborhood-atlas", -20);
+  await scrollTo(page, ".atlas-scroll-track", -16);
   await pause(page);
   const atlas = page.locator(".neighborhood-atlas");
   await expect(atlas).toHaveClass(/is-pinned/);
   await capture(page, `${name}-atlas-folded`);
   const closed = Number(await atlas.getAttribute("data-progress"));
-  await scrollTo(page, ".neighborhood-atlas", 400);
+  await scrollTo(page, ".atlas-scroll-track", 80);
   await pause(page);
   const partial = Number(await atlas.getAttribute("data-progress"));
   assert(partial > closed && partial < 1, "Partial atlas progress is visible");
   await capture(page, `${name}-atlas-partial`);
-  await scrollTo(page, ".neighborhood-atlas", 850);
+  await scrollTo(page, ".atlas-scroll-track", 430);
   await pause(page);
   assert(
     Number(await atlas.getAttribute("data-progress")) > 0.9,
@@ -231,7 +229,7 @@ for (const name of subset) {
   await expect(page).toHaveURL(href("neighborhoods/water-street/"));
   await page.goBack();
   await expect(atlas).toHaveAttribute("data-selected", "5");
-  await scrollTo(page, ".neighborhood-atlas", 400);
+  await scrollTo(page, ".atlas-scroll-track", 80);
   await pause(page);
   assert(
     Math.abs(Number(await atlas.getAttribute("data-progress")) - partial) <
@@ -364,7 +362,7 @@ if (subset.includes("chromium")) {
       );
       await capture(page, `${key}-${width}x${height}`);
     }
-    if (width < 1100 || height < 760) {
+    if (height < 620) {
       assert(
         !(
           await page.locator(".neighborhood-atlas").getAttribute("class")

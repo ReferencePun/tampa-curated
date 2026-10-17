@@ -1014,11 +1014,143 @@
   white-space: nowrap;
 }
 .neighborhood-atlas.is-pinned {
-  height: 200svh;
+  height: auto;
+}
+.is-pinned .atlas-scroll-track {
+  height: calc((var(--atlas-spread-count) + 1) * 100svh);
 }
 .is-pinned .atlas-sticky {
   position: sticky;
   top: 16px;
+}
+.atlas-page-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 20px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+  font: 600 var(--reading-small, 1rem)/1.4 var(--condensed);
+}
+.atlas-pagination {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.atlas-pagination > span {
+  text-align: center;
+  min-width: 80px;
+}
+.atlas-pagination b {
+  display: block;
+  color: var(--blue);
+  font-variant-numeric: tabular-nums;
+}
+.atlas-pagination button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--rule);
+  background: transparent;
+  font-size: 24px;
+}
+.atlas-pagination button:hover {
+  color: var(--paper-light);
+  background: var(--blue);
+}
+.atlas-pagination button[aria-disabled="true"] {
+  color: var(--muted);
+  opacity: 0.45;
+  cursor: default;
+  background: transparent;
+}
+.atlas-contents {
+  flex: 1;
+  min-width: 160px;
+}
+.atlas-contents select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 30px 8px 12px;
+  border: 1px solid var(--rule);
+  background: var(--paper-light);
+  font: inherit;
+}
+.atlas-skip {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  gap: 14px;
+  text-transform: uppercase;
+}
+.atlas-reader-note {
+  font: var(--reading-small, 0.875rem)/1.5 var(--condensed);
+  color: var(--muted);
+  border-top: 1px solid var(--rule);
+  padding: 10px 0;
+}
+.atlas-stage {
+  scroll-margin-top: 20px;
+}
+#after-atlas {
+  scroll-margin-top: 20px;
+}
+/* Keep the scrolling reader complete in the in-app preview and portrait phones.
+   Full descriptions remain on their guide pages and in the unpinned layout. */
+@media (max-width: 900px) {
+  .is-pinned .atlas-layout {
+    display: block;
+  }
+  .is-pinned .atlas-stage {
+    height: clamp(180px, 34svh, 290px);
+  }
+  .is-pinned .atlas-hinge-sign {
+    height: 44%;
+  }
+  .is-pinned .atlas-hinge-sign .atlas-pop-face {
+    padding: 5px;
+  }
+  .is-pinned .atlas-hinge-sign span {
+    font-size: clamp(14px, 3svh, 25px);
+  }
+  .is-pinned .atlas-hinge-sign b {
+    font-size: clamp(10px, 1.8svh, 15px);
+  }
+  .is-pinned .atlas-hinge-sign small {
+    font-size: 4px;
+  }
+  .is-pinned .atlas-captions {
+    border-left: 0;
+    border-top: 1px solid var(--rule);
+    padding: 8px 0 0;
+  }
+  .is-pinned .atlas-caption {
+    padding: 4px 0 10px;
+  }
+  .is-pinned .atlas-caption h3 {
+    font-size: clamp(28px, 5vw, 36px);
+    margin: 5px 0;
+  }
+  .is-pinned .atlas-caption .text-link {
+    min-height: 44px;
+  }
+  .is-pinned .atlas-character,
+  .is-pinned .atlas-caption > p {
+    display: none;
+  }
+  .atlas-page-controls {
+    gap: 8px 16px;
+  }
+  .atlas-pagination {
+    gap: 8px;
+  }
+  .atlas-contents {
+    min-width: 140px;
+  }
+  .atlas-skip {
+    min-height: 32px;
+    margin-left: auto;
+  }
 }
 .is-ready .atlas-caption {
   border: 0;

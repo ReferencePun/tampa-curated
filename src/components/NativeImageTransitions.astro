@@ -32,6 +32,8 @@ import { motion } from '../scripts/mechanical/settings';
     });
     window.addEventListener('pageswap', event => {
       if (!event.viewTransition) return;
+      // Native navigation can cancel a transition when motion is disabled.
+      event.viewTransition.ready.catch(() => {});
       const record = read();
       const destination = event.activation?.entry?.url;
       const path = destination ? new URL(destination).pathname : '';
@@ -43,6 +45,7 @@ import { motion } from '../scripts/mechanical/settings';
     });
     window.addEventListener('pagereveal', event => {
       if (!event.viewTransition) { clear(); return; }
+      event.viewTransition.ready.catch(() => {});
       const record = read();
       const source = event.activation?.from?.url;
       const paired = record && Date.now() - record.time < 900000 && (location.pathname === record.to || location.pathname === record.from);

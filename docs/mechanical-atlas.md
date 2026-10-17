@@ -16,7 +16,11 @@ The atlas correction replaces the shallow closing pose with a full 180° cover f
 
 This correction grows the deferred atlas module from 1,318 to 2,470 bytes gzip (+1,152 bytes), without new dependencies or photographs. It does not make atlas code load with the masthead. The original aggregate size measurements below predate this correction.
 
-Desktop has the homepage's only sticky section, 200svh total, enabled only at widths ≥1100px and heights ≥760px. Mobile and short windows have an Open/Close control with immediate access to selectors and links. Reduced motion shows the open scene without animation or pinning. Direct neighborhood hashes select their guide and skip the folding introduction.
+The homepage's only sticky section now walks through the **six existing spreads** using native scroll. Each chapter unfolds its paper scenery, holds it open for reading, and closes before the next neighborhood appears. Scrolling backward reverses the same sequence; the final spread stays open as the reader continues into The List. No new neighborhoods or content pages were added.
+
+The track spans seven viewport heights: six scroll chapters plus the reader viewport. The introductory heading and neighborhood index remain outside the pinned reader. At narrow widths, a compact book, readable title, guide link, controls, and illustration notice fit together; the complete deck and photograph context remain in the unpinned presentation and destination guide. The six original scenes, photographs, and links are preserved.
+
+Previous/Next, the contents selector, and focused Left/Right/Home/End keys jump to the open reading pose of a spread. “Continue below” is a normal anchor past the book. There is no wheel/touch interception or synthetic scrolling loop. Pinning is enabled only when the reader fits the viewport (at least 620px tall); short windows and enlarged text that exceed the available space retain manual browsing and Open/Close. Reduced motion keeps all six spreads accessible without folding or pinning. Direct neighborhood hashes select their guide and skip the scroll sequence.
 
 ## Implementation map
 
@@ -28,6 +32,7 @@ Desktop has the homepage's only sticky section, 200svh total, enabled only at wi
 | Scoped middle-section styles | `src/styles/mechanical.css` |
 | Settings and lifecycle | `src/scripts/mechanical/settings.ts`, `index.ts`, `progress.ts` |
 | Scene controllers | `worktable.ts`, `sleeve.ts`, `atlas.ts` in that script directory |
+| Reversible six-spread scroll mapping | `src/scripts/mechanical/atlas-sequence.ts` |
 | Shared projection / lazy optics | `sleeve-model.ts`, `sleeve-optics.ts` |
 | Native page-image transitions | `src/components/NativeImageTransitions.astro`, `Photo.astro`, `BaseLayout.astro`, existing people/story/guide detail templates |
 | Browser verification | `scripts/mechanical-test.mjs`, `scripts/mechanical-touch-performance.mjs`, existing `scripts/browser-test.mjs` |
@@ -81,7 +86,7 @@ The baseline homepage was 25,148 bytes / 5,501 bytes gzip, with 514 inline JavaS
 
 Firefox 157 downloaded successfully but could not launch its temporary profile on this host, including a retry using `/private/tmp`. Firefox behavior remains unverified.
 
-The atlas correction fixes the previously flattened WebKit screenshots using composed surface transforms, geometric face culling, and explicit paper-layer order. `node scripts/atlas-regression.mjs` verifies actual painted photo pixels (not only bounding boxes), desktop and mobile Open/Close, all six scenes at five fold positions, rapid reversal, viewport resizing, reduced motion, and guide history in Chromium and WebKit. Updated captures and the report are in `test-results/atlas-fix/`; earlier atlas captures in `mechanical-base` may show the original construction. These captures are not proof of Safari or iPhone rendering. A real Safari/macOS and iOS device review remains outstanding. Modifier-link handlers preserve native defaults; opening an actual background tab could not be confirmed through the local automation harness.
+The atlas correction fixes the previously flattened WebKit screenshots using composed surface transforms, geometric face culling, and explicit paper-layer order. `node scripts/atlas-regression.mjs` now verifies actual painted photo pixels (not only bounding boxes), all six scroll chapters at six fold positions, reverse scrolling, page controls, keyboard navigation, the exit link, portrait layouts, short-window Open/Close, reduced motion, and guide history in Chromium and WebKit. Updated captures and the report are in `test-results/atlas-fix/`. These captures are not proof of Safari or iPhone rendering. A real Safari/macOS and iOS device review remains outstanding. Modifier-link handlers preserve native defaults; opening an actual background tab could not be confirmed through the local automation harness.
 
 ## Assets for a real editorial edition
 

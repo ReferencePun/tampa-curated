@@ -28,8 +28,24 @@ for (const [name, engine] of [
     }),
   );
   await expect(atlas).toHaveClass(/is-ready/);
-  await expect(page.getByRole("button", { name: "Open atlas" })).toBeVisible();
-  await page.getByRole("button", { name: "Open atlas" }).click();
+  await expect(atlas).toHaveClass(/is-pinned/);
+  const scrollSpread = async (index, phase = 0.5) => {
+    await page.locator(".atlas-scroll-track").evaluate(
+      (track, { index, phase }) => {
+        scrollTo({
+          top:
+            track.getBoundingClientRect().top +
+            scrollY -
+            16 +
+            ((track.offsetHeight - innerHeight) * (index + phase)) / 6,
+          behavior: "instant",
+        });
+      },
+      { index, phase },
+    );
+    await expect(atlas).toHaveAttribute("data-selected", String(index));
+  };
+  await scrollSpread(0);
   await expect
     .poll(async () => Number(await atlas.getAttribute("data-progress")))
     .toBeGreaterThan(0.99);
@@ -77,18 +93,20 @@ for (const [name, engine] of [
 
   // Select every coordinated scene and inspect the full folding path. Paper
   // must stay inside its stage, so no leaf can cross captions or the selector.
-  const top = await atlas.evaluate(
-    (e) => e.getBoundingClientRect().top + scrollY,
-  );
-  const travel = await atlas.evaluate((e) => e.offsetHeight - innerHeight);
   for (let index = 0; index < 6; index++) {
-    await page.locator(`[data-atlas-select="${index}"]`).click();
-    await expect(page.locator(`[data-atlas-caption="${index}"]`)).toBeVisible();
-    for (const progress of [0, 0.25, 0.5, 0.75, 1]) {
-      await page.evaluate(
-        (y) => scrollTo({ top: y, behavior: "instant" }),
-        top - 16 + travel * progress,
-      );
+    for (const [phase, progress] of [
+      [0.001, 0],
+      [0.11, 0.5],
+      [0.22, 1],
+      [0.5, 1],
+      [0.89, index === 5 ? 1 : 0.5],
+      [0.999, index === 5 ? 1 : 0],
+    ]) {
+      await scrollSpread(index, phase);
+      await expect(
+        page.locator(`[data-atlas-caption="${index}"]`),
+      ).toBeVisible();
+      assert.equal(await page.locator("[data-atlas-board]:visible").count(), 1);
       await expect
         .poll(async () => Number(await atlas.getAttribute("data-progress")))
         .toBeCloseTo(progress, 1);
@@ -120,39 +138,61 @@ for (const [name, engine] of [
         await page.screenshot({ path: `${dir}/${name}-fold-${progress}.png` });
     }
   }
-  await page.getByRole("button", { name: "Close atlas" }).click();
+  // Reversing the native scroll visits the same six scenes in reverse.
+  for (let index = 5; index >= 0; index--) {
+    await scrollSpread(index);
+    await expect(atlas).toHaveAttribute("data-progress", "1.000");
+    await expect(page.locator("[data-atlas-counter]")).toHaveText(
+      `0${index + 1} / 06`,
+    );
+  }
+  await page.getByRole("button", { name: "Next spread" }).click();
+  await expect(atlas).toHaveAttribute("data-selected", "1");
+  await page.getByRole("button", { name: "Previous spread" }).click();
+  await expect(atlas).toHaveAttribute("data-selected", "0");
+  await page.locator(".atlas-stage").focus();
+  await page.keyboard.press("End");
+  await expect(atlas).toHaveAttribute("data-selected", "5");
+  await page.keyboard.press("Home");
+  await expect(atlas).toHaveAttribute("data-selected", "0");
+  await page.getByLabel("Jump to a spread").selectOption("3");
+  await expect(atlas).toHaveAttribute("data-selected", "3");
+  await page.getByRole("link", { name: "Continue below" }).click();
   await expect
-    .poll(async () => Number(await atlas.getAttribute("data-progress")))
-    .toBeLessThan(0.01);
-  await page.screenshot({ path: `${dir}/${name}-closed.png` });
+    .poll(() =>
+      page
+        .locator(".list-teaser")
+        .evaluate((el) => el.getBoundingClientRect().top),
+    )
+    .toBeLessThan(150);
+
   for (const [width, height] of [
     [594, 650],
     [390, 844],
-    [375, 667],
-    [844, 390],
+    [320, 667],
   ]) {
     await page.setViewportSize({ width, height });
-    await expect(atlas).not.toHaveClass(/is-pinned/);
-    await page.getByRole("button", { name: "Open atlas" }).click();
-    await expect(atlas).toHaveAttribute("data-progress", "1.000");
-    await page
-      .locator(".atlas-stage")
-      .screenshot({ path: `${dir}/${name}-${width}-open.png` });
-    // Reversing during the fold must settle at the latest requested state.
-    await page.getByRole("button", { name: "Close atlas" }).click();
-    await page.getByRole("button", { name: "Open atlas" }).click();
-    await expect(atlas).toHaveAttribute("data-progress", "1.000");
-    await page.getByRole("button", { name: "Close atlas" }).click();
-    await expect(atlas).toHaveAttribute("data-progress", "0.000");
-    await page
-      .locator(".atlas-stage")
-      .screenshot({ path: `${dir}/${name}-${width}-closed.png` });
+    await expect(atlas).toHaveClass(/is-pinned/);
+    for (let index = 0; index < 6; index++) await scrollSpread(index);
+    const fits = await page.locator(".atlas-sticky").evaluate((el) => {
+      const rect = el.getBoundingClientRect();
+      return rect.top >= 0 && rect.bottom <= innerHeight;
+    });
+    assert(fits, `${name}: the complete book reader fits ${width}×${height}`);
     assert(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth + 1,
       ),
     );
+    await page.screenshot({ path: `${dir}/${name}-${width}-scrolling.png` });
   }
+  // Short windows keep manual controls instead of pinning an oversized reader.
+  await page.setViewportSize({ width: 844, height: 390 });
+  await expect(atlas).not.toHaveClass(/is-pinned/);
+  await page.getByRole("button", { name: "Close atlas" }).click();
+  await expect(atlas).toHaveAttribute("data-progress", "0.000");
+  await page.getByRole("button", { name: "Open atlas" }).click();
+  await expect(atlas).toHaveAttribute("data-progress", "1.000");
   await page.getByRole("button", { name: "Reduced", exact: true }).click();
   await expect(atlas).toHaveAttribute("data-progress", "1.000");
   await expect(page.locator(".atlas-toggle")).toBeHidden();
@@ -166,14 +206,14 @@ for (const [name, engine] of [
     browser: name,
     paintedPhoto: painted,
     neighborhoods: 6,
-    foldStates: 5,
-    widths: [1440, 594, 390, 375, 844],
+    foldStates: 6,
+    widths: [1440, 594, 390, 320, 844],
     errors,
   });
   await context.close();
   await browser.close();
   console.log(
-    `${name}: visible 3D photo, cover controls, fold containment, all neighborhoods, interruption, resize, reduced motion and history passed.`,
+    `${name}: six sequential scroll chapters, reverse scrolling, visible 3D photo, fold containment, page controls, keyboard, exit, phone layouts, reduced motion and history passed.`,
   );
 }
 writeFileSync(`${dir}/regression.json`, JSON.stringify(report, null, 2));
