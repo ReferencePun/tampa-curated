@@ -2,6 +2,8 @@
 
 An independent editorial website about Tampa’s people, places, neighborhoods, and ideas. Built with Astro 7.4, TypeScript, custom CSS, and static content collections. Designed for GitHub Pages: no server, database, UI framework, remote fonts, or paid hosting is required.
 
+The local Mechanical Atlas revision replaces the three middle homepage sections with an editorial worktable, an interactive photographic sleeve, and an unfolding neighborhood atlas. See [the implementation and review notes](docs/mechanical-atlas.md) for controls, fallbacks, measured costs, verification evidence, and device-testing limits. This revision is not published.
+
 The initial release is a **demonstration edition**. All five profiles and eight businesses are fictional. Six essays are sample editorial content, not verified reporting. Six real neighborhood names are paired with sample introductions. Stock portraits do not depict the named fictional people. These distinctions appear throughout the site.
 
 ## Run locally
