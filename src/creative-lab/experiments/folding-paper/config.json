@@ -1,9 +1,10 @@
 {
+  "version": "architecture",
+  "progress": 0,
+  "speed": 1,
+  "transparency": 0.72,
   "density": 32,
-  "speed": 0.6,
-  "guides": true,
-  "ink": "#37342e",
-  "accent": "#a75239",
-  "mode": "contours",
-  "seed": 7
+  "angle": 68,
+  "variation": 0.4,
+  "guides": true
 }

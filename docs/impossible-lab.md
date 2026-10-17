@@ -9,7 +9,8 @@ A Git checkpoint was created before implementation: `checkpoint/before-impossibl
 - A searchable, filterable catalog, local favorites, visual plates, category/technology/status metadata, independent URLs, and a small comparison desk.
 - Two deliberately small working reference studies, **Line Field** and **Hinge Study**, demonstrating a complete framework-independent effect lifecycle.
 - **Draw a World**, a working Three.js drawing-to-architecture instrument with editable paths, three architectural styles, and reversible camera travel.
-- Eleven clearly marked proposals: Impossible Rooms, Folding Paper, Living Ink, Particle Photos, Time Machine, Photo Portals, Living City, Site Memory, Spatial Sound, Personal Zines, World Composer.
+- **Folding Paper**, a working hierarchical hinge study with a conservatory, mechanical assembly, and miniature city, reversible progress and fixed-pose orbit inspection.
+- Ten clearly marked proposals: Impossible Rooms, Living Ink, Particle Photos, Time Machine, Photo Portals, Living City, Site Memory, Spatial Sound, Personal Zines, World Composer.
 - The proposals show a neutral calibration plate to exercise the inspector. It is not an implementation of the named future effect. Their downloads are complete scaffolds, explicitly labeled as such.
 - Range, numeric, checkbox, color, and select controls; validated structured path state for drawing instruments; default reset, pause/resume, replay, fullscreen/expanded preview, measured diagnostics, and browser-local named presets.
 - Validated JSON preset import/export and complete ZIP exports from the UI or command line. Current UI settings are embedded in a source download; the static default download works without JavaScript.
@@ -127,6 +128,7 @@ pnpm build
 pnpm verify
 pnpm test:lab
 pnpm test:draw-world
+pnpm test:folding-paper
 pnpm test:navigation
 ```
 
@@ -150,3 +152,11 @@ Checkpoint: `checkpoint/before-draw-a-world-2026-10-17` at `1eb734e`. The study 
 The per-study README documents the complete mount and geometry APIs, coordinate schema, limits, and lifecycle. `test:draw-world` exercises distinct generated geometry/camera routes, pointer and touch input, editable controls, reverse travel, presets, actual-path source exports, and the standalone example. Screenshots and source packages are in `test-results/draw-world/`.
 
 Draw a World verification: Astro check reported no errors, warnings, or hints. The build verified 65 pages and 5,539 local links/assets. Geometry tests and Chromium/WebKit interaction tests passed, including distinct freehand camera routes, upright reverse travel, helical rise, point editing, presets, actual-path source exports and the standalone package. Chromium additionally exercised real touch drawing/swiping, context loss/restoration, and the no-WebGL editor. Lab and navigation regressions passed in both engines. No homepage or other experiment implementation was changed.
+
+### Folding Paper implementation
+
+Checkpoint: `checkpoint/before-folding-paper-2026-10-17` at `131667d`. The independent study lives in `experiments/folding-paper`. `engine.js` constructs a validated parent-child hinge hierarchy from local outlines, openings, strokes, axes, pivots and stage intervals. `compositions.js` provides three demonstration datasets. No geometry or opacity is swapped as progress changes; only hinge transforms and the camera change.
+
+The conservatory contains 26 panels, including cutout windows, fluted column faces, knee braces, gables, and two roof planes that meet at the same ridge. The mechanical composition has 10 panels; the city has 38. The README explains the reusable schema, complete mount API, deterministic reverse sampling, input controls, and cleanup. Fold position is included in ordinary Lab presets and source packages; orbit is a temporary inspection view. The source package includes the local Three.js runtime and license.
+
+Verification: geometry tests check flatness, real intermediate poses, inherited pivots, roof closure, unchanged geometry/material identities, exact reverse matrices, camera continuity, schema errors, and disposal. Chromium and WebKit tests cover scrubbing, wheel input, fixed-pose orbit, three versions, settings/presets, source export and a separate standalone HTTP example, reduced motion, fullscreen, idle rest, and cleanup. Chromium additionally checks real touch orbit, WebGL context restoration, and the static graphics fallback. No homepage or other experiment implementation was changed.

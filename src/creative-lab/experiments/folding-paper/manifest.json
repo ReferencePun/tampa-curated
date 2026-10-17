@@ -4,82 +4,104 @@
   "number": "03",
   "order": 5,
   "name": "Folding Paper",
-  "description": "A flat sheet discovers hinges, creases, and unexpected depth.",
+  "description": "An unfinished architectural drawing rises along its creases. Follow the folds, hold them in space, then enter the building.",
   "category": "Mechanics",
   "tags": [
     "paper",
     "folds",
     "scroll"
   ],
-  "status": "prototype",
-  "placeholder": true,
+  "status": "working",
+  "placeholder": false,
   "technology": [
-    "Canvas 2D",
+    "Three.js",
+    "WebGL2",
     "JavaScript"
   ],
-  "plannedTechnology": "CSS 3D or WebGL",
-  "dependencies": {},
+  "plannedTechnology": null,
+  "dependencies": {
+    "three": "0.186.1"
+  },
   "settings": [
     {
-      "key": "density",
-      "label": "Line count",
+      "key": "version",
+      "label": "Drawing version",
+      "type": "select",
+      "default": "architecture",
+      "options": [
+        {
+          "value": "architecture",
+          "label": "Architectural elevation"
+        },
+        {
+          "value": "machine",
+          "label": "Mechanical drawing"
+        },
+        {
+          "value": "city",
+          "label": "Paper map / miniature city"
+        }
+      ]
+    },
+    {
+      "key": "progress",
+      "label": "Fold progress (%)",
       "type": "range",
-      "min": 8,
+      "min": 0,
+      "max": 100,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "key": "speed",
+      "label": "Fold speed",
+      "type": "range",
+      "min": 0.25,
+      "max": 2,
+      "step": 0.05,
+      "default": 1
+    },
+    {
+      "key": "transparency",
+      "label": "Paper transparency",
+      "type": "range",
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.72
+    },
+    {
+      "key": "density",
+      "label": "Sketch-line density",
+      "type": "range",
+      "min": 12,
       "max": 64,
       "step": 1,
       "default": 32
     },
     {
-      "key": "speed",
-      "label": "Motion speed",
+      "key": "angle",
+      "label": "Camera angle (degrees)",
+      "type": "range",
+      "min": 35,
+      "max": 85,
+      "step": 1,
+      "default": 68
+    },
+    {
+      "key": "variation",
+      "label": "Ink variation",
       "type": "range",
       "min": 0,
-      "max": 2,
-      "step": 0.1,
-      "default": 0.6
+      "max": 1,
+      "step": 0.05,
+      "default": 0.4
     },
     {
       "key": "guides",
-      "label": "Construction guides",
+      "label": "Construction lines",
       "type": "toggle",
       "default": true
-    },
-    {
-      "key": "ink",
-      "label": "Graphite",
-      "type": "color",
-      "default": "#37342e"
-    },
-    {
-      "key": "accent",
-      "label": "Pencil accent",
-      "type": "color",
-      "default": "#a75239"
-    },
-    {
-      "key": "mode",
-      "label": "Arrangement",
-      "type": "select",
-      "default": "contours",
-      "options": [
-        {
-          "value": "contours",
-          "label": "Circular"
-        },
-        {
-          "value": "open",
-          "label": "Open"
-        }
-      ]
-    },
-    {
-      "key": "seed",
-      "label": "Drawing variation",
-      "type": "number",
-      "min": 1,
-      "max": 99,
-      "step": 1,
-      "default": 7
     }
   ],
   "entry": "index.js",
@@ -92,25 +114,29 @@
   "assets": [
     {
       "path": "assets/preview.svg",
-      "credit": "Original geometric line study \u00b7 Tampa Curated",
+      "credit": "Original hinged conservatory drawing and vector lettering \u00b7 Tampa Curated",
       "license": "MIT"
     }
   ],
   "compatibility": [
-    "Current Chrome, Firefox, Safari, and Edge with Canvas 2D and ES modules.",
-    "Static preview and documentation work without JavaScript.",
-    "Reduced motion starts paused. Touch does not require hovering.",
-    "Fullscreen uses the browser API when available, with an expanded-page fallback."
+    "Current browsers with WebGL2 and ES modules. An architectural plate and source package remain available without JavaScript.",
+    "Scroll over the drawing to scrub; the surrounding page keeps its native scrolling. Slider, Home/End, and arrow keys provide keyboard alternatives.",
+    "On touch, scrub with the slider. Hold & orbit enables finger dragging around the actual intermediate structure.",
+    "Reduced motion applies each requested position immediately. The renderer rests when settled, paused, hidden, or outside the viewport."
   ],
   "notes": [
-    "This is a planned experiment. The live calibration plate tests the lab controls; it is not an implementation of the proposed effect.",
-    "The exported scaffold includes the neutral plate renderer and the complete lifecycle contract. Replace its mount function when developing this experiment."
+    "The same panel geometry exists at every position. Creases are actual parent-child pivots; neither surfaces nor linework fade between finished images.",
+    "The conservatory is the principal composition: engraved elevations, real window openings, fluted column sections, structural braces, gables, and linked roof planes. Roof hinges inherit the movement of their supporting walls.",
+    "The engine and miniature city are alternative demonstrations of the same mechanism. They use their own panels, hinge stages, linework and camera route.",
+    "Scroll or scrub to any position. Hold & orbit freezes that fold and lets you examine it from another angle. Half folded offers a useful starting point; Continue folding returns to the sequence.",
+    "The building completes before the camera approaches and enters its doorway. Reverse scrolling retraces the same transformation back onto the sheet.",
+    "This is an artistic hinge model, not a fabrication-ready fold pattern or a rigid-body collision simulation. Some engraved and unfolded details overlap as they would in a layered working drawing."
   ],
   "reuse": [
-    "Extract the source ZIP, then serve the folder over local HTTP. Open example.html.",
-    "Import mount from the experiment entry, pass a sized element and settings, then call setRunning(true).",
-    "Call update(settings) to apply changes, replay() to restart, and dispose() before removing the host.",
-    "Use the included validated preset.json. Framework integration belongs in your application, outside the effect."
+    "Download the source with your settings and serve example.html over HTTP. The package includes the Three.js browser runtime and its license; no CDN or package install is required for the example.",
+    "Use mount from index.js for the instrument, or createFoldingRig from engine.js to render your own panel definitions.",
+    "Define local outlines, openings, stroke paths, parent IDs, pivots, fold axes, angles and stage intervals. Call setProgress with a number from 0 to 1; the result is deterministic in either direction.",
+    "Read the included guide for hierarchy transforms, annotation linework, camera integration, preset validation and disposal."
   ],
   "comparison": "none"
 }

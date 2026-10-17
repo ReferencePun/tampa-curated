@@ -25,7 +25,8 @@
     "test:engraving": "node scripts/engraving-test.mjs",
     "test:atlas": "node scripts/atlas-regression.mjs",
     "test:glass": "node scripts/sea-glass-test.mjs",
-    "test:draw-world": "node scripts/draw-world-geometry-test.mjs && node scripts/draw-world-browser-test.mjs"
+    "test:draw-world": "node scripts/draw-world-geometry-test.mjs && node scripts/draw-world-browser-test.mjs",
+    "test:folding-paper": "node scripts/folding-paper-geometry-test.mjs && node scripts/folding-paper-browser-test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
