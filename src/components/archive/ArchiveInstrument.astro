@@ -1,0 +1,10 @@
+---
+import {gearPath,radialMarks} from '../../lib/mechanisms';
+---
+<svg class="archive-instrument" viewBox="0 0 240 170" aria-hidden="true">
+ <path d="M14 82H226M117 8V160M30 145H201" class="instrument-guide"/>
+ <g transform="translate(117 82)"><g data-archive-gear><path d={gearPath(49,24)}/><circle r="34"/><circle r="5"/><path d="M-31 0H-8M8 0H31M0-31V-8M0 8V31"/></g><path d={radialMarks(65,32,3)} class="instrument-guide"/></g>
+ <path d="M117 82L161 22L180 145L117 82L53 139" class="instrument-compass"/><circle cx="117" cy="82" r="9"/><path d="M154 32l9 1M176 133l7-1M48 135l10 7"/>
+ <path d="M39 34Q16 65 27 98M27 98l-5-10m5 10 6-8" class="instrument-rust"/>
+ <text x="173" y="25">A / 03</text><text x="153" y="164">look closer</text>
+</svg>

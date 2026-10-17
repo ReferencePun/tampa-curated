@@ -13,7 +13,7 @@ import { url } from '../lib/urls';
 import { siteConfig } from '../config/site';
 import { photos } from '../lib/photos';
 import NativeImageTransitions from '../components/NativeImageTransitions.astro';
-interface Props { title?: string; description?: string; image?: string; type?: 'website' | 'article'; noindex?: boolean; edition?: 'engraved' | 'atelier' | 'experiments' | 'spatial'; }
+interface Props { title?: string; description?: string; image?: string; type?: 'website' | 'article'; noindex?: boolean; edition?: 'engraved' | 'atelier' | 'experiments' | 'spatial' | 'archive'; }
 const { title, description = siteConfig.description, image = 'tampa-palms', type = 'website', noindex = false, edition } = Astro.props;
 const fullTitle = title ? `${title} — Tampa Curated` : 'Tampa Curated — An independent eye on the city';
 const canonical = new URL(Astro.url.pathname, Astro.site);

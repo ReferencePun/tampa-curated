@@ -145,6 +145,8 @@ export function createSeaGlass(lens: HTMLElement) {
     }
     const shell = document.querySelector<HTMLElement>(".page-shell");
     if (shell) visit(shell);
+    // Viewport renderers can opt in even when mounted outside the page shell.
+    document.querySelectorAll<HTMLElement>("body > [data-glass-surface]").forEach(visit);
     for (const [element, surface] of surfaces)
       if (!roots.includes(element)) remove(element, surface);
     for (const element of roots) {

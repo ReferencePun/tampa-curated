@@ -1,0 +1,11 @@
+---
+import {url} from '../../lib/urls';
+interface Props {slug:string;}
+const {slug}=Astro.props;
+---
+<a class="archive-return" data-archive-return href={url(`stories/#plate-${slug}`)} hidden>← Return to the photographic archive</a>
+<script>
+ const link=document.querySelector<HTMLElement>('[data-archive-return]');
+ if(link&&new URLSearchParams(location.search).get('from')==='particle-archive')link.hidden=false;
+</script>
+<style>.archive-return {display:inline-block;font:italic var(--reading-small,1rem)/1.5 var(--serif);padding:14px 0;border-bottom:1px solid var(--rule);margin-top:18px;}.archive-return[hidden]{display:none;}</style>

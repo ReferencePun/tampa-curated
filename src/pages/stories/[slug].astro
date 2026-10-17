@@ -2,6 +2,7 @@
 import { getCollection, getEntry, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import StoryReturn from '../../components/spatial/StoryReturn.astro';
+import ArchiveReturn from '../../components/archive/ArchiveReturn.astro';
 import SaveButton from '../../components/experiments/SaveButton.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Photo from '../../components/Photo.astro';
@@ -16,6 +17,6 @@ const neighborhood=await getEntry(d.neighborhood);
 const related=(await getCollection('stories')).filter(s=>s.id!==entry.id).sort((a,b)=>a.data.order-b.data.order).slice(0,4);
 ---
 <BaseLayout title={d.title} description={d.deck} image={d.image} type="article">
-<StoryReturn/><nav class="breadcrumb" aria-label="Breadcrumb"><a href={url()}>Home</a><span>/</span><a href={url('stories/')}>Stories</a><span>/ {d.category}</span></nav>
+<StoryReturn/><ArchiveReturn slug={entry.id}/><nav class="breadcrumb" aria-label="Breadcrumb"><a href={url()}>Home</a><span>/</span><a href={url('stories/')}>Stories</a><span>/ {d.category}</span></nav>
 <article><header class="detail-header"><span class="eyebrow">{d.category} / THE CITY ISSUE</span><h1>{d.title}</h1><p class="detail-deck">{d.deck}</p><div class="detail-byline"><span>{d.author}</span><time datetime={d.date.toISOString()}>{d.date.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',timeZone:'UTC'})}</time><span>{d.readTime}</span></div></header><figure class="detail-figure"><Photo sharedKey={`story-${entry.id}`} name={d.image} alt={d.imageAlt} treatment={d.treatment} eager sizes="(max-width: 1250px) 95vw, 1200px"/><figcaption>{d.imageAlt}. <a href={url('credits/')}>Photography credits ↗</a></figcaption></figure><div class="article-body"><aside><SaveButton id={`stories:${entry.id}`} title={d.title}/>{d.demo && <DemoNotice/>}<h2 class="article-aside-label">In this neighborhood</h2><p class="article-aside-detail"><a href={url(`neighborhoods/${d.neighborhood.id}/`)}>{neighborhood?.data.title} ↗</a></p></aside><div class="prose"><Content/></div></div></article><section class="detail-related"><SectionHeading label="Keep looking" href={url('stories/')} linkLabel="All stories"/><div class="stories-grid">{related.map(s=><StoryCard entry={s}/>)}</div></section>
 </BaseLayout>

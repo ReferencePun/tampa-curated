@@ -14,6 +14,7 @@
     "verify": "node scripts/verify-build.mjs",
     "test:browser": "node scripts/browser-test.mjs",
     "test:navigation": "node scripts/concept-navigation-test.mjs",
+    "test:archive": "node scripts/particle-archive-test.mjs",
     "test:spatial": "node scripts/spatial-test.mjs",
     "test:experiments": "node scripts/experiments-test.mjs",
     "test:reading": "node scripts/reading-tools-test.mjs",

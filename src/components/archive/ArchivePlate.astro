@@ -1,0 +1,27 @@
+---
+import type {CollectionEntry} from 'astro:content';
+import Photo from '../Photo.astro';
+import ScribbleAccent from '../ScribbleAccent.astro';
+import {url} from '../../lib/urls';
+interface Props {entry:CollectionEntry<'stories'>;index:number;}
+const {entry,index}=Astro.props,d=entry.data;
+const ratios=[1.24,.82,1.6,.92,1.42,1.15];
+const annotations=['a city, in the making','after the light changes','room for one more idea','a different point of view','take your time here','the everyday, reconsidered'];
+const path=url(`stories/${entry.id}/?from=particle-archive`);
+const number=String(index+1).padStart(3,'0');
+---
+<article class={`archive-plate archive-plate-${index+1}`} id={`plate-${entry.id}`} data-archive-plate data-story={entry.id} data-ratio={ratios[index%ratios.length]}>
+ <div class="archive-plate-top"><span>FIG. {number}</span><span>{d.category}</span><time datetime={d.date.toISOString()}>{d.date.toLocaleDateString('en-US',{month:'short',day:'2-digit',year:'numeric',timeZone:'UTC'})}</time></div>
+ <div class="archive-image-surround">
+  <a class="archive-image-link" href={path} data-archive-image data-shared-link={`story-${entry.id}`} style={`aspect-ratio:${ratios[index%ratios.length]}`} aria-label={`Read ${d.title}`}>
+   <Photo name={d.image} alt={d.imageAlt} treatment="mono" eager={index===0} sharedKey={`story-${entry.id}`} sizes="(max-width: 700px) 90vw, (max-width:1100px) 60vw, 780px"/>
+  </a>
+  <span class="archive-register archive-register-tl" aria-hidden="true"></span><span class="archive-register archive-register-br" aria-hidden="true"></span>
+  <span class="archive-handnote" aria-hidden="true">{annotations[index%annotations.length]}</span>
+  <svg class="archive-pencil" viewBox="0 0 110 48" aria-hidden="true"><ScribbleAccent x={12} y={15} width={64} height={16} color={index%2?'amber':'rose'} seed={index+23} weight={.8}/><path d="M3 37L98 34M89 3L92 43"/></svg>
+ </div>
+ <div class="archive-plate-bottom"><span>{d.demo?'SAMPLE EDITORIAL':'FIELD NOTES'} &nbsp; / &nbsp; {d.readTime}</span><button type="button" data-archive-uncover aria-pressed="false" hidden>Uncover image <span aria-hidden="true">↗</span></button></div>
+ <h2><a href={path} data-archive-story data-shared-link={`story-${entry.id}`}>{d.title}</a></h2>
+ <p class="archive-deck">{d.deck}</p>
+ <a class="archive-read" href={path} data-archive-story data-shared-link={`story-${entry.id}`}>Read the story <span aria-hidden="true">⟶</span></a>
+</article>

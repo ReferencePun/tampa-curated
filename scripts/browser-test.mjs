@@ -24,6 +24,7 @@ const pages = [
   "experiments/notebook/",
   "the-list/",
   "search/",
+  "stories/",
   "stories/the-city-now/",
   "people/mara-ellis/",
   "neighborhoods/ybor-city/",

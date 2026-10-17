@@ -13,6 +13,7 @@ const routes = [
   "home3/",
   "issues/001/",
   "guides/a-first-look/",
+  "stories/",
   "stories/the-city-now/",
   "people/mara-ellis/",
   "about/",
