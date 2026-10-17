@@ -10,6 +10,7 @@ import Footer from '../components/Footer.astro';
 import { url } from '../lib/urls';
 import { siteConfig } from '../config/site';
 import { photos } from '../lib/photos';
+import NativeImageTransitions from '../components/NativeImageTransitions.astro';
 interface Props { title?: string; description?: string; image?: string; type?: 'website' | 'article'; noindex?: boolean; }
 const { title, description = siteConfig.description, image = 'tampa-palms', type = 'website', noindex = false } = Astro.props;
 const fullTitle = title ? `${title} — Tampa Curated` : 'Tampa Curated — An independent eye on the city';
@@ -20,6 +21,7 @@ const ogImage = new URL(photos[image]?.src || url('favicon.svg'), Astro.site);
 <html lang="en">
   <head>
     <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <NativeImageTransitions/>
     <title>{fullTitle}</title><meta name="description" content={description}/><meta name="theme-color" content="#e9ddc7"/>
     <link rel="canonical" href={canonical}/><link rel="icon" type="image/svg+xml" href={url('favicon.svg')}/>
     <link rel="sitemap" href={url('sitemap-index.xml')}/>

@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Photo from './Photo.astro';
+import { atlasScenes } from '../config/atlas';
+interface Props { entry: CollectionEntry<'neighborhoods'>; index: number; }
+const { entry, index } = Astro.props;
+const scene = atlasScenes[entry.id];
+---
+<div class="atlas-board" data-atlas-board={index} data-motif={scene.motif} style={`--atlas-accent:${scene.accent}`} aria-hidden="true">
+  <div class="atlas-book">
+    <div class="atlas-spine"></div>
+    <div class="atlas-leaf atlas-leaf-left">
+      <div class="atlas-surface atlas-surface-front">
+        <svg class="atlas-map" viewBox="0 0 350 400" preserveAspectRatio="none"><path d={scene.water} fill="none" stroke="var(--atlas-accent)" stroke-width="52" opacity=".24"/><path d="M0 95H350M0 175H350M0 255H350M0 335H350M60 0V400M145 0V400M230 0V400M315 0V400" fill="none" stroke="#716b5e" stroke-width="1"/><path d="M0 98H350M60 0V400" fill="none" stroke="#f1e7d5" stroke-width="9"/><circle cx="145" cy="175" r="26" fill="none" stroke="var(--atlas-accent)"/><circle cx="145" cy="175" r="6" fill="var(--atlas-accent)"/></svg>
+        <span class="atlas-map-title">TC / 0{index + 1}<br/>FIELD GUIDE</span><span class="atlas-map-key">SCHEMATIC<br/>NOT TO SCALE</span>
+      </div>
+      <div class="atlas-surface atlas-surface-back"><span>TAMPA<br/>CURATED.</span><small>THE NEIGHBORHOOD EDITION / 0{index + 1}</small></div>
+      <div class="atlas-hinge atlas-hinge-sign"><div class="atlas-pop-face"><span>0{index + 1}</span><b>{entry.data.title}</b><small>{scene.street}</small></div><div class="atlas-pop-back"></div></div>
+      <div class="atlas-hinge atlas-hinge-tree"><div class="atlas-pop-face atlas-tree"><svg viewBox="0 0 160 220"><path d="M79 220L85 68M83 85Q26 13 0 65Q29 40 83 85Q7 70 8 120Q40 79 83 85Q63 5 112 0Q81 45 83 85Q119 18 159 62Q119 51 83 85Q159 66 154 127Q128 93 83 85" fill="var(--blue)" stroke="var(--blue)" stroke-width="6"/></svg></div></div>
+    </div>
+    <div class="atlas-leaf atlas-leaf-right">
+      <div class="atlas-surface atlas-surface-front"><svg class="atlas-map" viewBox="350 0 350 400" preserveAspectRatio="none"><path d={scene.water} fill="none" stroke="var(--atlas-accent)" stroke-width="52" opacity=".24"/><path d="M350 95H700M350 175H700M350 255H700M350 335H700M400 0V400M485 0V400M570 0V400M655 0V400" fill="none" stroke="#716b5e" stroke-width="1"/><path d="M350 255H700M570 0V400" stroke="#f1e7d5" stroke-width="9"/></svg><span class="atlas-map-key">{scene.stamp}</span></div>
+      <div class="atlas-surface atlas-surface-back"><span>TAKE<br/>A DETOUR.</span></div>
+      <div class="atlas-hinge atlas-hinge-photo"><div class="atlas-pop-face atlas-photo" data-image-link={`guide-${entry.id}`}><Photo name={entry.data.image} alt="" treatment={entry.data.treatment} sizes="(max-width: 700px) 70vw, 500px"/><span>0{index + 1} / {entry.data.title}</span></div><div class="atlas-pop-back"></div></div>
+      <div class="atlas-hinge atlas-hinge-buildings"><div class="atlas-pop-face"><svg viewBox="0 0 280 100" preserveAspectRatio="none"><path d={scene.roof} fill="var(--atlas-accent)" stroke="var(--paper-light)" stroke-width="2"/><path d="M20 57V72M40 57V72M60 57V72M80 57V72M100 57V72M120 57V72M170 57V72M190 57V72M210 57V72M230 57V72M250 57V72" stroke="var(--paper-light)" stroke-width="7"/></svg></div><div class="atlas-pop-back"></div></div>
+      <div class="atlas-hinge atlas-hinge-foreground"><div class="atlas-pop-face"><span>{scene.street}</span><svg viewBox="0 0 300 30"><path d="M0 15H300M20 5V25M280 5V25" stroke="currentColor" fill="none"/><circle cx="150" cy="15" r="12" fill="var(--paper)" stroke="currentColor"/><path d="M145 15H155M150 10V20" stroke="currentColor"/></svg></div></div>
+    </div>
+  </div>
+</div>

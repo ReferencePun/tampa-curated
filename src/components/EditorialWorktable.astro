@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Photo from './Photo.astro';
+import SectionHeading from './SectionHeading.astro';
+import RegistrationWheels from './RegistrationWheels.astro';
+import { url } from '../lib/urls';
+interface Props { stories: CollectionEntry<'stories'>[]; }
+const { stories } = Astro.props;
+---
+<section class="editorial-worktable" data-scene="worktable" aria-label="Featured stories">
+  <SectionHeading label="Featured stories" number="02" href={url('stories/')} linkLabel="All stories"/>
+  <div class="worktable-topline"><p>NOTES FROM AN<br/><em>interesting city.</em></p><span class="eyebrow">THE EDITORS’ DESK<br/>FOUR WAYS OF LOOKING ↙</span></div>
+  <div class="worktable-spread">
+    {stories.map((entry, i) => <article class={`worktable-story worktable-story-${i + 1}`}>
+      {i !== 3 && <div class="worktable-move" data-worktable-print>
+        <a class="worktable-print" href={url(`stories/${entry.id}/`)} tabindex="-1" aria-hidden="true" data-image-link={`story-${entry.id}`}>
+          <Photo name={entry.data.image} alt="" treatment={entry.data.treatment} sizes={i === 0 ? '(max-width: 700px) 92vw, 56vw' : '(max-width: 700px) 80vw, 30vw'}/>
+          <span class="print-reference">TC / FIELD NOTE 00{i + 1} <span>↗</span></span>
+        </a>
+      </div>}
+      <div class="worktable-copy">
+        <div class="card-meta"><span>{entry.data.category}</span><span>Sample story / 0{i + 1}</span></div>
+        <h3><a href={url(`stories/${entry.id}/`)} data-shared-link={`story-${entry.id}`}>{entry.data.title}</a></h3>
+        <p>{entry.data.deck}</p>
+        <a class="text-link" href={url(`stories/${entry.id}/`)} data-shared-link={`story-${entry.id}`} aria-label={`Read ${entry.data.title}`}>Read story <span aria-hidden="true">⟶</span></a>
+      </div>
+    </article>)}
+    <div class="worktable-mechanism" aria-hidden="true"><RegistrationWheels/><span>24 : 16<br/>IN REGISTER</span><div class="registration-rail"><i></i></div></div>
+  </div>
+</section>

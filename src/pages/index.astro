@@ -2,10 +2,11 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Photo from '../components/Photo.astro';
-import SectionHeading from '../components/SectionHeading.astro';
-import StoryCard from '../components/StoryCard.astro';
-import PersonCard from '../components/PersonCard.astro';
-import NeighborhoodCard from '../components/NeighborhoodCard.astro';
+import EditorialWorktable from '../components/EditorialWorktable.astro';
+import PhotographicSleeve from '../components/PhotographicSleeve.astro';
+import NeighborhoodAtlas from '../components/NeighborhoodAtlas.astro';
+import MotionPreference from '../components/MotionPreference.astro';
+import '../styles/mechanical.css';
 import Newsletter from '../components/Newsletter.astro';
 import { url } from '../lib/urls';
 const stories = (await getCollection('stories', ({data}) => data.featured)).sort((a,b) => a.data.order-b.data.order);
@@ -30,9 +31,13 @@ const neighborhoods = (await getCollection('neighborhoods')).sort((a,b) => a.dat
     </div>
   </section>
   <div class="manifesto"><p>GOOD PEOPLE. GREAT PLACES.<br class="mobile-break"/> A MORE INTERESTING CITY.</p><span class="registration" aria-hidden="true">◎</span><span class="manifesto-note">FROM TAMPA.<br/>WITH CURIOSITY.</span></div>
-  <section class="featured-section"><SectionHeading label="Featured stories" href={url('stories/')} linkLabel="All stories"/><div class="stories-grid">{stories.map(entry => <StoryCard entry={entry}/>)}</div></section>
-  <section class="people-section"><SectionHeading label="The next wave" href={url('people/')} linkLabel="Meet everyone"/><div class="people-intro"><h2>PEOPLE<br/><span>TO WATCH.</span></h2><p>The makers, thinkers, and independent spirits<br/>behind a more interesting city.</p><span class="section-note">FIVE FICTIONAL PROFILES<br/>A PREVIEW OF WHAT’S NEXT ↘</span></div><div class="people-grid">{people.map((entry,index) => <PersonCard entry={entry} index={index}/>)}</div></section>
-  <section class="guide-section"><SectionHeading label="The Tampa guide" href={url('neighborhoods/')} linkLabel="Explore the city"/><div class="guide-intro"><h2>GET A LITTLE LOST.</h2><p>A city of neighborhoods.<br/><em>Find your kind of corner.</em></p></div><div class="neighborhood-grid">{neighborhoods.map((entry,index) => <NeighborhoodCard entry={entry} index={index}/>)}</div><p class="small-note">Sample guides to real neighborhoods. Some photographs are illustrative; see each guide for context.</p></section>
+  <MotionPreference/>
+  <EditorialWorktable stories={stories}/>
+  <PhotographicSleeve people={people}/>
+  <NeighborhoodAtlas neighborhoods={neighborhoods}/>
   <section class="list-teaser"><div class="list-number" aria-hidden="true">05</div><div><span class="eyebrow">A GOOD PLACE TO START</span><h2>THE LIST<span>↗</span></h2><p>For the next good meal, the unexpected find,<br/>the place you’ll want to come back to.</p><a class="button ink" href={url('the-list/')}>Explore the directory <span aria-hidden="true">⟶</span></a><span class="sample-label">8 demonstration entries · no endorsements</span></div><div class="list-index">{['Restaurants','Bars & Nightlife','Coffee','Shopping','Art & Culture','Wellness','Hotels','Services'].map((c,i) => <a href={`${url('the-list/')}?category=${encodeURIComponent(c)}`}><span>0{i+1}</span>{c}<span aria-hidden="true">↗</span></a>)}</div></section>
   <Newsletter/>
 </BaseLayout>
+<script>
+  import '../scripts/mechanical/index';
+</script>

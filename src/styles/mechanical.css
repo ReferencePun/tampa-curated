@@ -1,0 +1,1346 @@
+/* The mechanical middle. Cover, directory teaser, and footer keep their styles. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.motion-preference {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0 0;
+  font: 600 12px var(--condensed);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.motion-preference > div {
+  display: flex;
+  border: 1px solid var(--rule);
+}
+.motion-preference button {
+  border: 0;
+  background: none;
+  min-height: 36px;
+  padding: 7px 13px;
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+}
+.motion-preference button[aria-pressed="true"] {
+  color: var(--paper-light);
+  background: var(--blue);
+}
+.editorial-worktable,
+.photographic-sleeve,
+.neighborhood-atlas {
+  position: relative;
+  margin-top: 28px;
+}
+.editorial-worktable {
+  padding-bottom: 54px;
+}
+.worktable-topline {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  padding: 18px 0 27px;
+}
+.worktable-topline > p {
+  font: 400 clamp(27px, 3vw, 47px)/1.1 var(--display);
+}
+.worktable-topline em {
+  font: italic 0.58em/1.7 var(--serif);
+  text-transform: none;
+}
+.worktable-topline > .eyebrow {
+  text-align: right;
+  color: var(--muted);
+}
+.worktable-spread {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 0 34px;
+  align-items: start;
+}
+.worktable-story {
+  min-width: 0;
+}
+.worktable-story-1 {
+  grid-column: 1/8;
+  grid-row: 1;
+}
+.worktable-story-2 {
+  grid-column: 9/13;
+  grid-row: 1/3;
+  padding-top: 95px;
+}
+.worktable-story-3 {
+  grid-column: 5/9;
+  grid-row: 2;
+  margin-top: -26px;
+  z-index: 2;
+  padding-right: 8px;
+}
+.worktable-story-4 {
+  grid-column: 1/5;
+  grid-row: 2;
+  margin-top: 54px;
+  padding-right: 35px;
+  max-width: 440px;
+}
+.worktable-move {
+  position: relative;
+}
+.worktable-print {
+  display: block;
+  background: var(--paper-light);
+  padding: 9px 9px 0;
+  box-shadow: 2px 5px 9px #342a2324;
+}
+.worktable-story-1 .worktable-print {
+  transform: rotate(-1.5deg);
+}
+.worktable-story-2 .worktable-print {
+  transform: rotate(2.2deg);
+}
+.worktable-story-3 .worktable-print {
+  transform: rotate(-4deg);
+}
+.worktable-story-3 .worktable-print {
+  position: relative;
+}
+.worktable-story-3 .worktable-print:before {
+  content: "";
+  position: absolute;
+  inset: -6px 4px 4px -5px;
+  z-index: -1;
+  background: #d5c7ae;
+  border: 1px solid #b8a78b;
+  transform: rotate(5deg);
+}
+.worktable-story-1 .photo {
+  aspect-ratio: 1.95;
+}
+.worktable-story-2 .photo {
+  aspect-ratio: 0.78;
+}
+.worktable-story-3 .photo {
+  aspect-ratio: 1.35;
+}
+.print-reference {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 1px;
+  font: 600 10px var(--condensed);
+  letter-spacing: 0.12em;
+}
+.worktable-copy {
+  position: relative;
+  padding-top: 24px;
+}
+.worktable-story-3 .worktable-copy {
+  padding-top: 27px;
+}
+.worktable-copy .card-meta {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 10px;
+  gap: 10px;
+}
+.worktable-copy .card-meta > span:last-child {
+  color: var(--muted);
+}
+.worktable-copy h3 {
+  font: 400 clamp(26px, 3vw, 47px)/1.05 var(--display);
+  text-transform: uppercase;
+  max-width: 95%;
+}
+.worktable-story-1 h3 {
+  font-size: clamp(44px, 4.6vw, 74px);
+  max-width: 780px;
+}
+.worktable-story-3 h3 {
+  font-size: clamp(28px, 2.5vw, 39px);
+}
+.worktable-story-4 h3 {
+  font-size: clamp(29px, 3.1vw, 48px);
+}
+.worktable-copy > p {
+  font:
+    14px/1.6 Arial,
+    sans-serif;
+  max-width: 410px;
+  margin: 12px 0;
+}
+.worktable-story-4 .worktable-copy {
+  border-top: 3px double var(--rule);
+  padding-top: 18px;
+}
+.worktable-story-4 .card-meta {
+  display: block;
+}
+.worktable-story-4 .card-meta > span + span {
+  margin-left: 12px;
+}
+.worktable-mechanism {
+  grid-column: 9/13;
+  grid-row: 3;
+  display: flex;
+  align-items: center;
+  color: var(--blue);
+  margin: 15px 0 0;
+  position: relative;
+}
+.registration-wheels {
+  width: 176px;
+  height: auto;
+  flex-shrink: 0;
+}
+.worktable-mechanism > span {
+  font: 600 11px/1.4 var(--condensed);
+  letter-spacing: 0.08em;
+}
+.registration-rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -16px;
+  border-top: 1px solid var(--rule);
+}
+.registration-rail i {
+  display: block;
+  width: 12px;
+  height: 7px;
+  background: var(--red);
+  position: relative;
+  top: -4px;
+}
+.wheel {
+  transform-box: view-box;
+}
+/* A shared, flat coordinate system under a stationary window keeps duplicate
+   crops pixel-aligned. Perspective belongs to the individual print only. */
+.photographic-sleeve {
+  border-top: 1px solid var(--ink);
+  padding-top: 28px;
+  padding-bottom: 46px;
+}
+.sleeve-heading {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr auto;
+  align-items: end;
+  gap: 30px;
+  padding: 30px 0 24px;
+}
+.sleeve-heading h2 {
+  font: 400 clamp(52px, 6.3vw, 98px)/0.98 var(--display);
+}
+.sleeve-heading h2 span {
+  color: var(--blue);
+}
+.sleeve-heading > p {
+  font: italic clamp(13px, 1.2vw, 17px)/1.7 var(--serif);
+  padding-bottom: 5px;
+}
+.sleeve-heading > .eyebrow {
+  text-align: right;
+  padding-bottom: 6px;
+  color: var(--muted);
+}
+.sleeve-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2.05fr) minmax(270px, 1fr);
+  gap: 45px;
+}
+.sleeve-apparatus {
+  min-width: 0;
+}
+.sleeve-stage {
+  height: 570px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #b6a58b14, #f5ecdc60, #b6a58b16);
+  border-top: 1px solid #716b5e77;
+  border-bottom: 1px solid #716b5e77;
+  touch-action: pan-y pinch-zoom;
+}
+.sleeve-stage:focus-visible {
+  outline-offset: -4px;
+}
+.sleeve-axis {
+  position: absolute;
+  left: 12px;
+  top: 16px;
+  font: 600 10px var(--condensed);
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  z-index: 4;
+}
+.sleeve-clear,
+.sleeve-treated {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.sleeve-clear {
+  z-index: 1;
+}
+.sleeve-treated {
+  z-index: 2;
+  clip-path: inset(6% 13% 6% 48%);
+}
+.sleeve-print {
+  position: absolute;
+  width: 390px;
+  height: 480px;
+  padding: 12px 12px 28px;
+  background: var(--paper-light);
+  left: calc(46% - 195px);
+  top: calc(50% - 240px);
+  transform-origin: center;
+  box-shadow: 4px 8px 12px #211d1930;
+}
+.sleeve-print .photo {
+  height: 100%;
+  width: 100%;
+  aspect-ratio: auto;
+}
+.sleeve-print .photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+.sleeve-clear .photo img {
+  mix-blend-mode: normal;
+  filter: grayscale(1) contrast(1.08) sepia(0.18);
+}
+.sleeve-print-foot {
+  position: absolute;
+  bottom: 9px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  font: 600 10px var(--condensed);
+  letter-spacing: 0.14em;
+}
+.sleeve-treated .sleeve-print {
+  background: #e7c1a5;
+  box-shadow: none;
+}
+.sleeve-treated .photo img {
+  filter: grayscale(1) contrast(1.1) blur(0.35px);
+}
+.sleeve-print:not(:first-child) {
+  display: none;
+}
+.is-ready .sleeve-print {
+  display: block;
+}
+.is-ready .sleeve-stage {
+  cursor: grab;
+}
+.is-ready .sleeve-stage.is-dragging {
+  cursor: grabbing;
+}
+.sleeve-back {
+  position: absolute;
+  top: 6%;
+  bottom: 6%;
+  left: 48%;
+  right: 13%;
+  background: #bdab8b1a;
+  border: 1px solid #84715966;
+  transform: translate(5px, -4px);
+}
+.sleeve-front {
+  position: absolute;
+  z-index: 4;
+  top: 6%;
+  bottom: 6%;
+  left: 48%;
+  right: 13%;
+  pointer-events: none;
+  border: 1px solid #eee6d4bb;
+  border-left-color: #f8efd8;
+  border-right: 3px double #9b816780;
+  box-shadow:
+    1px 1px 2px #241f172b,
+    inset 1px 0 1px #fff6d9;
+  background: linear-gradient(
+    112deg,
+    #fff1d633 0%,
+    #fff6df06 34%,
+    #e8d5b10d 73%,
+    #fff4db40 100%
+  );
+}
+.sleeve-front:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.13;
+  background-image: var(--paper-texture);
+}
+.sleeve-front > span {
+  position: absolute;
+  bottom: 14px;
+  right: 12px;
+  writing-mode: vertical-rl;
+  font: 600 10px var(--condensed);
+  letter-spacing: 0.14em;
+}
+.sleeve-front > i {
+  position: absolute;
+  left: -6px;
+  top: 16px;
+  width: 12px;
+  border-top: 1px solid var(--red);
+}
+.sleeve-front > b {
+  position: absolute;
+  right: 9px;
+  top: 6px;
+  font: 20px var(--condensed);
+  color: var(--red);
+}
+.sleeve-optics {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+.sleeve-under {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 5px 0;
+}
+.sleeve-under > p {
+  font: 600 13px/1.5 var(--condensed);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.sleeve-under em {
+  font: italic 14px/1.7 var(--serif);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.sleeve-under > div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--blue);
+}
+.sleeve-under .registration-wheels {
+  width: 66px;
+}
+.sleeve-travel {
+  font: 24px var(--display);
+  font-variant-numeric: tabular-nums;
+}
+.sleeve-drag-hint {
+  display: none;
+}
+.is-ready .sleeve-drag-hint {
+  display: inline;
+}
+.is-ready .sleeve-static-hint {
+  display: none;
+}
+.sleeve-caption-column {
+  border-left: 1px solid var(--rule);
+  padding-left: 30px;
+}
+.sleeve-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--rule);
+  padding: 0 0 16px;
+}
+.sleeve-counter {
+  font: 600 16px var(--condensed);
+  letter-spacing: 0.12em;
+}
+.sleeve-controls > div {
+  display: flex;
+  gap: 8px;
+}
+.sleeve-controls button {
+  background: none;
+  border: 1px solid var(--rule);
+  width: 47px;
+  height: 44px;
+  font-size: 24px;
+}
+.sleeve-controls button:hover {
+  background: var(--blue);
+  color: var(--paper-light);
+}
+.sleeve-controls button:disabled {
+  opacity: 0.3;
+  background: none;
+  color: var(--ink);
+}
+.sleeve-caption {
+  padding: 22px 0;
+}
+.sleeve-caption + .sleeve-caption {
+  border-top: 1px solid var(--rule);
+}
+.is-ready .sleeve-captions {
+  min-height: 250px;
+}
+.sleeve-caption h3 {
+  margin: 8px 0 13px;
+  font: 400 clamp(36px, 4.1vw, 64px)/1.05 var(--display);
+  text-transform: uppercase;
+}
+.sleeve-caption > p {
+  font: 14px/1.65 var(--serif);
+  max-width: 320px;
+  margin-bottom: 18px;
+}
+.sleeve-index {
+  border-top: 1px solid var(--ink);
+  padding-top: 6px;
+}
+.sleeve-index a {
+  display: grid;
+  grid-template-columns: 25px 1fr 18px;
+  gap: 12px;
+  align-items: center;
+  min-height: 40px;
+  font: 600 16px var(--condensed);
+  border-bottom: 1px solid #716b5e66;
+}
+.sleeve-index a > span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.sleeve-index a[aria-current="true"] {
+  color: var(--red);
+}
+.sleeve-index a[aria-current="true"] > span:last-child {
+  color: var(--red);
+}
+.sleeve-disclosure {
+  color: var(--muted);
+  font:
+    11px/1.6 Arial,
+    sans-serif;
+  margin-top: 18px;
+}
+.sleeve-disclosure a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.sleeve-renderer {
+  font: 600 10px var(--condensed);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-top: 12px;
+}
+/* All structural book wrappers preserve 3D. Texture, clipping, opacity and
+   blend modes are confined to leaf surfaces, never the hinge hierarchy. */
+.neighborhood-atlas {
+  border-top: 1px solid var(--ink);
+  padding-top: 28px;
+  padding-bottom: 36px;
+}
+.atlas-heading {
+  display: flex;
+  gap: 40px;
+  align-items: end;
+  justify-content: space-between;
+  margin: 24px 0;
+}
+.atlas-heading h2 {
+  font: 400 clamp(42px, 4.8vw, 74px)/1.02 var(--display);
+}
+.atlas-heading h2 br {
+  display: none;
+}
+.atlas-heading h2 span {
+  color: var(--blue);
+}
+.atlas-heading > p {
+  font: 14px/1.6 var(--serif);
+}
+.atlas-instruction {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: right;
+  align-items: flex-end;
+}
+.atlas-scroll-hint {
+  font: 600 11px var(--condensed);
+  letter-spacing: 0.08em;
+  color: var(--red);
+}
+.atlas-toggle {
+  font: 600 13px var(--condensed);
+  text-transform: uppercase;
+  min-height: 44px;
+  background: transparent;
+  border: 1px solid var(--rule);
+  padding: 10px 15px;
+}
+.atlas-toggle > span {
+  margin-left: 16px;
+}
+.atlas-index {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+  z-index: 2;
+  background: var(--paper);
+}
+.atlas-index a {
+  padding: 13px 12px;
+  font: 600 clamp(13px, 1.2vw, 19px) var(--condensed);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+}
+.atlas-index a + a {
+  border-left: 1px solid #716b5e66;
+}
+.atlas-index a > span {
+  font-size: 10px;
+}
+.atlas-index a[aria-current="true"] {
+  background: var(--blue);
+  color: var(--paper-light);
+}
+.atlas-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2.3fr) minmax(260px, 1fr);
+  gap: 32px;
+  align-items: center;
+}
+.atlas-stage {
+  height: 475px;
+  position: relative;
+  perspective: 1300px;
+  perspective-origin: 50% 45%;
+  transform-style: preserve-3d;
+  min-width: 0;
+}
+.atlas-board {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  --fold: 0deg;
+  --rise: -76deg;
+  --book-tilt: 51deg;
+  --book-turn: -9deg;
+}
+.atlas-board:not(:first-child) {
+  display: none;
+}
+.atlas-book {
+  position: absolute;
+  width: 84%;
+  height: 50%;
+  top: 45%;
+  left: 8%;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--book-tilt)) rotateZ(var(--book-turn));
+}
+.atlas-spine {
+  position: absolute;
+  width: 12px;
+  height: 100%;
+  left: calc(50% - 6px);
+  background: #b6a58b;
+  transform: translateZ(-3px);
+  box-shadow: 0 15px 15px #29241f40;
+}
+.atlas-leaf {
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  transform-style: preserve-3d;
+}
+.atlas-leaf-left {
+  left: 0;
+  transform-origin: 100% 50%;
+  transform: rotateY(var(--fold));
+}
+.atlas-leaf-right {
+  left: 50%;
+  transform-origin: 0 50%;
+  transform: rotateY(calc(-1 * var(--fold)));
+}
+.atlas-surface {
+  position: absolute;
+  inset: 0;
+  background: #ded0b5;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1px solid #b2a183;
+}
+.atlas-surface-front {
+  transform: translateZ(1px);
+  box-shadow:
+    1px 8px 0 #b7a589,
+    2px 14px 16px #2b21122b;
+}
+.atlas-surface-back {
+  background: var(--blue);
+  color: var(--paper);
+  transform: rotateY(180deg) translateZ(2px);
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.atlas-surface-back > span {
+  font: clamp(30px, 4vw, 58px)/1 var(--display);
+}
+.atlas-surface-back > small {
+  font: 12px var(--condensed);
+}
+.atlas-map {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+.atlas-map-title {
+  position: absolute;
+  top: 17px;
+  left: 20px;
+  color: var(--blue);
+  font: 600 12px/1.3 var(--condensed);
+}
+.atlas-map-key {
+  position: absolute;
+  bottom: 14px;
+  right: 16px;
+  font: 600 9px/1.4 var(--condensed);
+  text-align: right;
+  letter-spacing: 0.09em;
+}
+.atlas-hinge {
+  position: absolute;
+  transform-style: preserve-3d;
+  transform-origin: 50% 100%;
+  transform: rotateX(var(--rise));
+}
+.atlas-pop-face,
+.atlas-pop-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.atlas-pop-face {
+  transform: translateZ(1px);
+}
+.atlas-pop-back {
+  transform: rotateY(180deg) translateZ(1px);
+  background: #bdae91;
+  border: 1px solid #8b806d;
+}
+/* Also give rear surfaces a sensible paint order in non-composited snapshots.
+   This does not flatten the structural 3D wrappers. */
+.atlas-surface-back,
+.atlas-pop-back {
+  z-index: -1;
+  visibility: hidden;
+}
+/* This bounded camera/fold range always faces the front of the paper. Explicit
+   rear-face culling also avoids rear-surface fragments in software snapshots.
+   Front/back surfaces remain separate; the hinge hierarchy is never flattened. */
+.atlas-hinge-sign {
+  width: 76%;
+  height: 55%;
+  left: 14%;
+  bottom: 12%;
+}
+.atlas-hinge-sign .atlas-pop-face {
+  background: var(--paper-light);
+  border: 1px solid #bbaa8c;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.atlas-hinge-sign span {
+  font: 48px/0.9 var(--display);
+  color: var(--atlas-accent);
+}
+.atlas-hinge-sign b {
+  font: 400 clamp(17px, 2vw, 30px)/1 var(--display);
+  text-transform: uppercase;
+  max-width: 150px;
+}
+.atlas-hinge-sign small {
+  font: 600 8px var(--condensed);
+  letter-spacing: 0.08em;
+}
+.atlas-hinge-tree {
+  height: 75%;
+  width: 40%;
+  left: 10%;
+  bottom: 44%;
+}
+.atlas-tree svg {
+  width: 100%;
+  height: 100%;
+}
+.atlas-hinge-photo {
+  width: 80%;
+  height: 90%;
+  left: 16%;
+  bottom: 43%;
+}
+.atlas-photo {
+  padding: 7px 7px 24px;
+  background: var(--paper-light);
+  border: 1px solid #9b8c74;
+  /* Rectangular photographs avoid clipped-face compositor fragments. The
+     separate architecture and vegetation SVGs provide the cut paper edges. */
+}
+.atlas-photo .photo {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+}
+.atlas-photo > span {
+  position: absolute;
+  bottom: 6px;
+  left: 8px;
+  font: 600 10px var(--condensed);
+  text-transform: uppercase;
+}
+.atlas-hinge-buildings {
+  width: 110%;
+  height: 36%;
+  left: -7%;
+  bottom: 23%;
+}
+.atlas-hinge-buildings svg {
+  width: 100%;
+  height: 100%;
+}
+.atlas-hinge-buildings .atlas-pop-back {
+  clip-path: polygon(
+    0 50%,
+    15% 50%,
+    15% 20%,
+    70% 20%,
+    70% 50%,
+    100% 50%,
+    100% 100%,
+    0 100%
+  );
+}
+.atlas-hinge-foreground {
+  width: 90%;
+  height: 15%;
+  left: 3%;
+  bottom: 8%;
+}
+.atlas-hinge-foreground .atlas-pop-face {
+  color: var(--blue);
+  background: var(--paper-light);
+  border: 1px solid #a49780;
+  padding: 4px;
+  text-align: center;
+}
+.atlas-hinge-foreground span {
+  font: 600 8px var(--condensed);
+  letter-spacing: 0.1em;
+}
+.atlas-hinge-foreground svg {
+  display: block;
+  width: 100%;
+  height: 45%;
+}
+[data-motif="porch"] .atlas-hinge-tree {
+  width: 55%;
+  left: -3%;
+}
+[data-motif="garden"] .atlas-hinge-tree {
+  left: 0;
+  width: 60%;
+  height: 90%;
+}
+[data-motif="garden"] .atlas-hinge-photo {
+  width: 76%;
+  left: 18%;
+  height: 100%;
+}
+[data-motif="tower"] .atlas-hinge-photo {
+  width: 90%;
+  left: 14%;
+  height: 85%;
+}
+[data-motif="tower"] .atlas-hinge-tree {
+  height: 45%;
+  width: 28%;
+  left: 55%;
+  bottom: 50%;
+}
+[data-motif="workshop"] .atlas-hinge-photo {
+  height: 80%;
+  width: 84%;
+  left: 12%;
+}
+[data-motif="waterfront"] .atlas-hinge-photo {
+  width: 80%;
+  height: 100%;
+  left: 18%;
+}
+[data-motif="waterfront"] .atlas-hinge-tree {
+  width: 32%;
+  left: 60%;
+  height: 65%;
+}
+.atlas-compass {
+  position: absolute;
+  top: 20px;
+  left: 12px;
+  font: 600 12px/1.5 var(--condensed);
+  text-align: center;
+  color: var(--blue);
+}
+.atlas-compass i {
+  font-style: normal;
+  font-size: 9px;
+}
+.atlas-registration {
+  position: absolute;
+  right: 12px;
+  bottom: 18px;
+  font: 600 11px/1.4 var(--condensed);
+  text-align: right;
+  color: var(--muted);
+}
+.atlas-captions {
+  padding: 25px 0 25px 24px;
+  border-left: 1px solid var(--rule);
+}
+.atlas-caption {
+  padding: 10px 0 25px;
+}
+.atlas-caption + .atlas-caption {
+  border-top: 1px solid var(--rule);
+}
+.atlas-caption h3 {
+  font: 400 clamp(32px, 3.2vw, 52px)/1.08 var(--display);
+  text-transform: uppercase;
+  margin: 10px 0;
+}
+.atlas-character {
+  font: italic 13px/1.6 var(--serif);
+  display: block;
+}
+.atlas-caption > p:not(.atlas-image-note) {
+  font:
+    13px/1.65 Arial,
+    sans-serif;
+  margin: 15px 0;
+  max-width: 310px;
+}
+.atlas-caption .atlas-image-note {
+  font:
+    10px/1.5 Arial,
+    sans-serif;
+  color: var(--muted);
+  margin-top: 22px;
+  max-width: 300px;
+}
+.atlas-footnote {
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 11px 0;
+  font:
+    11px/1.5 Arial,
+    sans-serif;
+  color: var(--muted);
+}
+.atlas-footnote > span {
+  font: 600 10px var(--condensed);
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+}
+.neighborhood-atlas.is-pinned {
+  height: 200svh;
+}
+.is-pinned .atlas-sticky {
+  position: sticky;
+  top: 16px;
+}
+.is-ready .atlas-caption {
+  border: 0;
+}
+@media (min-width: 1100px) and (min-height: 760px) {
+  .is-pinned .atlas-stage {
+    height: clamp(410px, 53svh, 550px);
+  }
+  .is-pinned .atlas-heading {
+    margin: 20px 0;
+  }
+  .is-pinned .atlas-heading h2 {
+    font-size: clamp(42px, 4.5vw, 65px);
+  }
+}
+@media (max-width: 1100px) {
+  .sleeve-heading {
+    grid-template-columns: 1.2fr 1fr;
+  }
+  .sleeve-heading > .eyebrow {
+    display: none;
+  }
+  .sleeve-layout {
+    grid-template-columns: minmax(0, 1.7fr) minmax(240px, 1fr);
+    gap: 24px;
+  }
+  .sleeve-caption-column {
+    padding-left: 20px;
+  }
+  .sleeve-stage {
+    height: 490px;
+  }
+  .sleeve-print {
+    width: 320px;
+    height: 410px;
+    left: calc(46% - 160px);
+    top: calc(50% - 205px);
+  }
+  .worktable-spread {
+    gap: 0 24px;
+  }
+  .worktable-story-2 {
+    grid-column: 8/13;
+    padding: 85px 0 0 20px;
+  }
+  .worktable-story-3 {
+    grid-column: 5/9;
+    margin-top: 15px;
+  }
+  .worktable-story-4 {
+    padding-right: 0;
+    margin-top: 45px;
+  }
+  .worktable-mechanism {
+    margin-left: 15px;
+  }
+  .registration-wheels {
+    width: 140px;
+  }
+  .atlas-heading {
+    gap: 20px;
+  }
+  .atlas-heading > p {
+    display: none;
+  }
+  .atlas-layout {
+    grid-template-columns: minmax(0, 1.8fr) minmax(210px, 1fr);
+    gap: 20px;
+  }
+  .atlas-stage {
+    height: 430px;
+  }
+  .atlas-index a {
+    padding: 12px 8px;
+    gap: 6px;
+    font-size: 14px;
+  }
+  .atlas-book {
+    height: 48%;
+    top: 42%;
+  }
+}
+@media (max-width: 700px) {
+  .motion-preference {
+    margin-top: 14px;
+  }
+  .motion-preference button {
+    min-height: 44px;
+  }
+  .editorial-worktable,
+  .photographic-sleeve,
+  .neighborhood-atlas {
+    margin-top: 22px;
+  }
+  .worktable-topline {
+    padding: 18px 0 24px;
+  }
+  .worktable-topline > .eyebrow {
+    font-size: 10px;
+    max-width: 125px;
+  }
+  .worktable-spread {
+    display: block;
+  }
+  .worktable-story-1 .photo {
+    aspect-ratio: 1.45;
+  }
+  .worktable-story-1 h3 {
+    font-size: 47px;
+    max-width: 340px;
+  }
+  .worktable-story-2 {
+    padding: 0;
+    width: 82%;
+    margin: 40px 0 0 auto;
+  }
+  .worktable-story-2 .photo {
+    aspect-ratio: 0.9;
+  }
+  .worktable-story-2 h3 {
+    font-size: 36px;
+  }
+  .worktable-story-3 {
+    width: 80%;
+    margin: 38px auto 0 5px;
+    padding: 0;
+  }
+  .worktable-story-3 h3 {
+    font-size: 34px;
+  }
+  .worktable-story-3 .photo {
+    aspect-ratio: 1.2;
+  }
+  .worktable-story-4 {
+    margin: 38px 0 0 13%;
+    width: 87%;
+  }
+  .worktable-story-4 h3 {
+    font-size: 36px;
+  }
+  .worktable-copy > p {
+    font-size: 13px;
+  }
+  .worktable-mechanism {
+    margin: 28px 0 0;
+    width: 65%;
+  }
+  .worktable-mechanism .registration-wheels {
+    width: 120px;
+  }
+  .editorial-worktable {
+    padding-bottom: 28px;
+  }
+  .sleeve-heading {
+    display: block;
+    padding: 24px 0 20px;
+  }
+  .sleeve-heading h2 {
+    font-size: 59px;
+  }
+  .sleeve-heading > p {
+    font-size: 12px;
+    margin-top: 16px;
+  }
+  .sleeve-layout {
+    display: block;
+  }
+  .sleeve-stage {
+    height: 405px;
+    margin-left: calc(-1 * var(--gutter));
+    margin-right: calc(-1 * var(--gutter));
+  }
+  .sleeve-print {
+    width: 260px;
+    height: 330px;
+    left: calc(46% - 130px);
+    top: calc(50% - 165px);
+  }
+  .sleeve-front,
+  .sleeve-back {
+    right: 9%;
+    left: 49%;
+  }
+  .sleeve-treated {
+    clip-path: inset(6% 9% 6% 49%);
+  }
+  .sleeve-under {
+    padding: 12px 0;
+  }
+  .sleeve-under .registration-wheels {
+    width: 52px;
+  }
+  .sleeve-under > p {
+    font-size: 11px;
+  }
+  .sleeve-under em {
+    font-size: 12px;
+  }
+  .sleeve-caption-column {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .sleeve-controls {
+    padding-top: 12px;
+  }
+  .sleeve-caption h3 {
+    font-size: 44px;
+  }
+  .sleeve-caption > p {
+    font-size: 13px;
+  }
+  .is-ready .sleeve-captions {
+    min-height: 222px;
+  }
+  .sleeve-index a {
+    min-height: 44px;
+  }
+  .sleeve-disclosure {
+    margin-top: 18px;
+  }
+  .photographic-sleeve {
+    padding-bottom: 20px;
+  }
+  .atlas-heading {
+    gap: 14px;
+    margin: 24px 0 20px;
+  }
+  .atlas-heading h2 {
+    font-size: 46px;
+  }
+  .atlas-heading h2 br {
+    display: block;
+  }
+  .atlas-instruction {
+    max-width: 110px;
+  }
+  .atlas-instruction > .eyebrow {
+    font-size: 10px;
+  }
+  .atlas-toggle {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  .atlas-toggle > span {
+    margin-left: 4px;
+  }
+  .atlas-index {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .atlas-index a {
+    min-height: 44px;
+    padding: 10px;
+    font-size: 16px;
+    gap: 9px;
+  }
+  .atlas-index a:nth-child(2n + 1) {
+    border-left: 0;
+  }
+  .atlas-index a:nth-child(n + 3) {
+    border-top: 1px solid #716b5e66;
+  }
+  .atlas-layout {
+    display: block;
+  }
+  .atlas-stage {
+    height: 335px;
+    perspective: 900px;
+  }
+  .atlas-book {
+    width: 90%;
+    left: 5%;
+    height: 50%;
+    top: 40%;
+  }
+  .atlas-board {
+    --book-tilt: 48deg;
+    --book-turn: -7deg;
+  }
+  .atlas-hinge-sign .atlas-pop-face {
+    padding: 9px;
+  }
+  .atlas-hinge-sign span {
+    font-size: 35px;
+  }
+  .atlas-hinge-sign b {
+    font-size: 18px;
+  }
+  .atlas-hinge-sign small {
+    font-size: 5px;
+  }
+  .atlas-map-title {
+    top: 8px;
+    left: 9px;
+    font-size: 8px;
+  }
+  .atlas-map-key {
+    font-size: 5px;
+    right: 9px;
+  }
+  .atlas-photo {
+    padding: 4px 4px 18px;
+  }
+  .atlas-photo > span {
+    font-size: 7px;
+    left: 5px;
+    bottom: 4px;
+  }
+  .atlas-hinge-foreground span {
+    font-size: 5px;
+  }
+  .atlas-captions {
+    border-left: 0;
+    border-top: 1px solid var(--rule);
+    padding: 19px 0 0;
+  }
+  .atlas-caption h3 {
+    font-size: 44px;
+  }
+  .atlas-caption > p:not(.atlas-image-note) {
+    font-size: 14px;
+    max-width: 100%;
+  }
+  .atlas-caption .atlas-image-note {
+    max-width: 100%;
+  }
+  .atlas-footnote {
+    display: block;
+    font-size: 10px;
+  }
+  .atlas-footnote > span {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .neighborhood-atlas.is-pinned {
+    height: auto;
+  }
+  .is-pinned .atlas-sticky {
+    position: static;
+  }
+}
+html[data-motion="reduced"] .neighborhood-atlas.is-pinned {
+  height: auto;
+}
+html[data-motion="reduced"] .atlas-sticky {
+  position: static;
+}
+html[data-motion="reduced"] {
+  scroll-behavior: auto;
+}

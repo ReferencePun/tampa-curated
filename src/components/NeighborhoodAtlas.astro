@@ -1,0 +1,21 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import SectionHeading from './SectionHeading.astro';
+import AtlasBook from './AtlasBook.astro';
+import { url } from '../lib/urls';
+interface Props { neighborhoods: CollectionEntry<'neighborhoods'>[]; }
+const { neighborhoods } = Astro.props;
+---
+<section class="neighborhood-atlas" data-scene="atlas" aria-labelledby="atlas-heading">
+  <div class="atlas-sticky">
+    <SectionHeading label="The Tampa guide" number="04" href={url('neighborhoods/')} linkLabel="Explore the city"/>
+    <div class="atlas-heading"><h2 id="atlas-heading">GET A LITTLE<br/> <span>LOST.</span></h2><p>A city of neighborhoods.<br/><em>Find your kind of corner.</em></p><div class="atlas-instruction"><span class="eyebrow">SIX PLACES. A FRESH PERSPECTIVE.</span><span class="atlas-scroll-hint" hidden>SCROLL TO UNFOLD ↓</span><button type="button" class="atlas-toggle" aria-expanded="true" hidden>Close atlas <span aria-hidden="true">↙</span></button></div></div>
+    <nav class="atlas-index" aria-label="Choose a neighborhood">{neighborhoods.map((entry, i) => <a href={`#atlas-${entry.id}`} data-atlas-select={i}><span>0{i + 1}</span>{entry.data.title}</a>)}</nav>
+    <div class="atlas-layout">
+      <div class="atlas-stage" role="img" aria-label="An open paper atlas, with a schematic street grid and layers of illustrative photography, buildings, and palms.">{neighborhoods.map((entry, index) => <AtlasBook entry={entry} index={index}/>)}<span class="atlas-compass" aria-hidden="true">N<br/>↑<br/><i>W + E</i></span><span class="atlas-registration" aria-hidden="true">+<br/>TC—27.95</span></div>
+      <div class="atlas-captions">{neighborhoods.map((entry, i) => <article class="atlas-caption" id={`atlas-${entry.id}`} data-atlas-caption={i}><span class="eyebrow red">FIELD GUIDE / 0{i + 1}</span><h3>{entry.data.title}</h3><span class="atlas-character">{entry.data.character}</span><p>{entry.data.deck}</p><a class="text-link" href={url(`neighborhoods/${entry.id}/`)} data-shared-link={`guide-${entry.id}`}>Read the guide <span aria-hidden="true">↗</span></a><p class="atlas-image-note">{entry.data.imageAlt}.</p></article>)}</div>
+    </div>
+    <div class="atlas-footnote"><p>Sample guides to real neighborhoods. Original paper scenery is schematic, not a geographic map.</p><span aria-hidden="true">TAMPA, FLORIDA / AN INDEPENDENT EYE</span></div>
+    <p class="sr-only" aria-live="polite" aria-atomic="true" data-atlas-announcement></p>
+  </div>
+</section>
