@@ -1,5 +1,5 @@
 import * as T from 'three';
-import {sampleCamera,rooms,roomAt,clamp} from './path';
+import {sampleCamera,rooms,roomAt,clamp,phase} from './path';
 import {createWorld} from './world';
 export async function mountSpatial(root:HTMLElement,onFailure:(message:string)=>void){
  const track=root.querySelector<HTMLElement>('[data-spatial-track]')!,stage=root.querySelector<HTMLElement>('[data-spatial-stage]')!;
@@ -39,6 +39,8 @@ export async function mountSpatial(root:HTMLElement,onFailure:(message:string)=>
   const delta=target-current;
   current=Math.abs(delta)<.000025?target:current+delta*(1-Math.exp(-Math.min(elapsed,50)/95));
   sampleCamera(current,position,quaternion);camera.position.copy(position);camera.quaternion.copy(quaternion);
+  const fieldOfView=width<700?67+17*phase(current,.62,.75):48;
+  if(camera.fov!==fieldOfView){camera.fov=fieldOfView;camera.updateProjectionMatrix();}
   const mechanical=world.update(current,drawingOnly);
   renderer.render(world.scene,camera);
   root.dataset.renderFrames=String(++renderedFrames);
@@ -46,7 +48,7 @@ export async function mountSpatial(root:HTMLElement,onFailure:(message:string)=>
   const roomChanged=active!==room;
   if(roomChanged){room=active;root.querySelector('[data-room-number]')!.textContent=`0${active+1} / ${rooms[active].name.toUpperCase()}`;root.querySelector('[data-room-heading]')!.textContent=rooms[active].name;root.querySelector('[data-room-copy]')!.textContent=rooms[active].description;links.forEach(link=>{if(link.dataset.roomLink===rooms[active].id)link.setAttribute('aria-current','step');else link.removeAttribute('aria-current');});}
   if((roomChanged||current===target)&&current!==lastSavedProgress&&scrollY>=start-10&&scrollY<start+travel+height*.5){history.replaceState({...history.state,spatialRoom:rooms[active].id,spatialProgress:current},'',`#${rooms[active].id}`);lastSavedProgress=current;}
-  const city=current>.80;
+  const city=current>.89;
   root.querySelector<HTMLElement>('[data-pencil-note]')!.hidden=current>.19;
   root.querySelector<HTMLElement>('[data-crank-label]')!.hidden=current>.37;
   drawButton.hidden=!city;

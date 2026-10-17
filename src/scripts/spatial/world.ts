@@ -3,6 +3,8 @@ import {phase} from './path';
 import {gearPath,meshPhase} from '../../lib/mechanisms';
 import {Ink,plane,paper,pale,surfaces,materials,TAU,type P} from './ink';
 import {createTampaLandmarks} from './landmarks';
+import {streetEnd} from './street';
+import {createStreetscape} from './streetscape';
 function gear(radius:number,teeth:number,hole:number){
  const group=new T.Group(),drawing=new Ink(),shape=new T.Shape();
  const edge:P[]=[];
@@ -78,18 +80,17 @@ export function createWorld(compact:boolean){
  for(let i=0;i<(compact?10:17);i++){const y=2+i*.35,z=-14-i*.63;corridor.box(3.2,y,z,1.7,.12,.6,1);}
  corridor.build(scene);
  // The turn has ceiling rails that continue into the larger street.
- const city=new T.Group();scene.add(city);plane(city,63,23,[-34,-.05,-34],[-Math.PI/2,0,0],pale);
+ const city=new T.Group();scene.add(city);createStreetscape(city,compact);
  const cityInk=new Ink();
- for(let x=-8;x>=-60;x-=4){cityInk.line([x,.03,-44],[x,.03,-24],1);if(x>=-25)cityInk.line([x,10,-39],[x,10,-29],1);}
- for(let z=-43;z<=-25;z+=2)cityInk.line([-7,.02,z],[-62,.02,z],1);
+ for(let x=-8;x>=-25;x-=4)cityInk.line([x,10,-39],[x,10,-29],1);
  cityInk.line([-5,10,-39],[-26,10,-39]);cityInk.line([-5,10,-29],[-26,10,-29]);
  for(let x=-13;x>=-21;x-=8){cityInk.box(x,0,-42,.25,10,.25);cityInk.box(x,0,-26,.25,8,.25);}
  cityInk.build(city);
  createTampaLandmarks(city,compact);
- // A separate photographic study rests in the plaza: the Ybor photograph is
+ // A separate photographic study waits beyond the street: the Ybor photograph is
  // never used as a false texture for Plant Hall or the other real landmarks.
- const photoHeight=compact?6.7:2.4,photoDepth=compact?-34:-37;
- const destination=new T.Group();destination.position.set(-50,0,photoDepth);destination.rotation.y=Math.PI/2;city.add(destination);
+ const photoHeight=compact?7:5.5,photoDepth=streetEnd.z;
+ const destination=new T.Group();destination.position.set(streetEnd.x,0,photoDepth);destination.rotation.y=Math.PI/2;city.add(destination);
  const photoMaterial=new T.ShaderMaterial({transparent:true,depthWrite:false,side:T.DoubleSide,uniforms:{map:{value:null},reveal:{value:0},loaded:{value:0}},vertexShader:`varying vec2 vUv; void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,fragmentShader:`
   uniform sampler2D map;uniform float reveal;uniform float loaded;varying vec2 vUv;
   float grain(vec2 p){return fract(sin(dot(floor(p),vec2(127.1,311.7)))*43758.5453);}
@@ -109,11 +110,11 @@ export function createWorld(compact:boolean){
   leaves[0].rotation.y=open*Math.PI/2;leaves[1].rotation.y=-open*Math.PI/2;
   liftPanel.position.y=2+lift;weight.position.y=8-lift;pulley.rotation.z=lift/.65;
   cablePoints[4]=3.5+lift;cablePoints[10]=8.6-lift;cableGeometry.attributes.position.needsUpdate=true;cableGeometry.computeBoundingSphere();
-  photoMaterial.uniforms.reveal.value=underDrawing?0:phase(p,.77,.95);
+  photoMaterial.uniforms.reveal.value=underDrawing?0:phase(p,.86,.94);
   destination.visible=photoMaterial.uniforms.reveal.value>0;
   compass.rotation.z=phase(p,.63,.81)*.25;
   return {fold,open,gear:wheel.rotation.z,pinion:pinion.rotation.z,lift,reveal:photoMaterial.uniforms.reveal.value};
  }
  function dispose(){disposed=true;const geometries=new Set<T.BufferGeometry>(),mats=new Set<T.Material>();scene.traverse(object=>{if(object instanceof T.Mesh||object instanceof T.LineSegments){geometries.add(object.geometry);for(const mat of Array.isArray(object.material)?object.material:[object.material])mats.add(mat);}});geometries.forEach(g=>g.dispose());mats.forEach(m=>m.dispose());texture?.dispose();}
- return {scene,update,loadPhoto,dispose,photoPoint:new T.Vector3(-49.7,photoHeight,photoDepth)};
+ return {scene,update,loadPhoto,dispose,photoPoint:new T.Vector3(streetEnd.x+.3,photoHeight,photoDepth)};
 }

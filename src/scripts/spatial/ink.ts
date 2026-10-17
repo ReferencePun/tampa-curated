@@ -4,11 +4,11 @@ export const paper=0xeee7d8,ink=0x38332c,rust=0x97513b;
 export const TAU=Math.PI*2;
 export const surfaces=new T.MeshBasicMaterial({color:0xe8dfcd,side:T.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1});
 export const pale=new T.MeshBasicMaterial({color:paper,side:T.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1});
-export const materials=[new T.LineBasicMaterial({color:ink,transparent:true,opacity:.85}),new T.LineBasicMaterial({color:0x847361,transparent:true,opacity:.25}),new T.LineBasicMaterial({color:rust,transparent:true,opacity:.72})];
+export const materials=[new T.LineBasicMaterial({color:ink,transparent:true,opacity:.85}),new T.LineBasicMaterial({color:0x847361,transparent:true,opacity:.25}),new T.LineBasicMaterial({color:rust,transparent:true,opacity:.72}),new T.LineBasicMaterial({color:0x436c86,transparent:true,opacity:.76}),new T.LineBasicMaterial({color:0x617652,transparent:true,opacity:.72}),new T.LineBasicMaterial({color:0xb88328,transparent:true,opacity:.85})];
 
 /** Object-space pen deviations are baked once. Nothing is rerandomized per frame. */
 export class Ink {
- buffers:number[][]=[[],[],[]];seed=1;
+ buffers:number[][]=materials.map(()=>[]);seed=1;
  line(a:P,b:P,tone=0,rough=true){
   const length=Math.hypot(...a.map((v,i)=>v-b[i]));
   const n=rough?Math.max(2,Math.min(12,Math.ceil(length*2))):1;

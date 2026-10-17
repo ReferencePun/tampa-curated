@@ -3,6 +3,7 @@ import {mkdir} from 'node:fs/promises';
 import {chromium,webkit,expect} from '@playwright/test';
 import {Quaternion,Vector3} from 'three';
 import {sampleCamera} from '../src/scripts/spatial/path.ts';
+import {streetSites,streetSitesFor,streetEnd} from '../src/scripts/spatial/street.ts';
 const base=process.env.TEST_BASE??'/tampa-curated';
 const origin=process.env.TEST_ORIGIN||'http://127.0.0.1:4321';
 const href=route=>`${origin}${base}/${route}`;
@@ -13,11 +14,40 @@ let crossed=false;
 for(let i=0;i<=1000;i++){
  const p=i/1000;sampleCamera(p,pos,q);
  assert.ok(Math.abs(q.length()-1)<1e-8);
+ assert.ok(Math.abs(new Vector3(1,0,0).applyQuaternion(q).y)<1e-8,'Camera horizon never banks');
  if(i){assert.ok(pos.distanceTo(lastPos)<.7,'No position discontinuities');assert.ok(q.angleTo(lastQ)<.06,'No camera flips');}
  if(lastPos.z>-4&&pos.z<=-4){assert.ok(Math.hypot(pos.x,pos.y-4.45)<2.9,'Camera passes inside the doorway');crossed=true;}
  lastPos.copy(pos);lastQ.copy(q);
 }
 assert.ok(crossed);assert.ok(new Vector3(0,0,-1).applyQuaternion(q).x<-.98,'Camera has turned left into the city');
+// The city must be traversed, not approached as a front-facing skyline.
+const streetStart=new Vector3(),streetFinish=new Vector3();
+sampleCamera(.75,streetStart,q);sampleCamera(1,streetFinish,q);
+for(const site of streetSites){
+ assert.ok(streetStart.x>site.position[0]+site.halfWidth,`Start before ${site.name}`);
+ assert.ok(site.position[2]<-42||site.position[2]>-26,`${site.name} sits outside the street`);
+}
+assert.ok(streetStart.x-streetFinish.x>50,'The camera travels through a substantial length of street');
+for(const site of streetSites.slice(0,2))assert.ok(streetFinish.x<site.position[0]-site.halfWidth,`Travel past the full frontage of ${site.name}`);
+for(const site of streetSites.slice(2))assert.ok(streetFinish.x>site.position[0]+site.halfWidth,'The final pair continues to frame the street ahead');
+const streetHeading=q.clone();
+for(let i=750;i<=1000;i++){
+ sampleCamera(i/1000,pos,q);
+ assert.equal(pos.z,-34,'The street camera stays on the centerline without lateral sway');
+ assert.equal(pos.y,4.5,'The street camera keeps a constant eye height');
+ assert.ok(q.angleTo(streetHeading)<1e-7,'Street heading remains steady instead of glancing side to side');
+ if(i>750)assert.ok(pos.x<=lastPos.x+.0001,'Street travel continues forward');lastPos.copy(pos);
+}
+for(const p of [.82,.89,.95]){
+ sampleCamera(p-.00001,lastPos,q);sampleCamera(p,pos,q);sampleCamera(p+.00001,streetStart,q);
+ const before=(lastPos.x-pos.x)/.00001,after=(pos.x-streetStart.x)/.00001;
+ assert.ok(before>100&&Math.abs(before-after)<.25,'Forward speed stays continuous through street checkpoints');
+}
+assert.ok(streetFinish.x>streetEnd.x+8,'Stop before the photograph rather than pass through it');
+for(const site of streetSitesFor(true)){
+ assert.ok(site.position[2]<-38.5||site.position[2]>-29.5,'Mobile buildings stay on either side of the lane');
+ assert.equal(site.position[0],streetSites.find(original=>original.name===site.name).position[0],'Mobile retains the same length of street travel');
+}
 for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  if(process.env.TEST_ENGINE&&process.env.TEST_ENGINE!==name)continue;
  const browser=await engine.launch();
@@ -32,7 +62,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await page.goto(href('unfinished-city/#threshold'));await expect(root).toHaveAttribute('data-renderer','ready');await page.evaluate(()=>document.fonts.ready);await settle(.27);
  await expect(page.locator('[data-spatial-canvas] canvas')).toHaveCount(1);
  const snapshots=new Map();
- for(const p of [0,.15,.28,.43,.61,.75,.94]){
+ for(const p of [0,.15,.28,.43,.61,.75,.82,.89,1,.94]){
   await move(p);const state=await root.evaluate(el=>({...el.dataset}));snapshots.set(p,state);
   assert.ok(+state.drawCalls<130,`${name}: bounded drawing work`);
   assert.ok(Math.abs(+state.pinion+(+state.gear)*48/20-171*Math.PI/180)<.00001,'Meshing gears preserve their tooth ratio');
@@ -52,7 +82,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await page.locator('[data-crank]').focus();await page.keyboard.press('Home');await settle(0);
  await page.locator('[data-crank]').fill('50');await settle(.16);
  await page.locator('[data-crank]').fill('100');await settle(.32);
- for(const p of [.75,.43,.15,0]){
+ for(const p of [.89,.82,.75,.43,.15,0]){
   await move(p);const previous=snapshots.get(p),now=await root.evaluate(el=>({...el.dataset}));
   for(const field of ['cameraPosition','cameraQuaternion','fold','gear','pinion','lift'])assert.equal(now[field],previous[field],`${name}: ${field} reverses exactly at ${p}`);
  }
@@ -70,7 +100,13 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await phone.goto(href('unfinished-city/#threshold'));await expect(phone.locator('[data-spatial-root]')).toHaveAttribute('data-renderer','ready');
  await expect.poll(()=>phone.locator('[data-spatial-root]').getAttribute('data-progress').then(Number),{timeout:10000}).toBeCloseTo(.27,2);
  await phone.locator('[data-stage-nav] [data-room-link="city"]').tap();await expect.poll(()=>phone.locator('[data-spatial-root]').getAttribute('data-progress').then(Number)).toBeCloseTo(.94,2);
- await expect(phone.locator('[data-photo-link]')).toBeVisible();await phone.screenshot({path:`test-results/spatial/${name}-mobile-city.png`});
+ await expect(phone.locator('[data-photo-link]')).toBeVisible();
+ for(const p of [.75,.82,.89,1,.94]){
+  await phone.evaluate(p=>{const t=document.querySelector('[data-spatial-track]'),s=document.querySelector('[data-spatial-stage]');scrollTo({top:t.getBoundingClientRect().top+scrollY+(t.offsetHeight-s.clientHeight)*p,behavior:'instant'});},p);
+  await expect.poll(()=>phone.locator('[data-spatial-root]').getAttribute('data-progress').then(Number),{timeout:10000}).toBeCloseTo(p,3);
+  await phone.waitForTimeout(250);await phone.screenshot({path:`test-results/spatial/${name}-mobile-street-${p}.png`});
+ }
+ await phone.screenshot({path:`test-results/spatial/${name}-mobile-city.png`});
  const photoCaption=await phone.locator('[data-photo-link],.spatial-caption').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right};}));
  assert.ok(photoCaption[0].bottom+8<=photoCaption[1].top,'The photograph entrance stays above the mobile caption');
  assert.ok(photoCaption[0].left>=0&&photoCaption[0].right<=390,'The photograph entrance remains inside the viewport');
@@ -98,4 +134,4 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  console.log(`${name}: real 3D, all four rooms, exact reversal, gear coupling, idle/offscreen rendering, deep links/history/story return, crank, mobile, static/no-JS/no-WebGL/context-loss recovery, 10 enlarged-text layouts passed.`);
  await context.close();await browser.close();
 }
-console.log('Camera continuity: 1,001 samples, a clear 90-degree direction change, and a geometrically valid doorway crossing passed.');
+console.log('Camera continuity: 1,001 upright samples, a valid doorway crossing, 53 units of street travel, fixed street heading/eye height/centerline, continuous speed, and a clear lane passed.');

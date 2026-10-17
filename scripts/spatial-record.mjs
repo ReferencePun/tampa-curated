@@ -16,9 +16,11 @@ const travel=async(from,to,duration)=>page.evaluate(async({from,to,duration})=>{
  await new Promise(resolve=>{function step(time){const t=Math.min(1,(time-begin)/duration);if(time-previous<200)frames.push(time-previous);previous=time;scrollTo({top:start+length*(from+(to-from)*t),behavior:'instant'});if(t<1)requestAnimationFrame(step);else resolve();}requestAnimationFrame(step);});
  return frames;
 },{from,to,duration});
-const intervals=await travel(0,.94,18000);
-await page.waitForTimeout(1300);await page.locator('[data-show-drawing]').click();await page.waitForTimeout(1000);await page.locator('[data-show-drawing]').click();await page.waitForTimeout(1000);
-intervals.push(...await travel(.94,.27,9000));await page.waitForTimeout(1200);
+const intervals=await travel(0,.72,12000);
+intervals.push(...await travel(.72,1,16000));
+await page.waitForTimeout(1300);await page.screenshot({path:'test-results/spatial/recording-city.png'});await page.locator('[data-show-drawing]').click();await page.waitForTimeout(1000);await page.locator('[data-show-drawing]').click();await page.waitForTimeout(1000);
+intervals.push(...await travel(1,.72,8000));
+intervals.push(...await travel(.72,.27,6000));await page.waitForTimeout(1200);
 const sorted=intervals.sort((a,b)=>a-b),state=await page.locator('[data-spatial-root]').evaluate(el=>({...el.dataset}));
 const metrics={viewport:'1280x800',medianAnimationFrameMs:sorted[Math.floor(sorted.length*.5)],p95AnimationFrameMs:sorted[Math.floor(sorted.length*.95)],resolution:state.resolution,drawCalls:state.drawCalls,note:'Headless Chromium while recording; not a physical Safari benchmark.'};
 await writeFile('test-results/spatial/recording-metrics.json',JSON.stringify(metrics,null,2));

@@ -1,5 +1,6 @@
 import * as T from 'three';
 import {Ink,plane,pale,surfaces,TAU,type P} from './ink';
+import {streetSitesFor} from './street';
 
 // Original architectural studies from exterior references. Proportions are
 // composed for this imaginary street; these are not surveyed building models.
@@ -135,6 +136,9 @@ function tampaTheatre(){
 function rivergate(compact:boolean){
  const group=new T.Group(),pen=new Ink();group.name='Rivergate Tower';
  const radius=4.1,height=31;
+ // A few occupied rooms, fixed in object space. Overdrawn amber pencil marks
+ // wander beyond the frames, with paper still visible between the strokes.
+ const litWindows=new Set(['3:5','7:2','10:4','14:1','15:1','19:6','23:3','26:7','28:2','8:11','21:14','17:22','25:28']);
  const shell=new T.Mesh(new T.CylinderGeometry(radius,radius,height,56),pale);shell.position.y=height/2;group.add(shell);
  const ring=(y:number,r=radius+.03,tone=1)=>pen.path(Array.from({length:65},(_,i)=>[Math.cos(i*TAU/64)*r,y,Math.sin(i*TAU/64)*r] as P),tone);
  ring(0,radius+.08,0);ring(height,radius+.04,0);ring(height-.25);ring(height-1);
@@ -144,6 +148,15 @@ function rivergate(compact:boolean){
   for(let col=0;col<32;col++){
    const a=col*TAU/32,half=.062,r=radius+.045,h=row>25?.66:.43;
    if(compact&&Math.sin(a)<-.4)continue;
+   if(litWindows.has(`${row}:${col}`)){
+    const wobble=Math.sin(row*2.7+col)*.12,rr=radius+.085;
+    const stroke=(u:number,v:number):P=>{const angle=a-half+2*half*u;return [rr*Math.cos(angle),y+h*v,rr*Math.sin(angle)];};
+    const scribble=[[-.12,.04],[.97,.35+wobble],[.02,.32],[1.14,.72+wobble],[.08,.62],[.92,1.08],[.31,.88]];
+    // Close, imperfect retracing makes a heavier pencil stroke even on WebGL
+    // implementations that only support one-pixel native line widths.
+    for(const offset of [-.045,0,.045])pen.path(scribble.map(([u,v],i)=>stroke(u+offset+Math.sin(i*2.4+row)*.035,v+offset*.6)),5);
+    pen.path([stroke(.14,.22),stroke(.52,-.12),stroke(.37,.76),stroke(.77,.33)],5);
+   }
    pen.path([[r*Math.cos(a-half),y,r*Math.sin(a-half)],[r*Math.cos(a+half),y,r*Math.sin(a+half)],[r*Math.cos(a+half),y+h,r*Math.sin(a+half)],[r*Math.cos(a-half),y+h,r*Math.sin(a-half)]],0,true);
    if(col%3===0)pen.line([r*Math.cos(a-half),y+.05,r*Math.sin(a-half)],[r*Math.cos(a+half),y+.05,r*Math.sin(a+half)],1);
   }
@@ -158,16 +171,9 @@ function rivergate(compact:boolean){
 }
 
 export function createTampaLandmarks(parent:T.Group,compact:boolean){
- // A composed architectural atlas, not their real geographic relationship.
- const placements:[T.Group,P,number][]=[
-  [plantHall(),[-63,0,-34],Math.PI/2],
-  [tampaTheatre(),[-67,0,-18],Math.PI/2-.12],
-  [floridan(),[-74,0,-51],Math.PI/2+.08],
-  [rivergate(compact),[-84,0,-16],Math.PI/2],
- ];
- for(const [group,position,rotation] of placements){
-  group.position.set(...position);group.rotation.y=rotation;
-  if(compact){group.scale.setScalar(.72);group.position.z=-34+(position[2]+34)*.5;group.position.x-=group.name==='Tampa Theatre'?6:0;}
+ const models:Record<string,T.Group>={'Plant Hall':plantHall(),'Tampa Theatre':tampaTheatre(),'Floridan Hotel':floridan(),'Rivergate Tower':rivergate(compact)};
+ for(const site of streetSitesFor(compact)){
+  const group=models[site.name];group.position.set(...site.position);group.rotation.y=site.rotation;
   parent.add(group);
  }
 }
