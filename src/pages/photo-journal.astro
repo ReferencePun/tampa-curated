@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EditionNavigation from '../components/EditionNavigation.astro';
+import Photo from '../components/Photo.astro';
+import credits from '../data/photo-credits.json';
+import { url } from '../lib/urls';
+import '../styles/reading.css';
+const frames = [
+  { image:'tampa-palms', title:'Look up.', alt:'Palm trees framing a high-rise building in Tampa', copy:'Palms and architecture share the frame. A view of the city in layers: living forms against a constructed skyline.', link:'stories/the-city-now/', linkLabel:'Read The City Now', treatment:'mono' },
+  { image:'ybor', title:'At street level.', alt:'The Ybor Factory Building and its surrounding streets in Tampa', copy:'A different scale. The Ybor Factory Building anchors a street scene where brick, windows, and passing activity give the eye somewhere to linger.', link:'neighborhoods/ybor-city/', linkLabel:'Explore Ybor City', treatment:'natural' },
+  { image:'tampa-aerial', title:'A little distance.', alt:'An aerial view of downtown Tampa', copy:'From above, individual rooms disappear into a pattern of blocks and buildings. A change in perspective makes a familiar subject feel new.', link:'neighborhoods/', linkLabel:'Find a neighborhood', treatment:'natural' },
+  { image:'tampa-night', title:'Stay for the light.', alt:'The illuminated downtown Tampa skyline reflected on the water at night', copy:'The skyline appears twice: once in the buildings and again in the water. Light and reflection provide the closing frame.', link:'guides/after-dark/', linkLabel:'Read after dark', treatment:'natural' },
+];
+---
+<BaseLayout title="Tampa, in four frames — Photo journal" description="Four credited photographs of Tampa: palms and architecture, Ybor City, an aerial perspective, and the skyline after dark." image="tampa-night">
+  <EditionNavigation/>
+  <header class="journal-opening"><span class="eyebrow red">THE PHOTO JOURNAL / VOLUME 01</span><h1>TAMPA,<br/><em>IN FOUR FRAMES.</em></h1><div><p>Sometimes the best way into a city<br/>is to stop and look.</p><nav aria-label="Jump to a photograph">{frames.map((frame,i)=><a href={`#frame-${i+1}`} aria-label={`Frame ${i+1}: ${frame.title}`}>0{i+1}</a>)}</nav></div></header>
+  <p class="collection-note">A visual edit of four licensed Tampa photographs from this demonstration edition. Photographer credits appear beside every frame. Crops and monochrome treatments are part of the page design.</p>
+  <div class="journal-frames">{frames.map((frame,i)=>{const credit=credits.find(c=>c.key===frame.image)!;return <figure class={`journal-frame frame-${i+1}`} id={`frame-${i+1}`}><div class="journal-image"><Photo name={frame.image} alt={frame.alt} treatment={frame.treatment} eager={i===0} sizes="(max-width: 700px) 95vw, 75vw"/><span aria-hidden="true">TC / FRAME 00{i+1}</span></div><figcaption><span class="journal-number">0{i+1}</span><div><h2>{frame.title}</h2><p>{frame.copy}</p><a class="text-link" href={url(frame.link)}>{frame.linkLabel} <span aria-hidden="true">↗</span></a></div><div class="journal-credit"><span class="eyebrow">PHOTOGRAPHY</span><a href={credit.source}>{credit.photographer} ↗</a><a href={credit.license}>Image license ↗</a></div></figcaption></figure>})}</div>
+  <div class="reading-bottom"><p>Four frames are just a beginning.<br/><em>There’s more here.</em></p><a class="text-link" href={url('issues/001/')}>Return to the edition <span aria-hidden="true">⟶</span></a></div>
+</BaseLayout>

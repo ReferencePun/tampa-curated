@@ -1,0 +1,27 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EditionNavigation from '../../components/EditionNavigation.astro';
+import Photo from '../../components/Photo.astro';
+import { readingGuides } from '../../config/reading';
+import { url } from '../../lib/urls';
+import '../../styles/reading.css';
+export function getStaticPaths() { return readingGuides.map(guide => ({params:{slug:guide.slug},props:{guide}})); }
+const { guide } = Astro.props;
+const chapters = await Promise.all(guide.chapters.map(async chapter => {
+  const entry = await getEntry(chapter.collection, chapter.slug);
+  if (!entry) throw new Error(`Missing guide chapter: ${chapter.collection}/${chapter.slug}`);
+  return {...chapter,entry};
+}));
+const next = readingGuides[(Number(guide.number)) % readingGuides.length];
+---
+<BaseLayout title={`${guide.title} — A reading guide`} description={guide.deck} image={guide.image}>
+  <EditionNavigation/>
+  <article class={`reading-route theme-${guide.theme}`}>
+    <header class="guide-opening"><div><a class="eyebrow" href={url('guides/')}>← ALL READING GUIDES</a><span class="eyebrow guide-kicker">ROUTE {guide.number} / THREE CHAPTERS</span><h1>{guide.headline}</h1><p class="reading-deck">{guide.deck}</p></div><figure><Photo name={guide.image} alt={guide.imageAlt} treatment={guide.treatment} eager sizes="(max-width: 700px) 95vw, 47vw"/><figcaption>{guide.imageAlt}.</figcaption></figure></header>
+    <div class="guide-introduction"><span class="eyebrow red">A NOTE BEFORE YOU BEGIN</span><div><p>{guide.introduction}</p><p class="reading-note">A reading guide to sample editorial. Profiles are fictional; this is not a verified itinerary or a set of business recommendations.</p></div></div>
+    <nav class="chapter-nav" aria-label="Chapters in this reading guide">{chapters.map((chapter,i) => <a href={`#chapter-${i+1}`}><span>0{i+1}</span>{chapter.label}<span aria-hidden="true">↓</span></a>)}</nav>
+    {chapters.map((chapter,i) => <section class={`reading-chapter chapter-${i+1}`} id={`chapter-${i+1}`} aria-labelledby={`chapter-title-${i+1}`}><div class="chapter-marker"><span>0{i+1}</span><span class="eyebrow">{chapter.label}</span></div><div class="chapter-copy"><h2 id={`chapter-title-${i+1}`}>{chapter.title}</h2><p>{chapter.copy}</p><a class="chapter-destination" href={url(`${chapter.collection}/${chapter.slug}/`)}><span class="eyebrow">{chapter.collection === 'stories' ? 'READ THE ESSAY' : chapter.collection === 'people' ? 'EXPLORE THE SAMPLE PROFILE' : 'OPEN THE NEIGHBORHOOD GUIDE'}</span><strong>{chapter.entry.data.title}</strong><span aria-hidden="true">↗</span></a></div>{i!==1 ? <figure><Photo name={chapter.entry.data.image} alt={chapter.entry.data.imageAlt} treatment={chapter.entry.data.treatment} sizes="(max-width: 700px) 90vw, 32vw"/><figcaption>{chapter.entry.data.imageAlt}.</figcaption></figure> : <div class="chapter-question"><span class="eyebrow">SOMETHING TO THINK ABOUT</span><p>{guide.question}</p><span aria-hidden="true">✳</span></div>}</section>)}
+    <div class="reading-bottom"><p>Keep following your curiosity.<br/><em>Next reading route: {next.title}.</em></p><a class="text-link" href={url(`guides/${next.slug}/`)}>Next guide <span aria-hidden="true">⟶</span></a></div>
+  </article>
+</BaseLayout>

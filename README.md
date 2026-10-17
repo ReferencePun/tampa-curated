@@ -47,13 +47,18 @@ TypeScript is pinned to 6.0.3 because the current `astro check` does not support
 | `/stories/[slug]/` | Article, context, photo caption, related stories |
 | `/neighborhoods/` | Six neighborhood guides |
 | `/neighborhoods/[slug]/` | Introduction and associated places/stories |
+| `/issues/` | Issue archive with a designed cover for the first edition |
+| `/issues/001/` | Editor’s note and linked contents for the complete first edition |
+| `/guides/` | Three themed reading routes through the sample publication |
+| `/guides/[slug]/` | A first look, After dark, and Independent minds; three linked chapters each |
+| `/photo-journal/` | Four Tampa photographs, captioned and credited individually |
 | `/the-list/` | Live category, neighborhood, and name filters |
 | `/about/` | Publication concept and editorial principles |
 | `/search/` | Search across titles, decks, and full content |
 | `/credits/` | Photographer attribution and licenses |
 | `/404.html` | Custom GitHub Pages error page |
 
-There are 35 generated HTML pages in the initial edition, plus robots and sitemap files. All links and assets respect the configured repository subpath. Search and directory filters work without a backend, preserve their state in the URL, and include empty and reset states. Without JavaScript, their full content indexes remain readable.
+There are 42 generated HTML pages, plus robots and sitemap files. The seven reading-room additions are reachable through the mobile menu, footer, edition navigation, and search; the desktop Issue 001 marker opens the issue. All links and assets respect the configured repository subpath. Search and directory filters work without a backend, preserve their state in the URL, and include empty and reset states. The reading-room pages add no client runtime and remain fully navigable without JavaScript.
 
 ## Project map
 
@@ -64,6 +69,8 @@ There are 35 generated HTML pages in the initial edition, plus robots and sitema
 - `src/content.config.ts` — validated content schemas and neighborhood references.
 - `src/content/{stories,people,businesses,neighborhoods}/` — Markdown editorial content, one entry per file.
 - `src/config/site.ts` — publication settings, categories, and navigation.
+- `src/config/reading.ts` — reading-guide copy, chapter references, and searchable publication-page metadata.
+- `src/styles/reading.css` — scoped layouts for the issue archive, reading routes, and photo journal.
 - `src/lib/urls.ts` — the single internal URL helper; use it for every internal path.
 - `src/lib/photos.ts` — local photo registry.
 - `src/assets/photos/` — original licensed source images; Astro creates responsive WebP variants.

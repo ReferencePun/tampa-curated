@@ -22,6 +22,13 @@ const pages = [
   "neighborhoods/ybor-city/",
   "places/palmetto-table/",
   "about/",
+  "issues/",
+  "issues/001/",
+  "guides/",
+  "guides/a-first-look/",
+  "guides/after-dark/",
+  "guides/creative-tampa/",
+  "photo-journal/",
 ];
 for (const width of [1600, 1440, 768, 390]) {
   await page.setViewportSize({ width, height: 1000 });
@@ -117,7 +124,7 @@ await page.getByLabel("SEARCH THE PUBLICATION").fill("NoSuchTampaPlaceXYZ");
 assert.equal(await page.locator("[data-search]:visible").count(), 0);
 assert.equal(await page.locator("#search-empty").isVisible(), true);
 await page.getByRole("button", { name: "Show the full index" }).click();
-assert.equal(await page.locator("[data-search]:visible").count(), 25);
+assert.equal(await page.locator("[data-search]:visible").count(), 32);
 await page.getByLabel("SEARCH THE PUBLICATION").fill("Mara Ellis");
 await page.getByRole("button", { name: "Search", exact: true }).click();
 assert.ok(await page.getByRole("link", { name: "Mara Ellis ↗" }).isVisible());
@@ -145,6 +152,6 @@ assert.equal(await staticPage.locator("noscript").isVisible(), true);
 await noJS.close();
 assert.deepEqual(errors, [], `Browser errors:\n${errors.join("\n")}`);
 console.log(
-  `Passed: 32 responsive page checks; 4 homepage screenshots; menu and Escape/focus; category + neighborhood + name filtering; empty/reset and URL persistence; search; reduced motion; no-JS directory. Base: ${base || "/"}.`,
+  `Passed: ${pages.length * 4} responsive page checks; 4 homepage screenshots; menu and Escape/focus; category + neighborhood + name filtering; empty/reset and URL persistence; search; reduced motion; no-JS directory. Base: ${base || "/"}.`,
 );
 await browser.close();

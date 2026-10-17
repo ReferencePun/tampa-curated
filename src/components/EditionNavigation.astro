@@ -1,0 +1,9 @@
+---
+import { url } from '../lib/urls';
+const links = [['Issues', 'issues/'], ['Reading guides', 'guides/'], ['Photo journal', 'photo-journal/']];
+---
+<nav class="edition-navigation" aria-label="Explore the edition">
+  <a href={url()}>TAMPA CURATED <span aria-hidden="true">/</span></a>
+  <div>{links.map(([label, path]) => <a href={url(path)} aria-current={Astro.url.pathname === url(path) ? 'page' : undefined}>{label}</a>)}</div>
+  <span class="eyebrow">THE READING ROOM / VOL. 01</span>
+</nav>

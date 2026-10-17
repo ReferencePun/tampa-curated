@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EditionNavigation from '../../components/EditionNavigation.astro';
+import IssueCover from '../../components/IssueCover.astro';
+import { url } from '../../lib/urls';
+import '../../styles/reading.css';
+const stories = (await getCollection('stories')).sort((a,b) => a.data.order-b.data.order);
+const people = (await getCollection('people')).sort((a,b) => a.data.order-b.data.order);
+const neighborhoods = (await getCollection('neighborhoods')).sort((a,b) => a.data.order-b.data.order);
+---
+<BaseLayout title="Issue 001 — The City Now" description="Read the first Tampa Curated edition: six sample essays, five fictional creative profiles, and six neighborhood introductions, collected in one issue.">
+  <EditionNavigation/>
+  <header class="issue-opening"><div><span class="eyebrow red">TAMPA CURATED / ISSUE 001</span><h1>THE<br/>CITY<br/><em>NOW.</em></h1><p class="reading-deck">An independent eye.<br/>A new way into a familiar place.</p><a class="text-link" href="#contents">Inside this issue <span aria-hidden="true">↓</span></a></div><div class="issue-opening-cover"><IssueCover/></div><span class="issue-margin" aria-hidden="true">A FIRST EDITION. AN OPEN INVITATION.</span></header>
+  <section class="editors-letter" aria-labelledby="editors-note"><span class="eyebrow red">A NOTE FROM THE EDITORS</span><div><h2 id="editors-note">Begin with curiosity.</h2><p>The first edition starts with an idea: that paying closer attention can change our relationship with a city. A doorway, a working studio, a table we return to. Small things, considered together.</p><p>These pages introduce the shape of Tampa Curated. This is a demonstration edition: the reporting is still ahead, the creative profiles are fictional, and the guides show how future coverage will connect. For now, follow a story, take a visual detour, and get to know our point of view.</p><span class="eyebrow">THE EDITORS / TAMPA CURATED</span></div></section>
+  <section class="issue-contents" id="contents" aria-labelledby="contents-title"><div class="reading-section-heading"><h2 id="contents-title">IN THIS ISSUE</h2><span class="eyebrow">06 STORIES / 05 PEOPLE / 06 NEIGHBORHOODS</span></div><div class="contents-layout"><div class="contents-stories">{stories.map((entry,i) => <a href={url(`stories/${entry.id}/`)}><span class="contents-number">{String(i+1).padStart(2,'0')}</span><div><span class="eyebrow red">{entry.data.category} / {entry.data.readTime}</span><h3>{entry.data.title}</h3><p>{entry.data.deck}</p></div><span class="contents-arrow" aria-hidden="true">↗</span></a>)}</div><aside class="contents-side"><h3>PEOPLE TO WATCH</h3><p class="reading-note">Five fictional profiles. Five creative perspectives.</p>{people.map(entry => <a href={url(`people/${entry.id}/`)}><span>{entry.data.title}<small>{entry.data.profession}</small></span><span aria-hidden="true">↗</span></a>)}<h3>FIND YOUR TAMPA</h3><p class="reading-note">Six real neighborhoods. Sample introductions.</p>{neighborhoods.map(entry => <a href={url(`neighborhoods/${entry.id}/`)}>{entry.data.title}<span aria-hidden="true">↗</span></a>)}</aside></div></section>
+  <div class="reading-bottom"><p>A different way to read the city.<br/><em>Four photographs. Room to look.</em></p><a class="text-link" href={url('photo-journal/')}>Open the photo journal <span aria-hidden="true">⟶</span></a></div>
+</BaseLayout>

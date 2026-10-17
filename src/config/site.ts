@@ -18,6 +18,12 @@ export const navigation = [
   ["06", "About", "about/"],
 ] as const;
 
+export const editionNavigation = [
+  ["07", "Issues", "issues/"],
+  ["08", "Reading guides", "guides/"],
+  ["09", "Photo journal", "photo-journal/"],
+] as const;
+
 export const categories = [
   "Restaurants",
   "Bars & Nightlife",

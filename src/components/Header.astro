@@ -1,5 +1,5 @@
 ---
-import { navigation } from '../config/site';
+import { navigation, editionNavigation } from '../config/site';
 import { url } from '../lib/urls';
 const current = Astro.url.pathname;
 ---
@@ -8,12 +8,12 @@ const current = Astro.url.pathname;
   <nav class="desktop-nav" aria-label="Main navigation">
     {navigation.map(([number, label, path]) => <a href={url(path)} aria-current={current.startsWith(url(path)) ? 'page' : undefined}><span>{number}</span> {label}</a>)}
   </nav>
-  <div class="edition"><span class="edition-dot" aria-hidden="true"></span><span>ISSUE 001<br/>TAMPA, FLORIDA<br/>AN INDEPENDENT EYE</span></div>
+  <a class="edition" href={url('issues/001/')} aria-label="Read Issue 001: The City Now"><span class="edition-dot" aria-hidden="true"></span><span>ISSUE 001<br/>TAMPA, FLORIDA<br/>AN INDEPENDENT EYE</span></a>
   <a class="search-link" href={url('search/')}><span>Search</span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 6 6"/></svg></a>
   <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" type="button"><span>Menu</span><span class="menu-icon" aria-hidden="true">☰</span></button>
 </header>
 <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden>
-  {navigation.map(([number, label, path]) => <a href={url(path)} aria-current={current.startsWith(url(path)) ? 'page' : undefined}><small>{number}</small> {label}<span aria-hidden="true">↗</span></a>)}
+  {[...navigation, ...editionNavigation].map(([number, label, path]) => <a href={url(path)} aria-current={current.startsWith(url(path)) ? 'page' : undefined}><small>{number}</small> {label}<span aria-hidden="true">↗</span></a>)}
 </nav>
 <script>
   const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import EditionNavigation from '../../components/EditionNavigation.astro';
+import IssueCover from '../../components/IssueCover.astro';
+import { url } from '../../lib/urls';
+import '../../styles/reading.css';
+---
+<BaseLayout title="The issue archive" description="The Tampa Curated issue archive. Open the first demonstration edition, The City Now, and explore its stories, people, and neighborhood guides.">
+  <EditionNavigation/>
+  <PageIntro number="THE ARCHIVE" title="KEEP THE GOOD ONES" deck="A publication to return to. Every edition, collected in one place."/>
+  <section class="issue-feature" aria-labelledby="current-issue">
+    <a class="issue-cover-link" href={url('issues/001/')} aria-label="Open Issue 001: The City Now"><IssueCover/></a>
+    <div class="issue-feature-copy"><span class="eyebrow red">THE FIRST EDITION / NO. 001</span><h2 id="current-issue">THE CITY<br/>NOW.</h2><p class="reading-deck">Good people. Great places.<br/><em>A more interesting city.</em></p><p>A starting point for the publication: six essays about looking closer, five imagined creative voices, and six ways into Tampa’s neighborhoods.</p><dl class="issue-facts"><div><dt>Format</dt><dd>Digital edition</dd></div><div><dt>Theme</dt><dd>An independent eye</dd></div><div><dt>Status</dt><dd>Demonstration edition</dd></div></dl><a class="button ink" href={url('issues/001/')}>Open the issue <span aria-hidden="true">↗</span></a><p class="reading-note">One edition so far. Profiles and businesses are fictional; essays and guides are sample editorial.</p></div>
+  </section>
+  <div class="reading-bottom"><p>Don’t know where to begin?<br/><em>Follow a thread through the edition.</em></p><a class="text-link" href={url('guides/')}>Find a reading guide <span aria-hidden="true">⟶</span></a></div>
+</BaseLayout>

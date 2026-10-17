@@ -1,11 +1,11 @@
 ---
-import { navigation, siteConfig } from '../config/site';
+import { navigation, editionNavigation, siteConfig } from '../config/site';
 import { url } from '../lib/urls';
 ---
 <footer class="site-footer">
   <div class="footer-name">TAMPA<br/>CURATED<span>FL.</span></div>
   <p class="footer-line">A little closer to the city.<br/><em>A little further from the ordinary.</em></p>
-  <nav aria-label="Footer navigation">{navigation.map(([, label, path]) => <a href={url(path)}>{label}</a>)}</nav>
+  <nav aria-label="Footer navigation">{[...navigation, ...editionNavigation].map(([, label, path]) => <a href={url(path)}>{label}</a>)}</nav>
   <div class="footer-contact">
     {siteConfig.instagramUrl ? <a href={siteConfig.instagramUrl}>Instagram ↗</a> : <span>Instagram — coming soon</span>}
     {siteConfig.contactEmail ? <a href={`mailto:${siteConfig.contactEmail}`}>Get in touch ↗</a> : <span>Contact — coming soon</span>}
