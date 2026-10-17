@@ -1,8 +1,9 @@
 import { clamp } from "./settings";
 
 /** One native-scroll chapter per spread: unfold, pause for reading, fold away.
- * The board changes only with the cover closed. The last spread stays open so
- * the reader can carry on down the page. Absolute progress reverses naturally.
+ * The scenery changes with its inserts flat; the book itself stays open.
+ * The last pop-up stays raised as the reader continues down the page.
+ * Absolute progress reverses naturally.
  */
 export function atlasFrame(progress: number, count: number) {
   const position = clamp(progress) * count;

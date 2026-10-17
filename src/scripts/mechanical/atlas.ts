@@ -45,7 +45,7 @@ export function init(root: HTMLElement): Scene {
     configureFrame = 0;
   let pinned = false,
     disposeScroll = () => {},
-    drawBook = (_progress: number) => {};
+    drawBook = (_progress: number, _coverProgress?: number) => {};
   const hashIndex = captions.findIndex(
     (caption) => `#${caption.id}` === location.hash,
   );
@@ -57,9 +57,9 @@ export function init(root: HTMLElement): Scene {
 
   function apply(p: number) {
     progress = p;
-    drawBook(p);
+    drawBook(p, pinned ? 1 : p);
     root.dataset.progress = p.toFixed(3);
-    if (pinned) open = p >= 0.5;
+    if (pinned) open = true;
     root.dataset.open = String(open);
     toggle.setAttribute("aria-expanded", String(open));
     toggle.innerHTML = `${open ? "Close" : "Open"} atlas <span aria-hidden="true">${open ? "↙" : "↗"}</span>`;
@@ -107,7 +107,7 @@ export function init(root: HTMLElement): Scene {
     const current = atlasFrame(value, boards.length);
     root.dataset.atlasScroll = value.toFixed(4);
     if (selected !== current.index) {
-      // Place the newly selected board in its closed pose before it can paint.
+      // Select the next scenery with its inserts flat on the open pages.
       progress = current.openness;
       select(current.index);
     }
@@ -117,7 +117,7 @@ export function init(root: HTMLElement): Scene {
     if (!Number.isInteger(index) || index < 0 || index >= boards.length) return;
     cancelAnimationFrame(frame);
     if (pinned) {
-      // Stay just inside the requested chapter when closing; pixel rounding
+      // Stay just inside the requested chapter; pixel rounding
       // must not select the previous spread at an exact chapter boundary.
       const fraction = (index + Math.max(0.001, phase)) / boards.length;
       const top = track.getBoundingClientRect().top + scrollY;
@@ -145,7 +145,7 @@ export function init(root: HTMLElement): Scene {
     hint.hidden = !pinned;
     hint.textContent = `SCROLL THROUGH ${boards.length} SPREADS ↓`;
     note.textContent = pinned
-      ? "Scroll to turn the pages · illustrative scenes, sample guides"
+      ? "Scroll to explore the pop-ups · illustrative scenes, sample guides"
       : "Browse with the arrows · illustrative scenes, sample guides";
     measure();
     if (pinned) disposeScroll = scrollProgress(track, sequence, true);

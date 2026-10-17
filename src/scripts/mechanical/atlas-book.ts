@@ -90,22 +90,24 @@ export function measureBook(board: HTMLElement, stage: HTMLElement) {
     });
   }
   board.classList.add("is-projected");
-  return (progress: number) => {
+  // Scroll chapters move only the inserts. Manual Open/Close can still fold
+  // the cover by leaving its progress coupled to the inserts.
+  return (progress: number, coverProgress = progress) => {
     const camera = projection
-      .translate(width / 2 - width * 0.25 * (1 - progress), height / 2)
-      .scale(1 - motion.atlasFoldZoom * Math.sin(Math.PI * progress))
+      .translate(width / 2 - width * 0.25 * (1 - coverProgress), height / 2)
+      .scale(1 - motion.atlasFoldZoom * Math.sin(Math.PI * coverProgress))
       .rotateAxisAngle(1, 0, 0, tilt)
       .rotateAxisAngle(
         0,
         1,
         0,
-        motion.atlasFoldYaw * Math.sin(Math.PI * progress),
+        motion.atlasFoldYaw * Math.sin(Math.PI * coverProgress),
       )
       .rotateAxisAngle(0, 0, 1, turn)
       .translate(-width / 2, -height / 2);
     const left = new DOMMatrix()
       .translate(width / 2, height / 2, 5)
-      .rotateAxisAngle(0, 1, 0, (1 - progress) * motion.foldAngle)
+      .rotateAxisAngle(0, 1, 0, (1 - coverProgress) * motion.foldAngle)
       .translate(-width / 2, -height / 2);
     const right = new DOMMatrix().translate(width / 2, 0);
     // Paper pieces lie inside their page before the cover closes over them.
@@ -117,10 +119,12 @@ export function measureBook(board: HTMLElement, stage: HTMLElement) {
         world = world.multiply(plane.leaf === "left" ? left : right);
       if (plane.hinge && plane.hingeOrigin) {
         const [x, y] = plane.hingeOrigin;
-        // The left inserts stay against the inside cover until it clears the
-        // vertical position. They cannot swing through the opposite page.
+        // A moving cover must clear the left inserts. With the book held open,
+        // both sides rise together, independently of the stationary pages.
         const opening =
-          plane.leaf === "left" ? Math.max(0, progress * 2 - 1) : progress;
+          plane.leaf === "left"
+            ? Math.min(progress, Math.max(0, coverProgress * 2 - 1))
+            : progress;
         const rise =
           motion.riseClosed + opening * (motion.riseOpen - motion.riseClosed);
         world = world

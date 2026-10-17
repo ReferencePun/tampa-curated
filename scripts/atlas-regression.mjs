@@ -49,6 +49,15 @@ for (const [name, engine] of [
   await expect
     .poll(async () => Number(await atlas.getAttribute("data-progress")))
     .toBeGreaterThan(0.99);
+  const paperPose = () =>
+    page.locator(".atlas-board:not([hidden])").evaluate((board) => ({
+      transforms: [...board.querySelectorAll(".atlas-spine, .atlas-surface-front")]
+        .map((plane) => getComputedStyle(plane).transform),
+      backVisibility: [...board.querySelectorAll(".atlas-surface-back")]
+        .map((plane) => getComputedStyle(plane).visibility),
+    }));
+  const openPaper = await paperPose();
+  assert.deepEqual(openPaper.backVisibility, ["hidden", "hidden"]);
   await page.screenshot({ path: `${dir}/${name}-open.png` });
 
   // Measure painted pixels, not just CSS matrices: WebKit reported correct
@@ -91,9 +100,10 @@ for (const [name, engine] of [
     `${name}: photograph must paint as an upright plane, not a flattened strip (${JSON.stringify(painted)})`,
   );
 
-  // Select every coordinated scene and inspect the full folding path. Paper
-  // must stay inside its stage, so no leaf can cross captions or the selector.
+  // The pages and camera must stay still through every chapter. Only the
+  // pop-up pieces fold, and they must stay clear of captions and controls.
   for (let index = 0; index < 6; index++) {
+    const popUpPoses = [];
     for (const [phase, progress] of [
       [0.001, 0],
       [0.11, 0.5],
@@ -110,6 +120,18 @@ for (const [name, engine] of [
       await expect
         .poll(async () => Number(await atlas.getAttribute("data-progress")))
         .toBeCloseTo(progress, 1);
+      assert.deepEqual(
+        await paperPose(),
+        openPaper,
+        `${name}: book must remain open and stationary at chapter ${index}, phase ${phase}`,
+      );
+      await expect(atlas).toHaveAttribute("data-open", "true");
+      if (phase < 0.5)
+        popUpPoses.push(await page.locator(".atlas-board:not([hidden])")
+          .evaluate((board) => [
+            ".atlas-hinge-sign .atlas-pop-face",
+            ".atlas-hinge-photo .atlas-pop-face",
+          ].map((selector) => getComputedStyle(board.querySelector(selector)).transform)));
       const escaped = await page.locator(".atlas-stage").evaluate((stage) => {
         const bounds = stage.getBoundingClientRect();
         return [
@@ -137,11 +159,18 @@ for (const [name, engine] of [
       if (index === 0)
         await page.screenshot({ path: `${dir}/${name}-fold-${progress}.png` });
     }
+    for (let side = 0; side < 2; side++)
+      assert.equal(
+        new Set(popUpPoses.map((pose) => pose[side])).size,
+        3,
+        `${name}: chapter ${index}, side ${side} must rise through flat, halfway and upright poses`,
+      );
   }
   // Reversing the native scroll visits the same six scenes in reverse.
   for (let index = 5; index >= 0; index--) {
     await scrollSpread(index);
     await expect(atlas).toHaveAttribute("data-progress", "1.000");
+    assert.deepEqual(await paperPose(), openPaper);
     await expect(page.locator("[data-atlas-counter]")).toHaveText(
       `0${index + 1} / 06`,
     );
@@ -206,14 +235,15 @@ for (const [name, engine] of [
     browser: name,
     paintedPhoto: painted,
     neighborhoods: 6,
-    foldStates: 6,
+    popUpStates: 6,
+    stationaryOpenPages: true,
     widths: [1440, 594, 390, 320, 844],
     errors,
   });
   await context.close();
   await browser.close();
   console.log(
-    `${name}: six sequential scroll chapters, reverse scrolling, visible 3D photo, fold containment, page controls, keyboard, exit, phone layouts, reduced motion and history passed.`,
+    `${name}: six sequential pop-ups with stationary open pages, reverse scrolling, visible 3D photo, fold containment, page controls, keyboard, exit, phone layouts, reduced motion and history passed.`,
   );
 }
 writeFileSync(`${dir}/regression.json`, JSON.stringify(report, null, 2));
