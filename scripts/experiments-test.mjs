@@ -135,19 +135,23 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  assert.ok(Number(await journey.getAttribute('data-slide-progress'))>.1);
  const sleeveTransform=()=>sheet.evaluate(el=>{
   const m=new DOMMatrixReadOnly(getComputedStyle(el).transform);
-  return {a:m.a,b:m.b,c:m.c,d:m.d,x:m.e,y:m.f,width:el.getBoundingClientRect().width,height:el.getBoundingClientRect().height};
+  const rect=el.getBoundingClientRect();
+  return {a:m.a,b:m.b,c:m.c,d:m.d,x:m.e,y:m.f,is2D:m.is2D,left:rect.left,width:rect.width,height:rect.height};
  });
  const sliding=await sleeveTransform();
- assert.deepEqual([sliding.a,sliding.b,sliding.c,sliding.d,sliding.y],[1,0,0,1,0],'Sleeve remains flat and moves only sideways');
+ assert.ok(sliding.is2D && Math.abs(sliding.a*sliding.d-sliding.b*sliding.c-1)<.00001,'Film stays flat without stretching');
+ assert.ok(Math.abs(Math.hypot(sliding.a,sliding.b)-1)<.00001);
+ assert.ok(Math.abs(Math.hypot(sliding.c,sliding.d)-1)<.00001);
+ const tilt=Math.atan2(sliding.b,sliding.a)*180/Math.PI;
+ assert.ok(tilt<0 && tilt>-8 && sliding.y<0,'Film tilts gently and drifts upward as it is pulled');
  assert.ok(sliding.x>0 && sliding.x<sliding.width,'Sleeve is partway off to the right');
- assert.equal(sliding.width,mapPosition.width);assert.equal(sliding.height,mapPosition.height);
  await expect(page.locator('[data-trace-fold], [data-trace-curl]')).toHaveCount(0);
  assert.deepEqual(await page.locator('.archive-map').boundingBox(),mapPosition);
  await page.screenshot({path:`${output}/${name}-trace-slide.png`});
  await scrollTrace(1);
  await expect(sheet).toBeHidden();
  const removed=await sleeveTransform();
- assert.ok(removed.x>=removed.width,'Entire sleeve clears the original map');
+ assert.ok(removed.left>=mapPosition.x+mapPosition.width,'Entire sleeve clears the original map');
  await page.screenshot({path:`${output}/${name}-trace-original.png`});
  await scrollTrace(.8);
  assert.deepEqual(await sleeveTransform(),sliding,'Reverse scroll brings the flat sleeve back along the same path');
@@ -219,6 +223,8 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await touchPage.goto(href('experiments/tracing-city/'));
  await touchPage.evaluate(async()=>{await document.fonts.ready;await document.querySelector('.archive-map').decode();});
  await scrollTrace(.8,touchPage);
+ // Let mobile WebKit composite the decoded archive after this large scroll jump.
+ await touchPage.waitForTimeout(250);
  await touchPage.screenshot({path:`${output}/${name}-trace-mobile-slide.png`});
  await touchPage.locator('a[href="#tracing-notes"]').tap();
  await expect(touchPage.locator('#tracing-notes')).toBeInViewport();

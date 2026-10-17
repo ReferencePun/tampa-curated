@@ -53,8 +53,8 @@ function mountTracing() {
    }
   }
   labels.style.opacity = String(interval(state.progress,.50,.60));
-  // Move the complete sleeve as one flat sheet, keeping the archive underneath fixed.
-  sheet.style.transform = `translateX(${state.slide * 104}%)`;
+  // Restore the original loose-film pull: a top-right pivot, slight tilt, and upward drift.
+  sheet.style.transform = `translate(${state.slide * 104}%, ${state.slide * -8}%) rotate(${state.slide * -7}deg)`;
   sheet.style.visibility = state.slide === 1 ? 'hidden' : '';
   if (phase !== state.phase) {
    phase = state.phase;
