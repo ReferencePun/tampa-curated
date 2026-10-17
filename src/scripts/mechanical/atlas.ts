@@ -1,7 +1,7 @@
 import { clamp, motion, reducedMotion, type Scene } from "./settings";
 import { scrollProgress } from "./progress";
 import { measureBook } from "./atlas-book";
-import { atlasFrame } from "./atlas-sequence";
+import { atlasFrame, pageTurn, type PageTurn } from "./atlas-sequence";
 
 export function init(root: HTMLElement): Scene {
   const boards = [...root.querySelectorAll<HTMLElement>("[data-atlas-board]")];
@@ -44,8 +44,10 @@ export function init(root: HTMLElement): Scene {
     resizeFrame = 0,
     configureFrame = 0;
   let pinned = false,
-    disposeScroll = () => {},
-    drawBook = (_progress: number, _coverProgress?: number) => {};
+    disposeScroll = () => {};
+  let turning: PageTurn | null = null;
+  const drawers = new Map<number, ReturnType<typeof measureBook>>();
+  let stageWidth = 1, stageHeight = 1;
   const hashIndex = captions.findIndex(
     (caption) => `#${caption.id}` === location.hash,
   );
@@ -55,9 +57,42 @@ export function init(root: HTMLElement): Scene {
   const number = (value: number) => String(value).padStart(2, "0");
   root.style.setProperty("--atlas-spread-count", String(boards.length));
 
+  function render() {
+    const visible = turning ? [turning.from, turning.to] : [selected];
+    boards.forEach((board, i) => {
+      board.hidden = !visible.includes(i);
+      board.style.display = board.hidden ? "" : "block";
+      board.dataset.atlasRole = turning
+        ? i === turning.from ? "departing" : i === turning.to ? "arriving" : "hidden"
+        : i === selected ? "current" : "hidden";
+    });
+    const poses = visible.map((i) => {
+      if (!drawers.has(i)) drawers.set(i, measureBook(boards[i], stage));
+      const incoming = i === turning?.to;
+      return drawers.get(i)!(
+        turning ? incoming ? turning.arriving : turning.departing : progress,
+        pinned || turning ? 1 : progress,
+        turning ? { progress: turning.progress, incoming } : undefined,
+      );
+    });
+    const view = new DOMMatrix();
+    if (turning) {
+      const left = Math.min(...poses.map((pose) => pose.bounds.left));
+      const right = Math.max(...poses.map((pose) => pose.bounds.right));
+      const top = Math.min(...poses.map((pose) => pose.bounds.top));
+      const bottom = Math.max(...poses.map((pose) => pose.bounds.bottom));
+      const scale = Math.min(1, (stageWidth - 12) / (right - left), (stageHeight - 12) / (bottom - top));
+      const x = clamp((1 - scale) * stageWidth / 2, 6 - left * scale, stageWidth - 6 - right * scale);
+      const y = clamp((1 - scale) * stageHeight / 2, 6 - top * scale, stageHeight - 6 - bottom * scale);
+      view.translateSelf(x, y).scaleSelf(scale);
+    }
+    poses.forEach((pose) => pose.paint(view));
+    stage.classList.add("is-projected");
+    root.dataset.pageTurn = turning ? turning.progress.toFixed(4) : "";
+  }
   function apply(p: number) {
     progress = p;
-    drawBook(p, pinned ? 1 : p);
+    render();
     root.dataset.progress = p.toFixed(3);
     if (pinned) open = true;
     root.dataset.open = String(open);
@@ -65,8 +100,9 @@ export function init(root: HTMLElement): Scene {
     toggle.innerHTML = `${open ? "Close" : "Open"} atlas <span aria-hidden="true">${open ? "↙" : "↗"}</span>`;
   }
   function measure() {
-    drawBook = measureBook(boards[selected], stage);
-    stage.classList.add("is-projected");
+    stageWidth = stage.clientWidth;
+    stageHeight = stage.clientHeight;
+    drawers.clear();
     apply(progress);
   }
   function select(index: number, announce = true) {
@@ -77,10 +113,6 @@ export function init(root: HTMLElement): Scene {
     } catch {
       /* Storage is optional. */
     }
-    boards.forEach((board, i) => {
-      board.hidden = i !== index;
-      board.style.display = i === index ? "block" : "";
-    });
     captions.forEach((caption, i) => {
       caption.hidden = i !== index;
     });
@@ -99,16 +131,14 @@ export function init(root: HTMLElement): Scene {
       "aria-label",
       `Pop-up atlas, spread ${index + 1} of ${boards.length}: ${name}. ${imageNote} Schematic scenery, not a geographic map.`,
     );
-    measure();
     if (announce)
       announcement.textContent = `Spread ${index + 1} of ${boards.length}: ${name}.`;
   }
   function sequence(value: number) {
     const current = atlasFrame(value, boards.length);
     root.dataset.atlasScroll = value.toFixed(4);
+    turning = current.turn;
     if (selected !== current.index) {
-      // Select the next scenery with its inserts flat on the open pages.
-      progress = current.openness;
       select(current.index);
     }
     apply(current.openness);
@@ -121,19 +151,43 @@ export function init(root: HTMLElement): Scene {
       // must not select the previous spread at an exact chapter boundary.
       const fraction = (index + Math.max(0.001, phase)) / boards.length;
       const top = track.getBoundingClientRect().top + scrollY;
+      const adjacent = Math.abs(index - selected) === 1;
       window.scrollTo({
         top: top - 16 + (track.offsetHeight - innerHeight) * fraction,
-        behavior: "instant",
+        behavior: adjacent ? "smooth" : "instant",
       });
-      sequence(fraction);
+      if (!adjacent) sequence(fraction);
     } else {
-      select(index);
+      const previousIndex = selected;
+      if (reduced || !open || Math.abs(index - previousIndex) !== 1) {
+        turning = null;
+        select(index);
+        apply(progress);
+        return;
+      }
+      const start = performance.now();
+      const forward = index > previousIndex;
+      const step = (now: number) => {
+        const t = clamp((now - start) / 850);
+        turning = pageTurn(Math.min(index, previousIndex), forward ? t : 1 - t);
+        const current = turning.progress >= 0.6 ? turning.to : turning.from;
+        if (selected !== current) select(current);
+        apply(selected === turning.to ? turning.arriving : turning.departing);
+        if (t < 1 && !document.hidden) frame = requestAnimationFrame(step);
+        else {
+          turning = null;
+          select(index);
+          apply(1);
+        }
+      };
+      frame = requestAnimationFrame(step);
     }
   }
   function configure() {
     disposeScroll();
     disposeScroll = () => {};
     cancelAnimationFrame(frame);
+    turning = null;
     // Short windows and enlarged text use the same six spreads with buttons;
     // pin only when the complete reader fits without cutting off its controls.
     const eligible = !reduced && !direct && innerHeight >= 620;
@@ -145,7 +199,7 @@ export function init(root: HTMLElement): Scene {
     hint.hidden = !pinned;
     hint.textContent = `SCROLL THROUGH ${boards.length} SPREADS ↓`;
     note.textContent = pinned
-      ? "Scroll to explore the pop-ups · illustrative scenes, sample guides"
+      ? "Scroll to turn the pages · illustrative scenes, sample guides"
       : "Browse with the arrows · illustrative scenes, sample guides";
     measure();
     if (pinned) disposeScroll = scrollProgress(track, sequence, true);
@@ -197,9 +251,9 @@ export function init(root: HTMLElement): Scene {
     "click",
     () => {
       if (pinned) {
-        goTo(selected, open ? 0 : 0.5);
         return;
       }
+      turning = null;
       open = !open;
       cancelAnimationFrame(frame);
       const start = performance.now(),
@@ -221,7 +275,10 @@ export function init(root: HTMLElement): Scene {
     () => {
       if (document.hidden) {
         cancelAnimationFrame(frame);
-        if (!pinned) apply(open ? 1 : 0);
+        if (!pinned) {
+          turning = null;
+          apply(open ? 1 : 0);
+        }
       }
     },
     { signal: events.signal },

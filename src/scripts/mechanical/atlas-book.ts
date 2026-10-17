@@ -9,7 +9,10 @@ type Plane = {
   width: number;
   height: number;
   paintOrder: number;
+  back: boolean;
 };
+
+type TurningLeaf = { progress: number; incoming: boolean };
 
 /** Compose the real hinge hierarchy into one CSS transform per paper surface.
  * Nested transformed parents are flattened by some WebKit compositors. Keeping
@@ -22,6 +25,7 @@ export function measureBook(board: HTMLElement, stage: HTMLElement) {
   const book = board.querySelector<HTMLElement>(".atlas-book")!;
   const width = book.offsetWidth;
   const height = book.offsetHeight;
+  const offset = { x: book.offsetLeft, y: book.offsetTop };
   const styles = getComputedStyle(board);
   const tilt = parseFloat(styles.getPropertyValue("--book-tilt"));
   const turn = parseFloat(styles.getPropertyValue("--book-turn"));
@@ -87,16 +91,23 @@ export function measureBook(board: HTMLElement, stage: HTMLElement) {
             : hinge.matches(".atlas-hinge-sign, .atlas-hinge-buildings")
               ? 2
               : 3,
+      back,
     });
   }
   board.classList.add("is-projected");
-  // Scroll chapters move only the inserts. Manual Open/Close can still fold
-  // the cover by leaving its progress coupled to the inserts.
-  return (progress: number, coverProgress = progress) => {
+  return (progress: number, coverProgress = progress, turning?: TurningLeaf) => {
+    const turnProgress = turning?.progress ?? 0;
+    // A slight change in view gives the upright leaf more room. The caller
+    // fits both spreads together so their shared sheet never separates.
+    const turnArc = Math.sin(Math.PI * turnProgress);
+    const pageTilt = tilt - 15 * turnArc;
     const camera = projection
-      .translate(width / 2 - width * 0.25 * (1 - coverProgress), height / 2)
+      .translate(
+        width / 2 - width * 0.25 * (1 - coverProgress),
+        height / 2,
+      )
       .scale(1 - motion.atlasFoldZoom * Math.sin(Math.PI * coverProgress))
-      .rotateAxisAngle(1, 0, 0, tilt)
+      .rotateAxisAngle(1, 0, 0, pageTilt)
       .rotateAxisAngle(
         0,
         1,
@@ -105,14 +116,25 @@ export function measureBook(board: HTMLElement, stage: HTMLElement) {
       )
       .rotateAxisAngle(0, 0, 1, turn)
       .translate(-width / 2, -height / 2);
-    const left = new DOMMatrix()
-      .translate(width / 2, height / 2, 5)
-      .rotateAxisAngle(0, 1, 0, (1 - coverProgress) * motion.foldAngle)
-      .translate(-width / 2, -height / 2);
-    const right = new DOMMatrix().translate(width / 2, 0);
+    const left = turning?.incoming
+      ? new DOMMatrix().translate(width / 2, 0, 5 * turnProgress)
+          .rotateAxisAngle(0, 1, 0, 180 * (1 - turnProgress))
+          .translate(-width / 2, 0)
+      : new DOMMatrix()
+          .translate(width / 2, height / 2, 5)
+          .rotateAxisAngle(0, 1, 0, (1 - coverProgress) * motion.foldAngle)
+          .translate(-width / 2, -height / 2);
+    const right = new DOMMatrix().translate(
+      width / 2, 0, turning && !turning.incoming ? 5 * turnProgress : 0,
+    );
+    if (turning && !turning.incoming)
+      right.rotateAxisAngleSelf(0, 1, 0, -180 * turnProgress);
     // Paper pieces lie inside their page before the cover closes over them.
-    const painted: { element: HTMLElement; depth: number; order: number }[] =
-      [];
+    const painted: {
+      element: HTMLElement; depth: number; order: number;
+      transform: DOMMatrix; visible: boolean;
+    }[] = [];
+    const bounds = { left: Infinity, top: Infinity, right: -Infinity, bottom: -Infinity };
     for (const plane of planes) {
       let world = camera;
       if (plane.leaf)
@@ -144,30 +166,45 @@ export function measureBook(board: HTMLElement, stage: HTMLElement) {
       const facing = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
       // Explicit geometric culling avoids reversed back surfaces in WebKit's
       // software compositor. This follows the face, not a progress threshold.
-      plane.element.style.setProperty(
-        "--plane-visible",
-        facing > 0.1 ? "visible" : "hidden",
-      );
-      plane.element.style.setProperty(
-        "--plane-transform",
-        transform.toString(),
-      );
+      const visible = facing > 0.1 &&
+        !(turning && (plane.back || (!plane.leaf && turning.incoming)));
+      if (visible) {
+        for (const p of [a, b, c, project(plane.width, plane.height)]) {
+          bounds.left = Math.min(bounds.left, p.x + offset.x);
+          bounds.right = Math.max(bounds.right, p.x + offset.x);
+          bounds.top = Math.min(bounds.top, p.y + offset.y);
+          bounds.bottom = Math.max(bounds.bottom, p.y + offset.y);
+        }
+      }
       const center = transform.transformPoint({
         x: plane.width / 2,
         y: plane.height / 2,
       });
+      // All projected planes share a paint context. Moving faces sit above
+      // both static pages, including the next spread's right page underneath.
+      const moving = turning && plane.leaf === (turning.incoming ? "left" : "right");
       painted.push({
         element: plane.element,
         depth: center.z / center.w,
-        order: plane.paintOrder,
+        order: (moving ? 20 : 0) + plane.paintOrder,
+        transform,
+        visible,
       });
     }
     // WebKit's software painter also needs explicit order for coplanar paper.
     // The outside cover occludes the tucked-away inserts while it faces us.
-    painted
-      .sort((a, b) => a.order - b.order || a.depth - b.depth)
-      .forEach(({ element }, i) => {
-        element.style.setProperty("--plane-order", String(i + 1));
-      });
+    painted.sort((a, b) => a.order - b.order || a.depth - b.depth);
+    return {
+      bounds,
+      paint(view = new DOMMatrix()) {
+        const fit = new DOMMatrix().translate(-offset.x, -offset.y)
+          .multiply(view).translate(offset.x, offset.y);
+        painted.forEach(({ element, transform, visible, order }, i) => {
+          element.style.setProperty("--plane-transform", fit.multiply(transform).toString());
+          element.style.setProperty("--plane-visible", visible ? "visible" : "hidden");
+          element.style.setProperty("--plane-order", String(order * 20 + i + 1));
+        });
+      },
+    };
   };
 }

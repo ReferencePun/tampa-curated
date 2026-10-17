@@ -100,81 +100,142 @@ for (const [name, engine] of [
     `${name}: photograph must paint as an upright plane, not a flattened strip (${JSON.stringify(painted)})`,
   );
 
-  // The pages and camera must stay still through every chapter. Only the
-  // pop-up pieces fold, and they must stay clear of captions and controls.
+  const assertContained = async (label) => {
+    const escaped = await page.locator(".atlas-stage").evaluate((stage) => {
+      const bounds = stage.getBoundingClientRect();
+      return [...stage.querySelectorAll(
+        ".atlas-board:not([hidden]) .atlas-surface, .atlas-board:not([hidden]) .atlas-pop-face",
+      )].filter((e) => getComputedStyle(e).visibility === "visible")
+        .filter((e) => {
+          const r = e.getBoundingClientRect();
+          return r.left < bounds.left - 2 || r.top < bounds.top - 2 ||
+            r.right > bounds.right + 2 || r.bottom > bounds.bottom + 2;
+        }).map((e) => ({className: e.className, role: e.closest('[data-atlas-role]').dataset.atlasRole,
+          leaf:e.closest('.atlas-leaf').className, rect:e.getBoundingClientRect().toJSON(), bounds:bounds.toJSON()}));
+    });
+    assert.deepEqual(escaped, [], `${name}: ${label} escapes stage`);
+  };
+  const scrollTurn = async (index, phase) => {
+    const position = index + 0.7 + phase * 0.5;
+    await scrollSpread(Math.floor(position), position % 1);
+    await expect(atlas).toHaveAttribute("data-page-turn", /\d/);
+    await expect.poll(async () => Number(await atlas.getAttribute("data-page-turn")))
+      .toBeCloseTo(phase, 2);
+  };
+  const leafGeometry = async () => page.locator(".atlas-stage").evaluate((stage) => {
+    const point = (selector, edge) => {
+      const face = stage.querySelector(selector);
+      const matrix = new DOMMatrix(getComputedStyle(face).transform);
+      const p = matrix.transformPoint({x: face.offsetWidth * edge, y: face.offsetHeight / 2});
+      return {x: p.x / p.w, y: p.y / p.w};
+    };
+    return {
+      hinge: point('[data-atlas-role="departing"] .atlas-leaf-right > .atlas-surface-front', 0),
+      outgoing: point('[data-atlas-role="departing"] .atlas-leaf-right > .atlas-surface-front', 1),
+      incoming: point('[data-atlas-role="arriving"] .atlas-leaf-left > .atlas-surface-front', 0),
+      oldFront: getComputedStyle(stage.querySelector('[data-atlas-role="departing"] .atlas-leaf-right > .atlas-surface-front')).visibility,
+      newFront: getComputedStyle(stage.querySelector('[data-atlas-role="arriving"] .atlas-leaf-left > .atlas-surface-front')).visibility,
+      covers: [...stage.querySelectorAll('.atlas-board:not([hidden]) .atlas-surface-back')]
+        .map((e) => getComputedStyle(e).visibility),
+    };
+  });
+  // Five actual page turns connect the six existing scenes. Check the moving
+  // sheet's edge in screen space, both sides, and the underlying open pages.
+  const turnSamples = [0.001, 0.1, 0.25, 0.5, 0.75, 0.9, 0.999];
   for (let index = 0; index < 6; index++) {
-    const popUpPoses = [];
-    for (const [phase, progress] of [
-      [0.001, 0],
-      [0.11, 0.5],
-      [0.22, 1],
-      [0.5, 1],
-      [0.89, index === 5 ? 1 : 0.5],
-      [0.999, index === 5 ? 1 : 0],
-    ]) {
-      await scrollSpread(index, phase);
-      await expect(
-        page.locator(`[data-atlas-caption="${index}"]`),
-      ).toBeVisible();
-      assert.equal(await page.locator("[data-atlas-board]:visible").count(), 1);
-      await expect
-        .poll(async () => Number(await atlas.getAttribute("data-progress")))
-        .toBeCloseTo(progress, 1);
-      assert.deepEqual(
-        await paperPose(),
-        openPaper,
-        `${name}: book must remain open and stationary at chapter ${index}, phase ${phase}`,
-      );
-      await expect(atlas).toHaveAttribute("data-open", "true");
-      if (phase < 0.5)
-        popUpPoses.push(await page.locator(".atlas-board:not([hidden])")
-          .evaluate((board) => [
-            ".atlas-hinge-sign .atlas-pop-face",
-            ".atlas-hinge-photo .atlas-pop-face",
-          ].map((selector) => getComputedStyle(board.querySelector(selector)).transform)));
-      const escaped = await page.locator(".atlas-stage").evaluate((stage) => {
-        const bounds = stage.getBoundingClientRect();
-        return [
-          ...stage.querySelectorAll(
-            ".atlas-board:not([hidden]) .atlas-surface,.atlas-board:not([hidden]) .atlas-pop-face",
-          ),
-        ]
-          .filter((e) => getComputedStyle(e).visibility === "visible")
-          .filter((e) => {
-            const r = e.getBoundingClientRect();
-            return (
-              r.left < bounds.left - 2 ||
-              r.top < bounds.top - 2 ||
-              r.right > bounds.right + 2 ||
-              r.bottom > bounds.bottom + 2
-            );
-          })
-          .map((e) => e.className);
-      });
-      assert.deepEqual(
-        escaped,
-        [],
-        `${name}: ${index} at ${progress} escapes stage`,
-      );
-      if (index === 0)
-        await page.screenshot({ path: `${dir}/${name}-fold-${progress}.png` });
-    }
-    for (let side = 0; side < 2; side++)
-      assert.equal(
-        new Set(popUpPoses.map((pose) => pose[side])).size,
-        3,
-        `${name}: chapter ${index}, side ${side} must rise through flat, halfway and upright poses`,
-      );
-  }
-  // Reversing the native scroll visits the same six scenes in reverse.
-  for (let index = 5; index >= 0; index--) {
     await scrollSpread(index);
     await expect(atlas).toHaveAttribute("data-progress", "1.000");
+    await expect(atlas).toHaveAttribute("data-page-turn", "");
+    assert.equal(await page.locator('[data-atlas-board]:visible').count(), 1);
     assert.deepEqual(await paperPose(), openPaper);
-    await expect(page.locator("[data-atlas-counter]")).toHaveText(
-      `0${index + 1} / 06`,
-    );
+    await assertContained(`spread ${index}`);
+    if (index === 5) break;
+    let previousX = Infinity;
+    for (const t of turnSamples) {
+      await scrollTurn(index, t);
+      assert.equal(await page.locator('[data-atlas-board]:visible').count(), 2);
+      assert.equal(await page.locator('[data-atlas-caption]:visible').count(), 1);
+      await expect(atlas).toHaveAttribute("data-open", "true");
+      const geometry = await leafGeometry();
+      const relativeX = geometry.outgoing.x - geometry.hinge.x;
+      // Perspective briefly enlarges the near edge as it first lifts. Once
+      // upright, it must cross the spine and settle on the left-hand stack.
+      if (t >= 0.25 && t <= 0.9)
+        assert(relativeX < previousX, `${name}: turn ${index} at ${t}, page edge ${relativeX} must travel left from ${previousX}`);
+      previousX = relativeX;
+      assert(Math.hypot(geometry.incoming.x - geometry.outgoing.x,
+        geometry.incoming.y - geometry.outgoing.y) < 8,
+        `${name}: two sides of the turning sheet must stay joined`);
+      assert(geometry.covers.every((visibility) => visibility === "hidden"),
+        `${name}: exterior covers must not appear during a page turn`);
+      if (t === 0.1) {
+        assert(relativeX > 200);
+        assert.equal(geometry.oldFront, "visible");
+        assert.equal(geometry.newFront, "hidden");
+      }
+      if (t === 0.9) {
+        assert(relativeX < -200);
+        assert.equal(geometry.oldFront, "hidden");
+        assert.equal(geometry.newFront, "visible");
+      }
+      await assertContained(`turn ${index} at ${t}`);
+      if (index === 0)
+        await page.screenshot({path: `${dir}/${name}-page-turn-${t}.png`});
+    }
   }
+  // Scrolling upward moves the same sheet back from left to right.
+  for (let index = 4; index >= 0; index--) {
+    let previousX = -Infinity;
+    for (const t of [0.9, 0.5, 0.1]) {
+      await scrollTurn(index, t);
+      const geometry = await leafGeometry();
+      const relativeX = geometry.outgoing.x - geometry.hinge.x;
+      assert(relativeX > previousX, `${name}: reverse page edge moves right`);
+      previousX = relativeX;
+    }
+    await scrollSpread(index);
+    await expect(atlas).toHaveAttribute("data-progress", "1.000");
+    await expect(page.locator("[data-atlas-counter]")).toHaveText(`0${index + 1} / 06`);
+  }
+  // Paint probes catch compositor/stacking failures that matrices alone miss:
+  // the outgoing front and incoming reverse must each occlude the sheet below.
+  const paperProbe = await page.addStyleTag({content: `
+    .atlas-pop-face,.atlas-pop-back,.atlas-spine,.atlas-surface>*{visibility:hidden!important}
+    [data-atlas-role="departing"] .atlas-leaf-right>.atlas-surface-front{background:#ff00ff!important}
+    [data-atlas-role="arriving"] .atlas-leaf-left>.atlas-surface-front{background:#00ffff!important}
+    [data-atlas-role="arriving"] .atlas-leaf-right>.atlas-surface-front{background:#00ff00!important}
+    [data-atlas-role="departing"] .atlas-leaf-left>.atlas-surface-front{background:#ffff00!important}
+  `});
+  const paintedTurns = [];
+  for (const t of [0.25, 0.75]) {
+    await scrollTurn(0, t);
+    const screenshot = await page.locator('.atlas-stage').screenshot();
+    const colors = await page.evaluate(async (data) => {
+      const img = new Image(); img.src = data; await img.decode();
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width; canvas.height = img.height;
+      const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0);
+      const pixels = ctx.getImageData(0, 0, img.width, img.height).data;
+      const counts = {front:0, reverse:0, underneath:0, left:0};
+      for (let i = 0; i < pixels.length; i += 4) {
+        const [r,g,b] = pixels.slice(i, i+3);
+        if (r > 220 && g < 40 && b > 220) counts.front++;
+        if (r < 40 && g > 220 && b > 220) counts.reverse++;
+        if (r < 40 && g > 220 && b < 40) counts.underneath++;
+        if (r > 220 && g > 220 && b < 40) counts.left++;
+      }
+      return counts;
+    }, `data:image/png;base64,${screenshot.toString('base64')}`);
+    assert(colors.underneath > 1000 && colors.left > 1000,
+      `${name}: open pages must remain painted below the turning sheet`);
+    assert(colors[t < 0.5 ? 'front' : 'reverse'] > 5000,
+      `${name}: the turning sheet must paint above the pages underneath`);
+    assert.equal(colors[t < 0.5 ? 'reverse' : 'front'], 0,
+      `${name}: the opposite face must not paint through the sheet`);
+    paintedTurns.push({t, colors});
+  }
+  await paperProbe.evaluate((e) => e.remove());
+  await scrollSpread(0);
   await page.getByRole("button", { name: "Next spread" }).click();
   await expect(atlas).toHaveAttribute("data-selected", "1");
   await page.getByRole("button", { name: "Previous spread" }).click();
@@ -202,7 +263,14 @@ for (const [name, engine] of [
   ]) {
     await page.setViewportSize({ width, height });
     await expect(atlas).toHaveClass(/is-pinned/);
-    for (let index = 0; index < 6; index++) await scrollSpread(index);
+    for (let index = 0; index < 6; index++) {
+      await scrollSpread(index);
+      await assertContained(`${width}px spread ${index}`);
+      if (index < 5) for (const t of [0.1, 0.5, 0.9]) {
+        await scrollTurn(index, t);
+        await assertContained(`${width}px turn ${index} at ${t}`);
+      }
+    }
     const fits = await page.locator(".atlas-sticky").evaluate((el) => {
       const rect = el.getBoundingClientRect();
       return rect.top >= 0 && rect.bottom <= innerHeight;
@@ -222,6 +290,14 @@ for (const [name, engine] of [
   await expect(atlas).toHaveAttribute("data-progress", "0.000");
   await page.getByRole("button", { name: "Open atlas" }).click();
   await expect(atlas).toHaveAttribute("data-progress", "1.000");
+  await page.getByRole("button", { name: "Previous spread" }).click();
+  await expect(atlas).toHaveAttribute("data-page-turn", /\d/);
+  await expect(atlas).toHaveAttribute("data-selected", "4");
+  await expect(atlas).toHaveAttribute("data-page-turn", "");
+  await page.getByRole("button", { name: "Next spread" }).click();
+  await expect(atlas).toHaveAttribute("data-page-turn", /\d/);
+  await expect(atlas).toHaveAttribute("data-selected", "5");
+  await expect(atlas).toHaveAttribute("data-page-turn", "");
   await page.getByRole("button", { name: "Reduced", exact: true }).click();
   await expect(atlas).toHaveAttribute("data-progress", "1.000");
   await expect(page.locator(".atlas-toggle")).toBeHidden();
@@ -235,15 +311,17 @@ for (const [name, engine] of [
     browser: name,
     paintedPhoto: painted,
     neighborhoods: 6,
-    popUpStates: 6,
-    stationaryOpenPages: true,
+    pageTurns: 5,
+    turnSamples,
+    rightToLeft: true,
+    paintedTurns,
     widths: [1440, 594, 390, 320, 844],
     errors,
   });
   await context.close();
   await browser.close();
   console.log(
-    `${name}: six sequential pop-ups with stationary open pages, reverse scrolling, visible 3D photo, fold containment, page controls, keyboard, exit, phone layouts, reduced motion and history passed.`,
+    `${name}: five right-to-left page turns through six pop-up scenes, reverse scrolling, visible 3D photo, fold containment, page controls, keyboard, exit, phone layouts, reduced motion and history passed.`,
   );
 }
 writeFileSync(`${dir}/regression.json`, JSON.stringify(report, null, 2));

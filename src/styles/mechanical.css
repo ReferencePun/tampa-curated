@@ -781,6 +781,12 @@
 .atlas-board.is-projected .atlas-book {
   transform: none;
 }
+/* Matrices already contain perspective. Let surfaces from adjacent spreads
+   share their paint order so a turning leaf can cover both stationary pages. */
+.atlas-board.is-projected,
+.atlas-board.is-projected .atlas-book {
+  transform-style: flat;
+}
 .atlas-board.is-projected .atlas-leaf,
 .atlas-board.is-projected .atlas-hinge {
   display: contents;
