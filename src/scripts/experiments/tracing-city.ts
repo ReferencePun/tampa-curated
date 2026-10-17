@@ -1,5 +1,5 @@
 import {reducedMotion} from '../mechanical/settings';
-import {interval, paperFold, pathOf, tracingTimeline} from './tracing-sequence';
+import {interval, tracingTimeline} from './tracing-sequence';
 
 function mountTracing() {
  const candidate = document.querySelector<HTMLElement>('[data-tracing-journey]');
@@ -9,13 +9,6 @@ function mountTracing() {
  const track = find<HTMLElement>('[data-tracing-track]');
  const stage = find<HTMLElement>('[data-tracing-stage]');
  const sheet = find<SVGSVGElement>('[data-tracing-sheet]');
- const front = find<SVGPathElement>('[data-trace-front-clip]');
- const lifted = find<SVGPathElement>('[data-trace-fold-clip]');
- const fold = find<SVGGElement>('[data-trace-fold]');
- const shadow = find<SVGPathElement>('[data-trace-shadow]');
- const curl = find<SVGPathElement>('[data-trace-curl]');
- const edge = find<SVGPathElement>('[data-trace-edge]');
- const gradients = [...root.querySelectorAll<SVGLinearGradientElement>('[data-trace-gradient]')];
  const labels = find<SVGGElement>('[data-trace-labels]');
  const chapter = find<HTMLElement>('[data-tracing-chapter]');
  const heading = find<HTMLElement>('[data-tracing-heading]');
@@ -26,8 +19,8 @@ function mountTracing() {
  const initial = {chapter:chapter.textContent, heading:heading.innerHTML, copy:copy.textContent};
  const phases = [
   {chapter:'01 / THE INK FINDS ITS WAY',heading:'First, <br/><em>a few lines.</em>',copy:'A block. A creek. A note in the margin. Keep scrolling as the drawing follows the city beneath.',cue:'SCROLL TO DRAW ↓'},
-  {chapter:'02 / THE PAPER LETS GO',heading:'A corner lifts. <br/><em>The city stays.</em>',copy:'The tracing curls back, carrying its marks with it. The original sheet comes into view.',cue:'SCROLL TO PEEL ↓'},
-  {chapter:'03 / BACK TO THE ARCHIVE',heading:'The original, <br/><em>still here.</em>',copy:'Tampa, June 1887. Keep going for the field notes, or scroll back to lay the drawing down again.',cue:'THE FIELD NOTES ARE BELOW ↓'},
+  {chapter:'02 / THE SLEEVE SLIDES AWAY',heading:'Paper moves. <br/><em>The city stays.</em>',copy:'The sleeve slides to the right, carrying the drawing with it. The original sheet stays in place.',cue:'SCROLL TO REVEAL ↓'},
+  {chapter:'03 / BACK TO THE ARCHIVE',heading:'The original, <br/><em>still here.</em>',copy:'Tampa, June 1887. Keep going for the field notes, or scroll back to slide the drawing into place again.',cue:'THE FIELD NOTES ARE BELOW ↓'},
  ];
  const windows = {streets:[.04,.33], water:[.25,.45], notes:[.43,.58]} as const;
  const strokes = Object.entries(windows).flatMap(([layer, [start,end]]) => {
@@ -60,19 +53,9 @@ function mountTracing() {
    }
   }
   labels.style.opacity = String(interval(state.progress,.50,.60));
-  const paper = paperFold(state.peel);
-  front.setAttribute('d', pathOf(paper.front));
-  lifted.setAttribute('d', pathOf(paper.lifted));
-  fold.setAttribute('transform', `matrix(${paper.matrix.join(' ')})`);
-  fold.setAttribute('opacity', state.peel > 0 && state.peel < 1 ? '1' : '0');
-  shadow.setAttribute('d',pathOf(paper.shadow));
-  curl.setAttribute('d',pathOf(paper.ribbon));
-  edge.setAttribute('d',paper.crease.length ? `M${paper.crease[0].join(' ')}L${paper.crease[1].join(' ')}` : 'M0 0');
-  for (const gradient of gradients) {
-   gradient.setAttribute('x1',String(paper.gradient[0][0]));gradient.setAttribute('y1',String(paper.gradient[0][1]));
-   gradient.setAttribute('x2',String(paper.gradient[1][0]));gradient.setAttribute('y2',String(paper.gradient[1][1]));
-  }
-  sheet.style.visibility = state.peel === 1 ? 'hidden' : '';
+  // Move the complete sleeve as one flat sheet, keeping the archive underneath fixed.
+  sheet.style.transform = `translateX(${state.slide * 104}%)`;
+  sheet.style.visibility = state.slide === 1 ? 'hidden' : '';
   if (phase !== state.phase) {
    phase = state.phase;
    const text = phases[phase];
@@ -82,7 +65,7 @@ function mountTracing() {
   root.style.setProperty('--trace-progress',String(state.progress));
   root.dataset.tracingProgress=state.progress.toFixed(4);
   root.dataset.inkProgress=state.ink.toFixed(4);
-  root.dataset.peelProgress=state.peel.toFixed(4);
+  root.dataset.slideProgress=state.slide.toFixed(4);
   root.dataset.tracingPhase=String(phase);
   root.dataset.renderFrames=String(++frames);
  }
@@ -90,11 +73,10 @@ function mountTracing() {
  function reset() {
   for (const {path,style} of strokes) {if (style === null) path.removeAttribute('style');else path.setAttribute('style',style);}
   labels.style.opacity='';sheet.style.visibility='';
-  front.setAttribute('d','M0 0H1613V1913H0Z');fold.setAttribute('opacity','0');
-  for (const path of [shadow,curl,edge]) path.setAttribute('d','M0 0');
+  sheet.style.transform='';
   chapter.textContent=initial.chapter;heading.innerHTML=initial.heading;copy.textContent=initial.copy;
   steps.forEach(step=>step.removeAttribute('data-current'));
-  root.dataset.inkProgress='1';root.dataset.peelProgress='0';
+  root.dataset.inkProgress='1';root.dataset.slideProgress='0';
  }
  function measure() {
   const enabled = !reducedMotion() && innerHeight >= 600 && parseFloat(getComputedStyle(document.documentElement).fontSize) <= 18;

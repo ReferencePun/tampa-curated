@@ -7,14 +7,14 @@ import '../../styles/tracing-city.css';
 import archive from '../../assets/archive/tampa-sanborn-1887-sheet1.jpg';
 import {url} from '../../lib/urls';
 const observations=[
- {id:'blocks',n:'01',title:'A city measured in blocks.',text:'On this 1887 sheet, the courthouse occupies a large block facing Madison. The drawing records footprints, materials, and the spaces between buildings.',after:'Our tracing picks out a few of those shapes. Lift it away and return to the evidence underneath.',link:'neighborhoods/downtown/',label:'Read the Downtown guide',save:'neighborhoods:downtown',saveTitle:'Downtown'},
+ {id:'blocks',n:'01',title:'A city measured in blocks.',text:'On this 1887 sheet, the courthouse occupies a large block facing Madison. The drawing records footprints, materials, and the spaces between buildings.',after:'Our tracing picks out a few of those shapes. Slide it aside and return to the evidence underneath.',link:'neighborhoods/downtown/',label:'Read the Downtown guide',save:'neighborhoods:downtown',saveTitle:'Downtown'},
  {id:'water',n:'02',title:'Water has a way through.',text:'Look along Jackson Street on the original sheet: a narrow blue creek crosses the plan. In the index at the upper right, the Hillsborough River gives the street grid its edge.',after:'A reminder to read the water as carefully as the buildings.',link:'stories/the-city-now/',label:'Read The city now',save:'stories:the-city-now',saveTitle:'The city now'},
  {id:'index',n:'03',title:'A map inside a map.',text:'The small index at the upper right puts the detailed sheets back into a larger street pattern. Its numbered areas tell the reader where to look next.',after:'A paper navigation system, made visible again.',link:'neighborhoods/',label:'Explore today’s guides',save:'neighborhoods:downtown',saveTitle:'Downtown'},
 ];
 ---
-<ExperimentLayout active="tracing-city" title="The city, in layers" description="Scroll through a drawing of Tampa's 1887 Sanborn map. Ink traces the streets, then the paper peels away to reveal the archive underneath.">
-<header class="lab-intro"><div><span class="lab-kicker">EXPERIMENT 02 / THE TRACING TABLE</span><h1>The city<br/> <em>leaves a trace.</em></h1></div><p>A real sheet from June 1887.<br/> A new drawing over the top.<br/> <span>Scroll. The ink finds its way.<br/> Then the paper lets go.</span></p></header>
-<section class="tracing-journey" data-tracing-journey data-tracing-mode="still" aria-label="A drawing of Tampa, unfolding with your scroll">
+<ExperimentLayout active="tracing-city" title="The city, in layers" description="Scroll through a drawing of Tampa's 1887 Sanborn map. Ink traces the streets, then the sleeve slides aside to reveal the archive underneath.">
+<header class="lab-intro"><div><span class="lab-kicker">EXPERIMENT 02 / THE TRACING TABLE</span><h1>The city<br/> <em>leaves a trace.</em></h1></div><p>A real sheet from June 1887.<br/> A new drawing over the top.<br/> <span>Scroll. The ink finds its way.<br/> Then the sleeve slides away.</span></p></header>
+<section class="tracing-journey" data-tracing-journey data-tracing-mode="still" aria-label="A drawing of Tampa, drawn and revealed with your scroll">
  <div class="tracing-scroll-track" data-tracing-track id="tracing-map">
   <div class="tracing-stage" data-tracing-stage>
    <header class="tracing-stage-top"><span>TC / A CITY IN LAYERS</span><a href="#tracing-notes">Skip to the field notes ↘</a></header>
@@ -25,29 +25,15 @@ const observations=[
       <svg class="tracing-sheet" data-tracing-sheet viewBox="0 0 1613 1913" fill="none" aria-hidden="true">
        <defs>
         <g id="tracing-artwork"><TracingArtwork/></g>
-        <clipPath id="trace-front-clip"><path data-trace-front-clip d="M0 0H1613V1913H0Z"/></clipPath>
-        <clipPath id="trace-fold-clip"><path data-trace-fold-clip d="M1613 1913Z"/></clipPath>
         <linearGradient id="trace-paper-tone" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbf7ed" stop-opacity=".92"/><stop offset="1" stop-color="#f4eddc" stop-opacity=".8"/></linearGradient>
-        <linearGradient id="trace-curl-tone" gradientUnits="userSpaceOnUse" data-trace-gradient><stop stop-color="#796448" stop-opacity=".12"/><stop offset=".35" stop-color="#fffaf0" stop-opacity=".95"/><stop offset=".74" stop-color="#d8c9ad" stop-opacity=".85"/><stop offset="1" stop-color="#65533d" stop-opacity=".06"/></linearGradient>
-        <linearGradient id="trace-fold-shadow" gradientUnits="userSpaceOnUse" data-trace-gradient><stop stop-color="#51412e" stop-opacity="0"/><stop offset=".76" stop-color="#51412e" stop-opacity=".2"/><stop offset="1" stop-color="#51412e" stop-opacity="0"/></linearGradient>
         <pattern id="trace-paper-fiber" width="47" height="39" patternUnits="userSpaceOnUse"><path d="M4 8L21 7M33 27L44 28M9 35L14 36" stroke="#a0927a" stroke-width=".8" opacity=".12"/></pattern>
        </defs>
-       <g clip-path="url(#trace-front-clip)" data-trace-front>
+       <g>
         <path d="M0 0H1613V1913H0Z" fill="url(#trace-paper-tone)"/>
         <path d="M0 0H1613V1913H0Z" fill="url(#trace-paper-fiber)"/>
         <use href="#tracing-artwork"/>
         <text x="145" y="86" fill="#97513b" font-size="20" font-family="Georgia,serif" font-style="italic">a city, reconsidered / 1887</text>
        </g>
-       <path data-trace-shadow fill="url(#trace-fold-shadow)"/>
-       <g data-trace-fold opacity="0">
-        <g clip-path="url(#trace-fold-clip)">
-         <path d="M0 0H1613V1913H0Z" fill="#eee4d0"/>
-         <path d="M0 0H1613V1913H0Z" fill="url(#trace-paper-fiber)"/>
-         <use href="#tracing-artwork" opacity=".14"/>
-        </g>
-       </g>
-       <path data-trace-curl fill="url(#trace-curl-tone)"/>
-       <path data-trace-edge stroke="#a39378" stroke-width="1.3"/>
       </svg>
      </div>
     </figure>

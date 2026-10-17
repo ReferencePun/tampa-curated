@@ -1,24 +1,11 @@
 import assert from 'node:assert/strict';
 import {mkdir, readFile} from 'node:fs/promises';
 import {chromium, webkit, expect} from '@playwright/test';
-import {paperFold, paperWidth, paperHeight, tracingTimeline} from '../src/scripts/experiments/tracing-sequence.ts';
+import {tracingTimeline} from '../src/scripts/experiments/tracing-sequence.ts';
 
-// Folded and unpeeled polygons partition the page; points on the crease stay fixed.
-const area = points => Math.abs(points.reduce((sum,a,i) => {const b=points[(i+1)%points.length];return sum+a[0]*b[1]-b[0]*a[1];},0))/2;
-let previousArea=Infinity;
-for(let step=0;step<=100;step++){
- const fold=paperFold(step/100),frontArea=area(fold.front);
- assert.ok(frontArea<=previousArea+.001);previousArea=frontArea;
- assert.ok(Math.abs(frontArea+area(fold.lifted)-paperWidth*paperHeight)<.001);
- assert.ok(fold.matrix.every(Number.isFinite));
- const [a,b,c,d,e,f]=fold.matrix;
- for(const [x,y] of fold.crease){assert.ok(Math.abs(a*x+c*y+e-x)<.001);assert.ok(Math.abs(b*x+d*y+f-y)<.001);}
-}
-assert.equal(area(paperFold(1).front),0);
 assert.equal(tracingTimeline(.64).ink,1);
-assert.equal(tracingTimeline(.64).peel,0);
-assert.equal(tracingTimeline(1).peel,1);
-
+assert.equal(tracingTimeline(.64).slide,0);
+assert.equal(tracingTimeline(1).slide,1);
 
 const origin=process.env.TEST_ORIGIN||'http://127.0.0.1:4321';
 const base=process.env.TEST_BASE??'/tampa-curated';
@@ -119,7 +106,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await page.screenshot({path:`${output}/${name}-print.png`,fullPage:true,animations:'disabled'});
  await page.emulateMedia({media:'screen'});
 
- // Native scrolling draws the ink, then folds the sheet off the stationary archive.
+ // Native scrolling draws the ink, then slides the flat sleeve off the stationary archive.
  await goto('experiments/tracing-city/');
  const journey=page.locator('[data-tracing-journey]'),sheet=page.locator('[data-tracing-sheet]');
  const scrollTrace=async (progress,targetPage=page)=>{
@@ -141,18 +128,31 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await page.screenshot({path:`${output}/${name}-trace-drawing.png`});
  await scrollTrace(.64);
  await expect(journey).toHaveAttribute('data-ink-progress','1.0000');
- await expect(journey).toHaveAttribute('data-peel-progress','0.0000');
+ await expect(journey).toHaveAttribute('data-slide-progress','0.0000');
  const mapPosition=await page.locator('.archive-map').boundingBox();
  await page.screenshot({path:`${output}/${name}-trace-drawn.png`});
  await scrollTrace(.80);
- assert.ok(Number(await journey.getAttribute('data-peel-progress'))>.1);
- await expect(page.locator('[data-trace-fold]')).toHaveAttribute('opacity','1');
+ assert.ok(Number(await journey.getAttribute('data-slide-progress'))>.1);
+ const sleeveTransform=()=>sheet.evaluate(el=>{
+  const m=new DOMMatrixReadOnly(getComputedStyle(el).transform);
+  return {a:m.a,b:m.b,c:m.c,d:m.d,x:m.e,y:m.f,width:el.getBoundingClientRect().width,height:el.getBoundingClientRect().height};
+ });
+ const sliding=await sleeveTransform();
+ assert.deepEqual([sliding.a,sliding.b,sliding.c,sliding.d,sliding.y],[1,0,0,1,0],'Sleeve remains flat and moves only sideways');
+ assert.ok(sliding.x>0 && sliding.x<sliding.width,'Sleeve is partway off to the right');
+ assert.equal(sliding.width,mapPosition.width);assert.equal(sliding.height,mapPosition.height);
+ await expect(page.locator('[data-trace-fold], [data-trace-curl]')).toHaveCount(0);
  assert.deepEqual(await page.locator('.archive-map').boundingBox(),mapPosition);
- await page.screenshot({path:`${output}/${name}-trace-peel.png`});
+ await page.screenshot({path:`${output}/${name}-trace-slide.png`});
  await scrollTrace(1);
  await expect(sheet).toBeHidden();
+ const removed=await sleeveTransform();
+ assert.ok(removed.x>=removed.width,'Entire sleeve clears the original map');
  await page.screenshot({path:`${output}/${name}-trace-original.png`});
+ await scrollTrace(.8);
+ assert.deepEqual(await sleeveTransform(),sliding,'Reverse scroll brings the flat sleeve back along the same path');
  await scrollTrace(.35);
+ assert.equal((await sleeveTransform()).x,0);
  assert.deepEqual(await strokeState(),drawing,'Reverse scroll restores the same strokes');
  const frames=await journey.getAttribute('data-render-frames');
  await page.waitForTimeout(250);
@@ -166,7 +166,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  const traceSave=page.locator('[data-observation="water"] [data-notebook-save]');
  await traceSave.click();
  assert.ok((await state()).items.some(item=>item.id==='stories:the-city-now'));
- // Motion preferences can change without a reload, including midway through a peel.
+ // Motion preferences can change without a reload, including midway through a slide.
  await scrollTrace(.8);
  await page.emulateMedia({reducedMotion:'reduce'});
  await expect(journey).toHaveAttribute('data-tracing-mode','still');
@@ -177,7 +177,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await scrollTrace(.64);
  await expect(journey).toHaveAttribute('data-ink-progress','1.0000');
 
- // Short windows must never overlap the map, captions, or footer during a turn.
+ // Short windows must never overlap the map, captions, or footer during a slide.
  for(const [width,height] of [[1440,650],[768,650],[320,600]]){
   await page.setViewportSize({width,height});
   for(const progress of [.64,.8,.97]){
@@ -219,7 +219,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await touchPage.goto(href('experiments/tracing-city/'));
  await touchPage.evaluate(async()=>{await document.fonts.ready;await document.querySelector('.archive-map').decode();});
  await scrollTrace(.8,touchPage);
- await touchPage.screenshot({path:`${output}/${name}-trace-mobile-peel.png`});
+ await touchPage.screenshot({path:`${output}/${name}-trace-mobile-slide.png`});
  await touchPage.locator('a[href="#tracing-notes"]').tap();
  await expect(touchPage.locator('#tracing-notes')).toBeInViewport();
  await expect(touchPage.locator('[data-observation]:visible')).toHaveCount(3);
@@ -256,6 +256,6 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  assert.equal((await state()).version,1);
  await expect(page.locator('[data-storage-warning]')).toBeHidden();
  assert.deepEqual(errors,[],`${name}: console or asset errors`);
- console.log(`${name}: drawers, keyboard, cross-page/tab saves, notes, order, undo, export, print, scroll drawing, reversible paper peel, ${checks} reflow checks, touch, reduced motion, no JS, blocked/corrupt storage passed.`);
+ console.log(`${name}: drawers, keyboard, cross-page/tab saves, notes, order, undo, export, print, scroll drawing, reversible sideways sleeve, ${checks} reflow checks, touch, reduced motion, no JS, blocked/corrupt storage passed.`);
  await context.close();await browser.close();
 }

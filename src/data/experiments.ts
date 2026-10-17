@@ -1,6 +1,6 @@
 export const experiments = [
   {slug:'cabinet',number:'01',title:'A cabinet of curiosities',short:'The cabinet',verb:'Open a drawer',description:'Small objects. Unexpected doors into the city.',note:'Tactile discovery / six collected objects'},
-  {slug:'tracing-city',number:'02',title:'The city, in layers',short:'Tracing the city',verb:'Follow the ink',description:'An 1887 map, a sheet of tracing paper, and another way to look.',note:'Scroll to draw / peel to reveal'},
+  {slug:'tracing-city',number:'02',title:'The city, in layers',short:'Tracing the city',verb:'Follow the ink',description:'An 1887 map, a sheet of tracing paper, and another way to look.',note:'Scroll to draw / slide to reveal'},
   {slug:'notebook',number:'03',title:'A notebook of your own',short:'Your notebook',verb:'Start collecting',description:'Keep the places and stories that catch your eye. Make something of them.',note:'Save / arrange / write / print'},
 ] as const;
 

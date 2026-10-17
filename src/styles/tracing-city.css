@@ -8,7 +8,7 @@
 .tracing-figure {margin:0;min-width:0;min-height:0;display:grid;place-items:center;}
 .tracing-board {position:relative;aspect-ratio:1613/1913;width:100%;max-width:640px;overflow:hidden;background:#e8ddc6;box-shadow:0 3px 9px #45382722,0 0 0 1px #6b584b35;}
 .tracing-board .archive-map {display:block;width:100%;height:100%;object-fit:contain;}
-.tracing-sheet {position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.tracing-sheet {position:absolute;inset:0;width:100%;height:100%;pointer-events:none;box-shadow:-3px 2px 8px #4d422f30;}
 .tracing-sheet path,.tracing-sheet circle {stroke-linecap:round;stroke-linejoin:round;}
 .tracing-narrative {min-width:0;max-width:360px;padding-right:12px;}
 .tracing-narrative h2,.tracing-notes h2 {font:400 clamp(36px,4.3vw,64px)/1.12 var(--serif);letter-spacing:-.045em;margin:22px 0;}
