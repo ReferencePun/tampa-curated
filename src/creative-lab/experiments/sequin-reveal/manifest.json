@@ -1,0 +1,276 @@
+{
+  "id": "impossible-sequin-reveal",
+  "slug": "sequin-reveal",
+  "number": "14",
+  "order": 18,
+  "name": "Sequin Reveal",
+  "description": "A photograph held behind thousands of little hinges. Brush silver, turn paper, and uncover the image with your hand.",
+  "category": "Image",
+  "tags": [
+    "sequins",
+    "hinges",
+    "photography",
+    "metal",
+    "local images"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Three.js",
+    "WebGL2",
+    "GPU instancing"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "settings": [
+    {
+      "key": "mode",
+      "label": "Reveal mode",
+      "type": "select",
+      "default": "uncover",
+      "options": [
+        {
+          "value": "uncover",
+          "label": "Photograph underneath"
+        },
+        {
+          "value": "reverse",
+          "label": "Photograph on tile backs"
+        }
+      ]
+    },
+    {
+      "key": "photo",
+      "label": "Bundled photograph",
+      "type": "select",
+      "default": "portrait",
+      "options": [
+        {
+          "value": "portrait",
+          "label": "A face, in light"
+        },
+        {
+          "value": "palms",
+          "label": "Palms & concrete"
+        },
+        {
+          "value": "facade",
+          "label": "The long fa\u00e7ade"
+        }
+      ]
+    },
+    {
+      "key": "density",
+      "label": "Tiles along the longest edge",
+      "type": "range",
+      "default": 64,
+      "min": 24,
+      "max": 112,
+      "step": 1
+    },
+    {
+      "key": "tileSize",
+      "label": "Tile size",
+      "type": "range",
+      "default": 1,
+      "min": 0.65,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "spacing",
+      "label": "Tile spacing",
+      "type": "range",
+      "default": 0.025,
+      "min": 0,
+      "max": 0.24,
+      "step": 0.005
+    },
+    {
+      "key": "hinge",
+      "label": "Hinge direction",
+      "type": "select",
+      "default": "horizontal",
+      "options": [
+        {
+          "value": "horizontal",
+          "label": "Horizontal"
+        },
+        {
+          "value": "vertical",
+          "label": "Vertical"
+        },
+        {
+          "value": "diagonal",
+          "label": "Diagonal"
+        }
+      ]
+    },
+    {
+      "key": "angle",
+      "label": "Brush flip angle \u00b7 uncover caps at 90\u00b0",
+      "type": "range",
+      "default": 180,
+      "min": 45,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "speed",
+      "label": "Flip speed",
+      "type": "range",
+      "default": 1,
+      "min": 0.35,
+      "max": 2.5,
+      "step": 0.05
+    },
+    {
+      "key": "radius",
+      "label": "Ripple radius \u00b7 % of short edge",
+      "type": "range",
+      "default": 15,
+      "min": 4,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "delay",
+      "label": "Ripple delay \u00b7 milliseconds",
+      "type": "range",
+      "default": 90,
+      "min": 0,
+      "max": 240,
+      "step": 5
+    },
+    {
+      "key": "influence",
+      "label": "Pointer influence",
+      "type": "range",
+      "default": 1,
+      "min": 0.35,
+      "max": 1.8,
+      "step": 0.05
+    },
+    {
+      "key": "material",
+      "label": "Surface material",
+      "type": "select",
+      "default": "silver",
+      "options": [
+        {
+          "value": "silver",
+          "label": "Brushed silver"
+        },
+        {
+          "value": "graphite",
+          "label": "Satin graphite"
+        },
+        {
+          "value": "brass",
+          "label": "Old brass"
+        },
+        {
+          "value": "paper",
+          "label": "Matte paper"
+        },
+        {
+          "value": "ink",
+          "label": "Hand-drawn ink"
+        },
+        {
+          "value": "iridescent",
+          "label": "Muted iridescence"
+        },
+        {
+          "value": "mirror",
+          "label": "Mirrored fragments"
+        }
+      ]
+    },
+    {
+      "key": "light",
+      "label": "Lighting direction \u00b7 degrees",
+      "type": "range",
+      "default": 315,
+      "min": 0,
+      "max": 360,
+      "step": 5
+    },
+    {
+      "key": "persistence",
+      "label": "Reveal persistence",
+      "type": "select",
+      "default": "hold",
+      "options": [
+        {
+          "value": "hold",
+          "label": "Stay open"
+        },
+        {
+          "value": "close",
+          "label": "Close after a delay"
+        }
+      ]
+    },
+    {
+      "key": "resetDelay",
+      "label": "Automatic close delay \u00b7 seconds",
+      "type": "range",
+      "default": 3,
+      "min": 0.5,
+      "max": 12,
+      "step": 0.5
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original sequin surface; underlying photo by Christopher Campbell / Unsplash",
+      "license": "MIT treatment; Unsplash photograph"
+    },
+    {
+      "path": "assets/portrait.jpg",
+      "credit": "Christopher Campbell \u00b7 https://unsplash.com/photos/rDEOVtE7vOs",
+      "license": "Unsplash"
+    },
+    {
+      "path": "assets/palms.jpg",
+      "credit": "Brandon Burridge \u00b7 https://unsplash.com/photos/4wesDlSBq2o",
+      "license": "Unsplash"
+    },
+    {
+      "path": "assets/facade.jpg",
+      "credit": "Ikuna \u00b7 https://unsplash.com/photos/wb2DOoxIGJQ",
+      "license": "Unsplash"
+    }
+  ],
+  "compatibility": [
+    "WebGL2, ES modules, Canvas 2D, Pointer Events. A static photograph remains available without WebGL.",
+    "Tested with Chromium and Playwright WebKit. Touch drag and keyboard brushing; reduced motion applies changes without animated rotation.",
+    "Up to 12,544 instanced tiles. One shared tile geometry, at most four draw calls, one capped 2048px photograph texture. No per-tile shadow maps.",
+    "Local PNG, JPEG and WebP uploads under 12 MB / 24 megapixels. No uploads to a server; presets and source exports retain bundled images."
+  ],
+  "notes": [
+    "Real beveled geometry rotates around a central pin; stationary bearing caps show the hinge axis.",
+    "Uncover mode rotates tiles up to 90\u00b0 over a separate photograph. Reverse mode maps the image to the back faces and reflects UVs about the hinge to preserve registration at 180\u00b0.",
+    "Pointer segments are interpolated analytically. Speed broadens the swept field; nearby tiles turn further and distant tiles react later.",
+    "Reveal all always reaches the full image and stays open; Close in a wave resets the surface. The flip-angle control applies to brushing.",
+    "Seven materials and six presets. Open photograph demonstrates a complete reveal leading into a content view."
+  ],
+  "reuse": [
+    "Serve the ZIP over local HTTP and open example.html; no installation or build required. Exact Three.js browser runtime included.",
+    "Use createSequinSurface from engine.js for an independent image, or mount from index.js for the complete instrument and controls.",
+    "The pure TileState model accepts normalized brush segments. Custom image, grid, material, interaction and completion callbacks are independent of the site.",
+    "See gallery-demo.html for a gallery transition and README.md for lifecycle, performance, schema and licensing."
+  ],
+  "comparison": "none"
+}

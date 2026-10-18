@@ -36,7 +36,8 @@
     "test:spatial-sound": "node scripts/spatial-sound-model-test.mjs && node scripts/spatial-sound-browser-test.mjs",
     "test:typographic-labyrinth": "node scripts/typographic-labyrinth-model-test.mjs && node scripts/typographic-labyrinth-browser-test.mjs",
     "test:light-peg-studio": "node scripts/light-peg-model-test.mjs && node scripts/light-peg-browser-test.mjs",
-    "test:handwritten-manuscript": "node scripts/handwritten-manuscript-model-test.mjs && node scripts/handwritten-manuscript-browser-test.mjs"
+    "test:handwritten-manuscript": "node scripts/handwritten-manuscript-model-test.mjs && node scripts/handwritten-manuscript-browser-test.mjs",
+    "test:sequin-reveal": "node scripts/sequin-reveal-model-test.mjs && node scripts/sequin-reveal-browser-test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

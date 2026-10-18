@@ -1,0 +1,4 @@
+.il-host[data-slug="sequin-reveal"] .il-demo{height:1000px;min-height:760px;max-height:none}
+.il-host[data-slug="sequin-reveal"] .il-annotation,.il-host[data-slug="sequin-reveal"] .il-demo-index{display:none}
+.impossible-effect:has(>.sq){position:relative;height:1000px;background:#eeebe3;overflow:hidden}
+@media(max-width:700px){.il-host[data-slug="sequin-reveal"] .il-demo,.impossible-effect:has(>.sq){height:960px}}

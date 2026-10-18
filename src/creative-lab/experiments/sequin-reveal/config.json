@@ -1,0 +1,17 @@
+{
+  "mode": "uncover",
+  "photo": "portrait",
+  "density": 64,
+  "tileSize": 1,
+  "spacing": 0.025,
+  "hinge": "horizontal",
+  "angle": 180,
+  "speed": 1,
+  "radius": 15,
+  "delay": 90,
+  "influence": 1,
+  "material": "silver",
+  "light": 315,
+  "persistence": "hold",
+  "resetDelay": 3
+}
