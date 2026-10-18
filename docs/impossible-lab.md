@@ -14,7 +14,8 @@ A Git checkpoint was created before implementation: `checkpoint/before-impossibl
 - **Particle Photos**, a working GPU engraving instrument with three treatments, image uploads, reversible scatter, field-note transitions, and portable gallery examples.
 - **Time Machine**, a registered architectural timeline with a drawn dial, real geometry and custom vertex morphs, fictional neutral/Tampa-inspired scenes, media layers and paired era comparison.
 - **Photo Portals**, a reversible projective photo relief with original estimated depth maps and an independent, explicitly unbundled Gaussian-splat loader.
-- Six clearly marked proposals: Impossible Rooms, Living City, Site Memory, Spatial Sound, Personal Zines, World Composer.
+- **Living City**, an original SVG waterfront instrument connected to NOAA water level, wind and tide predictions, with clearly labeled simulation, historical replay and portable data adapters.
+- Five clearly marked proposals: Impossible Rooms, Site Memory, Spatial Sound, Personal Zines, World Composer.
 - The proposals show a neutral calibration plate to exercise the inspector. It is not an implementation of the named future effect. Their downloads are complete scaffolds, explicitly labeled as such.
 - Range, numeric, checkbox, color, and select controls; validated structured path state for drawing instruments; default reset, pause/resume, replay, fullscreen/expanded preview, measured diagnostics, and browser-local named presets.
 - Validated JSON preset import/export and complete ZIP exports from the UI or command line. Current UI settings are embedded in a source download; the static default download works without JavaScript.
@@ -137,6 +138,7 @@ pnpm test:living-ink
 pnpm test:particle-photos
 pnpm test:time-machine
 pnpm test:photo-portals
+pnpm test:living-city
 pnpm test:navigation
 ```
 
@@ -213,3 +215,13 @@ Checkpoint: `checkpoint/before-photo-portals-2026-10-17` at `93731c3`. Only the 
 The source exporter now includes Spark’s exact browser module and Three’s FullScreenQuad helper only when declared by the study. The module embeds its decoder WASM and worker; both modes run from the exported local HTTP example. Presets contain settings but never local media or scene registration. The original site pages and other studies are preserved.
 
 Validation: 254 source files checked without errors, warnings or hints; Lab lint covers 14 manifests and 51 portable modules. The production build contains 65 pages, with 5,864 internal links/assets verified. Photo Portals passes numerical camera/mesh tests plus Chromium/WebKit checks for reversible travel, wheel/drag/keyboard/touch, photograph and depth-map uploads, actual Spark decoding and poster capture, alignment, preset restoration across images, source ZIP integrity, independently served examples in both modes, reduced motion, context recovery and disposal. Shared Lab regressions and all 16 Concepts destinations pass in both engines, including mobile and enlarged text. A worker-termination race found during testing was resolved by serializing and draining splat sorting before resource disposal. No publication was performed.
+
+## Living City implementation / 2026-10-17
+
+Checkpoint: `checkpoint/before-living-city-2026-10-17` at `84ef38f`. Only the Living City placeholder is replaced. The original SVG estuary observatory contains a linked float/counterweight, water wheels, pulleys, wind compass and turbine, tide instrument, engraved waves, architecture and selective pencil marks. The illustration is explicitly imaginary; it is not a geographical or historical reconstruction.
+
+The official NOAA adapter uses Old Port Tampa (8726607), with St. Petersburg (8726520) as an alternative. Supported water level, wind and six-minute tide prediction products were verified against the official API and station metadata. One browser smoke received actual Old Port Tampa observations with their UTC timestamps and preliminary status; these transient readings are retained only in ignored test output, never used as a production fallback. Water is metres MLLW, wind is m/s from true north, and tide-wheel movement derives from predicted rise/fall rather than a fictional current measurement.
+
+The source separates API transport/cache (`noaa.js`), normalized observations/time sampling (`sensors.js`), mechanical mapping (`mechanics.js`), SVG rendering (`drawing.js`) and UI/lifecycle. Independent product caches, quality flags, abort/timeouts, missing/flagged/stale values, refresh cooldown and visibility-based polling are covered. Simulation is explicitly labeled and makes no data requests. Recent observations replay in either direction with their actual timestamps; gaps stay unavailable and visual smoothing never changes the measured readout. Presets, SVG/JSON export and the complete dependency-free standalone source are integrated with the Lab.
+
+`pnpm test:living-city` covers model semantics and Chromium/WebKit interaction, controls, history, simulation, station changes/cache, stale and partial failure, presets, source ZIP/standalone, SVG validity, mobile, reduced motion and cleanup. The complete Lab suite and navigation regression passed in Chromium/WebKit: 14 independent studies, all 17 concept destinations, presets/exports, lazy lifecycle, no-JavaScript access, nine enlarged-text layouts and sixteen navigation reflows. The shared homepage and existing experiment implementations remain unchanged. No publication was performed.

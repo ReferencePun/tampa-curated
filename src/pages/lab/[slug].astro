@@ -11,6 +11,7 @@ import '../../creative-lab/experiments/living-ink/style.css';
 import '../../creative-lab/experiments/particle-photos/style.css';
 import '../../creative-lab/experiments/time-machine/style.css';
 import '../../creative-lab/experiments/photo-portals/style.css';
+import '../../creative-lab/experiments/living-city/style.css';
 export function getStaticPaths(){return experiments.map(experiment=>({params:{slug:experiment.slug},props:{experiment}}));}
 const {experiment:e}=Astro.props;
 const readme=await readFile(path.resolve(`src/creative-lab/experiments/${e.slug}/README.md`),'utf8');

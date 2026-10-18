@@ -4,82 +4,168 @@
   "number": "08",
   "order": 10,
   "name": "Living City",
-  "description": "An inhabited drawing, built from streets, gestures, and familiar silhouettes.",
+  "description": "An engraved waterfront instrument, listening to real water and wind measurements from Tampa Bay.",
   "category": "Space",
   "tags": [
-    "city",
-    "architecture",
-    "scroll"
+    "environment",
+    "live data",
+    "NOAA",
+    "water",
+    "wind",
+    "mechanisms"
   ],
-  "status": "prototype",
-  "placeholder": true,
+  "status": "working",
+  "placeholder": false,
   "technology": [
-    "Canvas 2D",
-    "JavaScript"
+    "SVG",
+    "JavaScript",
+    "NOAA CO-OPS API"
   ],
-  "plannedTechnology": "WebGL / Three.js",
+  "plannedTechnology": null,
   "dependencies": {},
   "settings": [
     {
-      "key": "density",
-      "label": "Line count",
-      "type": "range",
-      "min": 8,
-      "max": 64,
-      "step": 1,
-      "default": 32
-    },
-    {
-      "key": "speed",
-      "label": "Motion speed",
-      "type": "range",
-      "min": 0,
-      "max": 2,
-      "step": 0.1,
-      "default": 0.6
-    },
-    {
-      "key": "guides",
-      "label": "Construction guides",
-      "type": "toggle",
-      "default": true
-    },
-    {
-      "key": "ink",
-      "label": "Graphite",
-      "type": "color",
-      "default": "#37342e"
-    },
-    {
-      "key": "accent",
-      "label": "Pencil accent",
-      "type": "color",
-      "default": "#a75239"
-    },
-    {
       "key": "mode",
-      "label": "Arrangement",
+      "label": "Measurement mode",
       "type": "select",
-      "default": "contours",
+      "default": "live",
       "options": [
         {
-          "value": "contours",
-          "label": "Circular"
+          "value": "live",
+          "label": "Live station observations"
         },
         {
-          "value": "open",
-          "label": "Open"
+          "value": "simulation",
+          "label": "Simulation / manual values"
         }
       ]
     },
     {
-      "key": "seed",
-      "label": "Drawing variation",
-      "type": "number",
+      "key": "location",
+      "label": "NOAA station",
+      "type": "select",
+      "default": "tampa",
+      "options": [
+        {
+          "value": "tampa",
+          "label": "Old Port Tampa / 8726607"
+        },
+        {
+          "value": "stpete",
+          "label": "St. Petersburg / 8726520"
+        }
+      ]
+    },
+    {
+      "key": "sensitivity",
+      "label": "Mechanical sensitivity",
+      "type": "range",
+      "default": 1,
+      "min": 0.25,
+      "max": 2.5,
+      "step": 0.05
+    },
+    {
+      "key": "complexity",
+      "label": "Drawing complexity",
+      "type": "range",
+      "default": 2,
       "min": 1,
-      "max": 99,
-      "step": 1,
-      "default": 7
+      "max": 3,
+      "step": 1
+    },
+    {
+      "key": "smoothing",
+      "label": "Animation smoothing",
+      "type": "range",
+      "default": 0.8,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "windResponse",
+      "label": "Wind response",
+      "type": "range",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "tideResponse",
+      "label": "Water / tide response",
+      "type": "range",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "history",
+      "label": "Replay recent observations",
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "progress",
+      "label": "Historical position (%)",
+      "type": "range",
+      "default": 100,
+      "min": 0,
+      "max": 100,
+      "step": 0.01
+    },
+    {
+      "key": "timeScale",
+      "label": "Replay minutes per second",
+      "type": "range",
+      "default": 30,
+      "min": 1,
+      "max": 120,
+      "step": 1
+    },
+    {
+      "key": "testWater",
+      "label": "Simulated water level (m MLLW)",
+      "type": "range",
+      "default": 0.65,
+      "min": -0.5,
+      "max": 2,
+      "step": 0.01
+    },
+    {
+      "key": "testWind",
+      "label": "Simulated wind speed (m/s)",
+      "type": "range",
+      "default": 4,
+      "min": 0,
+      "max": 30,
+      "step": 0.1
+    },
+    {
+      "key": "testDirection",
+      "label": "Simulated wind from (degrees)",
+      "type": "range",
+      "default": 70,
+      "min": 0,
+      "max": 360,
+      "step": 1
+    },
+    {
+      "key": "testTide",
+      "label": "Simulated tide change (m/hour)",
+      "type": "range",
+      "default": 0.08,
+      "min": -0.5,
+      "max": 0.5,
+      "step": 0.005
+    },
+    {
+      "key": "guides",
+      "label": "Construction lines",
+      "type": "toggle",
+      "default": true
     }
   ],
   "entry": "index.js",
@@ -92,25 +178,29 @@
   "assets": [
     {
       "path": "assets/preview.svg",
-      "credit": "Original geometric line study \u00b7 Tampa Curated",
+      "credit": "Original mechanical estuary engraving \u00b7 Tampa Curated",
       "license": "MIT"
     }
   ],
   "compatibility": [
-    "Current Chrome, Firefox, Safari, and Edge with Canvas 2D and ES modules.",
-    "Static preview and documentation work without JavaScript.",
-    "Reduced motion starts paused. Touch does not require hovering.",
-    "Fullscreen uses the browser API when available, with an expanded-page fallback."
+    "Modern Chrome, Firefox, Safari and Edge with SVG, Fetch, ES modules and IntersectionObserver. No WebGL or runtime dependencies.",
+    "Touch, keyboard and mouse operate native controls. The detailed drawing scrolls horizontally on narrow screens; readings remain in readable HTML.",
+    "Reduced motion holds still poses and disables replay animation. Hidden or offscreen studies stop animation and polling. Simulation works offline.",
+    "Live observations require access to NOAA HTTPS endpoints. Independent product errors, stale timestamps, missing values and optional local cache are visible. The static plate does not claim live readings."
   ],
   "notes": [
-    "This is a planned experiment. The live calibration plate tests the lab controls; it is not an implementation of the proposed effect.",
-    "The exported scaffold includes the neutral plate renderer and the complete lifecycle contract. Replace its mount function when developing this experiment."
+    "An original scientific instrument with an engraved waterfront, water wheels, linked float and counterweight, pulleys, small architecture, wind turbine and compass. The drawing is imaginative, not a map of the station.",
+    "Old Port Tampa (8726607) is the default. St. Petersburg (8726520) is an alternative. Official NOAA CO-OPS products provide water level, wind and six-minute tide predictions. Water is metres above MLLW; wind is m/s from true north.",
+    "Water height lifts the float; its fixed-length rope moves the counterweight in the opposite direction. Wind direction turns the compass; wind speed drives the turbine. Predicted tidal slope drives the linked wheel and tide instrument, not an invented water-current measurement.",
+    "The live and simulation modes are always labeled. Sensitivity and response controls alter drawing units only. Observations retain their actual values, original UTC timestamps, preliminary/verified status and quality flags.",
+    "Recent observations can be replayed forward or backward at a chosen time scale. Missing intervals remain unavailable. The drawing eases between records; displayed observations are not interpolated. Predicted tide is linearly sampled between six-minute predictions.",
+    "Observation responses are cached for six minutes, tide predictions for an hour. Errors are per product. Cached readings retain their original timestamps; readings older than 30 minutes are marked stale. Refresh is limited to once per 30 seconds."
   ],
   "reuse": [
-    "Extract the source ZIP, then serve the folder over local HTTP. Open example.html.",
-    "Import mount from the experiment entry, pass a sized element and settings, then call setRunning(true).",
-    "Call update(settings) to apply changes, replay() to restart, and dispose() before removing the host.",
-    "Use the included validated preset.json. Framework integration belongs in your application, outside the effect."
+    "Download and serve the source ZIP over local HTTP. Open example.html: it includes this complete instrument, controls, simulation presets and independent NOAA adapter. No Tampa modules or API key are required.",
+    "Use mount(host, settings, report, adapter) for the complete experiment. Supply your own normalized sensor adapter without changing the drawing.",
+    "Use createNoaaAdapter, sampleSensors, targetMechanics and createDrawing separately. The adapter contract, units, cache, quality semantics and lifecycle are documented in README.md.",
+    "Export the selected readings as JSON or save the current drawing as SVG. The Lab settings preset and source ZIP preserve the selected settings. Call dispose before removing the host."
   ],
   "comparison": "none"
 }

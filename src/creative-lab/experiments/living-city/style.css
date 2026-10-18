@@ -1,1 +1,4 @@
-.impossible-effect { position: relative; width: 100%; min-height: 320px; height: min(70vh, 640px); overflow: hidden; background: #f2eee3; }
+.il-host[data-slug="living-city"] .il-demo{height:1120px;min-height:800px;max-height:none}
+.il-host[data-slug="living-city"] .il-annotation,.il-host[data-slug="living-city"] .il-demo-index{display:none}
+.impossible-effect:has(>.lc){position:relative;width:100%;height:1120px;min-height:800px;background:#f3eee2;overflow:hidden}
+@media(max-width:700px){.il-host[data-slug="living-city"] .il-demo,.impossible-effect:has(>.lc){height:1100px;min-height:900px}}

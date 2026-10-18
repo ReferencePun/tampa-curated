@@ -1,9 +1,17 @@
 {
-  "density": 32,
-  "speed": 0.6,
-  "guides": true,
-  "ink": "#37342e",
-  "accent": "#a75239",
-  "mode": "contours",
-  "seed": 7
+  "mode": "live",
+  "location": "tampa",
+  "sensitivity": 1,
+  "complexity": 2,
+  "smoothing": 0.8,
+  "windResponse": 1,
+  "tideResponse": 1,
+  "history": false,
+  "progress": 100,
+  "timeScale": 30,
+  "testWater": 0.65,
+  "testWind": 4,
+  "testDirection": 70,
+  "testTide": 0.08,
+  "guides": true
 }

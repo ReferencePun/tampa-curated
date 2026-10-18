@@ -30,7 +30,8 @@
     "test:living-ink": "node scripts/living-ink-model-test.mjs && node scripts/living-ink-browser-test.mjs",
     "test:particle-photos": "node scripts/particle-photos-model-test.mjs && node scripts/particle-photos-browser-test.mjs",
     "test:time-machine": "node scripts/time-machine-model-test.mjs && node scripts/time-machine-browser-test.mjs",
-    "test:photo-portals": "node scripts/photo-portals-model-test.mjs && node scripts/photo-portals-browser-test.mjs"
+    "test:photo-portals": "node scripts/photo-portals-model-test.mjs && node scripts/photo-portals-browser-test.mjs",
+    "test:living-city": "node scripts/living-city-model-test.mjs && node scripts/living-city-browser-test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
