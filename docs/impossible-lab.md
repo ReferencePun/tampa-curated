@@ -12,7 +12,8 @@ A Git checkpoint was created before implementation: `checkpoint/before-impossibl
 - **Folding Paper**, a working hierarchical hinge study with a conservatory, mechanical assembly, and miniature city, reversible progress and fixed-pose orbit inspection.
 - **Living Ink**, a working reaction–diffusion material with GPU/CPU engines, architecture and image masks, local images, and still export.
 - **Particle Photos**, a working GPU engraving instrument with three treatments, image uploads, reversible scatter, field-note transitions, and portable gallery examples.
-- Eight clearly marked proposals: Impossible Rooms, Time Machine, Photo Portals, Living City, Site Memory, Spatial Sound, Personal Zines, World Composer.
+- **Time Machine**, a registered architectural timeline with a drawn dial, real geometry and custom vertex morphs, fictional neutral/Tampa-inspired scenes, media layers and paired era comparison.
+- Seven clearly marked proposals: Impossible Rooms, Photo Portals, Living City, Site Memory, Spatial Sound, Personal Zines, World Composer.
 - The proposals show a neutral calibration plate to exercise the inspector. It is not an implementation of the named future effect. Their downloads are complete scaffolds, explicitly labeled as such.
 - Range, numeric, checkbox, color, and select controls; validated structured path state for drawing instruments; default reset, pause/resume, replay, fullscreen/expanded preview, measured diagnostics, and browser-local named presets.
 - Validated JSON preset import/export and complete ZIP exports from the UI or command line. Current UI settings are embedded in a source download; the static default download works without JavaScript.
@@ -133,6 +134,7 @@ pnpm test:draw-world
 pnpm test:folding-paper
 pnpm test:living-ink
 pnpm test:particle-photos
+pnpm test:time-machine
 pnpm test:navigation
 ```
 
@@ -188,3 +190,16 @@ The renderer stops at rest, pauses when hidden, applies reduced-motion gestures 
 Verification: numerical tests confirm image-derived tones and gradients, deterministic anchors, real cursor/scatter displacement, exact reassembly, bounded easing and aspect fitting. Chromium and WebKit verify all three GPU treatments, exact rendered-image return, original reconstruction, local uploads without network writes, aspect changes, field-note transitions, presets, PNG/source exports, and independent standalone/gallery pages. They also cover reduced motion, idle/hidden rest, pause and disposal; Chromium exercises dragged touch input, context interruption and the no-WebGL fallback. Resource accounting confirms that programs, shaders, buffers, textures and vertex arrays are deleted. Desktop, mobile and exported-gallery screenshots were reviewed.
 
 The production build contains 65 pages and 5,734 verified internal links/assets. Lab validation covers 14 manifests and 40 portable JavaScript modules. Complete Lab and navigation regressions passed in Chromium and WebKit, including fourteen concept destinations, keyboard/mobile navigation, sixteen reflows, nine enlarged-text layouts, comparison, presets, source packages and no-JavaScript access. This remains a local implementation; the established homepage and other experiment implementations are unchanged.
+
+
+### Time Machine implementation
+
+Checkpoint: `checkpoint/before-time-machine-2026-10-17` at `1bc4322`. This replaces only the Time Machine placeholder. A pure timeline samples ordered keyframes into a registered Three.js scene: building dimensions, roof pitches, floor frames, chimney, canopy and trees change in place. Custom triangle meshes support same-topology vertex morphs without replacing their buffers. The camera is independent of time. One renderer samples and draws the scene twice for aligned era comparison; narrow screens stack those views.
+
+The neutral Meridian block and optional Tampa-inspired block are explicitly fictional. Workshop, Exchange and Common ground are conceptual periods, not calendar dates. The undated Ikuna photograph is labeled as a surface collage rather than evidence of an era. Three original survey drawings share a fixed world transform, and their plot coordinates are verified against the actual 3D footprints. Location, era, media and annotation data retain separate fictional, reconstruction or documented provenance. Documented entries require source URLs.
+
+The portable schema, geometry engine, viewer and complete instrument are documented inside `experiments/time-machine`. Controls include the pointer/touch/keyboard dial, time slider, era selection, automatic forward/reverse playback, fixed/orbit camera, blueprint/photo mode, transparency, detail and comparison. The source package includes the exact Three.js runtime, photo credit and original surveys. The shared standalone adapter now honors the same explicit pause/resume event as the Lab host, so the instrument’s Play control can resume a paused exported example.
+
+Verification: pure tests confirm ordered sampling, exact reverse poses, genuine intermediate geometry, persistent geometry identities, custom vertex morphs, stable camera matrices, facade registration, actual survey-to-footprint alignment, timeline reversal, dial mapping, provenance validation and resource disposal. Chromium and WebKit pass dial/slider input, time-keyed geometry, fixed-camera stability, orbit without time changes, paired views, photographic layers, fictional/Tampa labels, auto/reverse playback, held moments, preset persistence, invalid imports and source ZIP integrity. The export runs independently on another HTTP origin, including its own Play/host-pause coordination. Mobile touch, readable selectors, responsive comparison, reduced motion, offscreen rest and cleanup pass; Chromium also tests interrupted/restored graphics and the static no-WebGL fallback. Desktop, mobile and standalone screenshots were reviewed.
+
+Astro check: zero errors, warnings or hints. The production build verifies 65 pages and 5,799 internal links/assets; Lab validation checks 14 manifests and 45 portable JavaScript modules. Complete Lab and navigation regressions pass in Chromium and WebKit, including all fifteen concept destinations, nine enlarged-text layouts, sixteen menu reflows, keyboard/mobile behavior, presets, source packages and no-JavaScript access. No publication was performed.

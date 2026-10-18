@@ -1,9 +1,15 @@
 {
-  "density": 32,
-  "speed": 0.6,
+  "location": "meridian",
+  "progress": 0,
+  "speed": 1,
+  "autoplay": false,
+  "direction": "forward",
+  "camera": "fixed",
+  "view": "blueprint",
+  "transparency": 0.48,
+  "detail": 2,
+  "compare": false,
+  "compareAt": 0,
   "guides": true,
-  "ink": "#37342e",
-  "accent": "#a75239",
-  "mode": "contours",
-  "seed": 7
+  "annotations": true
 }

@@ -4,82 +4,159 @@
   "number": "06",
   "order": 8,
   "name": "Time Machine",
-  "description": "Scrub through layers of a place: what was, what is, what might be.",
+  "description": "One place, more than one life. Turn an illustrated dial and watch the architecture change around a registered viewpoint.",
   "category": "Narrative",
   "tags": [
     "time",
-    "archive",
-    "scroll"
+    "architecture",
+    "dial",
+    "comparison",
+    "registered media"
   ],
-  "status": "prototype",
-  "placeholder": true,
+  "status": "working",
+  "placeholder": false,
   "technology": [
-    "Canvas 2D",
+    "Three.js",
+    "WebGL2",
     "JavaScript"
   ],
-  "plannedTechnology": "DOM / Canvas 2D",
-  "dependencies": {},
+  "plannedTechnology": null,
+  "dependencies": {
+    "three": "0.186.1"
+  },
   "settings": [
     {
-      "key": "density",
-      "label": "Line count",
-      "type": "range",
-      "min": 8,
-      "max": 64,
-      "step": 1,
-      "default": 32
-    },
-    {
-      "key": "speed",
-      "label": "Motion speed",
-      "type": "range",
-      "min": 0,
-      "max": 2,
-      "step": 0.1,
-      "default": 0.6
-    },
-    {
-      "key": "guides",
-      "label": "Construction guides",
-      "type": "toggle",
-      "default": true
-    },
-    {
-      "key": "ink",
-      "label": "Graphite",
-      "type": "color",
-      "default": "#37342e"
-    },
-    {
-      "key": "accent",
-      "label": "Pencil accent",
-      "type": "color",
-      "default": "#a75239"
-    },
-    {
-      "key": "mode",
-      "label": "Arrangement",
+      "key": "location",
+      "label": "Location",
       "type": "select",
-      "default": "contours",
+      "default": "meridian",
       "options": [
         {
-          "value": "contours",
-          "label": "Circular"
+          "value": "meridian",
+          "label": "The Meridian block / fiction"
         },
         {
-          "value": "open",
-          "label": "Open"
+          "value": "bay",
+          "label": "Tampa-inspired block / fiction"
         }
       ]
     },
     {
-      "key": "seed",
-      "label": "Drawing variation",
-      "type": "number",
+      "key": "progress",
+      "label": "Time position",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 0.1
+    },
+    {
+      "key": "speed",
+      "label": "Morph speed",
+      "type": "range",
+      "default": 1,
+      "min": 0.25,
+      "max": 2.5,
+      "step": 0.05
+    },
+    {
+      "key": "autoplay",
+      "label": "Automatic timeline",
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "direction",
+      "label": "Playback direction",
+      "type": "select",
+      "default": "forward",
+      "options": [
+        {
+          "value": "forward",
+          "label": "Forward"
+        },
+        {
+          "value": "reverse",
+          "label": "Reverse"
+        }
+      ]
+    },
+    {
+      "key": "camera",
+      "label": "Camera mode",
+      "type": "select",
+      "default": "fixed",
+      "options": [
+        {
+          "value": "fixed",
+          "label": "Registered / fixed"
+        },
+        {
+          "value": "orbit",
+          "label": "Orbit / drag to inspect"
+        }
+      ]
+    },
+    {
+      "key": "view",
+      "label": "Visualization",
+      "type": "select",
+      "default": "blueprint",
+      "options": [
+        {
+          "value": "blueprint",
+          "label": "Blueprint"
+        },
+        {
+          "value": "photo",
+          "label": "Photo & survey layers"
+        }
+      ]
+    },
+    {
+      "key": "transparency",
+      "label": "Surface transparency",
+      "type": "range",
+      "default": 0.48,
+      "min": 0,
+      "max": 0.9,
+      "step": 0.01
+    },
+    {
+      "key": "detail",
+      "label": "Architectural detail",
+      "type": "range",
+      "default": 2,
       "min": 1,
-      "max": 99,
-      "step": 1,
-      "default": 7
+      "max": 3,
+      "step": 1
+    },
+    {
+      "key": "compare",
+      "label": "Compare eras",
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "compareAt",
+      "label": "Comparison reference time",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 0.1
+    },
+    {
+      "key": "guides",
+      "label": "Construction lines",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "annotations",
+      "label": "Spatial annotations",
+      "type": "toggle",
+      "default": true
     }
   ],
   "entry": "index.js",
@@ -92,25 +169,50 @@
   "assets": [
     {
       "path": "assets/preview.svg",
-      "credit": "Original geometric line study \u00b7 Tampa Curated",
+      "credit": "Original projection of the fictional Meridian block",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/facade.jpg",
+      "credit": "Ikuna / Unsplash \u00b7 https://unsplash.com/photos/wb2DOoxIGJQ",
+      "license": "Unsplash"
+    },
+    {
+      "path": "assets/survey-1.svg",
+      "credit": "Original conceptual survey 1 / fictional local coordinates",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/survey-2.svg",
+      "credit": "Original conceptual survey 2 / fictional local coordinates",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/survey-3.svg",
+      "credit": "Original conceptual survey 3 / fictional local coordinates",
       "license": "MIT"
     }
   ],
   "compatibility": [
-    "Current Chrome, Firefox, Safari, and Edge with Canvas 2D and ES modules.",
-    "Static preview and documentation work without JavaScript.",
-    "Reduced motion starts paused. Touch does not require hovering.",
-    "Fullscreen uses the browser API when available, with an expanded-page fallback."
+    "A WebGL2 scene with an included Three.js runtime in the standalone export. A labeled static drawing remains available without JavaScript or WebGL2.",
+    "Dial, slider, era buttons and keyboard control the same reversible timeline. Touch dragging operates the dial and the optional orbit camera.",
+    "Reduced motion uses immediate manual changes and disables automatic playback. Paused, settled, hidden and offscreen studies stop rendering.",
+    "One renderer draws both comparison panels using the same camera transform. Narrow screens stack the registered views vertically.",
+    "All building arrangements and eras are fictional. The optional Tampa-inspired preset is not a historical reconstruction. The undated reference photo is an artistic surface collage, not evidence of any era."
   ],
   "notes": [
-    "This is a planned experiment. The live calibration plate tests the lab controls; it is not an implementation of the proposed effect.",
-    "The exported scaffold includes the neutral plate renderer and the complete lifecycle contract. Replace its mount function when developing this experiment."
+    "Time is sampled from ordered object keyframes independently of rendering. Walls change height, roofs change pitch, window frames assemble by floor, and a chimney, trees and canopy change in the same coordinate system.",
+    "Every intermediate time is deterministic and reversible. Geometry and object identities persist during time changes. Construction lines trace the changing extents rather than fading between whole-scene photographs.",
+    "The registered camera is independent of time. Orbit is an explicit inspection mode; Lock viewpoint restores the original camera. Both comparison panels use the same view transform.",
+    "Photo mode combines a registered reference surface and three original survey layers. The facade texture follows the same local wall coordinates while the map planes retain fixed world coordinates.",
+    "The neutral sample and optional Tampa-inspired block use conceptual periods called Workshop, Exchange and Common ground. They do not assert historical dates, street layouts or building histories.",
+    "The location schema accepts eras, geometry, custom triangle morphs, material keyframes, media layers and spatial annotations. Documented records require source URLs; artistic reconstructions and fictional data retain separate labels."
   ],
   "reuse": [
-    "Extract the source ZIP, then serve the folder over local HTTP. Open example.html.",
-    "Import mount from the experiment entry, pass a sized element and settings, then call setRunning(true).",
-    "Call update(settings) to apply changes, replay() to restart, and dispose() before removing the host.",
-    "Use the included validated preset.json. Framework integration belongs in your application, outside the effect."
+    "Serve the source ZIP over local HTTP and open example.html. It includes settings, the instrument, photographs, surveys and the exact Three.js runtime/license.",
+    "Use createTimeScene for a render-independent registered scene, createTimeViewer for a canvas, or mount for the complete dial and controls. A custom location can be supplied to each API.",
+    "Read README.md for time-keyed object and media schemas, custom geometry, coordinate alignment, provenance and lifecycle. No Tampa routing or Stories modules are required.",
+    "Keep photo licenses and factual provenance attached to their assets. The sample coordinates are arbitrary scene units, not geographic coordinates."
   ],
   "comparison": "none"
 }

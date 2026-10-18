@@ -21,6 +21,7 @@ export function runStandalone(mount, settings) {
     const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); });
     observer.observe(host);
     button.addEventListener('click', () => { paused = !paused; sync(); }, {signal});
+    host.addEventListener('lab:set-pause', event => { paused = Boolean(event.detail); sync(); }, {signal});
     replay.addEventListener('click', () => effect?.replay(), {signal});
     document.addEventListener('visibilitychange', sync, {signal});
     motion.addEventListener('change', () => { paused = motion.matches; sync(); }, {signal});
