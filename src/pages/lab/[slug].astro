@@ -26,6 +26,7 @@ import '../../creative-lab/experiments/hall-of-mirrors/style.css';
 import '../../creative-lab/experiments/impressed-typography/style.css';
 import '../../creative-lab/experiments/polly-pocket-world/style.css';
 import '../../creative-lab/experiments/drawing-toys/style.css';
+import '../../creative-lab/experiments/pin-art/style.css';
 export function getStaticPaths(){return experiments.map(experiment=>({params:{slug:experiment.slug},props:{experiment}}));}
 const {experiment:e}=Astro.props;
 const readme=await readFile(path.resolve(`src/creative-lab/experiments/${e.slug}/README.md`),'utf8');

@@ -1,0 +1,323 @@
+{
+  "id": "impossible-pin-art",
+  "slug": "pin-art",
+  "number": "24",
+  "order": 27,
+  "name": "Pin Art",
+  "description": "A physical field of thousands of sliding rods. Press a contour into metal, lift a private image into relief, or let a wave move through the guides.",
+  "category": "Spatial",
+  "tags": ["pins", "sculpture", "height map", "material", "tactile"],
+  "status": "working",
+  "placeholder": false,
+  "technology": ["Three.js", "GPU instancing", "Damped pin dynamics"],
+  "plannedTechnology": null,
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "mode",
+      "label": "Impression mode",
+      "type": "select",
+      "default": "pointer",
+      "options": [
+        {
+          "value": "pointer",
+          "label": "Pointer press"
+        },
+        {
+          "value": "stamp",
+          "label": "Object stamp"
+        },
+        {
+          "value": "image",
+          "label": "Image / height map"
+        },
+        {
+          "value": "wave",
+          "label": "Animated wave"
+        }
+      ]
+    },
+    {
+      "key": "density",
+      "label": "Pin density · columns",
+      "type": "range",
+      "default": 80,
+      "min": 32,
+      "max": 128,
+      "step": 1
+    },
+    {
+      "key": "pinLength",
+      "label": "Rod length",
+      "type": "range",
+      "default": 2.5,
+      "min": 1.2,
+      "max": 3.6,
+      "step": 0.05
+    },
+    {
+      "key": "boardDepth",
+      "label": "Guide board depth",
+      "type": "range",
+      "default": 0.65,
+      "min": 0.15,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "strength",
+      "label": "Press strength",
+      "type": "range",
+      "default": 0.85,
+      "min": 0.1,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "radius",
+      "label": "Contact / falloff radius",
+      "type": "range",
+      "default": 1.2,
+      "min": 0.35,
+      "max": 2.8,
+      "step": 0.05
+    },
+    {
+      "key": "material",
+      "label": "Pin material",
+      "type": "select",
+      "default": "steel",
+      "options": [
+        {
+          "value": "steel",
+          "label": "Satin steel"
+        },
+        {
+          "value": "brass",
+          "label": "Old brass"
+        },
+        {
+          "value": "graphite",
+          "label": "Graphite alloy"
+        },
+        {
+          "value": "resin",
+          "label": "Sea-glass plastic"
+        }
+      ]
+    },
+    {
+      "key": "spring",
+      "label": "Spring-back speed",
+      "type": "range",
+      "default": 1.1,
+      "min": 0.25,
+      "max": 3,
+      "step": 0.05
+    },
+    {
+      "key": "light",
+      "label": "Light direction · degrees",
+      "type": "range",
+      "default": 135,
+      "min": 0,
+      "max": 360,
+      "step": 1
+    },
+    {
+      "key": "smoothing",
+      "label": "Surface smoothing",
+      "type": "range",
+      "default": 0.3,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "autoWave",
+      "label": "Automatic waves",
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "hold",
+      "label": "Hold impression after lifting",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "direction",
+      "label": "Movement direction",
+      "type": "select",
+      "default": "out",
+      "options": [
+        {
+          "value": "out",
+          "label": "Lift outward"
+        },
+        {
+          "value": "in",
+          "label": "Press inward"
+        }
+      ]
+    },
+    {
+      "key": "shape",
+      "label": "Object stamp",
+      "type": "select",
+      "default": "sphere",
+      "options": [
+        {
+          "value": "sphere",
+          "label": "Sphere"
+        },
+        {
+          "value": "cube",
+          "label": "Soft cube"
+        },
+        {
+          "value": "ring",
+          "label": "Torus ring"
+        },
+        {
+          "value": "star",
+          "label": "Star prism"
+        }
+      ]
+    },
+    {
+      "key": "sample",
+      "label": "Original height study",
+      "type": "select",
+      "default": "orbit",
+      "options": [
+        {
+          "value": "blank",
+          "label": "Flat field"
+        },
+        {
+          "value": "orbit",
+          "label": "Orbital relief"
+        },
+        {
+          "value": "palm",
+          "label": "Illustrated palm"
+        },
+        {
+          "value": "landscape",
+          "label": "Soft topography"
+        }
+      ]
+    },
+    {
+      "key": "wave",
+      "label": "Wave shape",
+      "type": "select",
+      "default": "ripple",
+      "options": [
+        {
+          "value": "ripple",
+          "label": "Concentric ripples"
+        },
+        {
+          "value": "tide",
+          "label": "Passing tide"
+        },
+        {
+          "value": "interference",
+          "label": "Crossed waves"
+        }
+      ]
+    },
+    {
+      "key": "waveSpeed",
+      "label": "Wave speed",
+      "type": "range",
+      "default": 0.65,
+      "min": 0.15,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "phase",
+      "label": "Wave phase · %",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 0.1
+    },
+    {
+      "key": "rotation",
+      "label": "View rotation · degrees",
+      "type": "range",
+      "default": -20,
+      "min": -65,
+      "max": 65,
+      "step": 0.1
+    },
+    {
+      "key": "tilt",
+      "label": "View tilt · degrees",
+      "type": "range",
+      "default": 24,
+      "min": -50,
+      "max": 55,
+      "step": 0.1
+    },
+    {
+      "key": "zoom",
+      "label": "View zoom",
+      "type": "range",
+      "default": 1,
+      "min": 0.7,
+      "max": 1.8,
+      "step": 0.05
+    },
+    {
+      "key": "invert",
+      "label": "Invert imported image brightness",
+      "type": "toggle",
+      "default": false
+    }
+  ],
+  "entry": "index.js",
+  "styles": ["style.css"],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original procedural orbital pin relief",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/THREE-LICENSE.txt",
+      "credit": "Three.js contributors",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "WebGL2 is required for the live sculpture. An original static relief remains available without JavaScript or graphics support.",
+    "Captured pointer and touch input, keyboard contact and rotation controls, and HTML alternatives. Touch gestures are reserved inside the preview; the surrounding document scrolls normally.",
+    "Reduced motion snaps pin targets and freezes automatic waves; explicit contact, rotation and phase inspection remain available. Motion pauses offscreen, in hidden tabs and through the Lab controls.",
+    "32–128 columns, approximately 672–10,880 pins. Each pin is one instanced rod/head mesh with a single height attribute; no per-pin DOM elements. Resolution and shadows are capped."
+  ],
+  "notes": [
+    "The rod itself remains rigid and keeps its length. Only Z translation changes. Travel limits keep both ends engaged with the guide board, with visible clearance at the front.",
+    "Sphere, rounded cube, torus and star stamps use procedural height profiles. Pointer presses interpolate along fast movements; held strokes accumulate and temporary contact springs back.",
+    "The original palm is a stylized procedural height study, not a face scan or anatomical reconstruction. Imported images supply brightness-based heights; no depth inference or upload occurs.",
+    "A critically damped response settles each pin to its own target. Spatial smoothing blends neighboring target heights. Wave patterns update target heights, rather than moving a decorative texture.",
+    "Physically lit materials, a small procedural studio environment, pin sockets, an engraved scale and a beveled frame make the board legible from an angled view. The moving-pin shadow material uses the same height displacement as the visible geometry."
+  ],
+  "reuse": [
+    "The source ZIP includes the complete Three.js runtime and license, original assets, controls, model and a standalone example; no CDN or remote model is required.",
+    "Use createPinField(canvas, settings, onFrame) for an independent engine. Feed procedural height functions, normalized height maps, pointer locations or serialized sculptures.",
+    "model.js owns normalized heights, smoothing and dynamics; geometry.js owns rods and shader displacement; engine.js owns rendering; images.js performs local decoding; index.js is the optional Lab UI.",
+    "README.md documents world coordinates, contact inputs, image mapping, limits, presets, import/export, lifecycle and integration. Source exports contain original studies and settings, not private images or visitor artwork."
+  ]
+}

@@ -45,7 +45,8 @@
     "test:hall-of-mirrors": "node scripts/hall-of-mirrors-model-test.mjs && node scripts/hall-of-mirrors-browser-test.mjs",
     "test:impressed-typography": "node scripts/impressed-typography-model-test.mjs && node scripts/impressed-typography-browser-test.mjs",
     "test:pocket-world": "node scripts/pocket-world-model-test.mjs && node scripts/pocket-world-browser-test.mjs",
-    "test:drawing-toys": "node scripts/drawing-toys-model-test.mjs && node scripts/drawing-toys-browser-test.mjs"
+    "test:drawing-toys": "node scripts/drawing-toys-model-test.mjs && node scripts/drawing-toys-browser-test.mjs",
+    "test:pin-art": "node scripts/pin-art-model-test.mjs && node scripts/pin-art-browser-test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
