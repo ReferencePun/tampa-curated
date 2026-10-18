@@ -1,0 +1,20 @@
+{
+  "text": "MATTER\n& LIGHT",
+  "treatment": "emboss",
+  "material": "cotton",
+  "font": "serif",
+  "weight": 700,
+  "size": 170,
+  "spacing": 2,
+  "depth": 5,
+  "roughness": 0.42,
+  "paper": "#e9e4d7",
+  "ink": "#373b3b",
+  "azimuth": 140,
+  "elevation": 32,
+  "intensity": 1,
+  "highlight": 0.55,
+  "shadow": 0.45,
+  "progress": 100,
+  "contrast": false
+}

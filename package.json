@@ -42,7 +42,8 @@
     "test:living-music-score": "node scripts/living-music-score-model-test.mjs && node scripts/living-music-score-browser-test.mjs",
     "test:three-color-process": "node scripts/three-color-model-test.mjs && node scripts/three-color-browser-test.mjs",
     "test:little-workers": "node scripts/little-workers-model-test.mjs && node scripts/little-workers-browser-test.mjs",
-    "test:hall-of-mirrors": "node scripts/hall-of-mirrors-model-test.mjs && node scripts/hall-of-mirrors-browser-test.mjs"
+    "test:hall-of-mirrors": "node scripts/hall-of-mirrors-model-test.mjs && node scripts/hall-of-mirrors-browser-test.mjs",
+    "test:impressed-typography": "node scripts/impressed-typography-model-test.mjs && node scripts/impressed-typography-browser-test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

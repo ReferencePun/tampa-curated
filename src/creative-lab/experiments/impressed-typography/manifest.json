@@ -1,0 +1,258 @@
+{
+  "id": "impossible-impressed-typography",
+  "slug": "impressed-typography",
+  "number": "20",
+  "order": 24,
+  "name": "Impressed Typography",
+  "description": "Words with weight. Raised fibres, quiet recesses and ink under pressure: an interactive study of material, impression and raking light.",
+  "category": "Typography",
+  "tags": [
+    "typography",
+    "paper",
+    "emboss",
+    "letterpress",
+    "light"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "WebGL height-field lighting",
+    "Canvas glyph masks",
+    "SVG diffuse-light export"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "text",
+      "label": "Text content",
+      "type": "text",
+      "maxLength": 240,
+      "default": "MATTER\n& LIGHT"
+    },
+    {
+      "key": "treatment",
+      "label": "Physical treatment",
+      "type": "select",
+      "default": "emboss",
+      "options": [
+        {
+          "value": "emboss",
+          "label": "Embossed · raised"
+        },
+        {
+          "value": "deboss",
+          "label": "Debossed · recessed"
+        },
+        {
+          "value": "letterpress",
+          "label": "Letterpress · shallow inked recess"
+        }
+      ]
+    },
+    {
+      "key": "material",
+      "label": "Surface material",
+      "type": "select",
+      "default": "cotton",
+      "options": [
+        {
+          "value": "cotton",
+          "label": "Ivory cotton"
+        },
+        {
+          "value": "handmade",
+          "label": "Handmade rag"
+        },
+        {
+          "value": "recycled",
+          "label": "Recycled stock"
+        },
+        {
+          "value": "charcoal",
+          "label": "Charcoal paper"
+        },
+        {
+          "value": "archive",
+          "label": "Archival paper"
+        },
+        {
+          "value": "plaster",
+          "label": "Painted plaster"
+        }
+      ]
+    },
+    {
+      "key": "font",
+      "label": "System typeface",
+      "type": "select",
+      "default": "serif",
+      "options": [
+        {
+          "value": "serif",
+          "label": "Serif · Georgia / Times"
+        },
+        {
+          "value": "sans",
+          "label": "Sans serif · Arial / Helvetica"
+        },
+        {
+          "value": "mono",
+          "label": "Monospace · Courier"
+        }
+      ]
+    },
+    {
+      "key": "weight",
+      "label": "Font weight",
+      "type": "range",
+      "default": 700,
+      "min": 400,
+      "max": 700,
+      "step": 100
+    },
+    {
+      "key": "size",
+      "label": "Font size · design pixels",
+      "type": "range",
+      "default": 170,
+      "min": 32,
+      "max": 220,
+      "step": 1
+    },
+    {
+      "key": "spacing",
+      "label": "Letter spacing",
+      "type": "range",
+      "default": 2,
+      "min": -4,
+      "max": 16,
+      "step": 0.1
+    },
+    {
+      "key": "depth",
+      "label": "Impression depth",
+      "type": "range",
+      "default": 5,
+      "min": 0,
+      "max": 12,
+      "step": 0.1
+    },
+    {
+      "key": "roughness",
+      "label": "Surface roughness",
+      "type": "range",
+      "default": 0.42,
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "paper",
+      "label": "Paper color",
+      "type": "color",
+      "default": "#e9e4d7"
+    },
+    {
+      "key": "ink",
+      "label": "Ink color",
+      "type": "color",
+      "default": "#373b3b"
+    },
+    {
+      "key": "azimuth",
+      "label": "Light direction · degrees",
+      "type": "range",
+      "default": 140,
+      "min": 0,
+      "max": 360,
+      "step": 1
+    },
+    {
+      "key": "elevation",
+      "label": "Light elevation · degrees",
+      "type": "range",
+      "default": 32,
+      "min": 12,
+      "max": 80,
+      "step": 1
+    },
+    {
+      "key": "intensity",
+      "label": "Light intensity",
+      "type": "range",
+      "default": 1,
+      "min": 0.2,
+      "max": 2,
+      "step": 0.01
+    },
+    {
+      "key": "highlight",
+      "label": "Highlight softness",
+      "type": "range",
+      "default": 0.55,
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "shadow",
+      "label": "Shadow softness",
+      "type": "range",
+      "default": 0.45,
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "progress",
+      "label": "Pressing progress · %",
+      "type": "range",
+      "default": 100,
+      "min": 0,
+      "max": 100,
+      "step": 0.000001
+    },
+    {
+      "key": "contrast",
+      "label": "High-contrast proof",
+      "type": "toggle",
+      "default": false
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original typographic study; system fonts rendered on the device",
+      "license": "MIT artwork; no font binaries distributed"
+    }
+  ],
+  "compatibility": [
+    "WebGL with fragment high precision for normal-derived lighting and bounded ray shadows. If unavailable, real high-contrast text replaces the surface.",
+    "Mouse, trackpad, keyboard arrows and touch input. No autoplay; reduced motion starts paused. All controls and readable text remain available without the depth effect.",
+    "Uses only locally available system serif, sans-serif and monospace families. No fonts are downloaded or redistributed. Font metrics can differ between devices.",
+    "Demand-driven rendering with one full-screen draw call, two textures and twenty bounded shadow samples. Text masks rebuild only for typography changes.",
+    "PNG exports the current simulated surface. SVG is a simplified diffuse-lighting implementation with embedded raster height maps, not editable vector glyph outlines."
+  ],
+  "notes": [
+    "A glyph alpha mask becomes a rounded height field. Finite differences compute its surface normals; a directional light and bounded height-field shadow tracing reveal actual positive or negative relief.",
+    "Emboss raises the same paper material. Deboss reverses the height field. Letterpress forms a shallower recess with grain-dependent ink coverage and darker edge accumulation.",
+    "Six material presets adjust paper tone, fibre character and specular response. Roughness supplies fine microrelief; the same light affects both paper and letters.",
+    "The illustrated plate descends to contact before pressure deepens the impression. The plate lifts while the impression remains. The entire sequence is a deterministic function of its scrubber.",
+    "This is a 2.5D optical simulation viewed from above, not a full deformation solver or a calibrated physical press. The section drawing exaggerates depth to explain the mechanism."
+  ],
+  "reuse": [
+    "Download the source package and serve example.html over HTTP. No package install, CDN or font service is needed.",
+    "Use createImpression(canvas, settings) for an isolated surface, or mount(host, settings) for the full printing bench.",
+    "README.md documents text layout, lighting coordinates, typography controls, SVG limitations, cleanup and external integration.",
+    "Save settings locally through the Lab inspector, import/export JSON, or take PNG and SVG proofs directly from the bench."
+  ]
+}
