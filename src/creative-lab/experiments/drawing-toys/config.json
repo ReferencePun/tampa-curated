@@ -1,0 +1,12 @@
+{
+  "mode": "dial",
+  "lineWidth": 1.8,
+  "sensitivity": 1,
+  "boardSize": "classic",
+  "stylus": "soft",
+  "knobSpeed": 1,
+  "eraseBehavior": "animated",
+  "replaySpeed": 1,
+  "frameStyle": "original",
+  "stampSize": 70
+}

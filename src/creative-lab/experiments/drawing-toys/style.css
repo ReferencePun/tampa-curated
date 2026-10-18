@@ -1,0 +1,27 @@
+.il-host[data-slug="drawing-toys"] .il-demo {
+  height: auto;
+  min-height: 1000px;
+  max-height: none;
+}
+.il-host[data-slug="drawing-toys"] .il-mount {
+  position: relative;
+  inset: auto;
+  overflow: visible;
+}
+.il-host[data-slug="drawing-toys"] .il-annotation,
+.il-host[data-slug="drawing-toys"] .il-demo-index {
+  display: none;
+}
+.il-host[data-slug="drawing-toys"]
+  .il-demo-shell:is(:fullscreen, .il-expanded)
+  .il-demo {
+  flex: none;
+  overflow: visible;
+}
+.impossible-effect:has(> .dt) {
+  position: relative;
+  height: auto;
+  min-height: 1000px;
+  overflow: hidden;
+  background: #eae4d7;
+}

@@ -1,0 +1,198 @@
+{
+  "id": "impossible-drawing-toys",
+  "slug": "drawing-toys",
+  "number": "23",
+  "order": 26,
+  "name": "Drawing Toys",
+  "description": "Two small drawing machines: an unbroken line steered by twin dials, and a soft magnetic board with movable stamps and a sliding eraser.",
+  "category": "Interactive",
+  "tags": [
+    "drawing",
+    "toy",
+    "knobs",
+    "magnetic",
+    "replay"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Canvas 2D",
+    "Pointer Events",
+    "Semantic drawing replay"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "mode",
+      "label": "Drawing toy",
+      "type": "select",
+      "default": "dial",
+      "options": [
+        {
+          "value": "dial",
+          "label": "Twin-dial · continuous line"
+        },
+        {
+          "value": "magnetic",
+          "label": "Magnetic · wand & stamps"
+        }
+      ]
+    },
+    {
+      "key": "lineWidth",
+      "label": "Line thickness · board units",
+      "type": "range",
+      "default": 1.8,
+      "min": 0.7,
+      "max": 10,
+      "step": 0.1
+    },
+    {
+      "key": "sensitivity",
+      "label": "Drawing sensitivity",
+      "type": "range",
+      "default": 1,
+      "min": 0.3,
+      "max": 2.5,
+      "step": 0.05
+    },
+    {
+      "key": "boardSize",
+      "label": "Board proportions",
+      "type": "select",
+      "default": "classic",
+      "options": [
+        {
+          "value": "classic",
+          "label": "Classic"
+        },
+        {
+          "value": "wide",
+          "label": "Wide postcard"
+        },
+        {
+          "value": "square",
+          "label": "Almost square"
+        }
+      ]
+    },
+    {
+      "key": "stylus",
+      "label": "Magnetic stylus",
+      "type": "select",
+      "default": "soft",
+      "options": [
+        {
+          "value": "soft",
+          "label": "Soft magnetic tip"
+        },
+        {
+          "value": "fine",
+          "label": "Fine magnetic tip"
+        },
+        {
+          "value": "eraser",
+          "label": "Spot eraser"
+        }
+      ]
+    },
+    {
+      "key": "knobSpeed",
+      "label": "Knob / keyboard speed",
+      "type": "range",
+      "default": 1,
+      "min": 0.25,
+      "max": 3,
+      "step": 0.05
+    },
+    {
+      "key": "eraseBehavior",
+      "label": "Erase behavior",
+      "type": "select",
+      "default": "animated",
+      "options": [
+        {
+          "value": "animated",
+          "label": "Physical shake / sweep"
+        },
+        {
+          "value": "instant",
+          "label": "Immediate clear"
+        }
+      ]
+    },
+    {
+      "key": "replaySpeed",
+      "label": "Replay speed",
+      "type": "range",
+      "default": 1,
+      "min": 0.25,
+      "max": 3,
+      "step": 0.05
+    },
+    {
+      "key": "frameStyle",
+      "label": "Frame finish",
+      "type": "select",
+      "default": "original",
+      "options": [
+        {
+          "value": "original",
+          "label": "Cherry / porcelain"
+        },
+        {
+          "value": "seafoam",
+          "label": "Sea glass"
+        },
+        {
+          "value": "graphite",
+          "label": "Graphite"
+        }
+      ]
+    },
+    {
+      "key": "stampSize",
+      "label": "Stamp size · board units",
+      "type": "range",
+      "default": 70,
+      "min": 30,
+      "max": 140,
+      "step": 5
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original twin-dial and magnetic toy illustration",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "Canvas 2D and Pointer Events; no runtime dependencies, image requests, fonts or audio.",
+    "Captured mouse, trackpad and touch gestures. Keyboard arrows and direction buttons provide alternate input. Drawing surfaces reserve touch gestures; the surrounding page scrolls normally.",
+    "Animation rests offscreen, in hidden tabs and when paused. Reduced motion removes the shake and animated wipe; deliberate replay remains available.",
+    "The board retains normalized paths when its proportions change. Up to 16,000 semantic marks per toy and 24 undo gestures bound memory use."
+  ],
+  "notes": [
+    "An original molded red twin-dial shell and a rounded porcelain magnetic shell have separate drawing documents. Their naming and decoration are original, without copied logos or branded artwork.",
+    "The twin-dial head cannot lift. Circular knob movement changes one axis, center dragging gives a linear alternative, and dragging the screen moves the existing head by a relative displacement. Repositioning a pointer cannot teleport the line.",
+    "The magnetic surface uses a cached fine cell texture and soft gray marks. Lift the stylus for separate strokes; drag stamps or select one and tap. The sliding eraser removes only the strip it crosses, in either direction.",
+    "Shake the top grip back and forth, or press Shake to erase. The board tilts and its line fades before the clear commits. A full magnetic sweep moves across the actual drawing. Undo restores either gesture.",
+    "Replay is generated from stored line, stamp and wipe events. Scrubbing backward reconstructs the earlier image, including earlier eraser operations. New edits return to the completed drawing."
+  ],
+  "reuse": [
+    "Use mount(host, settings) for the complete instrument. It returns update, setRunning, replay, serialize, loadPath, getState and dispose.",
+    "The independent model stores normalized drawing data; input.js maps pointers/keys into that model; renderer.js caches paper and ink; erase.js supplies sampled erase poses; export.js produces PNGs.",
+    "Serve the exported source over HTTP. example.html includes the complete toy; embed-demo.html shows a small independent board using only the model and renderer.",
+    "Drawing JSON includes artwork and erase events. Lab presets contain appearance/interaction settings, not the current visitor artwork. Path imports use an array of [x,y] points, each from zero to one."
+  ]
+}
