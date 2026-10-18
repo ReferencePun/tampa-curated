@@ -1,0 +1,208 @@
+{
+  "id": "impossible-pocket-world",
+  "slug": "polly-pocket-world",
+  "number": "22",
+  "order": 25,
+  "name": "Pocket Worlds",
+  "description": "Three tiny afternoons in an original hinged case. Open a harbor, a little town or a secret garden, then discover the mechanisms tucked inside.",
+  "category": "Spatial",
+  "tags": [
+    "miniature",
+    "toy",
+    "hinge",
+    "landscape",
+    "interactive"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Three.js",
+    "Instanced molded geometry",
+    "Raycast hotspots"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "world",
+      "label": "Miniature world",
+      "type": "select",
+      "default": "beach",
+      "options": [
+        {
+          "value": "beach",
+          "label": "Beach · Tidal Post"
+        },
+        {
+          "value": "city",
+          "label": "Tiny city · Sunday Square"
+        },
+        {
+          "value": "garden",
+          "label": "Fantasy · Moonseed Garden"
+        }
+      ]
+    },
+    {
+      "key": "open",
+      "label": "Open / close progress · %",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 0.01
+    },
+    {
+      "key": "zoom",
+      "label": "Camera zoom",
+      "type": "range",
+      "default": 1,
+      "min": 0.7,
+      "max": 2.2,
+      "step": 0.01
+    },
+    {
+      "key": "rotation",
+      "label": "Toy rotation · degrees",
+      "type": "range",
+      "default": -18,
+      "min": -180,
+      "max": 180,
+      "step": 0.01
+    },
+    {
+      "key": "tilt",
+      "label": "Camera elevation · degrees",
+      "type": "range",
+      "default": 53,
+      "min": 25,
+      "max": 78,
+      "step": 0.1
+    },
+    {
+      "key": "density",
+      "label": "Detail density",
+      "type": "range",
+      "default": 2,
+      "min": 1,
+      "max": 3,
+      "step": 1
+    },
+    {
+      "key": "palette",
+      "label": "Color palette",
+      "type": "select",
+      "default": "original",
+      "options": [
+        {
+          "value": "original",
+          "label": "World’s original palette"
+        },
+        {
+          "value": "sorbet",
+          "label": "Soft sorbet"
+        },
+        {
+          "value": "mineral",
+          "label": "Mineral pigments"
+        }
+      ]
+    },
+    {
+      "key": "tour",
+      "label": "Auto-tour",
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "enter",
+      "label": "Enter-world mode",
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "hotspots",
+      "label": "Show numbered hotspots",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "travel",
+      "label": "Inside tour position · %",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 0.01
+    },
+    {
+      "key": "actionOne",
+      "label": "Mechanism I · progress",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 0.01
+    },
+    {
+      "key": "actionTwo",
+      "label": "Mechanism II · progress",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 0.01
+    },
+    {
+      "key": "actionThree",
+      "label": "Mechanism III · progress",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 0.01
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original pocket harbor illustration",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/THREE-LICENSE.txt",
+      "credit": "Three.js contributors",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "WebGL2 is required for the 3D scene. Unsupported devices receive a clearly labeled static illustration and the world descriptions.",
+    "Mouse/trackpad dragging, keyboard rotation and zoom, native vertical touch scrolling, labeled mechanism buttons and projected hotspots.",
+    "The case begins closed. Motion requires an action. Reduced motion makes transitions immediate; the open and mechanism sliders still support intermediate inspection.",
+    "Static geometry is instanced by shared geometry/material, while mechanism pivots retain their own local transforms. Rendering stops at rest, offscreen or when paused.",
+    "Shadows use one bounded 1024px directional map, with a capped device-pixel ratio. The effect is excluded from simultaneous comparison."
+  ],
+  "notes": [
+    "Original molded shell, medallion, landscapes and mechanisms. The requested route is an identifier; this study is not affiliated with or a reproduction of a branded toy.",
+    "The cover rotates around a genuine rear hinge. Both shell halves have depth and recessed cavities; the closed interior contains the miniature pieces.",
+    "Each world has its own three mechanisms: a drawbridge/boat/keepsake box, a tram/fountain/post office, or a flower/roundabout/hidden sprout. Their transforms are sampled from normalized progress.",
+    "Hotspots project from 3D anchors and are hidden when occluded. Matching HTML action buttons remain available for touch and keyboard use.",
+    "Enter-world mode follows a gentle guided route above the miniature scenery, not an unrestricted first-person game. The exterior camera stays upright."
+  ],
+  "reuse": [
+    "The complete exported example runs over local HTTP with bundled Three.js and its MIT license; no CDN or build step.",
+    "Use createPocketViewer(canvas, settings, definitions, builders) for a custom collection, or mount(host, settings) for the full experience.",
+    "World definitions separate shell dimensions, pieces, paths, camera routes and mechanisms. Custom geometry builders receive the shared kit and can reuse the same engine.",
+    "README.md documents schemas, pivot conventions, animation state, integration, accessibility, export and cleanup."
+  ]
+}

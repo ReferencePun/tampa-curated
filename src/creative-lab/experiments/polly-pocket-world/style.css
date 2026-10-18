@@ -1,0 +1,27 @@
+.il-host[data-slug="polly-pocket-world"] .il-demo {
+  height: auto;
+  min-height: 1000px;
+  max-height: none;
+}
+.il-host[data-slug="polly-pocket-world"] .il-mount {
+  position: relative;
+  inset: auto;
+  overflow: visible;
+}
+.il-host[data-slug="polly-pocket-world"] .il-annotation,
+.il-host[data-slug="polly-pocket-world"] .il-demo-index {
+  display: none;
+}
+.impossible-effect:has(> .pw) {
+  position: relative;
+  height: auto;
+  min-height: 1000px;
+  overflow: hidden;
+  background: #eee8dd;
+}
+.il-host[data-slug="polly-pocket-world"]
+  .il-demo-shell:is(:fullscreen, .il-expanded)
+  .il-demo {
+  flex: none;
+  overflow: visible;
+}
