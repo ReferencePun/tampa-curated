@@ -1,0 +1,18 @@
+{
+  "density": 1,
+  "font": "serif",
+  "weight": 400,
+  "letterSize": 1,
+  "scale": 1,
+  "complexity": 2,
+  "speed": 1,
+  "gravity": 0,
+  "perspective": 54,
+  "contrast": 0.94,
+  "extrusion": 0.3,
+  "depth": 1,
+  "recursion": 1,
+  "mode": "guided",
+  "imperfection": 0.2,
+  "customText": ""
+}

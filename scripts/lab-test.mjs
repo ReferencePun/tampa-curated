@@ -40,7 +40,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  if(process.env.TEST_ENGINE&&process.env.TEST_ENGINE!==name)continue;
  const browser=await engine.launch(),context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true}),page=await context.newPage(),errors=[];
  page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400&&r.url().startsWith(origin))errors.push(`${r.status()} ${r.url()}`);});
- await page.goto(href(''));await expect(page.locator('[data-card]')).toHaveCount(14);await expect(page.locator('canvas')).toHaveCount(0);await page.evaluate(()=>document.fonts.ready);
+ await page.goto(href(''));await expect(page.locator('[data-card]')).toHaveCount(entries.length);await expect(page.locator('canvas')).toHaveCount(0);await page.evaluate(()=>document.fonts.ready);
  await page.screenshot({path:path.join(out,`${name}-catalog.png`),fullPage:true});
  await page.getByRole('searchbox').fill('sound');await expect(page.locator('[data-card]:visible')).toHaveCount(1);
  await page.locator('[data-clear-filters]').click();await page.locator('select[name="status"]').selectOption('working');await expect(page.locator('[data-card]:visible')).toHaveCount(entries.filter(e=>e.status==='working').length);
@@ -109,7 +109,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await portable.evaluate(()=>{window.dispatchEvent(new Event('pagehide'));document.dispatchEvent(new Event('visibilitychange'));});await expect(portable.locator('canvas')).toHaveCount(0);
  await portable.evaluate(()=>window.dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true})));await expect(portable.locator('canvas')).toHaveCount(1);
  assert.deepEqual(portableErrors,[]);await portable.close();
- assert.deepEqual(errors,[]);console.log(`${name}: 14 independent studies, catalog/favorites/comparison, live settings, preset round trips and invalid imports, source ZIP with current settings, standalone export, fullscreen, lazy lifecycle/disposal, mobile, reduced motion, no JS and 9 enlarged-text layouts passed.`);
+ assert.deepEqual(errors,[]);console.log(`${name}: ${entries.length} independent studies, catalog/favorites/comparison, live settings, preset round trips and invalid imports, source ZIP with current settings, standalone export, fullscreen, lazy lifecycle/disposal, mobile, reduced motion, no JS and 9 enlarged-text layouts passed.`);
  await context.close();await browser.close();
 }
 }finally{await new Promise(resolve=>server.close(resolve));}

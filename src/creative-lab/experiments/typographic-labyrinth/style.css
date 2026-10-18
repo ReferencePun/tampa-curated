@@ -1,0 +1,4 @@
+.il-host[data-slug="typographic-labyrinth"] .il-demo{height:1160px;min-height:850px;max-height:none}
+.il-host[data-slug="typographic-labyrinth"] .il-annotation,.il-host[data-slug="typographic-labyrinth"] .il-demo-index{display:none}
+.impossible-effect:has(>.tl){position:relative;width:100%;height:1160px;min-height:850px;background:#f8f7f2;overflow:hidden}
+@media(max-width:650px){.il-host[data-slug="typographic-labyrinth"] .il-demo,.impossible-effect:has(>.tl){height:1350px}}

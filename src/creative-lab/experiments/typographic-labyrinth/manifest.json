@@ -1,0 +1,244 @@
+{
+  "id": "impossible-typographic-labyrinth",
+  "slug": "typographic-labyrinth",
+  "number": "21",
+  "order": 15,
+  "name": "The Impossible Manuscript",
+  "description": "Enter a page made of language. Letter staircases turn walls into floors; the counters of immense letters open into other rooms.",
+  "category": "Spatial",
+  "tags": [
+    "typography",
+    "architecture",
+    "portals",
+    "labyrinth",
+    "Latin",
+    "Cyrillic"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Three.js",
+    "WebGL2",
+    "Instanced typography"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "settings": [
+    {
+      "key": "density",
+      "label": "Text density",
+      "type": "range",
+      "default": 1,
+      "min": 0.6,
+      "max": 1.4,
+      "step": 0.1
+    },
+    {
+      "key": "font",
+      "label": "Printed typeface",
+      "type": "select",
+      "default": "serif",
+      "options": [
+        {
+          "value": "serif",
+          "label": "Classical book serif"
+        },
+        {
+          "value": "condensed",
+          "label": "Condensed sans-serif"
+        },
+        {
+          "value": "grotesque",
+          "label": "Bold grotesque"
+        },
+        {
+          "value": "typewriter",
+          "label": "Typewriter"
+        },
+        {
+          "value": "handwritten",
+          "label": "Italic annotations"
+        }
+      ]
+    },
+    {
+      "key": "weight",
+      "label": "Typographic weight",
+      "type": "range",
+      "default": 400,
+      "min": 400,
+      "max": 700,
+      "step": 100
+    },
+    {
+      "key": "letterSize",
+      "label": "Letter size",
+      "type": "range",
+      "default": 1,
+      "min": 0.75,
+      "max": 1.25,
+      "step": 0.05
+    },
+    {
+      "key": "scale",
+      "label": "Architectural scale",
+      "type": "range",
+      "default": 1,
+      "min": 0.7,
+      "max": 1.4,
+      "step": 0.1
+    },
+    {
+      "key": "complexity",
+      "label": "Corridor complexity",
+      "type": "range",
+      "default": 2,
+      "min": 1,
+      "max": 3,
+      "step": 1
+    },
+    {
+      "key": "speed",
+      "label": "Camera travel speed",
+      "type": "range",
+      "default": 1,
+      "min": 0.4,
+      "max": 2,
+      "step": 0.1
+    },
+    {
+      "key": "gravity",
+      "label": "Additional camera roll",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 180,
+      "step": 30
+    },
+    {
+      "key": "perspective",
+      "label": "Perspective field of view",
+      "type": "range",
+      "default": 54,
+      "min": 35,
+      "max": 75,
+      "step": 1
+    },
+    {
+      "key": "contrast",
+      "label": "Typographic contrast",
+      "type": "range",
+      "default": 0.94,
+      "min": 0.35,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "extrusion",
+      "label": "Letter extrusion depth",
+      "type": "range",
+      "default": 0.3,
+      "min": 0.08,
+      "max": 0.8,
+      "step": 0.02
+    },
+    {
+      "key": "depth",
+      "label": "Environmental depth",
+      "type": "range",
+      "default": 1,
+      "min": 0.6,
+      "max": 1.6,
+      "step": 0.1
+    },
+    {
+      "key": "recursion",
+      "label": "Portal recursion quality",
+      "type": "range",
+      "default": 1,
+      "min": 1,
+      "max": 2,
+      "step": 1
+    },
+    {
+      "key": "mode",
+      "label": "Exploration mode",
+      "type": "select",
+      "default": "guided",
+      "options": [
+        {
+          "value": "guided",
+          "label": "Guided journey"
+        },
+        {
+          "value": "free",
+          "label": "Free pedestrian gallery"
+        }
+      ]
+    },
+    {
+      "key": "imperfection",
+      "label": "Print imperfections",
+      "type": "range",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.7,
+      "step": 0.05
+    },
+    {
+      "key": "customText",
+      "label": "Your architectural text",
+      "type": "text",
+      "default": "",
+      "maxLength": 1200
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original typographic manuscript study \u00b7 Tampa Curated",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/helvetiker.json",
+      "credit": "Helvetiker / Magenta Ltd., 2004, distributed by Three.js r186; see assets/FONT-LICENSE.txt",
+      "license": "MgOpen font license"
+    },
+    {
+      "path": "vendor/FontLoader.js",
+      "credit": "Three.js authors \u00b7 FontLoader helper, r186; see vendor/LICENSE",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "Modern Chromium and Safari with WebGL2, ES modules and Canvas 2D for the local glyph atlas. No remote runtime or font requests.",
+    "Desktop: scroll to travel, reverse scroll to retrace; drag to look and WASD to walk in free mode. Touch: drag the drawing and use the arrow controls. Shift-scroll and Exit drawing always release the webpage.",
+    "Reduced motion starts paused and uses direct chapter/slider positions. Nothing auto-plays. Offscreen, hidden and settled views stop rendering; disposal releases WebGL resources and observers.",
+    "Rendering uses a bounded glyph atlas, instanced text and letter geometry, at most two nested portal levels and six offscreen views per frame. Pixel ratio adapts downward on slow devices. Unsupported graphics retain readable notes and scene export."
+  ],
+  "notes": [
+    "An original impossible architecture inspired by conflicting gravitational orientations and a supplied typographic reference. All sample writing is original, in Latin and Cyrillic; no book passages or reference-image pixels are reproduced.",
+    "The opening scene compresses real geometry into an almost flat composition. Scrolling separates its depth and carries the camera through the gap into the stairwell. Letter-shaped extrusions form treads; thousands of individually placed glyphs form walls, shafts, bridges and columns.",
+    "The first staircase leads to a smooth quaternion turn: a former wall becomes the floor and a second staircase becomes the route forward. An O-shaped portal connects the turned landing to a much larger cathedral. The library then returns to an earlier room in another orientation.",
+    "The four chapters are connected through actual perspective views of other scenes. Portal transforms connect separate coordinates; this is an intentional non-Euclidean illusion, not a claim of literal four-dimensional geometry. Portal recursion is explicitly bounded.",
+    "A sentence assembled at varying depths becomes readable at the stair landing. In the cathedral, paragraph fragments disperse and reassemble as a bridge when approached. Reverse travel reconstructs earlier states.",
+    "Free exploration uses bounded pedestrian galleries with a support-height model and connected letter portals. The choreographed wall-to-floor transition belongs to the guided route. You can return to it or exit the drawing at any time.",
+    "Typeface, weight, density, scale, contrast, depth, print variation and custom text affect actual geometry or the generated glyph atlas. The five named recipes and the Lab inspector export validated settings, including your text."
+  ],
+  "reuse": [
+    "Serve the downloaded source over local HTTP and open example.html. The exact Three.js runtime, licensed letter outlines, original writing, renderer, navigation, portal engine and complete example are included.",
+    "Supply a version 1 scene with text sources, structure definitions, local transforms, portal pairs, route keys and pedestrian galleries to createViewer or mount. The demonstration content is separate from the rendering engine.",
+    "The README documents the schema, coordinate transforms, limits, atlas tradeoffs, collision model and lifecycle. Export scene JSON to reuse the architectural configuration and custom text.",
+    "Use setRunning for visibility, update for settings, replay for the opening and dispose before removing a component. This study runs independently and is excluded from simultaneous live comparison."
+  ],
+  "comparison": "none"
+}
