@@ -1,0 +1,249 @@
+{
+  "id": "impossible-handwritten-manuscript",
+  "slug": "handwritten-manuscript",
+  "number": "21B",
+  "order": 17,
+  "name": "The Handwritten Manuscript",
+  "description": "The impossible rooms, rewritten by an untidy hand. Graphite, blue ballpoint, red corrections, and letters you can walk through.",
+  "category": "Spatial",
+  "tags": [
+    "handwriting",
+    "ink",
+    "pencil",
+    "architecture",
+    "portals"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Three.js",
+    "WebGL2",
+    "Instanced typography"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "settings": [
+    {
+      "key": "density",
+      "label": "Text density",
+      "type": "range",
+      "default": 0.9,
+      "min": 0.6,
+      "max": 1.4,
+      "step": 0.1
+    },
+    {
+      "key": "font",
+      "label": "Writing instrument",
+      "type": "select",
+      "default": "mixed",
+      "options": [
+        {
+          "value": "mixed",
+          "label": "Black, blue & red draft"
+        },
+        {
+          "value": "ink",
+          "label": "Mostly black ink"
+        },
+        {
+          "value": "ballpoint",
+          "label": "Blue ballpoint & corrections"
+        },
+        {
+          "value": "graphite",
+          "label": "Soft graphite only"
+        }
+      ]
+    },
+    {
+      "key": "weight",
+      "label": "Pen pressure",
+      "type": "range",
+      "default": 500,
+      "min": 400,
+      "max": 700,
+      "step": 100
+    },
+    {
+      "key": "letterSize",
+      "label": "Letter size",
+      "type": "range",
+      "default": 1.1,
+      "min": 0.75,
+      "max": 1.25,
+      "step": 0.05
+    },
+    {
+      "key": "scale",
+      "label": "Architectural scale",
+      "type": "range",
+      "default": 1,
+      "min": 0.7,
+      "max": 1.4,
+      "step": 0.1
+    },
+    {
+      "key": "complexity",
+      "label": "Corridor complexity",
+      "type": "range",
+      "default": 2,
+      "min": 1,
+      "max": 3,
+      "step": 1
+    },
+    {
+      "key": "speed",
+      "label": "Camera travel speed",
+      "type": "range",
+      "default": 1,
+      "min": 0.4,
+      "max": 2,
+      "step": 0.1
+    },
+    {
+      "key": "gravity",
+      "label": "Additional camera roll",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 180,
+      "step": 30
+    },
+    {
+      "key": "perspective",
+      "label": "Perspective field of view",
+      "type": "range",
+      "default": 54,
+      "min": 35,
+      "max": 75,
+      "step": 1
+    },
+    {
+      "key": "contrast",
+      "label": "Typographic contrast",
+      "type": "range",
+      "default": 0.94,
+      "min": 0.35,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "extrusion",
+      "label": "Letter extrusion depth",
+      "type": "range",
+      "default": 0.16,
+      "min": 0.08,
+      "max": 0.8,
+      "step": 0.02
+    },
+    {
+      "key": "depth",
+      "label": "Environmental depth",
+      "type": "range",
+      "default": 1,
+      "min": 0.6,
+      "max": 1.6,
+      "step": 0.1
+    },
+    {
+      "key": "recursion",
+      "label": "Portal recursion quality",
+      "type": "range",
+      "default": 1,
+      "min": 1,
+      "max": 2,
+      "step": 1
+    },
+    {
+      "key": "mode",
+      "label": "Exploration mode",
+      "type": "select",
+      "default": "guided",
+      "options": [
+        {
+          "value": "guided",
+          "label": "Guided journey"
+        },
+        {
+          "value": "free",
+          "label": "Free pedestrian gallery"
+        }
+      ]
+    },
+    {
+      "key": "imperfection",
+      "label": "Loose handwriting",
+      "type": "range",
+      "default": 0.65,
+      "min": 0,
+      "max": 0.7,
+      "step": 0.05
+    },
+    {
+      "key": "customText",
+      "label": "Your architectural text",
+      "type": "text",
+      "default": "",
+      "maxLength": 1200
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original handwritten manuscript, rendered from the live scene",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/helvetiker.json",
+      "credit": "Helvetiker / Magenta Ltd., 2004, distributed by Three.js r186; see assets/FONT-LICENSE.txt",
+      "license": "MgOpen font license"
+    },
+    {
+      "path": "vendor/FontLoader.js",
+      "credit": "Three.js authors \u00b7 FontLoader helper, r186; see vendor/LICENSE",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/Caveat.ttf",
+      "credit": "Caveat Project Authors / Pablo Impallari; original variable font from google/fonts/ofl/caveat; see CAVEAT-OFL.txt",
+      "license": "SIL OFL 1.1"
+    },
+    {
+      "path": "assets/caveat-outlines.json",
+      "credit": "Caveat-derived 3D outlines, wght 540, generated with FontTools; see CAVEAT-OFL.txt",
+      "license": "SIL OFL 1.1"
+    }
+  ],
+  "compatibility": [
+    "Modern Chromium and Safari with WebGL2, ES modules, FontFace and Canvas 2D. The bundled Caveat font loads locally before glyph construction. Failed font loading produces the explicit fallback.",
+    "Desktop: scroll to travel, reverse scroll to retrace; drag to look and WASD to walk in free mode. Touch: drag the drawing and use the arrow controls. Shift-scroll and Exit drawing always release the webpage.",
+    "Reduced motion starts paused and uses direct chapter/slider positions. Nothing auto-plays. Offscreen, hidden and settled views stop rendering; disposal releases WebGL resources and observers.",
+    "Rendering uses a bounded glyph atlas, instanced text and letter geometry, at most two nested portal levels and six offscreen views per frame. Pixel ratio adapts downward on slow devices. Unsupported graphics retain readable notes and scene export."
+  ],
+  "notes": [
+    "A separate handwritten edition of The Impossible Manuscript. The original page and route remain available unchanged. An untidy black, blue and red draft occupies the same impossible rooms.",
+    "The opening scene compresses real geometry into an almost flat composition. Scrolling separates its depth and carries the camera through the gap into the stairwell. Letter-shaped extrusions form treads; thousands of individually placed glyphs form walls, shafts, bridges and columns.",
+    "The first staircase leads to a smooth quaternion turn: a former wall becomes the floor and a second staircase becomes the route forward. An O-shaped portal connects the turned landing to a much larger cathedral. The library then returns to an earlier room in another orientation.",
+    "The four chapters are connected through actual perspective views of other scenes. Portal transforms connect separate coordinates; this is an intentional non-Euclidean illusion, not a claim of literal four-dimensional geometry. Portal recursion is explicitly bounded.",
+    "A sentence assembled at varying depths becomes readable at the stair landing. In the cathedral, paragraph fragments disperse and reassemble as a bridge when approached. Reverse travel reconstructs earlier states.",
+    "Free exploration uses bounded pedestrian galleries with a support-height model and connected letter portals. The choreographed wall-to-floor transition belongs to the guided route. You can return to it or exit the drawing at any time.",
+    "Local Caveat letterforms have varied angles, sizes, baselines and pressure. Their atlas includes scratched ink and softer pencil passes. Corrections, circling, underlining and red margin notes are real spatial linework. Large letters use handwritten outlines with sparse crosshatching and repeated contours."
+  ],
+  "reuse": [
+    "Serve the source ZIP over HTTP and open example.html. It includes local handwriting fonts and licenses, real letter outlines, the exact Three.js runtime, original writing, navigation and portal engine. No font service is contacted.",
+    "Supply a version 1 scene with text sources, structure definitions, local transforms, portal pairs, route keys and pedestrian galleries to createViewer or mount. The demonstration content is separate from the rendering engine.",
+    "The README documents the schema, coordinate transforms, limits, atlas tradeoffs, collision model and lifecycle. Export scene JSON to reuse the architectural configuration and custom text.",
+    "Use setRunning for visibility, update for settings, replay for the opening and dispose before removing a component. This study runs independently and is excluded from simultaneous live comparison."
+  ],
+  "comparison": "none"
+}
