@@ -1,0 +1,4 @@
+.il-host[data-slug="light-peg-studio"] .il-demo{height:1260px;min-height:950px;max-height:none}
+.il-host[data-slug="light-peg-studio"] .il-annotation,.il-host[data-slug="light-peg-studio"] .il-demo-index{display:none}
+.impossible-effect:has(>.lp){position:relative;height:1260px;background:#eae5d9;overflow:hidden}
+@media(max-width:700px){.il-host[data-slug="light-peg-studio"] .il-demo,.impossible-effect:has(>.lp){height:1560px}}

@@ -3,7 +3,7 @@ import {mkdir} from 'node:fs/promises';
 import {chromium,webkit,expect} from '@playwright/test';
 const origin=process.env.TEST_ORIGIN||'http://127.0.0.1:4321';
 const base=process.env.TEST_BASE??'/tampa-curated';
-const routes=['','home2/','home3/','lab/','lab/draw-a-world/','lab/folding-paper/','lab/living-ink/','lab/particle-photos/','lab/time-machine/','lab/photo-portals/','lab/living-city/','lab/site-memory/','lab/spatial-sound/','lab/typographic-labyrinth/','stories/','unfinished-city/','experiments/cabinet/','experiments/tracing-city/','experiments/notebook/','experiments/'];
+const routes=['','home2/','home3/','lab/','lab/draw-a-world/','lab/folding-paper/','lab/living-ink/','lab/particle-photos/','lab/time-machine/','lab/photo-portals/','lab/living-city/','lab/site-memory/','lab/spatial-sound/','lab/typographic-labyrinth/','lab/light-peg-studio/','stories/','unfinished-city/','experiments/cabinet/','experiments/tracing-city/','experiments/notebook/','experiments/'];
 const href=route=>`${origin}${base}/${route}`;
 await mkdir('test-results/navigation',{recursive:true});
 for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
@@ -57,6 +57,6 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await noJS.getByRole('navigation',{name:'Concept pages'}).locator(`a[href="${base}/experiments/tracing-city/"]`).click();
  await expect(noJS).toHaveURL(href('experiments/tracing-city/'));await plain.close();
  assert.deepEqual(errors,[]);
- console.log(`${name}: all twenty concept destinations, current page, keyboard/Escape/focus, outside click, mobile menu coordination, 16 reflows, and no-JS navigation passed.`);
+ console.log(`${name}: all twenty-one concept destinations, current page, keyboard/Escape/focus, outside click, mobile menu coordination, 16 reflows, and no-JS navigation passed.`);
  await browser.close();
 }
