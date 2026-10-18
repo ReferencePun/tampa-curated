@@ -20,6 +20,7 @@ import '../../creative-lab/experiments/handwritten-manuscript/style.css';
 import '../../creative-lab/experiments/sequin-reveal/style.css';
 import '../../creative-lab/experiments/slinky-stairs/style.css';
 import '../../creative-lab/experiments/living-music-score/style.css';
+import '../../creative-lab/experiments/three-color-process/style.css';
 export function getStaticPaths(){return experiments.map(experiment=>({params:{slug:experiment.slug},props:{experiment}}));}
 const {experiment:e}=Astro.props;
 const readme=await readFile(path.resolve(`src/creative-lab/experiments/${e.slug}/README.md`),'utf8');

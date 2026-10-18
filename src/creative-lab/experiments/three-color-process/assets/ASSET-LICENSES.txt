@@ -1,0 +1,19 @@
+HISTORICAL EXPOSURES
+Sergei Mikhailovich Prokudin-Gorskii (1863–1944), Mosaics on walls in Old Bukhara, [between 1905 and 1915].
+Library of Congress, Prints and Photographs Division, Prokudin-Gorskii Collection.
+Reproduction number: LC-DIG-prok-01876 (digital file from glass negative).
+Catalog: https://www.loc.gov/pictures/item/2018680335/
+Source scan: https://cdn.loc.gov/master/pnp/prok/01800/01876u.tif
+Service scan: https://cdn.loc.gov/service/pnp/prok/01800/01876v.jpg
+Rights advisory: No known restrictions on publication. For additional information on commercial use, see https://www.loc.gov/rr/print/res/237_prok.html
+The Library's statement permits publication/distribution, notes no known restrictions, and records heirs' concern about commercial use/alteration. This is attributed educational reconstruction; do not describe the archival images as MIT or as exclusively owned by this project.
+
+bukhara-records.png packs three genuine monochrome records into R/G/B components. It is not a channel split of the Library's finished color composite. See archive-preparation.json for the reproducible crop/translation/contrast recipe. The accompanying archival-scan.jpg shows the original positive-form scan of the three exposures. No local retouching was done; remaining emulsion damage and geometric discrepancies are visible.
+The renderer's historical baseline is this project's prepared reconstruction, not a claim of measured original scene colors or a replica of the historical projector's spectral response.
+
+MODERN DEMONSTRATION PHOTOGRAPH
+palms.jpg: Brandon Burridge, https://unsplash.com/photos/4wesDlSBq2o
+Unsplash License: https://unsplash.com/license
+Locally bundled photographic file retained from the project's credited sample assets. Used as a modern image to demonstrate exact digital channel separation/reconstruction.
+
+Original code, optical frame illustrations, and the preview's layout/treatment: MIT. Underlying photographs retain the notices above.

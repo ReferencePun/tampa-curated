@@ -1,0 +1,4 @@
+.il-host[data-slug="three-color-process"] .il-demo{height:1710px;min-height:900px;max-height:none}
+.il-host[data-slug="three-color-process"] .il-annotation,.il-host[data-slug="three-color-process"] .il-demo-index{display:none}
+.impossible-effect:has(>.tc){position:relative;height:1710px;background:#e9e1ce;overflow:hidden}
+@media(max-width:700px){.il-host[data-slug="three-color-process"] .il-demo,.impossible-effect:has(>.tc){height:1880px}}

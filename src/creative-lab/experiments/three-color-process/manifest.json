@@ -1,0 +1,349 @@
+{
+  "id": "impossible-three-color-process",
+  "slug": "three-color-process",
+  "number": "17",
+  "order": 21,
+  "name": "Three-Color Process",
+  "description": "Three monochrome glass records find their way back into color. A hands-on optical laboratory for additive photographic reconstruction.",
+  "category": "Photography",
+  "tags": [
+    "photography",
+    "color",
+    "RGB",
+    "glass",
+    "registration",
+    "history"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "WebGL",
+    "Linear-light sRGB",
+    "Canvas 2D fallback"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "settings": [
+    {
+      "key": "source",
+      "label": "Photographic source",
+      "type": "select",
+      "default": "archive",
+      "options": [
+        {
+          "value": "archive",
+          "label": "Historical plates \u00b7 Bukhara"
+        },
+        {
+          "value": "palms",
+          "label": "Modern separation \u00b7 palms"
+        }
+      ]
+    },
+    {
+      "key": "mode",
+      "label": "Working mode",
+      "type": "select",
+      "default": "registration",
+      "options": [
+        {
+          "value": "registration",
+          "label": "Register the exposures"
+        },
+        {
+          "value": "experimental",
+          "label": "Experimental registration"
+        }
+      ]
+    },
+    {
+      "key": "selected",
+      "label": "Selected glass plate",
+      "type": "select",
+      "default": "r",
+      "options": [
+        {
+          "value": "r",
+          "label": "Red record"
+        },
+        {
+          "value": "g",
+          "label": "Green record"
+        },
+        {
+          "value": "b",
+          "label": "Blue record"
+        }
+      ]
+    },
+    {
+      "key": "view",
+      "label": "Viewing method",
+      "type": "select",
+      "default": "composite",
+      "options": [
+        {
+          "value": "composite",
+          "label": "Combined light"
+        },
+        {
+          "value": "gray",
+          "label": "Selected record \u00b7 grayscale"
+        },
+        {
+          "value": "filter",
+          "label": "Selected record \u00b7 filtered light"
+        }
+      ]
+    },
+    {
+      "key": "rX",
+      "label": "Red X offset \u00b7 % width",
+      "type": "range",
+      "default": -12,
+      "min": -40,
+      "max": 40,
+      "step": 0.05
+    },
+    {
+      "key": "rY",
+      "label": "Red Y offset \u00b7 % height",
+      "type": "range",
+      "default": -5,
+      "min": -40,
+      "max": 40,
+      "step": 0.05
+    },
+    {
+      "key": "rAngle",
+      "label": "Red Rotation \u00b7 degrees",
+      "type": "range",
+      "default": 0,
+      "min": -12,
+      "max": 12,
+      "step": 0.05
+    },
+    {
+      "key": "rExposure",
+      "label": "Red Exposure \u00b7 stops",
+      "type": "range",
+      "default": 0,
+      "min": -2,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "rBalance",
+      "label": "Red Channel balance",
+      "type": "range",
+      "default": 1,
+      "min": 0.5,
+      "max": 1.5,
+      "step": 0.01
+    },
+    {
+      "key": "rVisible",
+      "label": "Red projection visible",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "gX",
+      "label": "Green X offset \u00b7 % width",
+      "type": "range",
+      "default": 0,
+      "min": -40,
+      "max": 40,
+      "step": 0.05
+    },
+    {
+      "key": "gY",
+      "label": "Green Y offset \u00b7 % height",
+      "type": "range",
+      "default": 5,
+      "min": -40,
+      "max": 40,
+      "step": 0.05
+    },
+    {
+      "key": "gAngle",
+      "label": "Green Rotation \u00b7 degrees",
+      "type": "range",
+      "default": 0,
+      "min": -12,
+      "max": 12,
+      "step": 0.05
+    },
+    {
+      "key": "gExposure",
+      "label": "Green Exposure \u00b7 stops",
+      "type": "range",
+      "default": 0,
+      "min": -2,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "gBalance",
+      "label": "Green Channel balance",
+      "type": "range",
+      "default": 1,
+      "min": 0.5,
+      "max": 1.5,
+      "step": 0.01
+    },
+    {
+      "key": "gVisible",
+      "label": "Green projection visible",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "bX",
+      "label": "Blue X offset \u00b7 % width",
+      "type": "range",
+      "default": 12,
+      "min": -40,
+      "max": 40,
+      "step": 0.05
+    },
+    {
+      "key": "bY",
+      "label": "Blue Y offset \u00b7 % height",
+      "type": "range",
+      "default": -2,
+      "min": -40,
+      "max": 40,
+      "step": 0.05
+    },
+    {
+      "key": "bAngle",
+      "label": "Blue Rotation \u00b7 degrees",
+      "type": "range",
+      "default": 0,
+      "min": -12,
+      "max": 12,
+      "step": 0.05
+    },
+    {
+      "key": "bExposure",
+      "label": "Blue Exposure \u00b7 stops",
+      "type": "range",
+      "default": 0,
+      "min": -2,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "bBalance",
+      "label": "Blue Channel balance",
+      "type": "range",
+      "default": 1,
+      "min": 0.5,
+      "max": 1.5,
+      "step": 0.01
+    },
+    {
+      "key": "bVisible",
+      "label": "Blue projection visible",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "snap",
+      "label": "Gentle registration snapping",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "reference",
+      "label": "Reference outline",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "fringe",
+      "label": "Fringe intensity \u00b7 neutral = 1",
+      "type": "range",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.01
+    },
+    {
+      "key": "zoom",
+      "label": "Magnification",
+      "type": "range",
+      "default": 1,
+      "min": 1,
+      "max": 3,
+      "step": 0.05
+    },
+    {
+      "key": "compare",
+      "label": "Before / after comparison",
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "split",
+      "label": "Comparison boundary \u00b7 %",
+      "type": "range",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original optical-laboratory composition; historical exposure records from Library of Congress",
+      "license": "MIT treatment; no known restrictions on archival photographs"
+    },
+    {
+      "path": "assets/bukhara-records.png",
+      "credit": "Sergei Mikhailovich Prokudin-Gorskii, Mosaics on walls in Old Bukhara, between 1905 and 1915. Library of Congress, LC-DIG-prok-01876. Prepared from the actual three-exposure scan; see archive-preparation.json and ASSET-LICENSES.txt.",
+      "license": "No known restrictions on publication \u00b7 https://www.loc.gov/pictures/item/2018680335/"
+    },
+    {
+      "path": "assets/archival-scan.jpg",
+      "credit": "Library of Congress, Prints and Photographs Division, Prokudin-Gorskii Collection, LC-DIG-prok-01876",
+      "license": "No known restrictions on publication"
+    },
+    {
+      "path": "assets/palms.jpg",
+      "credit": "Brandon Burridge \u00b7 https://unsplash.com/photos/4wesDlSBq2o",
+      "license": "Unsplash License \u00b7 https://unsplash.com/license"
+    }
+  ],
+  "compatibility": [
+    "WebGL with fragment high precision is preferred; Canvas 2D supplies a smaller preview when WebGL is unavailable. PNG export uses the same linear-light CPU engine in either case.",
+    "Pointer, touch, keyboard and numeric registration controls. No motion or automatic playback is required.",
+    "Local JPEG, PNG and WebP selection; maximum 25 MB file, decoded working image capped to 1,280 pixels on its longest side. Browser decode memory still depends on the input dimensions.",
+    "Images are decoded into a canvas explicitly requesting sRGB. Wide-gamut images are converted to sRGB; this is not a raw-film density or color-calibrated archival-restoration tool.",
+    "Idle projection uses no animation loop. Hidden/offscreen automatic alignment stops; disposal releases textures, buffers, context, canvases, object URLs, observers and listeners."
+  ],
+  "notes": [
+    "The historical sample uses distinct blue/green/red records from an original Prokudin-Gorskii scan. Grayscale crops are registered and contrast-normalized during asset preparation, with no local retouching. Remaining damage and small warping differences are retained.",
+    "The main surface simulates additive colored light on a screen. Glass frames are an interaction metaphor; ordinary colored transparent sheets do not recreate this projection by physical stacking.",
+    "Modern photographs split into genuine R/G/B intensity records. sRGB transfer functions are decoded before exposure, interpolation and fringe adjustments, then encoded once for display. Neutral aligned output closely matches the decoded source.",
+    "The three thumbnails always show original monochrome records. Inspect any record in grayscale or through its corresponding filter. Selection and frame stacking never change the arithmetic channel sum.",
+    "Align restores known shared origins: the modern image split or the supplied historical calibration. It does not claim to automatically recover arbitrary unknown historical geometry.",
+    "Fringe intensity adjusts the linear-light difference between moved and registered records. One is the faithful reconstruction; other values are labeled artistic settings."
+  ],
+  "reuse": [
+    "Use separate / fromRecords and reconstruct in model.js for CPU reconstruction, or createPlateRenderer for an interactive GPU projection.",
+    "The exported example.html and embed-demo.html run through a static HTTP server without packages, a CDN or Tampa page code.",
+    "Presets and alignment JSON contain settings only. Local image pixels are never uploaded or included in source packages; reselect the matching file after reload.",
+    "README.md defines coordinate transforms, sRGB handling, exports, record preparation, validation and resource disposal."
+  ],
+  "comparison": "none"
+}

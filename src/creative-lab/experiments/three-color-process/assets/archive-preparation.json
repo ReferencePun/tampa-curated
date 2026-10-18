@@ -1,0 +1,50 @@
+{
+  "item": "https://www.loc.gov/pictures/item/2018680335/",
+  "scan": "https://cdn.loc.gov/master/pnp/prok/01800/01876u.tif",
+  "scanDimensions": [
+    3784,
+    9640
+  ],
+  "resizedExposureDimensions": [
+    1000,
+    849
+  ],
+  "order": "top blue, middle green, bottom red; positive scan",
+  "sampleOffsetsBGR": [
+    [
+      3,
+      13
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      -2,
+      -17
+    ]
+  ],
+  "sharedCrop": [
+    60,
+    60,
+    940,
+    790
+  ],
+  "contrast": "Independent 0.3rd/99.7th percentile grayscale endpoints; no local retouching. Integer sample translation against green edge structure.",
+  "packed": "R/G/B are separate historical exposure records, not channels extracted from a finished modern color photograph.",
+  "scanSHA256": "8a4408e7843897cd04da5bd870fc079ea33d0816d71457c943fd4bcf2724c72a",
+  "contrastEndpointsBGR": [
+    [
+      18,
+      221
+    ],
+    [
+      18,
+      218
+    ],
+    [
+      32,
+      246
+    ]
+  ]
+}
