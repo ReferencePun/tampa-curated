@@ -1,4 +1,69 @@
-import {draftPlate} from '../../shared/draft-plate.js';
+import {createParticleImage} from './engine.js';
+import {options,PRESETS} from './model.js';
+import {PHOTOS,loadPhoto} from './images.js';
+import {styles} from './styles.js';
 
-// Placeholder only: replace this mount with the future Particle Photos implementation.
-export function mount(host, settings, report) { return draftPlate(host, settings, report, 4); }
+export function mount(host,initial={},report=()=>{}){
+ const root=document.createElement('div');root.className='pp';root.dataset.view='plate';
+ root.innerHTML=`<style>${styles}</style><div class="pp-modes" role="group" aria-label="Photographic treatments"><button data-mode="engraving"><small>01 / INK & PAPER</small>Ink engraving</button><button data-mode="scatter"><small>02 / LOOSE MATTER</small>Disintegration</button><button data-mode="reveal"><small>03 / EMULSION</small>Photographic reveal</button></div><div class="pp-tools"><select data-preset aria-label="Particle style preset"><option value="">Choose a treatment</option>${Object.entries(PRESETS).map(([key,p])=>`<option value="${key}">${p.name}</option>`).join('')}</select><button data-scatter>Scatter</button><button data-assemble>Reassemble</button><button data-original aria-pressed="false">Show original</button><label class="pp-upload">Use your photo<input type="file" accept="image/png,image/jpeg,image/webp" aria-label="Select a local photograph"/></label></div><div class="pp-viewport"><div class="pp-stage" tabindex="0" role="group" aria-label="Living photographic particles. Move a pointer or drag a finger to reveal detail. Arrow keys move the focus; Escape lets it settle."><div class="pp-caption" aria-hidden="true"><span>PLATE 05 / <span data-plate-name></span></span><span data-treatment>DRYPOINT</span></div><i class="pp-corner a"></i><i class="pp-corner b"></i><div class="pp-error" role="status" hidden></div></div><article class="pp-note" hidden aria-label="Photographic field note"><span class="pp-label">FROM A MARK TO A MEMORY / 05</span><h2 tabindex="-1" data-note-title></h2><p data-note-text></p><p>A different distance from the same photograph. Return to the plate to see it dissolve into marks again.</p><button data-back>← Back to the engraving</button></article></div><div class="pp-foot"><div class="pp-gallery" role="group" aria-label="Choose a photograph">${PHOTOS.map(p=>`<button data-photo="${p.id}" aria-pressed="false"><img src="${p.url}" width="44" height="44" alt=""/><span>${p.name}</span></button>`).join('')}</div><p class="pp-status" role="status" aria-live="polite">Move across the plate. Let the details come to you.</p><div class="pp-bottom"><div class="pp-credit"><span data-credit></span><span class="pp-count" data-count>Preparing the engraving…</span></div><div><button data-save>Save still ↓</button> <button data-open>Open field note ↗</button></div></div><p class="pp-hint">Move or touch to reveal. Leave the plate to let it settle. Arrow keys explore; Escape releases. <span data-upload-note hidden>Your photo stays in this session. Preset and source exports retain the bundled photograph, not your upload.</span></p></div>`;
+ host.append(root);const $=q=>root.querySelector(q),stage=$('.pp-stage'),status=$('.pp-status'),error=$('.pp-error'),preset=$('[data-preset]');
+ const fallback=document.createElement('img');fallback.className='pp-fallback';fallback.hidden=true;stage.prepend(fallback);
+ const abort=new AbortController(),signal=abort.signal,motion=matchMedia('(prefers-reduced-motion: reduce)');
+ let settings=options(initial),engine=null,disposed=false,running=false,ready=false,generation=0,loadGeneration=0,noteTimer=0,resizeTimer=0,forceCPU=false,custom=null,source=null,photo=PHOTOS.find(p=>p.id===settings.photo),rect,drag=null,cursor={x:.5,y:.5};
+ function say(text){status.textContent=text;}
+ function publish(){root.dispatchEvent(new CustomEvent('lab:settings',{bubbles:true,detail:{...settings}}));}
+ function sync(){
+  root.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===settings.mode)));root.querySelectorAll('[data-photo]').forEach(b=>b.setAttribute('aria-pressed',String(!custom&&b.dataset.photo===settings.photo)));
+  $('[data-original]').textContent=settings.original?'Show particles':'Show original';$('[data-original]').setAttribute('aria-pressed',String(settings.original));$('[data-upload-note]').hidden=!custom;
+  $('.pp-caption').hidden=!settings.guides;root.querySelectorAll('.pp-corner').forEach(e=>e.hidden=!settings.guides);$('[data-treatment]').textContent=settings.original?'ORIGINAL PHOTOGRAPH':{engraving:'DRYPOINT',scatter:'LOOSE FRAGMENTS',reveal:'LIVING EMULSION'}[settings.mode];
+  $('[data-plate-name]').textContent=custom?'YOUR PHOTOGRAPH':photo.name.toUpperCase();$('[data-note-title]').textContent=custom?custom.name:photo.name;$('[data-note-text]').textContent=custom?'Your own photograph, transformed locally into a field of marks. The image is never sent to a server.':photo.note;
+  const credit=$('[data-credit]');credit.replaceChildren();if(custom)credit.textContent='Your photograph · processed on this device';else{const a=document.createElement('a');a.href=photo.source;a.target='_blank';a.rel='noopener noreferrer';a.textContent=photo.credit;credit.append(a);}
+ }
+ function fit(){if(disposed)return;rect=stage.getBoundingClientRect();engine?.resize(rect.width,rect.height,devicePixelRatio||1);}
+ function reportFrame(stats){if(disposed)return;root.dataset.frames=String(stats.frames);root.dataset.builds=String(stats.builds);root.dataset.count=String(stats.count);root.dataset.backend=stats.backend;root.dataset.state=JSON.stringify(stats.state);root.dataset.running=String(stats.running);root.dataset.mode=settings.mode;root.dataset.original=String(settings.original);$('[data-count]').textContent=`${stats.count.toLocaleString()} individual marks`;report({fps:stats.fps,width:stats.width,height:stats.height,primitives:stats.count,frames:stats.frames,running:stats.running,renderer:stats.backend==='GPU'?'WebGL2 / instanced fragments':'Canvas 2D / sampled marks'});}
+ function build(image){
+  source=image;error.hidden=true;
+  try{
+   // Changing photographs reuses the context, texture and instance buffer.
+   // Only a graphics interruption replaces the renderer with its CPU fallback.
+   if(engine){engine.update(settings);engine.setImage(image);}
+   else{engine=createParticleImage({image,settings,forceCPU,onFrame:reportFrame,onContextLoss(){if(disposed)return;forceCPU=true;say('Graphics were interrupted. The engraving continues with fewer marks.');engine?.dispose();engine?.canvas.remove();engine=null;build(source);}});stage.prepend(engine.canvas);}
+   engine.canvas.setAttribute('aria-label',custom?'A particle engraving of your photograph':photo.alt);fallback.hidden=true;ready=true;root.dataset.ready='true';fit();engine.setRunning(running&&!motion.matches);
+  }
+  catch(e){ready=false;root.dataset.ready='false';fallback.hidden=false;error.hidden=false;error.textContent=`The engraving could not start: ${e.message}. The original photograph remains available.`;}
+ }
+ async function selectPhoto(){
+  const token=++generation;ready=false;engine?.setRunning(false);root.dataset.ready='false';photo=PHOTOS.find(p=>p.id===settings.photo);sync();fallback.src=custom?.url||photo.url;fallback.alt=custom?'Your locally selected photograph':photo.alt;
+  try{const image=custom?.image||await loadPhoto(photo.url);if(disposed||token!==generation)return;build(image);}catch(e){if(disposed||token!==generation)return;error.hidden=false;error.textContent='This photograph could not be opened. Choose another photo or a local file.';fallback.hidden=false;}
+ }
+ function closeNote(focus=false){clearTimeout(noteTimer);noteTimer=0;root.dataset.view='plate';$('.pp-note').hidden=true;if(focus)$('[data-open]').focus();}
+ function apply(next){const previous=settings;settings=options(next);preset.value='';if(previous.photo!==settings.photo){clearCustom();closeNote();void selectPhoto();return;}sync();engine?.update(settings);}
+ function clearCustom(){++loadGeneration;if(custom?.url)URL.revokeObjectURL(custom.url);custom=null;}
+ root.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>{apply({...settings,mode:button.dataset.mode,original:false,scatter:0});closeNote();publish();say('A different material, the same photographic composition.');},{signal}));
+ preset.addEventListener('change',()=>{const id=preset.value;if(!PRESETS[id])return;const hadCustom=!!custom,before=settings.photo;clearCustom();closeNote();apply(PRESETS[id].settings);if(hadCustom&&before===settings.photo)void selectPhoto();publish();preset.value=id;say('Treatment applied. Move through the plate to explore it.');},{signal});
+ root.querySelectorAll('[data-photo]').forEach(button=>button.addEventListener('click',()=>{const previous=settings.photo,hadCustom=!!custom;clearCustom();closeNote();apply({...settings,photo:button.dataset.photo,scatter:0,original:false});if(previous===settings.photo&&hadCustom)void selectPhoto();publish();},{signal}));
+ $('[data-scatter]').addEventListener('click',()=>{closeNote();apply({...settings,scatter:100,original:false});publish();say('The image is held in its fragments. Reassemble brings every mark home.');},{signal});
+ $('[data-assemble]').addEventListener('click',()=>{engine?.leave();apply({...settings,scatter:0,original:false});publish();say('Every fragment returns to its place in the photograph.');},{signal});
+ $('[data-original]').addEventListener('click',()=>{apply({...settings,original:!settings.original});publish();},{signal});
+ $('[data-open]').addEventListener('click',()=>{
+  if(!ready)return;engine.leave();apply({...settings,original:true,scatter:0});publish();clearTimeout(noteTimer);
+  const open=()=>{if(disposed)return;root.dataset.view='note';$('.pp-note').hidden=false;$('[data-note-title]').focus({preventScroll:true});fit();root.dispatchEvent(new CustomEvent('particle-photo:open',{bubbles:true,detail:{id:custom?'local':photo.id,title:custom?.name||photo.name}}));};
+  if(!running||motion.matches)open();else noteTimer=setTimeout(open,450);
+ },{signal});
+ $('[data-back]').addEventListener('click',()=>{closeNote(true);apply({...settings,original:false,scatter:0});publish();fit();},{signal});
+ $('[data-save]').addEventListener('click',async event=>{if(!ready)return;const button=event.currentTarget;button.disabled=true;try{const blob=await engine.exportPNG();if(disposed)return;const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`particle-photos-${settings.mode}.png`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);say('This moment is saved as a PNG.');}catch(e){if(!disposed)say(e.message);}finally{button.disabled=false;}},{signal});
+ $('.pp-upload input').addEventListener('change',async event=>{
+  const input=event.target,file=input.files?.[0];if(!file)return;let url;const token=++loadGeneration;
+  try{if(!['image/png','image/jpeg','image/webp'].includes(file.type)||file.size>12_000_000)throw new Error('Choose a PNG, JPEG or WebP smaller than 12 MB.');url=URL.createObjectURL(file);const image=await loadPhoto(url);if(disposed||token!==loadGeneration)return;if(image.naturalWidth*image.naturalHeight>24_000_000)throw new Error('Choose a photograph under 24 megapixels.');clearCustom();custom={image,url,name:file.name};url=null;closeNote();settings={...settings,original:false,scatter:0};void selectPhoto();publish();say(`“${file.name}” is now an engraving. Your image stays on this device.`);}catch(e){if(!disposed)say(e.message);}finally{if(url)URL.revokeObjectURL(url);input.value='';}
+ },{signal});
+ function point(event){if(!engine||!rect)return;const [x,y,w,h]=engine.view;cursor={x:(event.clientX-rect.left-x)/w,y:(event.clientY-rect.top-y)/h};engine.pointer(cursor.x,cursor.y,cursor.x>=0&&cursor.x<=1&&cursor.y>=0&&cursor.y<=1);}
+ stage.addEventListener('pointerenter',event=>{rect=stage.getBoundingClientRect();if(event.pointerType!=='touch')point(event);},{signal});stage.addEventListener('pointermove',event=>{if(ready&&(event.pointerType!=='touch'||drag===event.pointerId))point(event);},{signal});
+ stage.addEventListener('pointerdown',event=>{if(!ready||event.button!==0)return;rect=stage.getBoundingClientRect();drag=event.pointerId;stage.setPointerCapture(event.pointerId);stage.focus({preventScroll:true});point(event);},{signal});
+ const release=event=>{if(drag!==event.pointerId)return;if(stage.hasPointerCapture(event.pointerId))stage.releasePointerCapture(event.pointerId);drag=null;if(event.pointerType==='touch')engine?.leave();};stage.addEventListener('pointerup',release,{signal});stage.addEventListener('pointercancel',release,{signal});stage.addEventListener('pointerleave',()=>{if(drag===null)engine?.leave();},{signal});
+ stage.addEventListener('keydown',event=>{if(!ready)return;if(event.key==='Escape'){engine.leave();return;}if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)){event.preventDefault();cursor={x:Math.max(.03,Math.min(.97,cursor.x+(event.key==='ArrowRight'?.06:event.key==='ArrowLeft'?-.06:0))),y:Math.max(.03,Math.min(.97,cursor.y+(event.key==='ArrowDown'?.06:event.key==='ArrowUp'?-.06:0)))};engine.pointer(cursor.x,cursor.y,true);}},{signal});stage.addEventListener('blur',()=>engine?.leave(),{signal});
+ const observer=new ResizeObserver(()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(fit,40);});observer.observe(stage);window.addEventListener('scroll',()=>{rect=stage.getBoundingClientRect();},{signal,passive:true});motion.addEventListener('change',()=>engine?.setRunning(running&&!motion.matches),{signal});
+ void selectPhoto();
+ return {update:apply,setRunning(value){running=Boolean(value);engine?.setRunning(running&&!motion.matches);},replay(){closeNote();apply({...settings,scatter:0,original:false});engine?.leave();publish();},getEngine:()=>engine,
+  dispose(){if(disposed)return;disposed=true;++generation;++loadGeneration;abort.abort();observer.disconnect();clearTimeout(noteTimer);clearTimeout(resizeTimer);engine?.dispose();clearCustom();source=null;root.remove();}
+ };
+}

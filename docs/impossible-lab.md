@@ -10,7 +10,9 @@ A Git checkpoint was created before implementation: `checkpoint/before-impossibl
 - Two deliberately small working reference studies, **Line Field** and **Hinge Study**, demonstrating a complete framework-independent effect lifecycle.
 - **Draw a World**, a working Three.js drawing-to-architecture instrument with editable paths, three architectural styles, and reversible camera travel.
 - **Folding Paper**, a working hierarchical hinge study with a conservatory, mechanical assembly, and miniature city, reversible progress and fixed-pose orbit inspection.
-- Ten clearly marked proposals: Impossible Rooms, Living Ink, Particle Photos, Time Machine, Photo Portals, Living City, Site Memory, Spatial Sound, Personal Zines, World Composer.
+- **Living Ink**, a working reaction–diffusion material with GPU/CPU engines, architecture and image masks, local images, and still export.
+- **Particle Photos**, a working GPU engraving instrument with three treatments, image uploads, reversible scatter, field-note transitions, and portable gallery examples.
+- Eight clearly marked proposals: Impossible Rooms, Time Machine, Photo Portals, Living City, Site Memory, Spatial Sound, Personal Zines, World Composer.
 - The proposals show a neutral calibration plate to exercise the inspector. It is not an implementation of the named future effect. Their downloads are complete scaffolds, explicitly labeled as such.
 - Range, numeric, checkbox, color, and select controls; validated structured path state for drawing instruments; default reset, pause/resume, replay, fullscreen/expanded preview, measured diagnostics, and browser-local named presets.
 - Validated JSON preset import/export and complete ZIP exports from the UI or command line. Current UI settings are embedded in a source download; the static default download works without JavaScript.
@@ -129,6 +131,8 @@ pnpm verify
 pnpm test:lab
 pnpm test:draw-world
 pnpm test:folding-paper
+pnpm test:living-ink
+pnpm test:particle-photos
 pnpm test:navigation
 ```
 
@@ -171,3 +175,16 @@ Verification: numerical tests check blank equilibrium, parameter divergence, mas
 
 Living Ink build checks: 65 generated pages, 5,669 local links/assets, 14 validated Lab manifests and 32 portable JavaScript modules. The complete Lab regression passed in Chromium and WebKit, including comparison, lifecycle, presets, source ZIPs, standalone exports, reduced motion and nine enlarged-text layouts.
 Navigation regression passed all thirteen concept destinations in Chromium and WebKit, including keyboard focus, mobile menus, sixteen reflows and no-JavaScript navigation. Astro check finished with zero errors, warnings or hints. Homepage and other experiment implementations remain unchanged.
+
+
+### Living Photographic Particles implementation
+
+Checkpoint: `checkpoint/before-particle-photos-2026-10-17` at `0f6dde6`. The independent study replaces its own placeholder at `/lab/particle-photos/`. Each fragment has an immutable image coordinate, sampled tone, local gradient and deterministic variation. A native WebGL2 renderer draws the fragments in one instanced call. The cursor displaces them, then resolves their individual photographic patches. Original-image rendering aligns the same fragments into a continuous photograph. No photographic opacity-mask plane or Stories-page module is involved.
+
+The three treatments, four recipes, pointer/touch/keyboard input, scatter/reassemble, local photograph selection, full aspect ratios, field-note transition, PNG export and Lab presets are implemented inside `experiments/particle-photos`. Image switching reuses the graphics context, texture and buffer. The independent gallery example bounds active renderers to two visible images and demonstrates a transition into a separate article. The engine, instrument and gallery have their own documented APIs. The source ZIP includes all modules, demonstration photographs and individual credits/licenses; custom uploads remain session-local.
+
+The renderer stops at rest, pauses when hidden, applies reduced-motion gestures immediately and falls back to a smaller Canvas 2D engraving. Disposal releases image references, object URLs, GPU objects, observers and event listeners. The numerical and browser checks are in `test:particle-photos`; artifacts remain local in `test-results/particle-photos/`.
+
+Verification: numerical tests confirm image-derived tones and gradients, deterministic anchors, real cursor/scatter displacement, exact reassembly, bounded easing and aspect fitting. Chromium and WebKit verify all three GPU treatments, exact rendered-image return, original reconstruction, local uploads without network writes, aspect changes, field-note transitions, presets, PNG/source exports, and independent standalone/gallery pages. They also cover reduced motion, idle/hidden rest, pause and disposal; Chromium exercises dragged touch input, context interruption and the no-WebGL fallback. Resource accounting confirms that programs, shaders, buffers, textures and vertex arrays are deleted. Desktop, mobile and exported-gallery screenshots were reviewed.
+
+The production build contains 65 pages and 5,734 verified internal links/assets. Lab validation covers 14 manifests and 40 portable JavaScript modules. Complete Lab and navigation regressions passed in Chromium and WebKit, including fourteen concept destinations, keyboard/mobile navigation, sixteen reflows, nine enlarged-text layouts, comparison, presets, source packages and no-JavaScript access. This remains a local implementation; the established homepage and other experiment implementations are unchanged.

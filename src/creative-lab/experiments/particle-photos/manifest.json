@@ -4,82 +4,154 @@
   "number": "05",
   "order": 7,
   "name": "Particle Photos",
-  "description": "A photograph held together by thousands of restless points.",
+  "description": "Photographs become living engravings. Disturb the marks, uncover their detail, and let them find their way home.",
   "category": "Image",
   "tags": [
-    "particles",
     "photography",
-    "reveal"
+    "engraving",
+    "particles",
+    "local images",
+    "gallery"
   ],
-  "status": "prototype",
-  "placeholder": true,
+  "status": "working",
+  "placeholder": false,
   "technology": [
+    "WebGL2",
     "Canvas 2D",
     "JavaScript"
   ],
-  "plannedTechnology": "WebGL / Three.js",
+  "plannedTechnology": null,
   "dependencies": {},
   "settings": [
     {
-      "key": "density",
-      "label": "Line count",
-      "type": "range",
-      "min": 8,
-      "max": 64,
-      "step": 1,
-      "default": 32
-    },
-    {
-      "key": "speed",
-      "label": "Motion speed",
-      "type": "range",
-      "min": 0,
-      "max": 2,
-      "step": 0.1,
-      "default": 0.6
-    },
-    {
-      "key": "guides",
-      "label": "Construction guides",
-      "type": "toggle",
-      "default": true
-    },
-    {
-      "key": "ink",
-      "label": "Graphite",
-      "type": "color",
-      "default": "#37342e"
-    },
-    {
-      "key": "accent",
-      "label": "Pencil accent",
-      "type": "color",
-      "default": "#a75239"
-    },
-    {
       "key": "mode",
-      "label": "Arrangement",
+      "label": "Particle treatment",
       "type": "select",
-      "default": "contours",
+      "default": "engraving",
       "options": [
         {
-          "value": "contours",
-          "label": "Circular"
+          "value": "engraving",
+          "label": "Ink engraving"
         },
         {
-          "value": "open",
-          "label": "Open"
+          "value": "scatter",
+          "label": "Disintegration"
+        },
+        {
+          "value": "reveal",
+          "label": "Photographic reveal"
         }
       ]
     },
     {
+      "key": "photo",
+      "label": "Bundled photograph",
+      "type": "select",
+      "default": "palms",
+      "options": [
+        {
+          "value": "palms",
+          "label": "Palms & concrete"
+        },
+        {
+          "value": "portrait",
+          "label": "A face, in light"
+        },
+        {
+          "value": "facade",
+          "label": "The long fa\u00e7ade"
+        }
+      ]
+    },
+    {
+      "key": "radius",
+      "label": "Reveal radius",
+      "type": "range",
+      "default": 23,
+      "min": 6,
+      "max": 45,
+      "step": 1
+    },
+    {
+      "key": "displacement",
+      "label": "Displacement strength",
+      "type": "range",
+      "default": 32,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "scatter",
+      "label": "Scatter amount",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "density",
+      "label": "Sampling density",
+      "type": "range",
+      "default": 300,
+      "min": 120,
+      "max": 420,
+      "step": 10
+    },
+    {
+      "key": "markSize",
+      "label": "Mark weight",
+      "type": "range",
+      "default": 1,
+      "min": 0.5,
+      "max": 1.7,
+      "step": 0.05
+    },
+    {
+      "key": "contrast",
+      "label": "Tonal contrast",
+      "type": "range",
+      "default": 1.15,
+      "min": 0.65,
+      "max": 1.8,
+      "step": 0.05
+    },
+    {
+      "key": "settle",
+      "label": "Settling time",
+      "type": "range",
+      "default": 1,
+      "min": 0.4,
+      "max": 2.4,
+      "step": 0.1
+    },
+    {
+      "key": "ink",
+      "label": "Engraving ink",
+      "type": "color",
+      "default": "#343129"
+    },
+    {
+      "key": "original",
+      "label": "Original photograph",
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "guides",
+      "label": "Plate annotations",
+      "type": "toggle",
+      "default": true
+    },
+    {
       "key": "seed",
-      "label": "Drawing variation",
+      "label": "Mark variation",
       "type": "number",
+      "default": 7,
       "min": 1,
-      "max": 99,
-      "step": 1,
-      "default": 7
+      "max": 999,
+      "step": 1
     }
   ],
   "entry": "index.js",
@@ -92,25 +164,45 @@
   "assets": [
     {
       "path": "assets/preview.svg",
-      "credit": "Original geometric line study \u00b7 Tampa Curated",
-      "license": "MIT"
+      "credit": "Original particle treatment of Brandon Burridge\u2019s Tampa photograph",
+      "license": "MIT treatment; underlying photograph: Unsplash"
+    },
+    {
+      "path": "assets/palms.jpg",
+      "credit": "Brandon Burridge / Unsplash \u00b7 https://unsplash.com/photos/4wesDlSBq2o",
+      "license": "Unsplash"
+    },
+    {
+      "path": "assets/portrait.jpg",
+      "credit": "Christopher Campbell / Unsplash \u00b7 https://unsplash.com/photos/rDEOVtE7vOs",
+      "license": "Unsplash"
+    },
+    {
+      "path": "assets/facade.jpg",
+      "credit": "Ikuna / Unsplash \u00b7 https://unsplash.com/photos/wb2DOoxIGJQ",
+      "license": "Unsplash"
     }
   ],
   "compatibility": [
-    "Current Chrome, Firefox, Safari, and Edge with Canvas 2D and ES modules.",
-    "Static preview and documentation work without JavaScript.",
-    "Reduced motion starts paused. Touch does not require hovering.",
-    "Fullscreen uses the browser API when available, with an expanded-page fallback."
+    "Native WebGL2 instanced fragments. No third-party runtime dependencies or imports from the Stories archive.",
+    "Canvas 2D renders a smaller interactive engraving when WebGL2 is unavailable or interrupted.",
+    "Pointer, keyboard and touch interaction. Reduced motion applies changes immediately without drifting or animated scattering.",
+    "Photographs keep their full aspect ratio. Device pixel ratio and texture size are capped; only one image texture is retained per instrument.",
+    "Local PNG/JPEG/WebP photos up to 12 MB and 24 megapixels are processed in the browser. Uploads stay in this session and are not included in recipe/source exports.",
+    "Original-image toggle, descriptive image labels, HTML field notes, and static no-JavaScript plate remain available."
   ],
   "notes": [
-    "This is a planned experiment. The live calibration plate tests the lab controls; it is not an implementation of the proposed effect.",
-    "The exported scaffold includes the neutral plate renderer and the complete lifecycle contract. Replace its mount function when developing this experiment."
+    "Every fragment has an anchor and tonal information sampled from the photograph. Luminance and local contrast determine stippling, fine strokes and crosshatched marks.",
+    "Pointer movement displaces individual marks. In reveal mode each fragment resolves its own patch of the photograph; no photographic plane or opacity-mask overlay sits underneath it. Leaving the field returns the marks to their anchors.",
+    "Scatter and Reassemble control the same instances. Original rendering resolves those instances into a continuous photograph. Photo selection preserves landscape, portrait and unusually wide compositions.",
+    "Open field note demonstrates an engraving resolving into an image-led content view. Return brings the same plate back. A separate gallery example is included in the exported source.",
+    "Reference studied: Eddy Naboulet\u2019s image-derived, pointer-responsive particle formations. All sampling, shaders, interface and transition code are original; its overall design and assets were not copied."
   ],
   "reuse": [
-    "Extract the source ZIP, then serve the folder over local HTTP. Open example.html.",
-    "Import mount from the experiment entry, pass a sized element and settings, then call setRunning(true).",
-    "Call update(settings) to apply changes, replay() to restart, and dispose() before removing the host.",
-    "Use the included validated preset.json. Framework integration belongs in your application, outside the effect."
+    "Extract the ZIP, serve it over local HTTP, and open example.html. The three demonstration photos, credits and licenses are included.",
+    "Use createParticleImage from engine.js for a single image with your own controls. It accepts a decoded image, dimensions, settings and lifecycle callbacks.",
+    "Use mount from index.js for the complete instrument. The gallery-demo.html example demonstrates several independently managed images and a content-view transition.",
+    "Pause offscreen or hidden instances, and dispose before removal. Read README.md for settings, normalized pointer coordinates, resource limits and source licensing."
   ],
   "comparison": "none"
 }

@@ -8,6 +8,7 @@ import {url} from '../../lib/urls';
 import '../../creative-lab/experiments/draw-a-world/style.css';
 import '../../creative-lab/experiments/folding-paper/style.css';
 import '../../creative-lab/experiments/living-ink/style.css';
+import '../../creative-lab/experiments/particle-photos/style.css';
 export function getStaticPaths(){return experiments.map(experiment=>({params:{slug:experiment.slug},props:{experiment}}));}
 const {experiment:e}=Astro.props;
 const readme=await readFile(path.resolve(`src/creative-lab/experiments/${e.slug}/README.md`),'utf8');
@@ -19,6 +20,6 @@ const readme=await readFile(path.resolve(`src/creative-lab/experiments/${e.slug}
   <section><h3>The idea &amp; its construction</h3>{e.notes.map(note=><p>{note}</p>)}{e.placeholder&&<p><strong>Proposed technology:</strong> {e.plannedTechnology}. This is a planning note, not an installed dependency.</p>}</section>
   <section><h3>Requirements &amp; compatibility</h3><p><strong>Current runtime:</strong> {e.technology.join(' + ')}. {Object.keys(e.dependencies).length?'Dependencies are listed in the export’s package.json.':'No third-party runtime packages.'}</p><ul>{e.compatibility.map(note=><li>{note}</li>)}</ul></section>
   <section><h3>Use it in another project</h3><ol>{e.reuse.map(note=><li>{note}</li>)}</ol><div class="il-command"><code>pnpm lab:export {e.slug}</code><button type="button" data-copy-command={`pnpm lab:export ${e.slug}`}>Copy</button></div><p class="il-small">Include a saved configuration with <code>--preset path/to/preset.json</code>. Exports are written to <code>lab-exports/</code>; use <code>--out</code> to choose another folder.</p><a class="il-button" href={url(`lab/${e.slug}/source.zip`)} download={`${e.slug}.zip`}>Download default {e.placeholder?'scaffold':'source'} ↓</a></section>
-  <section><h3>Source &amp; attribution</h3><p><code>src/creative-lab/experiments/{e.slug}/</code></p><ul>{[e.entry,...e.styles,'config.json','manifest.json',e.readme,e.thumbnail,'LICENSE'].map(file=><li><code>{file}</code></li>)}</ul><p>Framework integration: <code>src/creative-lab/host.ts</code>. Portable helpers: <code>src/creative-lab/shared/</code>.</p>{e.assets.map(asset=><p>{asset.credit}. {asset.license} license. No third-party demonstration assets.</p>)}<details class="il-readme"><summary>Read the complete reuse guide +</summary><pre>{readme}</pre></details></section>
+  <section><h3>Source &amp; attribution</h3><p><code>src/creative-lab/experiments/{e.slug}/</code></p><ul>{[e.entry,...e.styles,'config.json','manifest.json',e.readme,e.thumbnail,'LICENSE'].map(file=><li><code>{file}</code></li>)}</ul><p>Framework integration: <code>src/creative-lab/host.ts</code>. Portable helpers: <code>src/creative-lab/shared/</code>.</p>{e.assets.map(asset=><p>{asset.credit}. {asset.license} license.</p>)}<details class="il-readme"><summary>Read the complete reuse guide +</summary><pre>{readme}</pre></details></section>
  </div></div>
 </LabLayout>

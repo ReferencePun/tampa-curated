@@ -1,0 +1,5 @@
+import {mountGallery} from './gallery.js';
+import {PHOTOS} from './images.js';
+const root=document.querySelector('#gallery'),detail=document.querySelector('#detail'),back=document.querySelector('#back');let origin=null,timer=0,gallery;
+function start(){gallery=mountGallery(root,PHOTOS,{onOpen(item,figure){clearTimeout(timer);origin=figure;timer=setTimeout(()=>{root.hidden=true;detail.hidden=false;detail.querySelector('h2').textContent=item.name;detail.querySelector('img').src=item.url;detail.querySelector('img').alt=item.alt;detail.querySelector('p').textContent=item.note;detail.querySelector('a').href=item.source;detail.querySelector('a').textContent=item.credit;detail.querySelector('h2').focus();},matchMedia('(prefers-reduced-motion: reduce)').matches?0:420);}});}
+back.addEventListener('click',()=>{clearTimeout(timer);detail.hidden=true;root.hidden=false;gallery.reset();origin?.querySelector('button')?.focus();});start();window.addEventListener('pagehide',()=>{clearTimeout(timer);gallery.dispose();});window.addEventListener('pageshow',event=>{if(event.persisted){root.hidden=false;detail.hidden=true;start();}});

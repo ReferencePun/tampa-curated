@@ -27,7 +27,8 @@
     "test:glass": "node scripts/sea-glass-test.mjs",
     "test:draw-world": "node scripts/draw-world-geometry-test.mjs && node scripts/draw-world-browser-test.mjs",
     "test:folding-paper": "node scripts/folding-paper-geometry-test.mjs && node scripts/folding-paper-browser-test.mjs",
-    "test:living-ink": "node scripts/living-ink-model-test.mjs && node scripts/living-ink-browser-test.mjs"
+    "test:living-ink": "node scripts/living-ink-model-test.mjs && node scripts/living-ink-browser-test.mjs",
+    "test:particle-photos": "node scripts/particle-photos-model-test.mjs && node scripts/particle-photos-browser-test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

@@ -1,1 +1,4 @@
-.impossible-effect { position: relative; width: 100%; min-height: 320px; height: min(70vh, 640px); overflow: hidden; background: #f2eee3; }
+.impossible-effect{position:relative;width:100%;height:min(90vh,900px);min-height:720px;overflow:hidden;background:#f5f1e7;}
+.il-host[data-slug="particle-photos"] .il-demo{height:850px;min-height:720px;max-height:100svh;}
+.il-host[data-slug="particle-photos"] .il-annotation,.il-host[data-slug="particle-photos"] .il-demo-index{display:none;}
+@media(max-width:600px){.il-host[data-slug="particle-photos"] .il-demo{height:940px;max-height:none;}}

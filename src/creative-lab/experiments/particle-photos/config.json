@@ -1,9 +1,15 @@
 {
-  "density": 32,
-  "speed": 0.6,
+  "mode": "engraving",
+  "photo": "palms",
+  "radius": 23,
+  "displacement": 32,
+  "scatter": 0,
+  "density": 300,
+  "markSize": 1,
+  "contrast": 1.15,
+  "settle": 1,
+  "ink": "#343129",
+  "original": false,
   "guides": true,
-  "ink": "#37342e",
-  "accent": "#a75239",
-  "mode": "contours",
   "seed": 7
 }
