@@ -1,0 +1,4 @@
+.il-host[data-slug="hall-of-mirrors"] .il-demo{height:1140px;min-height:850px;max-height:none}
+.il-host[data-slug="hall-of-mirrors"] .il-annotation,.il-host[data-slug="hall-of-mirrors"] .il-demo-index{display:none}
+.impossible-effect:has(>.hm){position:relative;height:1140px;overflow:hidden;background:#f0ebdf}
+@media(max-width:700px){.il-host[data-slug="hall-of-mirrors"] .il-demo,.impossible-effect:has(>.hm){height:1110px}}

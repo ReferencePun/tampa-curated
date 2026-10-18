@@ -1,0 +1,16 @@
+{
+  "version": "parallel",
+  "depth": 3,
+  "angle": 0,
+  "width": 8,
+  "length": 28,
+  "density": 2,
+  "brightness": 0.92,
+  "fade": 0.13,
+  "progress": 0,
+  "position": 0,
+  "light": 35,
+  "guides": true,
+  "quality": "auto",
+  "inspection": false
+}

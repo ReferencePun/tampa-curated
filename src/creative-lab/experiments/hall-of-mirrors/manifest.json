@@ -1,0 +1,217 @@
+{
+  "id": "impossible-hall-of-mirrors",
+  "slug": "hall-of-mirrors",
+  "number": "19",
+  "order": 23,
+  "name": "Pencil Hall of Mirrors",
+  "description": "A graphite corridor remembers itself in four looking glasses. Walk between recursive reflections, then find the room beyond the room.",
+  "category": "Spatial",
+  "tags": [
+    "mirrors",
+    "reflection",
+    "architecture",
+    "graphite",
+    "recursive",
+    "scroll"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Three.js",
+    "WebGL2",
+    "Bounded planar render targets"
+  ],
+  "plannedTechnology": null,
+  "comparison": "none",
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "settings": [
+    {
+      "key": "version",
+      "label": "Mirror configuration",
+      "type": "select",
+      "default": "parallel",
+      "options": [
+        {
+          "value": "parallel",
+          "label": "Parallel mirrors"
+        },
+        {
+          "value": "maze",
+          "label": "Angled mirror maze"
+        },
+        {
+          "value": "gallery",
+          "label": "Impossible gallery \u00b7 mirrors + portal"
+        }
+      ]
+    },
+    {
+      "key": "depth",
+      "label": "Reflection recursion depth",
+      "type": "range",
+      "default": 3,
+      "min": 0,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "key": "angle",
+      "label": "Mirror angle \u00b7 degrees",
+      "type": "range",
+      "default": 0,
+      "min": -30,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "key": "width",
+      "label": "Corridor width",
+      "type": "range",
+      "default": 8,
+      "min": 6,
+      "max": 12,
+      "step": 0.25
+    },
+    {
+      "key": "length",
+      "label": "Corridor length",
+      "type": "range",
+      "default": 28,
+      "min": 22,
+      "max": 38,
+      "step": 0.5
+    },
+    {
+      "key": "density",
+      "label": "Sketch density",
+      "type": "range",
+      "default": 2,
+      "min": 1,
+      "max": 3,
+      "step": 1
+    },
+    {
+      "key": "brightness",
+      "label": "Reflection brightness",
+      "type": "range",
+      "default": 0.92,
+      "min": 0.3,
+      "max": 1.3,
+      "step": 0.01
+    },
+    {
+      "key": "fade",
+      "label": "Fade with reflection depth",
+      "type": "range",
+      "default": 0.13,
+      "min": 0,
+      "max": 0.4,
+      "step": 0.01
+    },
+    {
+      "key": "progress",
+      "label": "Scroll travel progress \u00b7 %",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1e-06
+    },
+    {
+      "key": "position",
+      "label": "Camera position \u00b7 across the hall",
+      "type": "range",
+      "default": 0,
+      "min": -1.2,
+      "max": 1.2,
+      "step": 0.02
+    },
+    {
+      "key": "light",
+      "label": "Hatching / light direction \u00b7 degrees",
+      "type": "range",
+      "default": 35,
+      "min": 0,
+      "max": 360,
+      "step": 1
+    },
+    {
+      "key": "guides",
+      "label": "Construction-line visibility",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "quality",
+      "label": "Render resolution",
+      "type": "select",
+      "default": "auto",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Adaptive \u00b7 up to 512px plates"
+        },
+        {
+          "value": "low",
+          "label": "Low \u00b7 256px, single reflection"
+        },
+        {
+          "value": "medium",
+          "label": "Medium \u00b7 512px"
+        },
+        {
+          "value": "high",
+          "label": "High \u00b7 768px"
+        }
+      ]
+    },
+    {
+      "key": "inspection",
+      "label": "Pointer camera inspection",
+      "type": "toggle",
+      "default": false
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original projected linework from the procedural mirror hall",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/THREE-LICENSE.txt",
+      "credit": "Three.js contributors \u00b7 reflection-camera and oblique-clipping reference",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "WebGL2 with a bundled Three.js runtime in the standalone export. Unsupported devices receive a labeled static plate. Low quality uses a single reflection rather than recursion.",
+    "Native wheel, trackpad, touch and keyboard scrolling. A timeline can seek any position. Pointer inspection is opt-in; touch inspection uses dragging and the timeline.",
+    "Rendering is demand-driven and stops when settled, paused, hidden or offscreen. Reduced motion starts paused; manual timeline changes remain available.",
+    "Up to four recursive levels and 16 reflection passes, with smaller targets at deeper levels. Adaptive mode reduces resolution and, if necessary, falls back to one bounce.",
+    "A fixed vertical camera avoids roll. All journey positions are sampled from normalized progress; reverse scrolling reconstructs the same world and camera."
+  ],
+  "notes": [
+    "This is real three-dimensional linework: columns, doorway arches, beams, perspective grids, engraved mirror frames and small gear mechanisms. Strokes are seeded and batched by weight.",
+    "Each mirror projects a separately rendered reflected-camera view. Opposing mirrors use bounded recursive passes, oblique clipping at the mirror plane and unique targets within each frame.",
+    "Reflections fade toward paper as depth increases. The frame graph shares a fixed pass budget across visible mirrors and terminates deeper views on a quiet ivory surface.",
+    "Parallel mirrors and the angled maze use physical planar reflection transforms. The Impossible Gallery adds one explicitly labeled artistic portal mapped to a different architectural chamber.",
+    "The journey begins outside, enters the hall, turns toward the looking glasses and reaches another chamber. Gallery passage is spatially registered across the portal; it is not presented as a physically possible mirror.",
+    "Sketch density and hatching direction rebuild the architectural linework. Brightness, fading and recursion change the reflection system itself. Camera position changes actual parallax."
+  ],
+  "reuse": [
+    "Serve the exported ZIP over local HTTP and open example.html; the exact Three.js runtime and MIT licenses are included.",
+    "Use createReflectionSystem(renderer, scene) independently with your own geometry, mirror definitions and camera. See embed-demo.html for an isolated two-mirror example.",
+    "Use createHallViewer for the complete corridor, or sampleJourney for an independently controlled scroll timeline.",
+    "README.md documents plane orientation, target budgets, portal distinctions, schemas, render ordering, cleanup and browser limitations."
+  ]
+}
