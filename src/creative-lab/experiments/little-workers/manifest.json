@@ -1,0 +1,193 @@
+{
+  "id": "impossible-little-workers",
+  "slug": "little-workers",
+  "number": "18",
+  "order": 22,
+  "name": "Little Scribble Workers",
+  "description": "Five small labours in the margin. Delicate pencil figures build a page as you scroll, and undo their work when you return.",
+  "category": "Scroll",
+  "tags": [
+    "drawing",
+    "characters",
+    "articulated",
+    "margins",
+    "scroll",
+    "construction"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Articulated SVG",
+    "Deterministic job tracks",
+    "Native scrolling"
+  ],
+  "plannedTechnology": null,
+  "comparison": "none",
+  "dependencies": {},
+  "settings": [
+    {
+      "key": "character",
+      "label": "Character study",
+      "type": "select",
+      "default": "crew",
+      "options": [
+        {
+          "value": "crew",
+          "label": "The little crew \u00b7 three character studies"
+        },
+        {
+          "value": "draughtsman",
+          "label": "The draughtsman \u00b7 rumpled jacket"
+        },
+        {
+          "value": "coat",
+          "label": "The keeper \u00b7 long coat"
+        },
+        {
+          "value": "apron",
+          "label": "The maker \u00b7 working apron"
+        }
+      ]
+    },
+    {
+      "key": "size",
+      "label": "Character size",
+      "type": "range",
+      "default": 1,
+      "min": 0.75,
+      "max": 1.25,
+      "step": 0.01
+    },
+    {
+      "key": "activity",
+      "label": "Activity",
+      "type": "select",
+      "default": "team",
+      "options": [
+        {
+          "value": "team",
+          "label": "The whole little crew"
+        },
+        {
+          "value": "hammer",
+          "label": "Hammering the floor"
+        },
+        {
+          "value": "ladder",
+          "label": "Climbing the ladder"
+        },
+        {
+          "value": "rope",
+          "label": "Pulling the rope"
+        },
+        {
+          "value": "paint",
+          "label": "Drawing the wall"
+        },
+        {
+          "value": "carry",
+          "label": "Carrying materials"
+        }
+      ]
+    },
+    {
+      "key": "irregularity",
+      "label": "Drawing irregularity",
+      "type": "range",
+      "default": 0.7,
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "ink",
+      "label": "Ink color",
+      "type": "color",
+      "default": "#37342e"
+    },
+    {
+      "key": "stroke",
+      "label": "Stroke width",
+      "type": "range",
+      "default": 0.8,
+      "min": 0.35,
+      "max": 1.4,
+      "step": 0.05
+    },
+    {
+      "key": "progress",
+      "label": "Animation progress \u00b7 %",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1e-06
+    },
+    {
+      "key": "distance",
+      "label": "Scroll distance \u00b7 working pixels",
+      "type": "range",
+      "default": 2400,
+      "min": 1200,
+      "max": 5000,
+      "step": 100
+    },
+    {
+      "key": "speed",
+      "label": "Construction speed",
+      "type": "range",
+      "default": 1,
+      "min": 0.5,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "side",
+      "label": "Margin position",
+      "type": "select",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original articulated figure studies and architectural linework",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "Modern desktop Safari, Chromium and Firefox with SVG, ResizeObserver and native scrolling. No GPU, CDN, font or runtime dependency.",
+    "Touch uses normal vertical scrolling. Actors are inert, pointer-transparent overlays inside reserved illustration areas. All text and controls use HTML.",
+    "Reduced motion starts paused. The timeline, activity selector and finished-page control remain available. Autoplay requires a deliberate click.",
+    "Offscreen and hidden previews stop autoplay. Disposal removes all listeners, observers, animation frames, actors and target styles."
+  ],
+  "notes": [
+    "Each job is a pure function of progress. The tool, articulated pose and page output use the same state, with no accumulated physics or random frame flicker.",
+    "Five completed hammer strokes drive nails and extend a divider. The ladder alternates planted limbs. A ratcheted pulley lifts an actual HTML picture. The pencil traces its actual path. Three carried beams build a frame.",
+    "Characters have angular faces, broken garment contours, cuffs, shoes and seeded crosshatching. Jacket, long-coat and apron studies retain the same contact geometry.",
+    "The scrollable notebook is a demonstration webpage with five sections. Scrolling is native, with no wheel or touch cancellation. Scrubbing, presets and reverse movement evaluate the same tracks."
+  ],
+  "reuse": [
+    "Open example.html from the source ZIP through a local HTTP server; no installation or build is required.",
+    "Use createMarginWorker with an attachment element, activity, output target, trigger, position, scale and optional sequence range.",
+    "Supply normalized progress yourself, or let the adapter observe a normal document or container scroll trigger. See embed-demo.html for a native document example.",
+    "model.js is DOM-free; drawing.js owns the contours; worker.js owns attachment and output; index.js is only the notebook demonstration. README.md documents integration and lifecycle."
+  ]
+}

@@ -1,0 +1,4 @@
+.il-host[data-slug="little-workers"] .il-demo{height:1120px;min-height:800px;max-height:none}
+.il-host[data-slug="little-workers"] .il-annotation,.il-host[data-slug="little-workers"] .il-demo-index{display:none}
+.impossible-effect:has(>.mw){position:relative;height:1120px;overflow:hidden;background:#eee7d9}
+@media(max-width:700px){.il-host[data-slug="little-workers"] .il-demo,.impossible-effect:has(>.mw){height:1090px}}
