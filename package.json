@@ -29,13 +29,15 @@
     "test:folding-paper": "node scripts/folding-paper-geometry-test.mjs && node scripts/folding-paper-browser-test.mjs",
     "test:living-ink": "node scripts/living-ink-model-test.mjs && node scripts/living-ink-browser-test.mjs",
     "test:particle-photos": "node scripts/particle-photos-model-test.mjs && node scripts/particle-photos-browser-test.mjs",
-    "test:time-machine": "node scripts/time-machine-model-test.mjs && node scripts/time-machine-browser-test.mjs"
+    "test:time-machine": "node scripts/time-machine-model-test.mjs && node scripts/time-machine-browser-test.mjs",
+    "test:photo-portals": "node scripts/photo-portals-model-test.mjs && node scripts/photo-portals-browser-test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
     "@fontsource/anton": "5.3.0",
     "@fontsource/barlow-condensed": "5.3.0",
     "@fontsource/libre-caslon-text": "5.3.0",
+    "@sparkjsdev/spark": "2.3.1",
     "astro": "7.4.0",
     "gsap": "3.15.0",
     "three": "0.186.1"

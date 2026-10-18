@@ -4,82 +4,137 @@
   "number": "07",
   "order": 9,
   "name": "Photo Portals",
-  "description": "A frame becomes a threshold into the space inside a photograph.",
+  "description": "Pass through an engraved photographic frame into a depth-aware image. Reverse to return, or bring a real Gaussian-splat scene.",
   "category": "Image",
   "tags": [
     "photography",
     "depth",
     "portals"
   ],
-  "status": "prototype",
-  "placeholder": true,
+  "status": "working",
+  "placeholder": false,
   "technology": [
-    "Canvas 2D",
-    "JavaScript"
+    "Three.js",
+    "WebGL2",
+    "Gaussian splats"
   ],
-  "plannedTechnology": "WebGL / image assets",
-  "dependencies": {},
+  "plannedTechnology": null,
+  "dependencies": {
+    "three": "0.186.1",
+    "@sparkjsdev/spark": "2.3.1"
+  },
   "settings": [
     {
-      "key": "density",
-      "label": "Line count",
-      "type": "range",
-      "min": 8,
-      "max": 64,
-      "step": 1,
-      "default": 32
-    },
-    {
-      "key": "speed",
-      "label": "Motion speed",
-      "type": "range",
-      "min": 0,
-      "max": 2,
-      "step": 0.1,
-      "default": 0.6
-    },
-    {
-      "key": "guides",
-      "label": "Construction guides",
-      "type": "toggle",
-      "default": true
-    },
-    {
-      "key": "ink",
-      "label": "Graphite",
-      "type": "color",
-      "default": "#37342e"
-    },
-    {
-      "key": "accent",
-      "label": "Pencil accent",
-      "type": "color",
-      "default": "#a75239"
-    },
-    {
       "key": "mode",
-      "label": "Arrangement",
+      "label": "Rendering mode",
       "type": "select",
-      "default": "contours",
+      "default": "layered",
       "options": [
         {
-          "value": "contours",
-          "label": "Circular"
+          "value": "layered",
+          "label": "A / Layered photograph"
         },
         {
-          "value": "open",
-          "label": "Open"
+          "value": "splat",
+          "label": "B / Your Gaussian splats"
         }
       ]
     },
     {
-      "key": "seed",
-      "label": "Drawing variation",
-      "type": "number",
-      "min": 1,
-      "max": 99,
-      "step": 1,
-      "default": 7
+      "key": "image",
+      "label": "Photograph",
+      "type": "select",
+      "default": "palms",
+      "options": [
+        {
+          "value": "palms",
+          "label": "Between the palms"
+        },
+        {
+          "value": "facade",
+          "label": "Through an old window"
+        }
+      ]
+    },
+    {
+      "key": "progress",
+      "label": "Transition progress",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 0.1
+    },
+    {
+      "key": "depth",
+      "label": "Depth strength",
+      "type": "range",
+      "default": 1.2,
+      "min": 0,
+      "max": 2.5,
+      "step": 0.05
+    },
+    {
+      "key": "parallax",
+      "label": "Parallax intensity",
+      "type": "range",
+      "default": 0.65,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05
+    },
+    {
+      "key": "blend",
+      "label": "Illustration \u2192 photo",
+      "type": "range",
+      "default": 0.72,
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "cameraX",
+      "label": "Camera position / horizontal",
+      "type": "range",
+      "default": 0,
+      "min": -1,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "cameraY",
+      "label": "Camera position / vertical",
+      "type": "range",
+      "default": 0,
+      "min": -1,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "quality",
+      "label": "Rendering quality",
+      "type": "select",
+      "default": "medium",
+      "options": [
+        {
+          "value": "low",
+          "label": "Light / 64 columns"
+        },
+        {
+          "value": "medium",
+          "label": "Balanced / 128 columns"
+        },
+        {
+          "value": "high",
+          "label": "Fine / 224 columns"
+        }
+      ]
+    },
+    {
+      "key": "guides",
+      "label": "Construction lines",
+      "type": "toggle",
+      "default": true
     }
   ],
   "entry": "index.js",
@@ -92,25 +147,49 @@
   "assets": [
     {
       "path": "assets/preview.svg",
-      "credit": "Original geometric line study \u00b7 Tampa Curated",
+      "credit": "Original illustrated depth study \u00b7 Tampa Curated",
       "license": "MIT"
+    },
+    {
+      "path": "assets/palms-depth.svg",
+      "credit": "Original hand-painted estimated depth \u00b7 Tampa Curated",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/facade-depth.svg",
+      "credit": "Original hand-painted estimated depth \u00b7 Tampa Curated",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/palms.jpg",
+      "credit": "Brandon Burridge \u00b7 https://unsplash.com/photos/4wesDlSBq2o",
+      "license": "Unsplash License"
+    },
+    {
+      "path": "assets/facade.jpg",
+      "credit": "Ikuna \u00b7 https://unsplash.com/photos/wb2DOoxIGJQ",
+      "license": "Unsplash License"
     }
   ],
   "compatibility": [
-    "Current Chrome, Firefox, Safari, and Edge with Canvas 2D and ES modules.",
-    "Static preview and documentation work without JavaScript.",
-    "Reduced motion starts paused. Touch does not require hovering.",
-    "Fullscreen uses the browser API when available, with an expanded-page fallback."
+    "WebGL2 in current Chrome, Safari, Firefox, and Edge. Tested locally in Chromium and WebKit.",
+    "Mode A renders on demand. Low quality and a modest pixel ratio suit smaller devices. Reduced motion uses immediate manual positions.",
+    "Mode B uses Spark 2.3.1, Web Workers and WebAssembly. Its optional runtime loads only when opening a splat. Large scenes need substantial GPU memory.",
+    "Without WebGL2 or JavaScript, an illustrated static plate remains available.",
+    "Local JPEG/PNG/WebP files and grayscale depth maps stay in memory. Splat picker supports .ply, .splat, .ksplat, and .spz up to 64 MB."
   ],
   "notes": [
-    "This is a planned experiment. The live calibration plate tests the lab controls; it is not an implementation of the proposed effect.",
-    "The exported scaffold includes the neutral plate renderer and the complete lifecycle contract. Replace its mount function when developing this experiment."
+    "Mode A is a genuine projective depth mesh. Its vertices unfold into negative z while the camera passes the original picture plane. Returning uses the identical path and geometry.",
+    "The sample depth maps are artist estimates. They offer limited 2.5D parallax; they do not reconstruct hidden surfaces or create a complete navigable building. Some texture stretching is inherent.",
+    "Mode B is a clearly labeled loader, with no bundled reconstruction. No verified licensed splat corresponding to the sample photographs was available. Your real scene is decoded by Spark; a matching poster is captured from its registered viewpoint.",
+    "Scroll over the picture, drag upward on touch, use arrow keys, or scrub the slider. Outward scrolling at each end returns to page scrolling. Hold any intermediate position.",
+    "Photographs keep their Unsplash licenses. Local uploads and scene alignment stay in this session; settings and source exports never include private files."
   ],
   "reuse": [
-    "Extract the source ZIP, then serve the folder over local HTTP. Open example.html.",
-    "Import mount from the experiment entry, pass a sized element and settings, then call setRunning(true).",
-    "Call update(settings) to apply changes, replay() to restart, and dispose() before removing the host.",
-    "Use the included validated preset.json. Framework integration belongs in your application, outside the effect."
+    "Export the source and serve example.html over HTTP. Three.js, Spark, its embedded decoder/worker, licenses, and the photographs are bundled locally.",
+    "Import mount from index.js for the complete instrument, or createPortalViewer from viewer.js for a custom UI. transition.js is independent of rendering and sample content.",
+    "Pass {image, depth} as the fourth mount argument for your own photographic content. Depth is optional; without it, the image is flat and clearly labeled.",
+    "Call viewer.setSplat({url}) or {fileBytes, fileName} with an optional documented registration. Capture its poster after alignment, then use the same transition timeline."
   ],
   "comparison": "none"
 }

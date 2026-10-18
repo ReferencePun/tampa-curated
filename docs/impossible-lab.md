@@ -1,6 +1,6 @@
 # The Impossible Lab
 
-A permanent, local-first creative-effects archive at `/lab/`, under the site's configured base path (`/tampa-curated/lab/` locally). It reuses Astro 7, static file routing, the existing typography, pnpm, and Playwright. No new runtime dependencies or hosting service were added. The editorial homepage and existing effects are preserved; the shared Concepts menu and experiment-room index link to the lab.
+A permanent, local-first creative-effects archive at `/lab/`, under the site's configured base path (`/tampa-curated/lab/` locally). It reuses Astro 7, static file routing, the existing typography, pnpm, and Playwright. The original Lab shell added no runtime dependency or hosting service; individual spatial studies now declare their own portable Three.js/Spark dependencies. The editorial homepage and existing effects are preserved; the shared Concepts menu and experiment-room index link to the lab.
 
 A Git checkpoint was created before implementation: `checkpoint/before-impossible-lab-2026-10-17` (commit `99451f6`).
 
@@ -13,7 +13,8 @@ A Git checkpoint was created before implementation: `checkpoint/before-impossibl
 - **Living Ink**, a working reaction–diffusion material with GPU/CPU engines, architecture and image masks, local images, and still export.
 - **Particle Photos**, a working GPU engraving instrument with three treatments, image uploads, reversible scatter, field-note transitions, and portable gallery examples.
 - **Time Machine**, a registered architectural timeline with a drawn dial, real geometry and custom vertex morphs, fictional neutral/Tampa-inspired scenes, media layers and paired era comparison.
-- Seven clearly marked proposals: Impossible Rooms, Photo Portals, Living City, Site Memory, Spatial Sound, Personal Zines, World Composer.
+- **Photo Portals**, a reversible projective photo relief with original estimated depth maps and an independent, explicitly unbundled Gaussian-splat loader.
+- Six clearly marked proposals: Impossible Rooms, Living City, Site Memory, Spatial Sound, Personal Zines, World Composer.
 - The proposals show a neutral calibration plate to exercise the inspector. It is not an implementation of the named future effect. Their downloads are complete scaffolds, explicitly labeled as such.
 - Range, numeric, checkbox, color, and select controls; validated structured path state for drawing instruments; default reset, pause/resume, replay, fullscreen/expanded preview, measured diagnostics, and browser-local named presets.
 - Validated JSON preset import/export and complete ZIP exports from the UI or command line. Current UI settings are embedded in a source download; the static default download works without JavaScript.
@@ -135,6 +136,7 @@ pnpm test:folding-paper
 pnpm test:living-ink
 pnpm test:particle-photos
 pnpm test:time-machine
+pnpm test:photo-portals
 pnpm test:navigation
 ```
 
@@ -203,3 +205,11 @@ The portable schema, geometry engine, viewer and complete instrument are documen
 Verification: pure tests confirm ordered sampling, exact reverse poses, genuine intermediate geometry, persistent geometry identities, custom vertex morphs, stable camera matrices, facade registration, actual survey-to-footprint alignment, timeline reversal, dial mapping, provenance validation and resource disposal. Chromium and WebKit pass dial/slider input, time-keyed geometry, fixed-camera stability, orbit without time changes, paired views, photographic layers, fictional/Tampa labels, auto/reverse playback, held moments, preset persistence, invalid imports and source ZIP integrity. The export runs independently on another HTTP origin, including its own Play/host-pause coordination. Mobile touch, readable selectors, responsive comparison, reduced motion, offscreen rest and cleanup pass; Chromium also tests interrupted/restored graphics and the static no-WebGL fallback. Desktop, mobile and standalone screenshots were reviewed.
 
 Astro check: zero errors, warnings or hints. The production build verifies 65 pages and 5,799 internal links/assets; Lab validation checks 14 manifests and 45 portable JavaScript modules. Complete Lab and navigation regressions pass in Chromium and WebKit, including all fifteen concept destinations, nine enlarged-text layouts, sixteen menu reflows, keyboard/mobile behavior, presets, source packages and no-JavaScript access. No publication was performed.
+
+## Photo Portals implementation
+
+Checkpoint: `checkpoint/before-photo-portals-2026-10-17` at `93731c3`. Only the Photo Portals proposal is replaced. The Concepts menu and Lab catalog expose the study. The reusable mesh, pure transition functions, viewer, Spark loader, UI, sample photos and hand-painted depth estimates live in its own directory. Mode A is explicitly limited 2.5D; Mode B requires the visitor’s real reconstruction and captures a corresponding poster from its registered view. No unverified scene is presented as a photographic reconstruction.
+
+The source exporter now includes Spark’s exact browser module and Three’s FullScreenQuad helper only when declared by the study. The module embeds its decoder WASM and worker; both modes run from the exported local HTTP example. Presets contain settings but never local media or scene registration. The original site pages and other studies are preserved.
+
+Validation: 254 source files checked without errors, warnings or hints; Lab lint covers 14 manifests and 51 portable modules. The production build contains 65 pages, with 5,864 internal links/assets verified. Photo Portals passes numerical camera/mesh tests plus Chromium/WebKit checks for reversible travel, wheel/drag/keyboard/touch, photograph and depth-map uploads, actual Spark decoding and poster capture, alignment, preset restoration across images, source ZIP integrity, independently served examples in both modes, reduced motion, context recovery and disposal. Shared Lab regressions and all 16 Concepts destinations pass in both engines, including mobile and enlarged text. A worker-termination race found during testing was resolved by serializing and draining splat sorting before resource disposal. No publication was performed.

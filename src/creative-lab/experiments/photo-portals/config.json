@@ -1,9 +1,12 @@
 {
-  "density": 32,
-  "speed": 0.6,
-  "guides": true,
-  "ink": "#37342e",
-  "accent": "#a75239",
-  "mode": "contours",
-  "seed": 7
+  "mode": "layered",
+  "image": "palms",
+  "progress": 0,
+  "depth": 1.2,
+  "parallax": 0.65,
+  "blend": 0.72,
+  "cameraX": 0,
+  "cameraY": 0,
+  "quality": "medium",
+  "guides": true
 }
