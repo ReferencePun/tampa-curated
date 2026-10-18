@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {Vector3,Quaternion} from 'three';
+import {Vector3,Quaternion,ExtrudeGeometry} from 'three';
 import {DEMO,DEFAULTS,RECIPES} from '../src/creative-lab/experiments/handwritten-manuscript/content.js';
 import {validateScene,options,sampleRoute,portalTransform,frameMatrix,crossedPortal,constrainWalk,chaptersFor} from '../src/creative-lab/experiments/handwritten-manuscript/navigation.js';
 import {Typesetter} from '../src/creative-lab/experiments/handwritten-manuscript/typography.js';
@@ -23,3 +23,9 @@ console.log('Handwritten Manuscript: reversible path, smooth wall-to-floor turn,
 
 const handFont=new Font(JSON.parse(await readFile(directory+'assets/caveat-outlines.json')));assert.ok(handFont.generateShapes('READ',1).length>=4);assert.notDeepEqual(handFont.generateShapes('READ',1)[0].getPoints(),font.generateShapes('READ',1)[0].getPoints());
 const {penFor}=await import('../src/creative-lab/experiments/handwritten-manuscript/hand.js');assert.deepEqual(new Set(Array.from({length:2000},(_,i)=>penFor(i))),new Set([0,1,2]));assert.equal(penFor(100,'graphite'),0);assert.ok(a.records.some(r=>r[8]===1)&&a.records.some(r=>r[8]===2));
+
+const {wearSeed,wearPlan,erasedAt}=await import('../src/creative-lab/experiments/handwritten-manuscript/wear.js');
+const seed=wearSeed(new Vector3(3,5,1),12,8),wear=wearPlan(12,8,seed);assert.deepEqual(wear,wearPlan(12,8,seed));assert.ok(erasedAt(wear[0].x,wear[0].y,wear)>.6);assert.ok(erasedAt(-100,-100,wear)<.00001);
+const {roughEdge}=await import('../src/creative-lab/experiments/handwritten-manuscript/hand.js');assert.deepEqual(roughEdge(.1,.1,.5,.6),[.1,.1]);assert.notDeepEqual(roughEdge(.5,.2,.5,.6),[.5,.2]);
+const aperture=font.generateShapes('O',1)[0],geometry=new ExtrudeGeometry([aperture],{depth:.16,bevelEnabled:false});geometry.computeBoundingBox();const box=geometry.boundingBox,cx=(box.min.x+box.max.x)/2,cy=(box.min.y+box.max.y)/2,hx=(box.max.x-box.min.x)/2,hy=(box.max.y-box.min.y)/2;for(const hole of aperture.holes)for(const p of hole.getPoints(24))assert.deepEqual(roughEdge(p.x-cx,p.y-cy,hx,hy),[p.x-cx,p.y-cy],'Roughening leaves the actual portal counter unchanged');geometry.dispose();
+console.log('Sketchbook wear: deterministic rubbing, faded writing, and registered letter counters passed.');

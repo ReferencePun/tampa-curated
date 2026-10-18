@@ -1,4 +1,4 @@
 .il-host[data-slug="handwritten-manuscript"] .il-demo{height:1160px;min-height:850px;max-height:none}
 .il-host[data-slug="handwritten-manuscript"] .il-annotation,.il-host[data-slug="handwritten-manuscript"] .il-demo-index{display:none}
-.impossible-effect:has(>.hm){position:relative;width:100%;height:1160px;min-height:850px;background:#f8f7f2;overflow:hidden}
+.impossible-effect:has(>.hm){position:relative;width:100%;height:1160px;min-height:850px;background:#efeee8;overflow:hidden}
 @media(max-width:650px){.il-host[data-slug="handwritten-manuscript"] .il-demo,.impossible-effect:has(>.hm){height:1350px}}

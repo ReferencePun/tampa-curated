@@ -6,8 +6,8 @@ export const TEXTS={
  library:'This room has been here before, but its ceiling was our floor. The shelves keep no books. They keep the routes we did not take. Follow the sentence until it returns wearing another orientation. The end of the manuscript is a hinge.',
  cyrillic:'Страница оказалась комнатой. Между словами осталась дверь. Стена стала полом, когда читатель повернул голову. Мы вернулись к началу с другой стороны. Тишина держит потолок.'
 };
-export const CHAPTERS=[{name:'The Manuscript',start:0,at:0,note:'An unfinished draft. Someone has written in the margins.'},{name:'The Staircases',start:.2,at:.29,note:'Climb the sentence. The wall ahead will become your floor.'},{name:'The Letter Cathedral',start:.62,at:.68,note:'A room larger than the opening that contains it.'},{name:'The Endless Library',start:.8,at:.85,note:'The same sentence returns on another ceiling.'}];
-export const DEFAULTS={density:.9,font:'mixed',weight:500,letterSize:1.1,scale:1,complexity:2,speed:1,gravity:0,perspective:54,contrast:.94,extrusion:.16,depth:1,recursion:1,mode:'guided',imperfection:.65,customText:''};
+export const CHAPTERS=[{name:'The Manuscript',start:0,at:0,note:'A rubbed-out room. A thought written over twice.'},{name:'The Staircases',start:.2,at:.29,note:'Climb the sentence. The wall ahead will become your floor.'},{name:'The Letter Cathedral',start:.62,at:.68,note:'A room larger than the opening that contains it.'},{name:'The Endless Library',start:.8,at:.85,note:'The same sentence returns on another ceiling.'}];
+export const DEFAULTS={density:.9,font:'mixed',weight:400,letterSize:1.1,scale:1,complexity:2,speed:1,gravity:0,perspective:54,contrast:.94,extrusion:.16,depth:1,recursion:1,mode:'guided',imperfection:.65,customText:''};
 export const RECIPES={
  literary:{...DEFAULTS},
  staircases:{...DEFAULTS,font:'ballpoint',weight:700,density:.9,complexity:3,contrast:1},

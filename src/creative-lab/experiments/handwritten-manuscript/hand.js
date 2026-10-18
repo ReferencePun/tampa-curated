@@ -1,6 +1,6 @@
 // Deterministic mark-making: no animated noise or random changes on revisiting a page.
-export const INKS=['#292724','#294984','#a33d39'];
-export const PAPER='#f5f0e5';
+export const INKS=['#131517','#203d72','#9d302d'];
+export const PAPER='#efeee8';
 export const noise=n=>{const v=Math.sin(n*127.1+311.7)*43758.5453;return v-Math.floor(v);};
 export function penFor(serial,style='mixed'){
  if(style==='graphite')return 0;
@@ -16,4 +16,10 @@ export async function acquireHandwriting(signal){
  if(signal?.aborted)throw new DOMException('Aborted','AbortError');
  users++;document.fonts.add(face);let released=false;
  return ()=>{if(released)return;released=true;if(--users===0)document.fonts.delete(face);};
+}
+
+// Leave letter counters registered, but let the outside edge wander like a drawing.
+export function roughEdge(x,y,halfWidth,halfHeight){
+ const rim=Math.max(0,Math.min(1,(Math.hypot(x/halfWidth,y/halfHeight)-.8)/.2));
+ return [x+rim*(Math.sin(y*31)+.32*Math.sin(y*97))*halfWidth*.055,y+rim*(Math.sin(x*41)+.26*Math.sin(x*113))*halfHeight*.045];
 }

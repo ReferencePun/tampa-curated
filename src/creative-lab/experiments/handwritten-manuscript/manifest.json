@@ -4,7 +4,7 @@
   "number": "21B",
   "order": 17,
   "name": "The Handwritten Manuscript",
-  "description": "The impossible rooms, rewritten by an untidy hand. Graphite, blue ballpoint, red corrections, and letters you can walk through.",
+  "description": "A living sketchbook of impossible rooms: sharp black and blue ink, red revisions, erased writing, and graphite dragged across the page.",
   "category": "Spatial",
   "tags": [
     "handwriting",
@@ -62,7 +62,7 @@
       "key": "weight",
       "label": "Pen pressure",
       "type": "range",
-      "default": 500,
+      "default": 400,
       "min": 400,
       "max": 700,
       "step": 100

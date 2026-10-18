@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import {INKS,noise} from './hand.js';
+import {INKS,noise,roughEdge} from './hand.js';
 // Shared line batches keep corrections attached to their architectural surfaces.
 export class Marginalia {
- constructor(){this.lines=[[],[],[]];this.count=0;}
+ constructor(){this.lines=[[],[],[]];this.ghosts=[];this.count=0;}
  path(points,pen=0){for(let i=1;i<points.length;i++)this.lines[pen].push(...points[i-1].toArray(),...points[i].toArray());this.count+=Math.max(0,points.length-1);}
  stroke(points,pen=0,roughness=.012,seed=0){for(let pass=0;pass<2;pass++)this.path(points.map((p,i)=>p.clone().add(new THREE.Vector3((noise(seed+i*3+pass)-.5)*roughness,(noise(seed+i*5+pass)-.5)*roughness,(noise(seed+i+pass)-.5)*roughness))),pen);}
  paragraph(s,rotation,origin,index,types,config){
@@ -20,22 +20,32 @@ export class Marginalia {
   // Sparse pencil layout ticks and abandoned line endings.
   for(const y of [0,height])this.stroke([at(-.2,y),at(width+.15,y+.025)],0,.025,index+3);
  }
- contour(shapes,center,matrix,depth,pen,seed){
+ contour(shapes,center,matrix,depth,pen,seed,rough){
   for(const shape of shapes)for(const contour of [shape,...shape.holes]){
-   const points=contour.getPoints(5);
-   for(let pass=0;pass<2;pass++){const line=points.map((p,i)=>new THREE.Vector3(p.x-center.x+(noise(i+seed+pass)-.5)*.009,p.y-center.y+(noise(i*3+seed+pass)-.5)*.009,depth+.003+pass*.002).applyMatrix4(matrix));this.path(line,pen);}
+   const points=contour.getPoints(5).map(p=>{if(!rough)return p;const [x,y]=roughEdge(p.x-center.x,p.y-center.y,...rough);return new THREE.Vector2(x+center.x,y+center.y);});
+   // A decisive, broken edge beside a displaced memory of an earlier attempt.
+   const primary=points.map((p,i)=>new THREE.Vector3(p.x-center.x+(noise(i+seed)-.5)*.003,p.y-center.y+(noise(i*3+seed)-.5)*.003,depth+.004).applyMatrix4(matrix));
+   for(let i=1;i<primary.length;i++){if(noise(Math.floor(i/7)+seed)>.89)continue;this.path([primary[i-1],primary[i]],pen);}
+   const abandoned=points.map((p,i)=>new THREE.Vector3(p.x-center.x+.018+Math.sin(i*.12+seed)*.009,p.y-center.y-.013+Math.cos(i*.17+seed)*.01,depth+.002).applyMatrix4(matrix));
+   for(let i=1;i<abandoned.length;i++)if(noise(Math.floor(i/11)+seed)>.25)this.ghosts.push(...abandoned[i-1].toArray(),...abandoned[i].toArray());
   }
  }
- build(root,resources){for(let i=0;i<3;i++){if(!this.lines[i].length)continue;const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(this.lines[i],3));const material=new THREE.LineBasicMaterial({color:INKS[i],transparent:true,opacity:i===0?.42:.66,depthWrite:false});const mesh=new THREE.LineSegments(geometry,material);mesh.name=['Graphite retracing','Ballpoint revisions','Red pencil corrections'][i];root.add(mesh);resources.add(geometry);resources.add(material);}return this.count;}
+ build(root,resources){for(let i=0;i<3;i++){if(!this.lines[i].length)continue;const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(this.lines[i],3));const material=new THREE.LineBasicMaterial({color:INKS[i],transparent:true,opacity:i===0?.78:.84,depthWrite:false});const mesh=new THREE.LineSegments(geometry,material);mesh.name=['Graphite retracing','Ballpoint revisions','Red pencil corrections'][i];root.add(mesh);resources.add(geometry);resources.add(material);}if(this.ghosts.length){const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(this.ghosts,3));const material=new THREE.LineBasicMaterial({color:0x4b4944,transparent:true,opacity:.2,depthWrite:false}),mesh=new THREE.LineSegments(geometry,material);mesh.name='Abandoned pencil contours';root.add(mesh);resources.add(geometry);resources.add(material);}return this.count;}
 }
 export function pencilMaterial(color,side=false){
  const material=new THREE.MeshBasicMaterial({color});
  material.onBeforeCompile=shader=>{
   shader.vertexShader=shader.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vSketch;').replace('#include <begin_vertex>','#include <begin_vertex>\nvSketch=position;');
   shader.fragmentShader=shader.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 vSketch;').replace('#include <color_fragment>',`#include <color_fragment>
-   float hatch=smoothstep(.3,.8,sin((vSketch.x+vSketch.y*.68)*370.+sin(vSketch.y*97.)*1.5));
-   float grain=fract(sin(dot(floor(vSketch.xy*850.),vec2(12.9898,78.233)))*43758.5453);
-   diffuseColor.rgb=mix(vec3(.913,.871,.784),diffuseColor.rgb,${side?'.09+hatch*.18':'.12+hatch*.53'}*(.65+grain*.35));`);
+   vec2 p=vSketch.xy*vec2(53.,91.);vec2 cell=floor(p);vec2 local=fract(p);
+   float seed=fract(sin(dot(cell,vec2(12.9898,78.233)))*43758.5453);
+   float bite=abs(local.y-(.08+local.x*(.3+seed*.55)));
+   float sharp=1.-smoothstep(.018,.08,bite);
+   float shorter=step(.12+seed*.15,local.x)*step(local.x,.69+seed*.25);
+   float erased=fract(sin(dot(floor(vSketch.xy*6.),vec2(17.31,31.17)))*9182.1);
+   float grain=fract(sin(dot(floor(vSketch.xy*950.),vec2(27.12,16.18)))*8345.19);
+   float pressure=sharp*shorter*step(.25,seed)*(.2+seed*.8)*smoothstep(.15,.5,erased);
+   diffuseColor.rgb=mix(vec3(.863,.855,.807),diffuseColor.rgb,${side?'.015+pressure*.22':'.018+pressure*.8'}*(.55+grain*.45));`);
  };
  material.customProgramCacheKey=()=>side?'hand-pencil-side':'hand-pencil-face';return material;
 }
