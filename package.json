@@ -38,7 +38,8 @@
     "test:light-peg-studio": "node scripts/light-peg-model-test.mjs && node scripts/light-peg-browser-test.mjs",
     "test:handwritten-manuscript": "node scripts/handwritten-manuscript-model-test.mjs && node scripts/handwritten-manuscript-browser-test.mjs",
     "test:sequin-reveal": "node scripts/sequin-reveal-model-test.mjs && node scripts/sequin-reveal-browser-test.mjs",
-    "test:slinky-stairs": "node scripts/slinky-stairs-model-test.mjs && node scripts/slinky-stairs-browser-test.mjs"
+    "test:slinky-stairs": "node scripts/slinky-stairs-model-test.mjs && node scripts/slinky-stairs-browser-test.mjs",
+    "test:living-music-score": "node scripts/living-music-score-model-test.mjs && node scripts/living-music-score-browser-test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

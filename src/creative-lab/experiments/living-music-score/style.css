@@ -1,0 +1,5 @@
+.il-host[data-slug="living-music-score"] .il-demo{height:1190px;min-height:1000px;max-height:none}
+.il-host[data-slug="living-music-score"] .il-annotation,.il-host[data-slug="living-music-score"] .il-demo-index{display:none}
+.il-host[data-slug="living-music-score"] .il-field:has([data-setting="composition"]){display:none}
+.impossible-effect:has(>.ms){position:relative;height:1190px;background:#e9e4d7;overflow:hidden}
+@media(max-width:700px){.il-host[data-slug="living-music-score"] .il-demo,.impossible-effect:has(>.ms){height:1360px}}

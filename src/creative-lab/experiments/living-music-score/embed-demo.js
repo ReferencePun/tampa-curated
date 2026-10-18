@@ -1,0 +1,12 @@
+import {makeComposition,DEFAULTS} from './music.js';
+import {loadHandwriting,createScoreDrawing} from './drawing.js';
+import {createScoreAudio} from './audio.js';
+const host=document.querySelector('#score'),status=document.querySelector('#status'),slider=document.querySelector('#position'),abort=new AbortController(),signal=abort.signal;
+const composition=makeComposition({title:'A melody in the margin',tempo:92,events:[['D4',1],['F4',.5],['A4',.5],['G4',1],['E4',1],['F4',1.5],['E4',.5],['D4',2]].map(([pitch,duration])=>({pitch,duration}))});
+let drawing=null,frame=0,disposed=false;const audio=createScoreAudio();
+function paint(){frame=0;if(disposed||!drawing)return;const plan=drawing.getPlan(),beat=audio.getBeat(),p=(beat+plan.lead)/(plan.total+plan.lead);slider.value=String(p);drawing.render(p,{beat,playing:audio.getState().playing});if(audio.getState().playing)frame=requestAnimationFrame(paint);}
+try{drawing=createScoreDrawing({host,composition,settings:DEFAULTS,font:await loadHandwriting(signal),width:host.clientWidth});}catch(error){status.textContent=error.message;}
+document.querySelector('#play').addEventListener('click',async()=>{if(!drawing)return;try{const plan=drawing.getPlan(),p=+slider.value>=1?0:+slider.value;await audio.play(composition,{from:p*(plan.total+plan.lead)-plan.lead});cancelAnimationFrame(frame);frame=requestAnimationFrame(paint);status.textContent='The same notes, written and heard.';}catch(error){status.textContent=error.message;}},{signal});
+function pause(){audio.pause();cancelAnimationFrame(frame);frame=0;status.textContent='Paused. Press Play to resume.';}
+document.querySelector('#pause').addEventListener('click',pause,{signal});document.querySelector('#reset').addEventListener('click',()=>{pause();slider.value='0';drawing?.render(0);},{signal});slider.addEventListener('input',()=>{pause();drawing?.render(+slider.value);},{signal});
+const resize=new ResizeObserver(()=>drawing?.update(composition,DEFAULTS,host.clientWidth));resize.observe(host);const visibility=new IntersectionObserver(entries=>{if(!entries[0].isIntersecting&&audio.getState().playing)pause();});visibility.observe(host);document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();},{signal});window.addEventListener('pagehide',()=>{disposed=true;abort.abort();cancelAnimationFrame(frame);resize.disconnect();visibility.disconnect();drawing?.dispose();void audio.dispose();},{once:true});

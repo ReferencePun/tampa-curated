@@ -1,0 +1,232 @@
+{
+  "id": "impossible-living-music-score",
+  "slug": "living-music-score",
+  "number": "16",
+  "order": 20,
+  "name": "Living Music Score",
+  "description": "A musician\u2019s notebook writes itself, then sings. Three original melodies, an attentive pen, and a score you can make your own.",
+  "category": "Sound",
+  "tags": [
+    "handwriting",
+    "notation",
+    "music",
+    "Web Audio",
+    "composition"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "SVG stroke geometry",
+    "Web Audio API",
+    "Standard MIDI export"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "settings": [
+    {
+      "key": "song",
+      "label": "Original melody",
+      "type": "select",
+      "default": "window",
+      "options": [
+        {
+          "value": "window",
+          "label": "A window left open"
+        },
+        {
+          "value": "moth",
+          "label": "Moth at the window"
+        },
+        {
+          "value": "waltz",
+          "label": "Blue hour, in three"
+        }
+      ]
+    },
+    {
+      "key": "tempo",
+      "label": "Tempo \u00b7 quarter notes per minute",
+      "type": "range",
+      "default": 88,
+      "min": 40,
+      "max": 160,
+      "step": 1
+    },
+    {
+      "key": "sound",
+      "label": "Instrument sound",
+      "type": "select",
+      "default": "piano",
+      "options": [
+        {
+          "value": "piano",
+          "label": "Felt keys \u00b7 synthesized"
+        },
+        {
+          "value": "celesta",
+          "label": "Celesta \u00b7 synthesized"
+        },
+        {
+          "value": "reed",
+          "label": "Soft reed \u00b7 synthesized"
+        },
+        {
+          "value": "score",
+          "label": "Use the composition\u2019s instruments"
+        }
+      ]
+    },
+    {
+      "key": "speed",
+      "label": "Drawing speed",
+      "type": "range",
+      "default": 1,
+      "min": 0.35,
+      "max": 2,
+      "step": 0.01
+    },
+    {
+      "key": "pressure",
+      "label": "Pen pressure variation",
+      "type": "range",
+      "default": 0.6,
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "ink",
+      "label": "Ink color",
+      "type": "color",
+      "default": "#343330"
+    },
+    {
+      "key": "irregularity",
+      "label": "Handwriting irregularity",
+      "type": "range",
+      "default": 0.48,
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "staffSize",
+      "label": "Staff size",
+      "type": "range",
+      "default": 1,
+      "min": 0.8,
+      "max": 1.35,
+      "step": 0.01
+    },
+    {
+      "key": "mode",
+      "label": "Interaction mode",
+      "type": "select",
+      "default": "scroll",
+      "options": [
+        {
+          "value": "scroll",
+          "label": "Scroll to write \u00b7 silent"
+        },
+        {
+          "value": "play",
+          "label": "Play the song \u00b7 click Play"
+        },
+        {
+          "value": "compose",
+          "label": "Compose a melody"
+        }
+      ]
+    },
+    {
+      "key": "tool",
+      "label": "Drawing instrument",
+      "type": "select",
+      "default": "pen",
+      "options": [
+        {
+          "value": "pen",
+          "label": "Fountain pen"
+        },
+        {
+          "value": "pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "quill",
+          "label": "Quill"
+        },
+        {
+          "value": "none",
+          "label": "Hide the tool"
+        }
+      ]
+    },
+    {
+      "key": "volume",
+      "label": "Playback volume",
+      "type": "range",
+      "default": 0.3,
+      "min": 0,
+      "max": 0.6,
+      "step": 0.01
+    },
+    {
+      "key": "progress",
+      "label": "Drawing / playback progress \u00b7 %",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1e-06
+    },
+    {
+      "key": "composition",
+      "label": "Custom composition \u00b7 edited in Compose",
+      "type": "text",
+      "default": "",
+      "maxLength": 24000
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original composition and procedural musical handwriting",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/caveat-outlines.json",
+      "credit": "Caveat handwriting outlines \u00b7 Pablo Impallari and the Caveat project authors",
+      "license": "SIL Open Font License 1.1; see assets/CAVEAT-OFL.txt"
+    }
+  ],
+  "compatibility": [
+    "Modern browsers with SVG, Pointer Events and Web Audio. No WebGL, external samples, CDN or runtime package is required.",
+    "Sound is off on arrival. Press Play to create and resume AudioContext. Stop, pause, mute, volume and silent writing work independently.",
+    "Desktop wheel/trackpad, touch dragging, keyboard and slider controls. Compose includes an accessible HTML event selector alongside clickable notation.",
+    "One treble-clef voice, G3\u2013E6, 3/4 or 4/4, eighth through whole notes, dots, rests, accidentals, beams and ties. No chords, tuplets or multiple voices.",
+    "Hidden/offscreen playback pauses and requires Play to continue. Disposal stops scheduled voices, timers and animation frames and closes the audio context."
+  ],
+  "notes": [
+    "Three short original melodies share structured events between notation, procedural audio and MIDI. No commercial recording or existing melody is sampled.",
+    "A restricted notation engine places notes diatonically, groups eighths within beats, maintains accidentals per measure, and ties notes split by bar lines or strong beats. Final incomplete bars receive rests.",
+    "Staff, clefs, note heads, stems, beams, rests and annotations are real stroke paths, with deterministic irregularity and pressure changes. The tool tip follows the very path currently being drawn.",
+    "Scroll to Write reverses the drawing silently. Play uses the AudioContext clock for both scheduled notes and visual progress. Future symbols are prepared just ahead of their sounding notes.",
+    "Compose changes actual events. Edits reflow the notation, change the sound, and are included in locally saved Lab presets and the source package.",
+    "Export a complete vector score, PNG, composition JSON, MIDI or replayable drawing recipe. Importing a composition never enables sound."
+  ],
+  "reuse": [
+    "Open example.html in the exported ZIP through local HTTP. No install or build is needed.",
+    "Use createScoreDrawing for the SVG instrument, createScoreAudio for gesture-activated playback, and music.js for normalized composition events.",
+    "The layout, handwriting, audio scheduler and export modules are independent. See embed-demo.html for a small music-website integration.",
+    "README.md documents schemas, notation scope, exact timing, pause/seek, local persistence and resource cleanup."
+  ],
+  "comparison": "none"
+}

@@ -1,0 +1,15 @@
+{
+  "song": "window",
+  "tempo": 88,
+  "sound": "piano",
+  "speed": 1,
+  "pressure": 0.6,
+  "ink": "#343330",
+  "irregularity": 0.48,
+  "staffSize": 1,
+  "mode": "scroll",
+  "tool": "pen",
+  "volume": 0.3,
+  "progress": 0,
+  "composition": ""
+}
