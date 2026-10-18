@@ -1,9 +1,13 @@
 {
-  "density": 32,
-  "speed": 0.6,
+  "speed": 0.65,
+  "volume": 0.28,
+  "spatial": 1,
+  "atmosphere": "daylight",
+  "detail": 2,
   "guides": true,
-  "ink": "#37342e",
-  "accent": "#a75239",
-  "mode": "contours",
-  "seed": 7
+  "gear": true,
+  "pendulum": true,
+  "wheel": true,
+  "pulley": true,
+  "arm": true
 }

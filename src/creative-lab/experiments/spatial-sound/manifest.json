@@ -4,82 +4,114 @@
   "number": "10",
   "order": 12,
   "name": "Spatial Sound",
-  "description": "A composition you walk through, with distance, direction, and silence.",
+  "description": "Walk through a delicate mechanical instrument. Gears, a pendulum, pulleys and linkages compose spatial sound from their own movement.",
   "category": "Sound",
   "tags": [
     "audio",
     "space",
     "listening"
   ],
-  "status": "prototype",
-  "placeholder": true,
+  "status": "working",
+  "placeholder": false,
   "technology": [
-    "Canvas 2D",
+    "SVG",
+    "Web Audio",
     "JavaScript"
   ],
-  "plannedTechnology": "Web Audio / user activation",
+  "plannedTechnology": null,
   "dependencies": {},
   "settings": [
     {
-      "key": "density",
-      "label": "Line count",
-      "type": "range",
-      "min": 8,
-      "max": 64,
-      "step": 1,
-      "default": 32
-    },
-    {
       "key": "speed",
-      "label": "Motion speed",
+      "label": "Mechanical speed",
       "type": "range",
       "min": 0,
       "max": 2,
-      "step": 0.1,
-      "default": 0.6
+      "step": 0.05,
+      "default": 0.65
     },
     {
-      "key": "guides",
-      "label": "Construction guides",
-      "type": "toggle",
-      "default": true
+      "key": "volume",
+      "label": "Master volume (requires Enable sound)",
+      "type": "range",
+      "min": 0,
+      "max": 0.6,
+      "step": 0.01,
+      "default": 0.28
     },
     {
-      "key": "ink",
-      "label": "Graphite",
-      "type": "color",
-      "default": "#37342e"
+      "key": "spatial",
+      "label": "Spatialization",
+      "type": "range",
+      "min": 0,
+      "max": 1,
+      "step": 0.05,
+      "default": 1
     },
     {
-      "key": "accent",
-      "label": "Pencil accent",
-      "type": "color",
-      "default": "#a75239"
-    },
-    {
-      "key": "mode",
-      "label": "Arrangement",
+      "key": "atmosphere",
+      "label": "Musical atmosphere",
       "type": "select",
-      "default": "contours",
+      "default": "daylight",
       "options": [
         {
-          "value": "contours",
-          "label": "Circular"
+          "value": "daylight",
+          "label": "Daylight / pentatonic"
         },
         {
-          "value": "open",
-          "label": "Open"
+          "value": "dusk",
+          "label": "After hours / minor"
+        },
+        {
+          "value": "suspended",
+          "label": "Suspended / open fifths"
         }
       ]
     },
     {
-      "key": "seed",
-      "label": "Drawing variation",
-      "type": "number",
+      "key": "detail",
+      "label": "Drawing detail",
+      "type": "range",
       "min": 1,
-      "max": 99,
+      "max": 3,
       "step": 1,
-      "default": 7
+      "default": 2
+    },
+    {
+      "key": "guides",
+      "label": "Construction lines",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "gear",
+      "label": "Escapement ticks",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "pendulum",
+      "label": "Pendulum tones",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "wheel",
+      "label": "Harmonic wheel",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "pulley",
+      "label": "Counterweight texture",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "arm",
+      "label": "Articulated string",
+      "type": "toggle",
+      "default": true
     }
   ],
   "entry": "index.js",
@@ -92,25 +124,29 @@
   "assets": [
     {
       "path": "assets/preview.svg",
-      "credit": "Original geometric line study \u00b7 Tampa Curated",
+      "credit": "Original listening-room engraving \u00b7 Tampa Curated. All sound is procedural synthesis; no audio samples.",
       "license": "MIT"
     }
   ],
   "compatibility": [
-    "Current Chrome, Firefox, Safari, and Edge with Canvas 2D and ES modules.",
-    "Static preview and documentation work without JavaScript.",
-    "Reduced motion starts paused. Touch does not require hovering.",
-    "Fullscreen uses the browser API when available, with an expanded-page fallback."
+    "Modern Chrome, Firefox, Safari and Edge with SVG and Web Audio. No WebGL, runtime dependencies, remote assets or microphone access.",
+    "The context is created only after Enable sound. Device/browser audio interruptions may require pressing Mute, then Enable sound again. The room remains usable silently.",
+    "Recording uses MediaRecorder with a runtime codec check. Available formats vary; score JSON export remains available without recording support.",
+    "Keyboard, pointer and touch navigation; reduced motion starts paused. Hidden or offscreen studies stop transport and voices. Disposal closes the owned AudioContext."
   ],
   "notes": [
-    "This is a planned experiment. The live calibration plate tests the lab controls; it is not an implementation of the proposed effect.",
-    "The exported scaffold includes the neutral plate renderer and the complete lifecycle contract. Replace its mount function when developing this experiment."
+    "This is an original imaginary mechanical listening room, rendered as perspective SVG linework. The listening point and visual viewpoint share coordinates; the camera faces the back wall.",
+    "Tooth crossings trigger wood-like filtered ticks; pendulum center crossings ring a gentle tone. Half-turns of the harmonic wheel choose notes in the selected scale. Rope travel makes filtered grain and the arm plucks a muted string. Manual operation advances these same mechanical phases.",
+    "Positional sources use HRTF panning and inverse-distance attenuation. Spatialization blends that field with centered mono. Source checkboxes mute voices while their mechanisms remain visible.",
+    "Audio starts muted on every visit and in every export. Presets never carry audio activation. Master gain is capped at 60%, voices have soft envelopes, a bounded voice count and a compressor.",
+    "Stop all mutes and freezes the room. Enable sound is a deliberate restart; Run mechanisms resumes silently after Stop all. Automatic transport pauses with the Lab lifecycle; returning resumes only a previously enabled instrument.",
+    "Record up to 15 seconds of the synthesized output, preview it, or save it locally. No microphone, uploads or accounts. Pausing or muting ends a recording. Score JSON retains the most recent 256 semantic actions and exact synthesized strikes."
   ],
   "reuse": [
-    "Extract the source ZIP, then serve the folder over local HTTP. Open example.html.",
-    "Import mount from the experiment entry, pass a sized element and settings, then call setRunning(true).",
-    "Call update(settings) to apply changes, replay() to restart, and dispose() before removing the host.",
-    "Use the included validated preset.json. Framework integration belongs in your application, outside the effect."
+    "Serve the exported source folder over HTTP and open example.html. Everything required is local and MIT licensed. No installation or audio assets are needed.",
+    "Use createSpatialAudio independently: register positioned source IDs, enable in a user gesture, set the listener, then strike sources from your application\u2019s actual state.",
+    "The pure mechanical transport, procedural voice generator, SVG illustration and complete demo UI are separate modules. The README documents their APIs and coordinate system.",
+    "Mount the complete room with mount(host, settings, report), call setRunning for visibility, update settings, and dispose before removing it. The source archive includes the current validated settings; it never enables audio automatically."
   ],
   "comparison": "none"
 }

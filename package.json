@@ -32,7 +32,8 @@
     "test:time-machine": "node scripts/time-machine-model-test.mjs && node scripts/time-machine-browser-test.mjs",
     "test:photo-portals": "node scripts/photo-portals-model-test.mjs && node scripts/photo-portals-browser-test.mjs",
     "test:living-city": "node scripts/living-city-model-test.mjs && node scripts/living-city-browser-test.mjs",
-    "test:site-memory": "node scripts/site-memory-model-test.mjs && node scripts/site-memory-browser-test.mjs"
+    "test:site-memory": "node scripts/site-memory-model-test.mjs && node scripts/site-memory-browser-test.mjs",
+    "test:spatial-sound": "node scripts/spatial-sound-model-test.mjs && node scripts/spatial-sound-browser-test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

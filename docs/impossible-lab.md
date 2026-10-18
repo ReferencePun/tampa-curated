@@ -16,7 +16,8 @@ A Git checkpoint was created before implementation: `checkpoint/before-impossibl
 - **Photo Portals**, a reversible projective photo relief with original estimated depth maps and an independent, explicitly unbundled Gaussian-splat loader.
 - **Living City**, an original SVG waterfront instrument connected to NOAA water level, wind and tide predictions, with clearly labeled simulation, historical replay and portable data adapters.
 - **Site Memory**, a deterministic semantic-event atlas with six explorable rooms, local journey archives, replay, SVG/JSON exports and a portable event API.
-- Four clearly marked proposals: Impossible Rooms, Spatial Sound, Personal Zines, World Composer.
+- Spatial Sound: an original mechanical listening room with actual phase-driven synthesis, positional Web Audio, silent operation, recording and portable source APIs.
+- Three clearly marked proposals: Impossible Rooms, Personal Zines, World Composer.
 - The proposals show a neutral calibration plate to exercise the inspector. It is not an implementation of the named future effect. Their downloads are complete scaffolds, explicitly labeled as such.
 - Range, numeric, checkbox, color, and select controls; validated structured path state for drawing instruments; default reset, pause/resume, replay, fullscreen/expanded preview, measured diagnostics, and browser-local named presets.
 - Validated JSON preset import/export and complete ZIP exports from the UI or command line. Current UI settings are embedded in a source download; the static default download works without JavaScript.
@@ -141,6 +142,7 @@ pnpm test:time-machine
 pnpm test:photo-portals
 pnpm test:living-city
 pnpm test:site-memory
+pnpm test:spatial-sound
 pnpm test:navigation
 ```
 
@@ -238,3 +240,12 @@ The reusable model owns a versioned journey, destination vocabulary, event seque
 The optional local archive supports twelve journeys, explicit new/resume/reset, session-only mode, revision conflict detection, corrupt/denied/quota-limited storage handling and isolated deletion. JSON import validates schema/version, IDs, types, targets, order, timestamps, bounds and appearance. SVG export is self-contained. The source package includes only implementation, settings, original preview and demo content; private visitor journeys are exported separately. Both the pure model and full instrument expose documented semantic-event APIs for unrelated websites.
 
 Model and Chromium/WebKit tests cover semantic actions, deterministic reconstruction and replay prefixes, all drawing controls, local save/reload/resume, session-only behavior, import validation, JSON/SVG exports, preset/source export, an independent standalone instance and custom destinations, storage failure, mobile, reduced motion and cleanup. Shared Lab and navigation regressions passed in both engines: fourteen studies, eighteen concept destinations, presets, exports, comparison, no-JavaScript views, nine enlarged-text layouts and sixteen navigation reflows. The build contains 65 pages and 5,994 verified internal links/assets; Lab checks cover fourteen manifests and 61 portable JavaScript modules. Work remains local.
+
+
+## Spatial Sound implementation · 17 October 2026
+
+Checkpoint: `checkpoint/before-spatial-sound-2026-10-17` at `c463ed4`. Only the Spatial Sound placeholder is replaced. The original perspective engraving contains meshed gears, a harmonic wheel, a suspended pendulum, a counterweight and an articulated arm. Ground-position navigation moves the viewpoint and spatial listener together. Pure mechanical crossing events and manual phase increments drive procedural Web Audio voices; source positions follow the bob, weight and arm.
+
+The independent audio engine supports positioned-source registration, listener position, HRTF/distance attenuation, centered/positional blending, bounded voices, soft envelopes and a master compressor. No AudioContext exists until deliberate activation. Source switches, three scales/recipes, speed, volume, pause and Stop all are available. MediaRecorder saves up to fifteen seconds of generated output; score JSON remains available without recorder support. No microphone, uploads, accounts, external assets or persisted audio permission. The portable source includes original art, all modules, settings, lifecycle documentation and an independent example.
+
+Model and Chromium/WebKit tests verify deterministic crossings, moving coordinates, hand operation, parameter effects, actual offline-rendered channel energy and peak levels, distinct waveforms, left/right panning, centered mono, silent startup/fallback, recording, local downloads, presets, source ZIP, standalone use, mobile and context disposal. An asynchronous recorder test guards output finalization against overlapping sessions. Shared Lab and navigation regressions pass in both engines: fourteen studies, nineteen concept destinations, preset/source exports, comparison, lifecycle, no-JavaScript views, nine enlarged-text layouts and sixteen navigation reflows. Build verification covers 65 pages and 6,059 internal links/assets; Lab lint covers fourteen manifests and 65 portable JavaScript modules. Work remains local.

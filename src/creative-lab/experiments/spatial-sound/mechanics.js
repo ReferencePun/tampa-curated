@@ -1,0 +1,20 @@
+// Pure mechanical transport. No audio, browser, clock or drawing dependencies.
+export const TAU=Math.PI*2;
+export const DEFAULTS={speed:0.65,volume:0.28,spatial:1,atmosphere:'daylight',detail:2,guides:true,gear:true,pendulum:true,wheel:true,pulley:true,arm:true};
+export const SOURCES=[
+ {id:'gear',name:'Escapement',kind:'tick',position:[-3,2,-1],rate:.16,divisions:12,note:0,caption:'Each passing tooth releases a soft wooden tick.',color:'#9c7145'},
+ {id:'pendulum',name:'Pendulum',kind:'bell',position:[.5,3,-3],rate:.25,divisions:2,note:2,caption:'The bob sounds a glass-like tone at each center crossing.',color:'#577a8b'},
+ {id:'wheel',name:'Harmonic wheel',kind:'hum',position:[2.8,1.6,-.5],rate:.09,divisions:2,note:0,caption:'The crank changes the register of a low, rounded tone.',color:'#96756d'},
+ {id:'pulley',name:'Counterweight',kind:'brush',position:[-1,3.6,-4.2],rate:.13,divisions:2,note:3,caption:'Rope travel brushes filtered grain through the room.',color:'#758575'},
+ {id:'arm',name:'Articulated arm',kind:'pluck',position:[2.6,4,-4],rate:.11,divisions:2,note:4,caption:'The extended linkage gently plucks a muted string.',color:'#9c7145'}
+];
+export const SCALES={daylight:[0,2,4,7,9],dusk:[0,3,5,7,10],suspended:[0,5,7,12,14]};
+export const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+export function settings(input={}){const out={...DEFAULTS,...input};for(const [key,min,max] of [['speed',0,2],['volume',0,.6],['spatial',0,1],['detail',1,3]])out[key]=clamp(Number.isFinite(+out[key])?+out[key]:DEFAULTS[key],min,max);out.detail=Math.round(out.detail);if(!SCALES[out.atmosphere])out.atmosphere='daylight';for(const key of ['guides',...SOURCES.map(s=>s.id)])out[key]=Boolean(out[key]);return out;}
+export function frequency(index,atmosphere='daylight',octave=0){const scale=SCALES[atmosphere]||SCALES.daylight;const n=Math.max(0,Math.floor(index));return 130.8128*2**((scale[n%scale.length]+12*Math.floor(n/scale.length)+12*octave)/12);}
+export function createMachine(){return {elapsed:0,phases:Object.fromEntries(SOURCES.map(s=>[s.id,0])),turns:0,pulses:0};}
+export function pose(id,phase){const a=phase*TAU;if(id==='pendulum')return {angle:Math.sin(a)*.38,position:[.5-Math.sin(Math.sin(a)*.38)*1.925,3-Math.cos(Math.sin(a)*.38)*1.925,-3]};if(id==='pulley')return {lift:Math.sin(a)*.7,position:[-1.4875,3.6-(120+Math.sin(a)*35)/80,-4.2]};if(id==='arm'){const rotation=(Math.sin(a)*24-13)*Math.PI/180,elbow=(Math.cos(a)*30+20)*Math.PI/180;return {angle:a,position:[2.6+(-25+80*Math.cos(rotation)+47*Math.cos(rotation+elbow))/80,4-(80*Math.sin(rotation)+47*Math.sin(rotation+elbow))/80,-4]};}return {angle:a,position:[...SOURCES.find(s=>s.id===id).position]};}
+export function advance(machine,seconds,config=DEFAULTS){const dt=clamp(Number.isFinite(seconds)?seconds:0,0,.1)*config.speed;machine.elapsed+=dt;const events=[];for(const source of SOURCES){const old=machine.phases[source.id],next=old+dt*source.rate;machine.phases[source.id]=next;const first=Math.floor((old+1e-9)*source.divisions),last=Math.floor((next+1e-9)*source.divisions);if(last>first){machine.pulses++;events.push({id:source.id,step:last,phase:next,energy:1});}}return events;}
+export function operate(machine,id){const source=SOURCES.find(s=>s.id===id);if(!source)throw new Error('Unknown mechanism');machine.phases[id]+=1/source.divisions;machine.turns++;machine.pulses++;return {id,step:Math.floor(machine.phases[id]*source.divisions+1e-8),phase:machine.phases[id],energy:.85};}
+export function voiceFor(event,config=DEFAULTS){const source=SOURCES.find(s=>s.id===event.id);if(!source)throw new Error('Unknown mechanism');const note=source.id==='wheel'?Math.floor((event.phase%1)*5):source.note+(source.id==='pendulum'?event.step%2:0);return {kind:source.kind,frequency:frequency(note,config.atmosphere,source.kind==='bell'?1:0),energy:clamp(event.energy??1,0,1),timbre:.25+.5*(Math.sin(event.phase*TAU)+1)/2};}
+export function listenerPosition(x,z){return [clamp(Number(x)||0,-3,3),1.7,clamp(Number(z)||7,2.5,9)];}
