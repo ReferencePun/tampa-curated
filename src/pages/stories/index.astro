@@ -16,7 +16,7 @@ const stories=(await getCollection('stories')).sort((a,b)=>a.data.order-b.data.o
   <div class="archive-tools">
    <p data-archive-instruction>Six studies. Follow a photograph into its story.</p>
    <div data-archive-controls hidden>
-    <details class="archive-brush"><summary>Adjust the reveal <span aria-hidden="true">+</span></summary><div><label>Reach <input data-archive-radius type="range" min="75" max="230" value="145"/><output data-radius-value>145</output></label><label>Softness <input data-archive-falloff type="range" min="30" max="90" value="68"/><output data-falloff-value>68</output></label></div></details>
+    <details class="archive-brush"><summary>Adjust the reveal <span aria-hidden="true">+</span></summary><div><label>Reach <input data-archive-radius type="range" min="75" max="230" value="90"/><output data-radius-value>90</output></label><label>Softness <input data-archive-falloff type="range" min="30" max="90" value="68"/><output data-falloff-value>68</output></label></div></details>
     <button type="button" data-archive-mode-toggle aria-pressed="false">Show photographs</button>
    </div>
   </div>

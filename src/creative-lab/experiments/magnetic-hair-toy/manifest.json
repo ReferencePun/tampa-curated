@@ -1,0 +1,214 @@
+{
+  "id": "impossible-magnetic-hair-toy",
+  "slug": "magnetic-hair-toy",
+  "number": "26",
+  "order": 29,
+  "name": "Magnetic Hair Toy",
+  "description": "A little magnet, thousands of grainy iron filings, and three faces in need of a change. Comb a moustache, chase a pattern, or abandon good taste entirely.",
+  "category": "Interactive",
+  "tags": ["magnet", "particles", "illustration", "toy", "grooming"],
+  "status": "working",
+  "placeholder": false,
+  "technology": ["Canvas 2D", "Typed-array particle field", "Pointer Events"],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "density",
+      "label": "Particle density",
+      "type": "range",
+      "default": 3800,
+      "min": 1200,
+      "max": 7000,
+      "step": 100
+    },
+    {
+      "key": "strength",
+      "label": "Magnetic strength",
+      "type": "range",
+      "default": 1.15,
+      "min": 0.3,
+      "max": 2.5,
+      "step": 0.05
+    },
+    {
+      "key": "radius",
+      "label": "Magnetic falloff radius",
+      "type": "range",
+      "default": 62,
+      "min": 25,
+      "max": 110,
+      "step": 1
+    },
+    {
+      "key": "clumping",
+      "label": "Clumping / strand alignment",
+      "type": "range",
+      "default": 0.45,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "face",
+      "label": "Character portrait",
+      "type": "select",
+      "default": "milo",
+      "options": [
+        {
+          "value": "milo",
+          "label": "Milo \u00b7 daydreamer"
+        },
+        {
+          "value": "cleo",
+          "label": "Cleo \u00b7 botanist"
+        },
+        {
+          "value": "cosmo",
+          "label": "Cosmo \u00b7 a cat"
+        }
+      ]
+    },
+    {
+      "key": "mode",
+      "label": "Grooming mode",
+      "type": "select",
+      "default": "free",
+      "options": [
+        {
+          "value": "free",
+          "label": "Free grooming"
+        },
+        {
+          "value": "timed",
+          "label": "Timed challenge"
+        },
+        {
+          "value": "template",
+          "label": "Template match"
+        },
+        {
+          "value": "silly",
+          "label": "Silly freestyle"
+        }
+      ]
+    },
+    {
+      "key": "resetSpeed",
+      "label": "Shake / reset speed",
+      "type": "range",
+      "default": 1,
+      "min": 0.4,
+      "max": 2,
+      "step": 0.1
+    },
+    {
+      "key": "style",
+      "label": "Illustration finish",
+      "type": "select",
+      "default": "lithograph",
+      "options": [
+        {
+          "value": "lithograph",
+          "label": "Warm lithograph"
+        },
+        {
+          "value": "blueprint",
+          "label": "Blue pencil proof"
+        },
+        {
+          "value": "sunshine",
+          "label": "Sun-faded yellow"
+        }
+      ]
+    },
+    {
+      "key": "hiddenMagnet",
+      "label": "Hide the virtual magnet",
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "template",
+      "label": "Grooming pattern",
+      "type": "select",
+      "default": "handlebar",
+      "options": [
+        {
+          "value": "handlebar",
+          "label": "Magnificent moustache"
+        },
+        {
+          "value": "brows",
+          "label": "Expressive eyebrows"
+        },
+        {
+          "value": "beard",
+          "label": "Distinguished beard"
+        },
+        {
+          "value": "crown",
+          "label": "Electric crown"
+        },
+        {
+          "value": "antennae",
+          "label": "Unlikely antennae"
+        },
+        {
+          "value": "spiral",
+          "label": "The thinking curl"
+        }
+      ]
+    },
+    {
+      "key": "guides",
+      "label": "Show pattern hints",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "challengeLength",
+      "label": "Challenge duration \u00b7 seconds",
+      "type": "range",
+      "default": 45,
+      "min": 20,
+      "max": 90,
+      "step": 5
+    }
+  ],
+  "entry": "index.js",
+  "styles": ["style.css"],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original Oddly Dapper portraits, toy illustration and filing treatment",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "Canvas 2D, Pointer Events and ResizeObserver; no third-party runtime or external assets. The original static portrait remains available without JavaScript.",
+    "Desktop mouse / trackpad, captured touch dragging, and keyboard: arrows move the magnet, Space holds or lifts, P picks up a pinch, Escape releases focus. Ordinary HTML controls provide matching actions.",
+    "1,200\u20137,000 individually positioned short marks. Typed arrays hold positions, velocities, orientation and selection; rendering batches marks into three paths, never one DOM element per particle.",
+    "Active physics runs at fixed 120 Hz substeps with bounded catch-up. Idle frames stop; hidden tabs, offscreen previews and Lab pause freeze simulation and challenge time.",
+    "Reduced motion skips the shaking animation and snaps directly manipulated filings into place. Explicitly started timed challenges still work. The experience is silent."
+  ],
+  "notes": [
+    "Oddly Dapper is an original mid-century-inspired toy with three printed portraits: Milo the daydreamer, Cleo the botanist, and Cosmo the cat. It includes no protected toy artwork or branding.",
+    "Pressing the glass collects real existing filings within a swept magnetic radius. Carried marks follow the magnet with damped attraction, directional transport and deterministic strand offsets; lifting leaves them exactly in place.",
+    "Clumping changes the spacing and orientation of small groups. Each filing remains a short rigid mark with its own position and angle. There are no liquid metaballs, premade hair overlays or automated placement onto a pattern.",
+    "Six original templates cover moustaches, brows, beards, a crown, antennae and a spiral. Pattern scoring measures both path coverage and the fraction of placed filings near the target. A full dark face does not earn a perfect match.",
+    "Pick up a pinch moves existing grains from the tray onto the magnet; it does not create new particles. Changing the printed face keeps the filings in place. Changing density preserves existing geometry and adds new grains to the tray.",
+    "Shake returns the complete field to a deterministic reservoir. PNG export omits the cursor and hints. Artwork JSON stores all filing positions, angles, portrait and controls; Lab presets store settings only."
+  ],
+  "reuse": [
+    "Download the standalone source ZIP or run pnpm lab:export magnetic-hair-toy. It contains all code, original portraits, preview, license, documentation and a custom background example, with no CDN or build step.",
+    "Use createMagneticLayer(canvas, settings, hooks) from engine.js to add movable filings over your own canvas artwork. Supply a background painter and optional overlay, change, frame and tick hooks.",
+    "FilingsField in model.js is DOM-independent. Submit move/engage/release inputs, step the deterministic simulation, inspect typed arrays, or serialize and restore the particle field.",
+    "illustration.js contains the optional portraits and mark rendering. challenges.js contains optional pattern geometry, scoring and a paused-clock state machine. The Lab UI in index.js can be omitted entirely.",
+    "The engine exposes update, setRunning, setContinuous, move, engage, release, setLatched, loadPinch, shake, reset, getState, serialize, load, png and dispose. README.md documents coordinate conventions, lifecycle and resource limits."
+  ]
+}

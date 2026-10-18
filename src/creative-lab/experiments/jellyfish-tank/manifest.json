@@ -1,0 +1,272 @@
+{
+  "id": "impossible-jellyfish-tank",
+  "slug": "jellyfish-tank",
+  "number": "36",
+  "order": 39,
+  "name": "Light-Up Jellyfish Tank",
+  "description": "Pelagia: cupped translucent jellyfish in cobalt aquarium light. Stir the water, guide a current, or tap a bell to make it pulse.",
+  "category": "Interactive",
+  "tags": [
+    "jellyfish",
+    "aquarium",
+    "glow",
+    "ambient",
+    "marine"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Canvas curved membranes",
+    "Pulse-driven swimmers",
+    "Constrained filament chains"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "mode",
+      "label": "Interaction",
+      "type": "select",
+      "default": "disturb",
+      "options": [
+        {
+          "value": "ambient",
+          "label": "Ambient tank"
+        },
+        {
+          "value": "light",
+          "label": "Light response"
+        },
+        {
+          "value": "disturb",
+          "label": "Stir the water"
+        }
+      ]
+    },
+    {
+      "key": "palette",
+      "label": "Palette",
+      "type": "select",
+      "default": "abyss",
+      "options": [
+        {
+          "value": "abyss",
+          "label": "Cobalt aquarium light"
+        },
+        {
+          "value": "orchid",
+          "label": "Violet / pink"
+        },
+        {
+          "value": "moon",
+          "label": "Moonlit pearl"
+        },
+        {
+          "value": "tropical",
+          "label": "Tropical neon"
+        },
+        {
+          "value": "graphite",
+          "label": "Graphite / white"
+        }
+      ]
+    },
+    {
+      "key": "species",
+      "label": "Jellyfish forms",
+      "type": "select",
+      "default": "mixed",
+      "options": [
+        {
+          "value": "mixed",
+          "label": "Mixed population"
+        },
+        {
+          "value": "moon",
+          "label": "Moon form"
+        },
+        {
+          "value": "lantern",
+          "label": "Lantern form"
+        },
+        {
+          "value": "ribbon",
+          "label": "Ribbon form"
+        }
+      ]
+    },
+    {
+      "key": "view",
+      "label": "Scene framing",
+      "type": "select",
+      "default": "tank",
+      "options": [
+        {
+          "value": "tank",
+          "label": "Glass aquarium"
+        },
+        {
+          "value": "open",
+          "label": "Open water / background"
+        }
+      ]
+    },
+    {
+      "key": "quality",
+      "label": "Rendering detail",
+      "type": "select",
+      "default": "balanced",
+      "options": [
+        {
+          "value": "economy",
+          "label": "Economy"
+        },
+        {
+          "value": "balanced",
+          "label": "Balanced"
+        },
+        {
+          "value": "fine",
+          "label": "Fine"
+        }
+      ]
+    },
+    {
+      "key": "lightColor",
+      "label": "Inspection light",
+      "type": "color",
+      "default": "#a1e6f5"
+    },
+    {
+      "key": "count",
+      "label": "Jellyfish count",
+      "type": "range",
+      "default": 12,
+      "min": 2,
+      "max": 16,
+      "step": 1
+    },
+    {
+      "key": "minSize",
+      "label": "Smallest bell",
+      "type": "range",
+      "default": 0.55,
+      "min": 0.4,
+      "max": 1.4,
+      "step": 0.05
+    },
+    {
+      "key": "maxSize",
+      "label": "Largest bell",
+      "type": "range",
+      "default": 1.15,
+      "min": 0.4,
+      "max": 1.8,
+      "step": 0.05
+    },
+    {
+      "key": "pulseSpeed",
+      "label": "Bell pulse speed",
+      "type": "range",
+      "default": 0.8,
+      "min": 0.25,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "driftSpeed",
+      "label": "Drift speed",
+      "type": "range",
+      "default": 0.7,
+      "min": 0.25,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "tentacleLength",
+      "label": "Tentacle length",
+      "type": "range",
+      "default": 1,
+      "min": 0.4,
+      "max": 1.8,
+      "step": 0.05
+    },
+    {
+      "key": "glow",
+      "label": "Internal glow",
+      "type": "range",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "particles",
+      "label": "Suspended particles",
+      "type": "range",
+      "default": 100,
+      "min": 0,
+      "max": 250,
+      "step": 10
+    },
+    {
+      "key": "darkness",
+      "label": "Water darkness",
+      "type": "range",
+      "default": 0.94,
+      "min": 0.5,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "interaction",
+      "label": "Interaction strength",
+      "type": "range",
+      "default": 0.8,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "zoom",
+      "label": "Camera zoom",
+      "type": "range",
+      "default": 1,
+      "min": 0.7,
+      "max": 1.8,
+      "step": 0.05
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original Pelagia procedural jellyfish, aquarium and light",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "Canvas 2D, Path2D, Pointer Events, ResizeObserver, IntersectionObserver, native dialog and CSS container queries. No external libraries, images, services or audio.",
+    "Mouse, touch and keyboard input. Reduced motion starts still and requires deliberate Resume. Economy reduces chain nodes, filaments, particles and canvas resolution. Hidden and offscreen canvases suspend both simulation and drawing.",
+    "Bells and filaments have bounded counts. Disposal releases arrays, listeners, observers, pointer capture, animation frames and renderer caches."
+  ],
+  "notes": [
+    "Every swimmer has a short contraction and a longer recovery. Only the positive contraction derivative adds swimming thrust; bell geometry deforms from that same pulse value. Size changes the pulse period and propulsion.",
+    "Trailing tentacles and oral ribbons use independently integrated Verlet chains with fixed-distance constraints. Their delayed motion is the response of stateful linked points, not a rigid sprite or attached sine-wave texture.",
+    "Moon, lantern and ribbon forms are original artistic interpretations. The mixed population favors moon forms with cupped bells, softly scalloped skirts, short frilled arms and varied viewing angles. Resolution-independent curved membranes, translucent tissue folds and a blue-lit aquarium create depth; these are not exact biological reconstructions.",
+    "Stir the water is active by default: hover illuminates, dragging carries nearby bells and their tissue, and a tap triggers a smooth swimming contraction. Directional currents and wakes are bounded and expire after release. Light mode attracts nearby swimmers; Ambient ignores input.",
+    "Six presets, five palettes, three quality levels, a glass/open-water view, fullscreen, PNG export and Lab settings/source export are included."
+  ],
+  "reuse": [
+    "JellyfishScene in model.js is DOM-free and owns pulse state, swimmer dynamics, chain constraints and local disturbances. SPECIES is a separate editable definition table.",
+    "createTankRenderer draws the scene independently; createJellyfishTank wraps it with input, responsive dimensions, lifecycle and export. Settings accept count, size range, species, palette, interaction, light and framing.",
+    "The portable source includes the full studio and a neutral embed-demo.html demonstrating an aquarium, cropped section, and hero background. Neither uses Tampa page code."
+  ]
+}

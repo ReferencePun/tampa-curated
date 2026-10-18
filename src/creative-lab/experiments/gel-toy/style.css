@@ -1,0 +1,4 @@
+.il-host[data-slug="gel-toy"] .il-demo{height:auto;min-height:1080px;max-height:none}
+.il-host[data-slug="gel-toy"] .il-mount{position:relative;inset:auto;min-height:1080px;overflow:visible}
+.il-host[data-slug="gel-toy"] .il-annotation,.il-host[data-slug="gel-toy"] .il-demo-index{display:none}
+.impossible-effect:has([data-material="gel-toy"]),.impossible-effect:has(>img[src*="/gel-toy/"]){height:auto;min-height:1080px;position:relative;overflow:hidden}

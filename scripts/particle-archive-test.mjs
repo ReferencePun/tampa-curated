@@ -6,7 +6,7 @@ const base=process.env.TEST_BASE??'/tampa-curated';
 const archiveURL=`${origin}${base}/stories/`;
 const output='test-results/archive';await mkdir(output,{recursive:true});
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-async function settle(page){await page.mouse.move(8,8);await page.waitForTimeout(1800);}
+async function settle(page){await page.mouse.move(8,8);await page.waitForTimeout(3000);}
 async function showPlate(page,index=0){
  await page.locator('[data-archive-image]').nth(index).evaluate(el=>scrollTo({top:el.getBoundingClientRect().top+scrollY-70,behavior:'instant'}));
  await expect(page.locator('[data-archive-plate]').nth(index)).toHaveAttribute('data-particle-ready','');
@@ -14,6 +14,7 @@ async function showPlate(page,index=0){
 }
 
 for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
+ if(process.env.TEST_ENGINE&&process.env.TEST_ENGINE!==name)continue;
  const browser=await engine.launch();
  const context=await browser.newContext({viewport:{width:1440,height:1000}});
  const page=await context.newPage();const errors=[];
@@ -37,6 +38,7 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await page.mouse.move(box.x+box.width*.52,box.y+box.height*.65,{steps:8});await page.waitForTimeout(400);
  const reveal=await page.screenshot({clip});assert.ok(!reveal.equals(idle),'Pointer reveals a different image');
  await page.screenshot({path:`${output}/${name}-reveal.png`});
+ await page.mouse.move(8,8);const wake=await page.screenshot({clip});assert.ok(!wake.equals(idle),'A released cursor leaves a fading photographic wake');
  await settle(page);const restored=await page.screenshot({clip});assert.ok(idle.equals(restored),'Ink returns to the exact original formation');
  // Read the actual framebuffer after scrolling beneath a stationary pointer:
  // its center must still contain opaque photographic detail, not sparse ink.
@@ -52,6 +54,14 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  }),pointer);
  assert.ok(coverage>.98,'Reveal remains beneath the cursor while the image scrolls');
  await page.screenshot({path:`${output}/${name}-scroll-reveal.png`});await showPlate(page,0);await settle(page);
+ // The cursor core must show the actual photo, not a translucent particle blend.
+ const core={x:box.x+box.width*.6,y:box.y+box.height*.45};
+ await page.mouse.move(core.x,core.y);await page.waitForTimeout(600);
+ const readCore=()=>page.evaluate(({x,y})=>new Promise(resolve=>{dispatchEvent(new Event('scroll'));requestAnimationFrame(()=>{const c=document.querySelector('.particle-archive-canvas'),gl=c.getContext('webgl2'),dpr=c.width/innerWidth,p=new Uint8Array(24*24*4);gl.readPixels(Math.round(x*dpr)-12,Math.round((innerHeight-y)*dpr)-12,24,24,gl.RGBA,gl.UNSIGNED_BYTE,p);resolve(Array.from(p));});}),core);
+ const cursorPixels=await readCore();
+ await page.locator('[data-archive-uncover]').first().evaluate(button=>button.click());await page.waitForTimeout(1300);const photographPixels=await readCore();
+ assert.ok(cursorPixels.every((v,i)=>Math.abs(v-photographPixels[i])<=1),'The hovered center exactly matches the fully revealed photograph');
+ await page.locator('[data-archive-uncover]').first().evaluate(button=>button.click());await settle(page);
  // The photograph resolves without replacing its native article anchor.
  await page.locator('[data-archive-uncover]').first().click();await page.waitForTimeout(1500);
  await expect(page.locator('[data-archive-uncover]').first()).toHaveAttribute('aria-pressed','true');

@@ -1,0 +1,29 @@
+.il-host[data-slug="magnetic-hair-toy"] .il-demo {
+  height: auto;
+  min-height: 1500px;
+  max-height: none;
+}
+.il-host[data-slug="magnetic-hair-toy"] .il-mount {
+  position: relative;
+  inset: auto;
+  min-height: 1500px;
+  overflow: visible;
+}
+.il-host[data-slug="magnetic-hair-toy"] .il-annotation,
+.il-host[data-slug="magnetic-hair-toy"] .il-demo-index {
+  display: none;
+}
+.il-host[data-slug="magnetic-hair-toy"]
+  .il-demo-shell:is(:fullscreen, .il-expanded)
+  .il-demo {
+  flex: none;
+  overflow: visible;
+}
+.impossible-effect:has(> .mht),
+.impossible-effect:has(> img[src*="/magnetic-hair-toy/"]) {
+  position: relative;
+  min-height: 1500px;
+  height: auto;
+  overflow: hidden;
+  background: #eee6d2;
+}

@@ -1,0 +1,12 @@
+{
+  "mode": "classic",
+  "strength": 1,
+  "buoyancy": 1,
+  "ringCount": 10,
+  "layout": "duet",
+  "shape": "rounded",
+  "turbulence": 0.45,
+  "world": "harbor",
+  "timer": 60,
+  "freePlay": false
+}

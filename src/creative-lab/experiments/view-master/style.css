@@ -1,0 +1,29 @@
+.il-host[data-slug="view-master"] .il-demo {
+  height: auto;
+  min-height: 1450px;
+  max-height: none;
+}
+.il-host[data-slug="view-master"] .il-mount {
+  position: relative;
+  inset: auto;
+  min-height: 1450px;
+  overflow: visible;
+}
+.il-host[data-slug="view-master"] .il-annotation,
+.il-host[data-slug="view-master"] .il-demo-index {
+  display: none;
+}
+.il-host[data-slug="view-master"]
+  .il-demo-shell:is(:fullscreen, .il-expanded)
+  .il-demo {
+  flex: none;
+  overflow: visible;
+}
+.impossible-effect:has(> .rv),
+.impossible-effect:has(> img[src*="/view-master/"]) {
+  position: relative;
+  height: auto;
+  min-height: 1450px;
+  overflow: hidden;
+  background: #eee7d8;
+}

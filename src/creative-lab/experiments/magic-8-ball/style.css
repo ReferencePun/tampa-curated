@@ -1,0 +1,29 @@
+.il-host[data-slug="magic-8-ball"] .il-demo {
+  height: auto;
+  min-height: 1600px;
+  max-height: none;
+}
+.il-host[data-slug="magic-8-ball"] .il-mount {
+  position: relative;
+  inset: auto;
+  min-height: 1600px;
+  overflow: visible;
+}
+.il-host[data-slug="magic-8-ball"] .il-annotation,
+.il-host[data-slug="magic-8-ball"] .il-demo-index {
+  display: none;
+}
+.il-host[data-slug="magic-8-ball"]
+  .il-demo-shell:is(:fullscreen, .il-expanded)
+  .il-demo {
+  flex: none;
+  overflow: visible;
+}
+.impossible-effect:has(> .mo),
+.impossible-effect:has(> img[src*="/magic-8-ball/"]) {
+  position: relative;
+  min-height: 1600px;
+  height: auto;
+  overflow: hidden;
+  background: #eee6d6;
+}

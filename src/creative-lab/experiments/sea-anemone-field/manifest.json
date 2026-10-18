@@ -1,0 +1,251 @@
+{
+  "id": "impossible-sea-anemone-field",
+  "slug": "sea-anemone-field",
+  "number": "35",
+  "order": 38,
+  "name": "Sea Anemone Cursor Field",
+  "description": "Nerine: a dense garden of translucent radial crowns. Brush the water to invite a reach, a recoil, or a current that travels through the colony.",
+  "category": "Interactive",
+  "tags": [
+    "marine",
+    "anemone",
+    "spring",
+    "organic",
+    "background"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Canvas tapered curves",
+    "Fixed-step local springs",
+    "Traveling ripple field"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "mode",
+      "label": "Field behavior",
+      "type": "select",
+      "default": "attract",
+      "options": [
+        {
+          "value": "attract",
+          "label": "Attraction"
+        },
+        {
+          "value": "avoid",
+          "label": "Avoidance"
+        },
+        {
+          "value": "ripple",
+          "label": "Ripple field"
+        },
+        {
+          "value": "mixed",
+          "label": "Interweave all three"
+        }
+      ]
+    },
+    {
+      "key": "palette",
+      "label": "Palette",
+      "type": "select",
+      "default": "lagoon",
+      "options": [
+        {
+          "value": "coral",
+          "label": "Coral / cream"
+        },
+        {
+          "value": "lagoon",
+          "label": "Teal / blue"
+        },
+        {
+          "value": "lilac",
+          "label": "Pink / lilac"
+        },
+        {
+          "value": "graphite",
+          "label": "Graphite"
+        },
+        {
+          "value": "alien",
+          "label": "Alien neon"
+        }
+      ]
+    },
+    {
+      "key": "material",
+      "label": "Tendril material",
+      "type": "select",
+      "default": "translucent",
+      "options": [
+        {
+          "value": "translucent",
+          "label": "Translucent tissue"
+        },
+        {
+          "value": "satin",
+          "label": "Soft satin"
+        },
+        {
+          "value": "ink",
+          "label": "Graphite / ink"
+        }
+      ]
+    },
+    {
+      "key": "density",
+      "label": "Anemone density",
+      "type": "range",
+      "default": 64,
+      "min": 16,
+      "max": 140,
+      "step": 2
+    },
+    {
+      "key": "tendrils",
+      "label": "Tendrils per crown",
+      "type": "range",
+      "default": 30,
+      "min": 12,
+      "max": 48,
+      "step": 2
+    },
+    {
+      "key": "length",
+      "label": "Tendril length",
+      "type": "range",
+      "default": 1,
+      "min": 0.5,
+      "max": 1.6,
+      "step": 0.05
+    },
+    {
+      "key": "softness",
+      "label": "Softness / flexibility",
+      "type": "range",
+      "default": 1,
+      "min": 0.3,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "sway",
+      "label": "Idle sway",
+      "type": "range",
+      "default": 0.65,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05
+    },
+    {
+      "key": "radius",
+      "label": "Pointer radius",
+      "type": "range",
+      "default": 0.24,
+      "min": 0.08,
+      "max": 0.5,
+      "step": 0.01
+    },
+    {
+      "key": "attraction",
+      "label": "Attraction strength",
+      "type": "range",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "avoidance",
+      "label": "Recoil strength",
+      "type": "range",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "ripple",
+      "label": "Ripple strength",
+      "type": "range",
+      "default": 0.8,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "glow",
+      "label": "Luminous diffusion",
+      "type": "range",
+      "default": 0.65,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05
+    },
+    {
+      "key": "damping",
+      "label": "Movement damping",
+      "type": "range",
+      "default": 1,
+      "min": 0.3,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "speed",
+      "label": "Motion speed",
+      "type": "range",
+      "default": 0.7,
+      "min": 0.2,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "background",
+      "label": "Background color",
+      "type": "color",
+      "default": "#071b20"
+    },
+    {
+      "key": "transparent",
+      "label": "Transparent substrate",
+      "type": "toggle",
+      "default": false
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original Nerine procedural marine garden",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "Canvas 2D, Pointer Events, ResizeObserver, IntersectionObserver, native dialog and CSS container queries. No runtime dependencies, remote imagery or services.",
+    "Mouse, pen, captured touch and keyboard interaction. Reduced motion begins still with a responsive static pose; Resume explicitly enables motion. Background and offscreen work suspends.",
+    "Density is bounded at 140 colonies × 48 tendrils. Backing resolution is capped; paths and strokes are batched. Dispose releases animation frames, capture, observers, event handlers and canvas caches."
+  ],
+  "notes": [
+    "Each organism has a fixed root, a folded oral disc and three radial rings of curved tentacles. Different phases, lengths and bends give the colonies independent idle motion.",
+    "A fixed 120 Hz spring model responds locally to a distance falloff. Recoil also contracts the crown. Pointer movement emits bounded traveling pulses; these are evaluated at each root rather than applied as a uniform screen-wide oscillation.",
+    "Interweave mixes separately adjustable attraction, close-range avoidance and ripple forces. The quick modes isolate each behavior. Paused interaction evaluates a static response without advancing time.",
+    "Translucent, satin and graphite treatments share the geometry. This is stylized two-dimensional marine artwork with projected curves and depth cues, not a three-dimensional biological simulation.",
+    "Six presets, five palettes, local PNG export, fullscreen inspection and shared Lab settings/source export are included."
+  ],
+  "reuse": [
+    "AnemoneField in model.js is DOM-free. It exposes semantic input, fixed-step advancement, colony state and preallocated tendril centerlines for an alternate renderer.",
+    "createFieldRenderer draws a field independently. createAnemoneField wraps it with input, resize and lifecycle ownership; supply any sized canvas and settings.",
+    "The portable source contains the full studio and embed-demo.html with contained, divider and transparent texture examples. No Tampa-specific page logic is required."
+  ]
+}

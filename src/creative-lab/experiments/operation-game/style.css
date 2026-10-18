@@ -1,0 +1,29 @@
+.il-host[data-slug="operation-game"] .il-demo {
+  height: auto;
+  min-height: 1700px;
+  max-height: none;
+}
+.il-host[data-slug="operation-game"] .il-mount {
+  position: relative;
+  inset: auto;
+  min-height: 1700px;
+  overflow: visible;
+}
+.il-host[data-slug="operation-game"] .il-annotation,
+.il-host[data-slug="operation-game"] .il-demo-index {
+  display: none;
+}
+.il-host[data-slug="operation-game"]
+  .il-demo-shell:is(:fullscreen, .il-expanded)
+  .il-demo {
+  flex: none;
+  overflow: visible;
+}
+.impossible-effect:has(> .op),
+.impossible-effect:has(> img[src*="/operation-game/"]) {
+  position: relative;
+  min-height: 1700px;
+  height: auto;
+  overflow: hidden;
+  background: #f1eadb;
+}

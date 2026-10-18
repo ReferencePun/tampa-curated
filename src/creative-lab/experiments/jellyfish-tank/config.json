@@ -1,0 +1,19 @@
+{
+  "mode": "disturb",
+  "count": 12,
+  "minSize": 0.55,
+  "maxSize": 1.15,
+  "pulseSpeed": 0.8,
+  "driftSpeed": 0.7,
+  "tentacleLength": 1,
+  "glow": 1,
+  "particles": 100,
+  "lightColor": "#a1e6f5",
+  "darkness": 0.94,
+  "interaction": 0.8,
+  "species": "mixed",
+  "palette": "abyss",
+  "zoom": 1,
+  "quality": "balanced",
+  "view": "tank"
+}

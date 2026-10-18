@@ -1,0 +1,29 @@
+.il-host[data-slug="jellyfish-tank"] .il-demo {
+  height: auto;
+  min-height: 1500px;
+  max-height: none;
+}
+.il-host[data-slug="jellyfish-tank"] .il-mount {
+  position: relative;
+  inset: auto;
+  min-height: 1500px;
+  overflow: visible;
+}
+.il-host[data-slug="jellyfish-tank"] .il-annotation,
+.il-host[data-slug="jellyfish-tank"] .il-demo-index {
+  display: none;
+}
+.il-host[data-slug="jellyfish-tank"]
+  .il-demo-shell:is(:fullscreen, .il-expanded)
+  .il-demo {
+  flex: none;
+  overflow: visible;
+}
+.impossible-effect:has(> .jt),
+.impossible-effect:has(> img[src*="/jellyfish-tank/"]) {
+  position: relative;
+  min-height: 1500px;
+  height: auto;
+  overflow: hidden;
+  background: #101b27;
+}

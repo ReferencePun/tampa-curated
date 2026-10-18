@@ -1,15 +1,17 @@
 {
-  "mode": "engraving",
+  "mode": "reveal",
   "photo": "palms",
-  "radius": 23,
-  "displacement": 32,
+  "radius": 14,
+  "displacement": 24,
   "scatter": 0,
-  "density": 300,
+  "density": 320,
   "markSize": 1,
   "contrast": 1.15,
   "settle": 1,
-  "ink": "#343129",
+  "ink": "#dfb879",
   "original": false,
   "guides": true,
-  "seed": 7
+  "seed": 7,
+  "trail": 1.2,
+  "surface": "night"
 }

@@ -1,0 +1,19 @@
+{
+  "mode": "attract",
+  "density": 64,
+  "tendrils": 30,
+  "length": 1,
+  "softness": 1,
+  "sway": 0.65,
+  "radius": 0.24,
+  "attraction": 1,
+  "avoidance": 1,
+  "ripple": 0.8,
+  "palette": "lagoon",
+  "glow": 0.65,
+  "background": "#071b20",
+  "damping": 1,
+  "speed": 0.7,
+  "material": "translucent",
+  "transparent": false
+}

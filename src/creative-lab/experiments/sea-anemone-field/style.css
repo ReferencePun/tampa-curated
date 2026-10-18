@@ -1,0 +1,29 @@
+.il-host[data-slug="sea-anemone-field"] .il-demo {
+  height: auto;
+  min-height: 1500px;
+  max-height: none;
+}
+.il-host[data-slug="sea-anemone-field"] .il-mount {
+  position: relative;
+  inset: auto;
+  min-height: 1500px;
+  overflow: visible;
+}
+.il-host[data-slug="sea-anemone-field"] .il-annotation,
+.il-host[data-slug="sea-anemone-field"] .il-demo-index {
+  display: none;
+}
+.il-host[data-slug="sea-anemone-field"]
+  .il-demo-shell:is(:fullscreen, .il-expanded)
+  .il-demo {
+  flex: none;
+  overflow: visible;
+}
+.impossible-effect:has(> .af),
+.impossible-effect:has(> img[src*="/sea-anemone-field/"]) {
+  position: relative;
+  min-height: 1500px;
+  height: auto;
+  overflow: hidden;
+  background: #102124;
+}

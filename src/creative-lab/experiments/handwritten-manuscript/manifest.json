@@ -132,7 +132,7 @@
     },
     {
       "key": "extrusion",
-      "label": "Letter extrusion depth",
+      "label": "Depth of the written layers",
       "type": "range",
       "default": 0.16,
       "min": 0.08,
@@ -232,12 +232,12 @@
   ],
   "notes": [
     "A separate handwritten edition of The Impossible Manuscript. The original page and route remain available unchanged. An untidy black, blue and red draft occupies the same impossible rooms.",
-    "The opening scene compresses real geometry into an almost flat composition. Scrolling separates its depth and carries the camera through the gap into the stairwell. Letter-shaped extrusions form treads; thousands of individually placed glyphs form walls, shafts, bridges and columns.",
+    "The opening compresses real glyph geometry into an almost flat composition. Scrolling separates its depth and carries the camera into the stairwell. Every tread, wall, shaft, bridge, column and arch is made of handwriting. Large letter-shaped doorways are themselves made of smaller words; no architectural outlines or solid panels are drawn.",
     "The first staircase leads to a smooth quaternion turn: a former wall becomes the floor and a second staircase becomes the route forward. An O-shaped portal connects the turned landing to a much larger cathedral. The library then returns to an earlier room in another orientation.",
     "The four chapters are connected through actual perspective views of other scenes. Portal transforms connect separate coordinates; this is an intentional non-Euclidean illusion, not a claim of literal four-dimensional geometry. Portal recursion is explicitly bounded.",
     "A sentence assembled at varying depths becomes readable at the stair landing. In the cathedral, paragraph fragments disperse and reassemble as a bridge when approached. Reverse travel reconstructs earlier states.",
     "Free exploration uses bounded pedestrian galleries with a support-height model and connected letter portals. The choreographed wall-to-floor transition belongs to the guided route. You can return to it or exit the drawing at any time.",
-    "Local Caveat letterforms have varied angles, sizes, baselines and pressure. Their atlas includes scratched ink and softer pencil passes. Corrections, circling, underlining and red margin notes are real spatial linework. Large letters use handwritten outlines with sparse crosshatching and repeated contours."
+    "Warm yellowed paper stays consistent through every room and portal. Six warped variants change the loops and stems of the bundled Caveat letterforms. Uneven word spacing, drifting baselines, nib pressure, faint overwritten drafts, red revisions and eraser residue give the writing its unfinished character."
   ],
   "reuse": [
     "Serve the source ZIP over HTTP and open example.html. It includes local handwriting fonts and licenses, real letter outlines, the exact Three.js runtime, original writing, navigation and portal engine. No font service is contacted.",

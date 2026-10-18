@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>A portable precision game</title
+  ><style>
+    body {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #ece8dc;
+      color: #304f49;
+      font: 17px/1.6 system-ui;
+    }
+    canvas {
+      width: 100%;
+      aspect-ratio: 5/4;
+      touch-action: none;
+      border: 1px solid #9baf9a;
+    }
+    button {
+      padding: 12px;
+      font: inherit;
+      margin: 10px 10px 10px 0;
+    }
+    output {
+      display: block;
+    }
+  </style>
+  <h1>One small corner.</h1>
+  <p>
+    A different board, custom polygon, original token and scoring rules. Move
+    the triangle along the L-shaped cavity. Release at the ring. This imports
+    the engine directly.
+  </p>
+  <canvas
+    tabindex="0"
+    aria-label="Custom precision board. Arrow keys move, Space grips or releases."
+  ></canvas
+  ><button id="focus">Inspect the corner</button
+  ><button id="reset">Reset</button
+  ><button id="pause">Pause</button
+  ><output aria-live="polite"></output>
+  <script type="module" src="./embed-demo.js"></script>
+</html>

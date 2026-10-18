@@ -1,0 +1,192 @@
+{
+  "id": "impossible-living-rug",
+  "slug": "living-rug",
+  "number": "37",
+  "order": 41,
+  "name": "The Living Rug",
+  "description": "Brush a Persian-inspired woven pattern into flowing curls of light. Luminous fibers carry moving gleams and soften into colored halos.",
+  "category": "Material",
+  "tags": [
+    "tactile",
+    "material",
+    "pointer",
+    "reusable"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Three.js",
+    "Procedural geometry",
+    "Local material response"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "mode",
+      "label": "Brush behavior",
+      "type": "select",
+      "default": "brush",
+      "options": [
+        {
+          "value": "brush",
+          "label": "Comb"
+        },
+        {
+          "value": "swirl",
+          "label": "Swirl"
+        }
+      ]
+    },
+    {
+      "key": "palette",
+      "label": "Thread palette",
+      "type": "select",
+      "default": "lapis",
+      "options": [
+        {
+          "value": "lapis",
+          "label": "Lapis / vermilion / gold"
+        },
+        {
+          "value": "wine",
+          "label": "Wine / indigo"
+        },
+        {
+          "value": "ochre",
+          "label": "Ochre / faded teal"
+        }
+      ]
+    },
+    {
+      "key": "glow",
+      "label": "Thread radiance",
+      "type": "range",
+      "default": 1.25,
+      "min": 0,
+      "max": 2.5,
+      "step": 0.05
+    },
+    {
+      "key": "shimmer",
+      "label": "Light flowing along fibers",
+      "type": "range",
+      "default": 0.8,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05
+    },
+    {
+      "key": "density",
+      "label": "Individual fibers",
+      "type": "range",
+      "default": 80000,
+      "min": 12000,
+      "max": 100000,
+      "step": 4000
+    },
+    {
+      "key": "length",
+      "label": "Fiber length",
+      "type": "range",
+      "default": 1.45,
+      "min": 0.4,
+      "max": 2.2,
+      "step": 0.05
+    },
+    {
+      "key": "current",
+      "label": "Unattended current",
+      "type": "range",
+      "default": 0.85,
+      "min": 0,
+      "max": 1.6,
+      "step": 0.05
+    },
+    {
+      "key": "radius",
+      "label": "Hand radius",
+      "type": "range",
+      "default": 0.16,
+      "min": 0.06,
+      "max": 0.4,
+      "step": 0.01
+    },
+    {
+      "key": "strength",
+      "label": "Touch strength",
+      "type": "range",
+      "default": 1,
+      "min": 0.2,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "softness",
+      "label": "Material softness",
+      "type": "range",
+      "default": 1,
+      "min": 0.4,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "memory",
+      "label": "Recovery time",
+      "type": "range",
+      "default": 2,
+      "min": 0.4,
+      "max": 6,
+      "step": 0.1
+    },
+    {
+      "key": "speed",
+      "label": "Motion speed",
+      "type": "range",
+      "default": 0.65,
+      "min": 0.1,
+      "max": 1.5,
+      "step": 0.05
+    },
+    {
+      "key": "zoom",
+      "label": "Magnification",
+      "type": "range",
+      "default": 1,
+      "min": 0.7,
+      "max": 1.7,
+      "step": 0.05
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original procedural material rendered from the live effect. Reference recordings and branded artwork are not included.",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "WebGL2, Pointer Events, ResizeObserver and ES modules. Exact Three.js runtime and license are included in the standalone package.",
+    "Mouse, touch and keyboard input. Reduced motion begins still; explicit Resume enables animation. Hidden and offscreen work pauses.",
+    "Bounded geometry budgets; one renderer per study. A static plate remains available without JavaScript."
+  ],
+  "notes": [
+    "An original procedural medallion and floral border, woven from individually curved fibers. The reference recordings inform the flowing pile; no reference image or video is used as a texture. Directional brush memory bends the tips while their roots keep the ornament registered. Traveling gleams live on the actual strand geometry; local brush energy brightens them, and a bounded bloom pass softens the emitted light.",
+    "Every gesture changes material state. The preview, inspector, presets, PNG capture and complete source export use the same effect."
+  ],
+  "reuse": [
+    "Import createLivingRug from engine.js and provide a sized canvas, settings and optional frame/error hooks.",
+    "Use point(x,y,pressed), release(), update(settings), replay(), setRunning(boolean) and dispose(). Input coordinates are normalized within the canvas.",
+    "The exported example runs over a plain local HTTP server. No Tampa routing or external image service is required."
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "id": "impossible-waterfall-ring-toss",
+  "slug": "waterfall-ring-toss",
+  "number": "27",
+  "order": 30,
+  "name": "Waterfall Ring Toss",
+  "description": "A little world under water. Press two soft pumps, send colored rings drifting through the current, and let them settle onto the pegs. An original pocket toy for patient afternoons.",
+  "category": "Interactive",
+  "tags": ["water", "toy", "physics", "rings", "currents"],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Canvas 2D",
+    "Fixed-step toy physics",
+    "Keyboard & touch controls"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "mode",
+      "label": "Game mode",
+      "type": "select",
+      "default": "classic",
+      "options": [
+        {
+          "value": "classic",
+          "label": "Classic two pegs"
+        },
+        {
+          "value": "challenge",
+          "label": "Timed challenge"
+        },
+        {
+          "value": "world",
+          "label": "Tiny toy worlds"
+        },
+        {
+          "value": "endless",
+          "label": "Endless practice"
+        }
+      ]
+    },
+    {
+      "key": "strength",
+      "label": "Pump strength",
+      "type": "range",
+      "default": 1,
+      "min": 0.4,
+      "max": 1.8,
+      "step": 0.05
+    },
+    {
+      "key": "buoyancy",
+      "label": "Gravity / sinking weight",
+      "type": "range",
+      "default": 1,
+      "min": 0.4,
+      "max": 1.6,
+      "step": 0.05
+    },
+    {
+      "key": "ringCount",
+      "label": "Ring count",
+      "type": "range",
+      "default": 10,
+      "min": 4,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "layout",
+      "label": "Peg layout",
+      "type": "select",
+      "default": "duet",
+      "options": [
+        {
+          "value": "duet",
+          "label": "Two patient pegs"
+        },
+        {
+          "value": "quartet",
+          "label": "Four-point challenge"
+        },
+        {
+          "value": "terraces",
+          "label": "Three terraces"
+        },
+        {
+          "value": "arch",
+          "label": "Ascending arch"
+        }
+      ]
+    },
+    {
+      "key": "shape",
+      "label": "Chamber shape",
+      "type": "select",
+      "default": "rounded",
+      "options": [
+        {
+          "value": "rounded",
+          "label": "Soft rectangle"
+        },
+        {
+          "value": "porthole",
+          "label": "Deep rounded capsule"
+        }
+      ]
+    },
+    {
+      "key": "turbulence",
+      "label": "Water turbulence",
+      "type": "range",
+      "default": 0.45,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "world",
+      "label": "Miniature backdrop",
+      "type": "select",
+      "default": "harbor",
+      "options": [
+        {
+          "value": "harbor",
+          "label": "The little harbor"
+        },
+        {
+          "value": "reef",
+          "label": "Coral carnival"
+        },
+        {
+          "value": "moon",
+          "label": "The moon pool"
+        }
+      ]
+    },
+    {
+      "key": "timer",
+      "label": "Challenge timer \u00b7 seconds",
+      "type": "range",
+      "default": 60,
+      "min": 20,
+      "max": 180,
+      "step": 5
+    },
+    {
+      "key": "freePlay",
+      "label": "Free play \u00b7 hide the score",
+      "type": "toggle",
+      "default": false
+    }
+  ],
+  "entry": "index.js",
+  "styles": ["style.css"],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original Tideling pocket water toy and miniature illustrations",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "Canvas 2D, ResizeObserver, Pointer-compatible native buttons and requestAnimationFrame. No third-party runtime, remote images, WebGL or audio.",
+    "Desktop mouse / trackpad, mobile touch, and keyboard. Focus the chamber and use A / D or left / right arrows for the pumps, Space for both. All other actions have ordinary HTML controls.",
+    "Fixed 120 Hz simulation, at most 24 rings and 160 bubbles, capped 2\u00d7 pixel ratio. Native resize preserves world coordinates. No per-ring DOM nodes.",
+    "Lab visibility and page visibility pause both physics and challenge time. Reduced motion removes the reset wobble and ambient caustic motion; deliberately activated pumps still animate the essential gameplay.",
+    "An original static toy illustration remains available without JavaScript. The game needs Canvas 2D; score and status are accessible HTML."
+  ],
+  "notes": [
+    "Tideling is an original toy design with printed harbor, coral reef and moon-pool backdrops. It includes no branded artwork, sound or third-party assets.",
+    "Rings receive distributed impulses from separate water jets, then sink with drag and bounded turbulence. Scoring requires a descending crossing of a peg tip with the opening aligned. Catches slide to a visible stack and cannot be knocked off.",
+    "This is an intentionally lightweight 2D toy model with illustrative depth, not a fluid solver or rigid-body torus simulation. Slow alternating pumps can clear the board; frantic pumping keeps rings aloft.",
+    "Challenge time begins only after Start. Endless mode automatically replenishes the rings 2.2 seconds after every catch. Free play hides the counter without changing the physics.",
+    "Changing the layout, chamber shape, mode, count or challenge duration starts a fresh board. Color scenery, turbulence and force changes retain ring positions. Lab presets and setup JSON store controls, not an in-progress game."
+  ],
+  "reuse": [
+    "WaterToy in model.js is a DOM-independent fixed-step model with configurable chamber bounds, pegs, ring objects, water jets and scoring rules. Submit pump events and advance elapsed time; read rings, pegs, events and score.",
+    "createWaterToy(canvas, settings, hooks) in engine.js manages rendering, resolution, frame timing and cleanup. Hooks accept a neutral scene definition, an optional backdrop renderer, per-frame reports and semantic pump/catch/round/finish events.",
+    "The separate renderer, optional Lab UI, original assets and a neutral embed-demo.html ship in the source ZIP. README.md documents inputs, coordinates, lifecycle and limitations."
+  ]
+}

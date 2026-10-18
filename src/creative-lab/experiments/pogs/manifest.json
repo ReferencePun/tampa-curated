@@ -1,0 +1,182 @@
+{
+  "id": "impossible-pogs",
+  "slug": "pogs",
+  "number": "30",
+  "order": 33,
+  "name": "Pogs Game",
+  "description": "A heavy slammer, a stack of original illustrated discs, and a small collection worth keeping. Flick, flip and collect across four tabletop game modes.",
+  "category": "Interactive",
+  "tags": ["collectibles", "toy", "tabletop", "game", "illustration"],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Canvas 2D",
+    "Projected disc geometry",
+    "Deterministic impact trajectories"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "mode",
+      "label": "Game mode",
+      "type": "select",
+      "default": "practice",
+      "options": [
+        {
+          "value": "practice",
+          "label": "Single-player practice"
+        },
+        {
+          "value": "cpu",
+          "label": "Versus CPU"
+        },
+        {
+          "value": "collection",
+          "label": "Collector\u2019s album"
+        },
+        {
+          "value": "builder",
+          "label": "Custom stack builder"
+        }
+      ]
+    },
+    {
+      "key": "stackSize",
+      "label": "Stack size",
+      "type": "range",
+      "default": 8,
+      "min": 1,
+      "max": 16,
+      "step": 1
+    },
+    {
+      "key": "slammer",
+      "label": "Slammer weight / material",
+      "type": "select",
+      "default": "brass",
+      "options": [
+        {
+          "value": "brass",
+          "label": "Brass Sun \u00b7 1.28\u00d7"
+        },
+        {
+          "value": "steel",
+          "label": "Steel Comet \u00b7 1.62\u00d7"
+        },
+        {
+          "value": "wood",
+          "label": "Cherrywood \u00b7 0.86\u00d7"
+        },
+        {
+          "value": "enamel",
+          "label": "Blue Satellite \u00b7 1.12\u00d7"
+        }
+      ]
+    },
+    {
+      "key": "power",
+      "label": "Flick / strike power",
+      "type": "range",
+      "default": 0.7,
+      "min": 0.15,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "angle",
+      "label": "Strike tilt \u00b7 degrees",
+      "type": "range",
+      "default": 28,
+      "min": 0,
+      "max": 65,
+      "step": 1
+    },
+    {
+      "key": "friction",
+      "label": "Table friction",
+      "type": "range",
+      "default": 0.5,
+      "min": 0.1,
+      "max": 0.9,
+      "step": 0.05
+    },
+    {
+      "key": "surface",
+      "label": "Table surface",
+      "type": "select",
+      "default": "felt",
+      "options": [
+        {
+          "value": "felt",
+          "label": "Billiard felt"
+        },
+        {
+          "value": "wood",
+          "label": "Warm hardwood"
+        },
+        {
+          "value": "linen",
+          "label": "Collector\u2019s linen"
+        }
+      ]
+    },
+    {
+      "key": "style",
+      "label": "Collectible style",
+      "type": "select",
+      "default": "mixed",
+      "options": [
+        {
+          "value": "mixed",
+          "label": "Original edition finishes"
+        },
+        {
+          "value": "paper",
+          "label": "Printed paper"
+        },
+        {
+          "value": "metal",
+          "label": "Brushed metallic"
+        },
+        {
+          "value": "holo",
+          "label": "Prismatic foil"
+        }
+      ]
+    }
+  ],
+  "entry": "index.js",
+  "styles": ["style.css"],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original Odd Company artwork, slammers and tabletop rendering",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "Canvas 2D, Pointer Events, ResizeObserver and requestAnimationFrame. No third-party runtime, remote artwork, fonts or audio.",
+    "Mouse, pen and captured touch. Drag from the slammer toward the stack, or tap to aim and press Strike. Keyboard arrows aim, Shift makes smaller adjustments, Space strikes; ordinary buttons bank winnings.",
+    "A single visible canvas projects rotating front/back textures and physical edges. Original artwork and the table are cached; at most 16 discs animate together.",
+    "Hidden tabs, offscreen previews, the shared pause control and album/builder views suspend animation and CPU turns without catch-up. An idle table has no animation loop.",
+    "Reduced motion resolves the flight directly to its genuine result. Collecting, aiming, CPU turns and all settings remain usable. The collection stays local, with JSON export/import and a clear/undo control."
+  ],
+  "notes": [
+    "Odd Company is an original tabletop toy. Twelve editions feature a moon moth, sun-eating fish, orbital planet, midnight flower, watchful cloud, solar face, tiny ship, lizard, shell, paper tiger, firefly and observatory. No branded disc art or slammer designs are used.",
+    "Discs begin face down. A gesture sets impact position and power from travel distance and velocity. Tap-to-aim and button or keyboard strikes use the inspector power setting. Missing the stack produces no flips.",
+    "The controlled impact model combines overlap, slammer mass, tilt, edge leverage, friction, table surface, stack depth and stable disc variation. It computes a deterministic flight and final half-turn count. The rendered landing orientation determines scoring; there is no separate random reward roll.",
+    "Bank face-up discs, then watch the remaining discs restack. CPU mode alternates turns; Mica uses the same slammer and impact function, and only the human player\u2019s winnings enter their collection. Practice and collection rounds have no stakes or paid rewards.",
+    "The album shows front and reverse artwork, collected counts, edition tiers, and missing designs. Collection play deals missing editions first. The builder supports duplicates and a meaningful bottom-to-top order, with up to sixteen discs.",
+    "Five presets, full table/ordered-stack JSON, album JSON and source export are included. Shared presets save inspector settings; local table export also saves chosen disc IDs. Album data is independent of settings and rounds."
+  ],
+  "reuse": [
+    "DiscGame and planStrike in model.js are browser-independent. Supply your own catalog, ordered stack, normalized settings and impact point. Semantic events report strikes, landings, collection and completion.",
+    "createDiscTable(canvas, settings, hooks) adds projection, cached textures, pointer and keyboard input, visibility-controlled animation and cleanup. A drawDisc callback supplies custom front and reverse artwork.",
+    "The source export includes the original art, reusable model and renderer, optional HTML UI, five presets, documented schemas and a neutral three-color custom-disc example. There are no Tampa-specific runtime imports."
+  ]
+}

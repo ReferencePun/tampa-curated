@@ -1,6 +1,7 @@
 // Deterministic mark-making: no animated noise or random changes on revisiting a page.
 export const INKS=['#131517','#203d72','#9d302d'];
-export const PAPER='#efeee8';
+export const PAPER='#e7d9b7';
+export const PAPER_RGB=[231,217,183];
 export const noise=n=>{const v=Math.sin(n*127.1+311.7)*43758.5453;return v-Math.floor(v);};
 export function penFor(serial,style='mixed'){
  if(style==='graphite')return 0;

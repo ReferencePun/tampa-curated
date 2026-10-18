@@ -27,7 +27,7 @@
       "key": "mode",
       "label": "Particle treatment",
       "type": "select",
-      "default": "engraving",
+      "default": "reveal",
       "options": [
         {
           "value": "engraving",
@@ -40,6 +40,22 @@
         {
           "value": "reveal",
           "label": "Photographic reveal"
+        }
+      ]
+    },
+    {
+      "key": "surface",
+      "label": "Particle ground",
+      "type": "select",
+      "default": "night",
+      "options": [
+        {
+          "value": "night",
+          "label": "Amber on charcoal"
+        },
+        {
+          "value": "paper",
+          "label": "Ink on ivory"
         }
       ]
     },
@@ -67,7 +83,7 @@
       "key": "radius",
       "label": "Reveal radius",
       "type": "range",
-      "default": 23,
+      "default": 14,
       "min": 6,
       "max": 45,
       "step": 1
@@ -76,7 +92,7 @@
       "key": "displacement",
       "label": "Displacement strength",
       "type": "range",
-      "default": 32,
+      "default": 24,
       "min": 0,
       "max": 100,
       "step": 1
@@ -94,7 +110,7 @@
       "key": "density",
       "label": "Sampling density",
       "type": "range",
-      "default": 300,
+      "default": 320,
       "min": 120,
       "max": 420,
       "step": 10
@@ -127,10 +143,19 @@
       "step": 0.1
     },
     {
+      "key": "trail",
+      "label": "Reveal trail \u00b7 seconds",
+      "type": "range",
+      "default": 1.2,
+      "min": 0.1,
+      "max": 2.4,
+      "step": 0.1
+    },
+    {
       "key": "ink",
       "label": "Engraving ink",
       "type": "color",
-      "default": "#343129"
+      "default": "#dfb879"
     },
     {
       "key": "original",
@@ -192,9 +217,9 @@
     "Original-image toggle, descriptive image labels, HTML field notes, and static no-JavaScript plate remain available."
   ],
   "notes": [
-    "Every fragment has an anchor and tonal information sampled from the photograph. Luminance and local contrast determine stippling, fine strokes and crosshatched marks.",
-    "Pointer movement displaces individual marks. In reveal mode each fragment resolves its own patch of the photograph; no photographic plane or opacity-mask overlay sits underneath it. Leaving the field returns the marks to their anchors.",
-    "Scatter and Reassemble control the same instances. Original rendering resolves those instances into a continuous photograph. Photo selection preserves landscape, portrait and unusually wide compositions.",
+    "Fine horizontal amber-and-cream dashes follow image luminance and edges on a charcoal image plate. The ivory drypoint treatment remains available as a preset. Both use actual image-derived fragments.",
+    "A bounded persistent field records the entire pointer sweep. A fixed photograph is revealed under the cursor and bleeds gradually back into grains. Pointer motion creates a continuous pressure wake in a wave simulation. Its crests and troughs displace individual particles above the photograph; the photographic layer stays registered. The same wake engine drives the Stories archive.",
+    "Scatter and Reassemble control the same instances. Original rendering uncovers the complete photograph. Photo selection preserves landscape, portrait and unusually wide compositions.",
     "Open field note demonstrates an engraving resolving into an image-led content view. Return brings the same plate back. A separate gallery example is included in the exported source.",
     "Reference studied: Eddy Naboulet\u2019s image-derived, pointer-responsive particle formations. All sampling, shaders, interface and transition code are original; its overall design and assets were not copied."
   ],

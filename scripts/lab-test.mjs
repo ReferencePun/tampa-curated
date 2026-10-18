@@ -58,7 +58,9 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await page.locator('[data-comparison-view]').selectOption('both');await page.screenshot({path:path.join(out,`${name}-comparison.png`),fullPage:true});
  for(const entry of entries){
   await page.goto(href(`${entry.slug}/`));await expect(page.locator('h1')).toContainText(entry.name);
-  await page.locator('[data-demo]').scrollIntoViewIfNeeded();await expect(page.locator('[data-lab-host]')).toHaveAttribute('data-mounted','true');await expect(page.locator('canvas')).toHaveCount(['draw-a-world','living-city','site-memory','spatial-sound','living-music-score','little-workers'].includes(entry.slug)?0:1);
+  await page.locator('[data-demo]').scrollIntoViewIfNeeded();await expect(page.locator('[data-lab-host]')).toHaveAttribute('data-mounted','true');// Some completed studies use multiple canvases for independent surfaces. Their dedicated tests validate ownership and cleanup.
+  if(['draw-a-world','living-city','site-memory','spatial-sound','living-music-score','little-workers'].includes(entry.slug))await expect(page.locator('canvas')).toHaveCount(0);
+  else await expect.poll(()=>page.locator('canvas:visible').count(),{message:`${entry.slug} has a visible renderer`}).toBeGreaterThan(0);
   if(entry.placeholder)await expect(page.locator('.il-placeholder-note')).toContainText('has not been built yet');
  }
  await page.goto(href('line-field/'));const root=page.locator('[data-lab-host]');await page.locator('[data-demo]').scrollIntoViewIfNeeded();await expect(root).toHaveAttribute('data-mounted','true');

@@ -1,0 +1,191 @@
+{
+  "id": "impossible-gel-toy",
+  "slug": "gel-toy",
+  "number": "39",
+  "order": 43,
+  "name": "Slow Gel Toy",
+  "description": "A glossy, softly translucent gel stress toy. Squeeze, stretch and release a ball or rounded cube with a slow impression recovery.",
+  "category": "Material",
+  "tags": [
+    "tactile",
+    "material",
+    "pointer",
+    "reusable"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Three.js",
+    "Procedural geometry",
+    "Local material response"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "mode",
+      "label": "Hand action",
+      "type": "select",
+      "default": "squeeze",
+      "options": [
+        {
+          "value": "squeeze",
+          "label": "Squeeze"
+        },
+        {
+          "value": "stretch",
+          "label": "Pull / stretch"
+        }
+      ]
+    },
+    {
+      "key": "form",
+      "label": "Toy shape",
+      "type": "select",
+      "default": "ball",
+      "options": [
+        {
+          "value": "ball",
+          "label": "Soft ball"
+        },
+        {
+          "value": "cube",
+          "label": "Rounded cube"
+        }
+      ]
+    },
+    {
+      "key": "palette",
+      "label": "Gel color",
+      "type": "select",
+      "default": "rose",
+      "options": [
+        {
+          "value": "rose",
+          "label": "Rose"
+        },
+        {
+          "value": "citrus",
+          "label": "Amber citrus"
+        },
+        {
+          "value": "ice",
+          "label": "Ice blue"
+        },
+        {
+          "value": "violet",
+          "label": "Violet"
+        }
+      ]
+    },
+    {
+      "key": "translucency",
+      "label": "Light through gel",
+      "type": "range",
+      "default": 0.55,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "matte",
+      "label": "Surface softness",
+      "type": "range",
+      "default": 0.3,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "radius",
+      "label": "Hand radius",
+      "type": "range",
+      "default": 0.16,
+      "min": 0.06,
+      "max": 0.4,
+      "step": 0.01
+    },
+    {
+      "key": "strength",
+      "label": "Touch strength",
+      "type": "range",
+      "default": 1,
+      "min": 0.2,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "softness",
+      "label": "Material softness",
+      "type": "range",
+      "default": 1,
+      "min": 0.4,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "memory",
+      "label": "Impression recovery (seconds)",
+      "type": "range",
+      "default": 8,
+      "min": 1,
+      "max": 30,
+      "step": 0.5
+    },
+    {
+      "key": "speed",
+      "label": "Motion speed",
+      "type": "range",
+      "default": 0.65,
+      "min": 0.1,
+      "max": 1.5,
+      "step": 0.05
+    },
+    {
+      "key": "zoom",
+      "label": "Magnification",
+      "type": "range",
+      "default": 1,
+      "min": 0.7,
+      "max": 1.7,
+      "step": 0.05
+    },
+    {
+      "key": "autoplay",
+      "label": "Automatic slow squeeze",
+      "type": "toggle",
+      "default": false
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original procedural material rendered from the live effect. Reference recordings and branded artwork are not included.",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "WebGL2, Pointer Events, ResizeObserver and ES modules. Exact Three.js runtime and license are included in the standalone package.",
+    "Mouse, touch and keyboard input. Reduced motion begins still; explicit Resume enables animation. Hidden and offscreen work pauses.",
+    "Bounded geometry budgets; one renderer per study. A static plate remains available without JavaScript."
+  ],
+  "notes": [
+    "An original gel object with a continuously deformed surface, recomputed normals, softly transmitted color and procedural studio reflections. Compression creates lateral bulging; a local grip follows the hand. The skin and highlights respond to the same geometry. This is a controlled toy approximation, not a medical or engineering material model.",
+    "Every gesture changes material state. The preview, inspector, presets, PNG capture and complete source export use the same effect."
+  ],
+  "reuse": [
+    "Import createGelToy from engine.js and provide a sized canvas, settings and optional frame/error hooks.",
+    "Use point(x,y,pressed), release(), update(settings), replay(), setRunning(boolean) and dispose(). Input coordinates are normalized within the canvas.",
+    "The exported example runs over a plain local HTTP server. No Tampa routing or external image service is required."
+  ]
+}

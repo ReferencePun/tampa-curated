@@ -1,0 +1,228 @@
+{
+  "id": "impossible-view-master",
+  "slug": "view-master",
+  "number": "25",
+  "order": 28,
+  "name": "Reel Viewer",
+  "description": "A pocket picture theatre. Insert a circular reel, pull the little lever, and peer into original illustrated places, miniature worlds and photographs.",
+  "category": "Interactive",
+  "tags": ["reels", "stereo", "miniatures", "photography", "toy"],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Canvas 2D",
+    "Off-axis stereo projection",
+    "Pointer Events",
+    "Web Audio"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "reel",
+      "label": "Reel collection",
+      "type": "select",
+      "default": "atlas",
+      "options": [
+        {
+          "value": "atlas",
+          "label": "An atlas of elsewhere"
+        },
+        {
+          "value": "miniatures",
+          "label": "Small worlds, big days"
+        },
+        {
+          "value": "photos",
+          "label": "Collected in the light"
+        },
+        {
+          "value": "custom",
+          "label": "Custom reel \u00b7 load in viewer"
+        }
+      ]
+    },
+    {
+      "key": "mode",
+      "label": "Viewer mode",
+      "type": "select",
+      "default": "standard",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard viewer"
+        },
+        {
+          "value": "stereo",
+          "label": "Parallel stereo pair"
+        },
+        {
+          "value": "exploded",
+          "label": "Exploded reel inspection"
+        }
+      ]
+    },
+    {
+      "key": "order",
+      "label": "Scene order",
+      "type": "select",
+      "default": "forward",
+      "options": [
+        {
+          "value": "forward",
+          "label": "Forward"
+        },
+        {
+          "value": "reverse",
+          "label": "Reverse"
+        }
+      ]
+    },
+    {
+      "key": "depth",
+      "label": "Stereo depth strength",
+      "type": "range",
+      "default": 0.55,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "zoom",
+      "label": "Viewer magnification",
+      "type": "range",
+      "default": 1,
+      "min": 0.8,
+      "max": 1.5,
+      "step": 0.05
+    },
+    {
+      "key": "spacing",
+      "label": "Reel frame spacing",
+      "type": "range",
+      "default": 1,
+      "min": 0.7,
+      "max": 1.2,
+      "step": 0.05
+    },
+    {
+      "key": "transition",
+      "label": "Frame transition",
+      "type": "select",
+      "default": "shutter",
+      "options": [
+        {
+          "value": "shutter",
+          "label": "Mechanical shutter"
+        },
+        {
+          "value": "dissolve",
+          "label": "Fade through darkness"
+        },
+        {
+          "value": "instant",
+          "label": "Instant"
+        }
+      ]
+    },
+    {
+      "key": "palette",
+      "label": "Plastic finish",
+      "type": "select",
+      "default": "vermilion",
+      "options": [
+        {
+          "value": "vermilion",
+          "label": "Faded vermilion"
+        },
+        {
+          "value": "seafoam",
+          "label": "Seafoam green"
+        },
+        {
+          "value": "cream",
+          "label": "Old cream"
+        },
+        {
+          "value": "midnight",
+          "label": "Midnight blue"
+        }
+      ]
+    },
+    {
+      "key": "clickSound",
+      "label": "Click sound \u00b7 enable in viewer",
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "autoplay",
+      "label": "Automatic reel advance",
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "interval",
+      "label": "Autoplay interval \u00b7 seconds",
+      "type": "range",
+      "default": 5,
+      "min": 2,
+      "max": 12,
+      "step": 0.5
+    }
+  ],
+  "entry": "index.js",
+  "styles": ["style.css"],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original Elsewhere toy and illustrated miniature worlds",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/palms.jpg",
+      "credit": "Brandon Burridge / Unsplash",
+      "license": "Unsplash"
+    },
+    {
+      "path": "assets/facade.jpg",
+      "credit": "Ikuna / Unsplash",
+      "license": "Unsplash"
+    },
+    {
+      "path": "assets/portrait.jpg",
+      "credit": "Christopher Campbell / Unsplash",
+      "license": "Unsplash"
+    },
+    {
+      "path": "assets/PHOTO-CREDITS.md",
+      "credit": "Photograph attribution and license notes",
+      "license": "Documentation"
+    }
+  ],
+  "compatibility": [
+    "Canvas 2D and CSS; no WebGL or third-party runtime. ResizeObserver, Pointer Events, modern Safari, Chrome and Firefox. A static original toy illustration remains without JavaScript.",
+    "Keyboard arrows, large previous/next buttons, clickable reel frames, and horizontal touch swipes. Captions and image descriptions remain real accessible text.",
+    "Parallel stereo uses separate off-axis viewpoints. Viewing fused depth requires a suitable parallel-view stereoscope or viewing technique; ordinary screens show two distinct images. A single photograph is kept flat.",
+    "Reduced motion disables automatic progression and transition motion. Offscreen, hidden-tab and Lab pause states suspend animation and mute audio. Audio only starts after pressing Enable click sound.",
+    "Local image files are decoded at up to 1,800 pixels on their longest edge. Up to 24 scenes per reel. Built-in scenes redraw only on interaction or during a short transition; no idle render loop."
+  ],
+  "notes": [
+    "Elsewhere is an original pocket-viewer design: molded plastic, inset binocular lenses, a geared shutter lever and a cream circular reel. No protected product artwork or branding is reproduced.",
+    "Six illustrated scenes and six miniature-world scenes use shared projected geometry. The left and right eyes converge on the same central plane; closer and farther structures create different binocular disparities.",
+    "The photo reel includes three credited photographs. Local images remain flat; true stereo pairs can be supplied through the reel schema. No depth inference or remote processing occurs.",
+    "Each scene has two reel windows. The selected pair rotates toward the viewing slot; a brief shutter closes while the scene changes. Reordering creates a custom reel without modifying the sample collections.",
+    "The optional click is a quiet procedural Web Audio impulse triggered by manual advances. A restored sound setting never unlocks audio without an explicit gesture."
+  ],
+  "reuse": [
+    "Download the complete source ZIP or use pnpm lab:export view-master. It includes original code, all sample assets and their credits, an offline-capable standalone example, and a custom-reel integration example.",
+    "model.js owns validation, settings and transport. reels.js contains sample content. renderer.js owns scene projection and image drawing. audio.js provides optional clicks; index.js and styles.js provide the toy shell.",
+    "Call mount(container, settings, report, { reel, onSceneChange }). Supply illustrated scenes, miniature worlds, photographs or registered left/right stereo pairs. README.md documents the versioned schema.",
+    "The returned API provides update, setRunning, replay, loadReel, getState, exportReel and dispose. Dispose when removing the viewer to release listeners, image caches, observers and audio resources.",
+    "Lab presets and source exports save settings, not visitors\u2019 private photographs. Save this reel exports an explicit portable JSON with embedded images and the chosen order."
+  ]
+}

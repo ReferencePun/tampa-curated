@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>A portable disc table</title
+  ><style>
+    body {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #eee6d5;
+      color: #293f3b;
+      font: 17px/1.5 system-ui;
+    }
+    canvas {
+      width: 100%;
+      aspect-ratio: 25/17;
+      touch-action: none;
+      border-radius: 18px;
+    }
+    button {
+      font: inherit;
+      padding: 12px;
+      margin: 12px 8px 12px 0;
+    }
+    output {
+      display: block;
+    }
+  </style>
+  <h1>Three colors, one small table.</h1>
+  <p>
+    This neutral example supplies three custom designs to the disc engine. Drag
+    the slammer, tap to aim, or use Strike. No Lab UI or Tampa content is
+    loaded.
+  </p>
+  <canvas
+    tabindex="0"
+    aria-label="Custom disc game. Arrows aim; Space strikes."
+  ></canvas
+  ><button id="strike">Strike</button
+  ><button id="collect">Collect</button
+  ><button id="reset">New stack</button
+  ><button id="pause">Pause</button
+  ><output aria-live="polite"></output>
+  <script type="module" src="./embed-demo.js"></script>
+</html>

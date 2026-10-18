@@ -1,0 +1,244 @@
+{
+  "id": "impossible-anemone-reef",
+  "slug": "anemone-reef",
+  "number": "35B",
+  "order": 40,
+  "name": "Sea Anemone Reef",
+  "description": "Sweep above a translucent sea-glass meadow. Fleshy olive tentacles glow at their aqua edges and bend into lingering patterns beneath your hand.",
+  "category": "Interactive",
+  "tags": [
+    "marine",
+    "anemone",
+    "macro",
+    "tissue",
+    "3D"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Three.js instanced tubes",
+    "Rounded organic geometry",
+    "Local spring response",
+    "Depth-aware soft focus"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "mode",
+      "label": "Touch behavior",
+      "type": "select",
+      "default": "brush",
+      "options": [
+        {
+          "value": "brush",
+          "label": "Brush aside"
+        },
+        {
+          "value": "follow",
+          "label": "Follow your hand"
+        },
+        {
+          "value": "ripple",
+          "label": "Passing current"
+        }
+      ]
+    },
+    {
+      "key": "palette",
+      "label": "Underwater palette",
+      "type": "select",
+      "default": "seagrass",
+      "options": [
+        {
+          "value": "seagrass",
+          "label": "Sea glass / olive"
+        },
+        {
+          "value": "lagoon",
+          "label": "Blue lagoon"
+        },
+        {
+          "value": "honey",
+          "label": "Warm shallows"
+        }
+      ]
+    },
+    {
+      "key": "density",
+      "label": "Tentacle density",
+      "type": "range",
+      "default": 560,
+      "min": 120,
+      "max": 560,
+      "step": 20
+    },
+    {
+      "key": "length",
+      "label": "Tentacle length",
+      "type": "range",
+      "default": 1,
+      "min": 0.65,
+      "max": 1.4,
+      "step": 0.05
+    },
+    {
+      "key": "thickness",
+      "label": "Fleshy thickness",
+      "type": "range",
+      "default": 1.05,
+      "min": 0.65,
+      "max": 1.5,
+      "step": 0.05
+    },
+    {
+      "key": "current",
+      "label": "Underwater current",
+      "type": "range",
+      "default": 0.45,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05
+    },
+    {
+      "key": "speed",
+      "label": "Motion speed",
+      "type": "range",
+      "default": 0.6,
+      "min": 0.2,
+      "max": 1.5,
+      "step": 0.05
+    },
+    {
+      "key": "softness",
+      "label": "Flexibility",
+      "type": "range",
+      "default": 1.15,
+      "min": 0.4,
+      "max": 1.8,
+      "step": 0.05
+    },
+    {
+      "key": "radius",
+      "label": "Brush radius",
+      "type": "range",
+      "default": 0.24,
+      "min": 0.08,
+      "max": 0.4,
+      "step": 0.01
+    },
+    {
+      "key": "strength",
+      "label": "Touch response",
+      "type": "range",
+      "default": 1.3,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "light",
+      "label": "Light through the tips",
+      "type": "range",
+      "default": 1.2,
+      "min": 0.4,
+      "max": 1.6,
+      "step": 0.05
+    },
+    {
+      "key": "translucency",
+      "label": "Translucent tissue",
+      "type": "range",
+      "default": 0.85,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "focus",
+      "label": "Soft background focus",
+      "type": "range",
+      "default": 0.2,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "zoom",
+      "label": "View magnification",
+      "type": "range",
+      "default": 0.8,
+      "min": 0.65,
+      "max": 1.35,
+      "step": 0.05
+    },
+    {
+      "key": "angle",
+      "label": "View angle",
+      "type": "range",
+      "default": 0,
+      "min": -0.4,
+      "max": 0.4,
+      "step": 0.05
+    },
+    {
+      "key": "elevation",
+      "label": "View from above",
+      "type": "range",
+      "default": 0.8,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "quality",
+      "label": "Rendering quality",
+      "type": "select",
+      "default": "high",
+      "options": [
+        {
+          "value": "high",
+          "label": "Smooth tissue + soft focus"
+        },
+        {
+          "value": "low",
+          "label": "Lighter rendering"
+        }
+      ]
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original procedural anemone reef, rendered from the live scene. The supplied reference photograph is not redistributed or used as a texture.",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "WebGL2, ES modules, Pointer Events, ResizeObserver and native dialog. Three.js is bundled in the standalone export.",
+    "Mouse, touch and keyboard controls. Reduced motion begins still; explicit Resume enables movement. Hidden and offscreen rendering stops.",
+    "One instanced tentacle mesh, bounded at 560 organisms; a depth-aware focus pass is optional. Lower quality reduces cross-section and shaft detail and removes soft focus."
+  ],
+  "notes": [
+    "A broad overhead view of the reference-inspired reef, with 560 smaller tentacles filling the meadow. The close-up preset remains available, and the original radial cursor field remains unchanged.",
+    "Smooth three-dimensional tubes terminate in hemispherical tips. Individual lengths, widths, lean angles and phases avoid a uniform bed of repeated stalks. Dense overlapping colonies fill the camera view.",
+    "Back-to-front sorted translucent membranes, wrapped light and a restrained diffusion pass give the olive tissue luminous aqua edges. Actual overlapping geometry remains visible through thin surfaces. This is an artistic approximation, not a full optical simulation.",
+    "Hovering deposits a directional wake along the entire swept segment. Local springs comb the tentacles into broad patterns, then gradually recover. The pointer basis follows the camera so overhead sweeps match the hand. Paused input works as a still inspection.",
+    "No photograph, downloaded model, external service, video or image overlay is used. Presets, fullscreen, PNG export, Lab setting storage and portable source are included."
+  ],
+  "reuse": [
+    "Import createAnemoneReef from engine.js and supply a sized canvas. Pass settings, optional frame/error hooks and setRunning for your visibility policy.",
+    "ReefField in model.js owns anatomy and spring state independently of Three.js. renderer.js owns instanced geometry, lighting, depth textures and GPU cleanup.",
+    "The source package runs over a plain local HTTP server with the bundled Three.js runtime. It needs no Tampa page logic; README documents input, lifecycle and settings."
+  ]
+}

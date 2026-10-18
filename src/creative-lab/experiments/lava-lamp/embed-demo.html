@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Slow matter · portable examples</title
+  ><style>
+    body {
+      background: #151110;
+      color: #e9d9c9;
+      font: 16px/1.6 system-ui;
+      margin: 24px;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      aspect-ratio: 10/9;
+    }
+    button {
+      padding: 12px 18px;
+      font: inherit;
+      color: inherit;
+      background: #32261f;
+      border: 1px solid #98775c;
+      margin: 0 8px 20px 0;
+    }
+    #column {
+      width: 300px;
+      max-width: 100%;
+      aspect-ratio: 3/4;
+    }
+    #ambient {
+      aspect-ratio: 2/1;
+    }
+    h2 {
+      margin-top: 40px;
+    }
+  </style>
+  <main>
+    <h1>Three ways to hold slow matter.</h1>
+    <p>
+      The lamp, the column, and the same material as a wide background.
+      Independent engines, no external assets.
+    </p>
+    <button id="motion">Pause all</button
+    ><canvas id="lamp" aria-label="Warm lava lamp"></canvas>
+    <h2>A quiet column</h2>
+    <canvas id="column" aria-label="Minimal white wax column"></canvas>
+    <h2>A living background</h2>
+    <canvas id="ambient" aria-label="Purple living wax field"></canvas>
+  </main>
+  <script type="module" src="./embed-demo.js"></script>
+</html>

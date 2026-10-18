@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>A small optical instrument</title
+  ><style>
+    body {
+      background: #ede5d4;
+      color: #263c43;
+      font: 16px system-ui;
+      margin: 24px;
+    }
+    main {
+      max-width: 700px;
+      margin: auto;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+      touch-action: none;
+    }
+    button {
+      font: inherit;
+      margin: 12px 5px 12px 0;
+      padding: 10px;
+    }
+    p {
+      line-height: 1.6;
+    }
+  </style>
+  <main>
+    <h1>A small optical instrument</h1>
+    <p>
+      An independent renderer with a two-color source. Drag to explore; arrow
+      keys turn and zoom.
+    </p>
+    <canvas tabindex="0" aria-label="Interactive optical instrument"></canvas
+    ><button id="pause">Set it moving</button
+    ><button id="mirrors">Change mirror count</button><output></output>
+  </main>
+  <script type="module" src="./embed-demo.js"></script>
+</html>

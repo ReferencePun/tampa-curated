@@ -1,0 +1,238 @@
+{
+  "id": "impossible-spin-art",
+  "slug": "spin-art",
+  "number": "28",
+  "order": 31,
+  "name": "Spin Art Machine",
+  "description": "A turning paper disc, wet paint, and a few beautiful accidents. Drip, draw and scatter color into radial artworks with a reusable spin-art machine.",
+  "category": "Interactive",
+  "tags": [
+    "paint",
+    "toy",
+    "generative art",
+    "canvas",
+    "spin"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Canvas 2D",
+    "Rotating paper coordinates",
+    "Retained paint marks"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "speed",
+      "label": "Spin speed · RPM",
+      "type": "range",
+      "default": 36,
+      "min": 0,
+      "max": 90,
+      "step": 1
+    },
+    {
+      "key": "direction",
+      "label": "Spin direction",
+      "type": "select",
+      "default": "clockwise",
+      "options": [
+        {
+          "value": "clockwise",
+          "label": "Clockwise"
+        },
+        {
+          "value": "counterclockwise",
+          "label": "Counterclockwise"
+        }
+      ]
+    },
+    {
+      "key": "style",
+      "label": "Paint behavior",
+      "type": "select",
+      "default": "stream",
+      "options": [
+        {
+          "value": "splatter",
+          "label": "Thin splatter"
+        },
+        {
+          "value": "stream",
+          "label": "Smooth paint stream"
+        },
+        {
+          "value": "dots",
+          "label": "Dotted drips"
+        },
+        {
+          "value": "marker",
+          "label": "Marker trace"
+        },
+        {
+          "value": "bloom",
+          "label": "Radial ink bloom"
+        }
+      ]
+    },
+    {
+      "key": "thickness",
+      "label": "Paint thickness",
+      "type": "range",
+      "default": 14,
+      "min": 1,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "key": "dripRate",
+      "label": "Drip rate · drops per second",
+      "type": "range",
+      "default": 24,
+      "min": 4,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "key": "palette",
+      "label": "Paint palette",
+      "type": "select",
+      "default": "studio",
+      "options": [
+        {
+          "value": "studio",
+          "label": "Studio primaries"
+        },
+        {
+          "value": "citrus",
+          "label": "Citrus & cobalt"
+        },
+        {
+          "value": "mineral",
+          "label": "Mineral pigments"
+        },
+        {
+          "value": "electric",
+          "label": "After hours"
+        },
+        {
+          "value": "monochrome",
+          "label": "Black / blue / red"
+        }
+      ]
+    },
+    {
+      "key": "ink",
+      "label": "Selected paint color",
+      "type": "color",
+      "default": "#dc573c"
+    },
+    {
+      "key": "colors",
+      "label": "Simultaneous colors",
+      "type": "range",
+      "default": 1,
+      "min": 1,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "key": "spread",
+      "label": "Radial flow / diffusion",
+      "type": "range",
+      "default": 0.55,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "viscosity",
+      "label": "Paint body · fluid to thick",
+      "type": "range",
+      "default": 0.55,
+      "min": 0.1,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "paperSize",
+      "label": "Paper size · pixels",
+      "type": "range",
+      "default": 1024,
+      "min": 512,
+      "max": 2048,
+      "step": 256
+    },
+    {
+      "key": "opacity",
+      "label": "Paint opacity",
+      "type": "range",
+      "default": 0.95,
+      "min": 0.1,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "autoDrip",
+      "label": "Automatic pour",
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "paper",
+      "label": "Paper stock",
+      "type": "select",
+      "default": "ivory",
+      "options": [
+        {
+          "value": "ivory",
+          "label": "Warm ivory"
+        },
+        {
+          "value": "white",
+          "label": "Gallery white"
+        },
+        {
+          "value": "night",
+          "label": "Midnight paper"
+        }
+      ]
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original Whirl machine and original procedural paint study",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "Canvas 2D, Pointer Events, ResizeObserver, and requestAnimationFrame. No third-party runtime, network assets, external fonts or audio.",
+    "Mouse and trackpad drag, captured touch input, pen pressure, and keyboard. Focus the paper: arrows move the dropper, Space toggles pouring, Escape releases it. Ordinary HTML buttons also add individual drops or automatic paint.",
+    "Paint is rendered incrementally into a 512–2048 pixel offscreen canvas. Only the paper buffer is rotated for display; retained paint marks preserve export quality and undo. At most 800 wet deposits and 180,000 marks per sheet.",
+    "Hidden tabs, offscreen previews and shared Lab pause suspend rotation and wet paint. With the motor off and no wet paint or active tools, requestAnimationFrame stops entirely.",
+    "Reduced motion begins with a stopped wheel. Explicit Spin starts the essential rotation; painting on stationary paper remains available. The source package includes the same accessible HTML UI and static original study."
+  ],
+  "notes": [
+    "Whirl is an original studio toy. The three sample artworks are generated with the same paint model used by the visitor, without photographs, prerecorded animations or third-party artwork.",
+    "Paint is deposited in the rotating paper coordinate system. Wet parcels accelerate outward with squared spin speed, resist flow through viscosity and bend under a rotating-frame Coriolis term. Finite pigment and drying create tapered rivulets; paint leaving the edge splashes into the tray. Fluid and thick paints behave differently. This is a physically informed artistic approximation, not a full fluid solver.",
+    "Streams and drips form opaque asymmetric puddles, variable-width ribbons and fine split fingers. Gentle edge shading, broken bead highlights, paper grain and local fresh-pigment mixing replace uniform flat strokes. Marker remains deliberately dry. Existing marks retain their position; old v1 artwork imports alongside v2 tapered paint records.",
+    "Palette changes affect future paint only. Paper size rerenders the retained marks at a new resolution without erasing them. Up to four adjacent paint sources can run at once.",
+    "Undo and redo operate on paint passes, including their wet trails. New sheet and study selection retain the previous sheet for recovery. PNG and artwork JSON preserve the composition; shared Lab presets save controls only.",
+    "PNG exports the current orientation with transparent corners. SVG keeps vector strokes but simplifies soft wash edges. Artwork JSON restores the paint and controls with the motor and automatic paint stopped."
+  ],
+  "reuse": [
+    "SpinArt in model.js is independent of the browser. It accepts settings, motor state, normalized pointer input and elapsed time, and produces retained pigment marks with deterministic fixed-step updates.",
+    "createSpinArt(canvas, settings, hooks) manages incremental paint rendering, resizing, pointer/keyboard input, rotation, undo, export and cleanup. Optional hooks receive frame state and deliberate interactions.",
+    "The renderer, pigment rasterizer, original studies, optional Lab UI, neutral embed demo and documentation are exported together. No Tampa-specific imports or network dependencies are required."
+  ]
+}

@@ -3,7 +3,7 @@ import {mkdir} from 'node:fs/promises';
 import {chromium,webkit,expect} from '@playwright/test';
 const origin=process.env.TEST_ORIGIN||'http://127.0.0.1:4321';
 const base=process.env.TEST_BASE??'/tampa-curated';
-const routes=['','home2/','home3/','lab/','lab/draw-a-world/','lab/folding-paper/','lab/living-ink/','lab/particle-photos/','lab/time-machine/','lab/photo-portals/','lab/living-city/','lab/site-memory/','lab/spatial-sound/','lab/typographic-labyrinth/','lab/handwritten-manuscript/','lab/light-peg-studio/','lab/sequin-reveal/','lab/slinky-stairs/','lab/living-music-score/','lab/three-color-process/','lab/little-workers/','lab/hall-of-mirrors/','lab/impressed-typography/','lab/polly-pocket-world/','lab/drawing-toys/','lab/pin-art/','stories/','unfinished-city/','experiments/cabinet/','experiments/tracing-city/','experiments/notebook/','experiments/'];
+const routes=['','home2/','home3/','lab/','lab/draw-a-world/','lab/folding-paper/','lab/living-ink/','lab/particle-photos/','lab/time-machine/','lab/photo-portals/','lab/living-city/','lab/site-memory/','lab/spatial-sound/','lab/typographic-labyrinth/','lab/handwritten-manuscript/','lab/light-peg-studio/','lab/sequin-reveal/','lab/slinky-stairs/','lab/living-music-score/','lab/three-color-process/','lab/little-workers/','lab/hall-of-mirrors/','lab/impressed-typography/','lab/polly-pocket-world/','lab/drawing-toys/','lab/pin-art/','lab/view-master/','lab/magnetic-hair-toy/','lab/waterfall-ring-toss/','lab/spin-art/', 'lab/operation-game/', 'lab/pogs/','lab/kaleidoscope/','lab/magic-8-ball/','lab/plasma-ball/','lab/lava-lamp/','lab/sea-anemone-field/','lab/anemone-reef/','lab/jellyfish-tank/','lab/living-rug/','lab/foam-play/','lab/gel-toy/','stories/','unfinished-city/','experiments/cabinet/','experiments/tracing-city/','experiments/notebook/','experiments/'];
 const href=route=>`${origin}${base}/${route}`;
 await mkdir('test-results/navigation',{recursive:true});
 for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
@@ -57,6 +57,6 @@ for(const [name,engine] of [['chromium',chromium],['webkit',webkit]]){
  await noJS.getByRole('navigation',{name:'Concept pages'}).locator(`a[href="${base}/experiments/tracing-city/"]`).click();
  await expect(noJS).toHaveURL(href('experiments/tracing-city/'));await plain.close();
  assert.deepEqual(errors,[]);
- console.log(`${name}: all thirty-two concept destinations, current page, keyboard/Escape/focus, outside click, mobile menu coordination, 16 reflows, and no-JS navigation passed.`);
+ console.log(`${name}: all ${routes.length} concept destinations, current page, keyboard/Escape/focus, outside click, mobile menu coordination, 16 reflows, and no-JS navigation passed.`);
  await browser.close();
 }

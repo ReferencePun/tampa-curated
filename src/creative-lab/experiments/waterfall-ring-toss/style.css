@@ -1,0 +1,29 @@
+.il-host[data-slug="waterfall-ring-toss"] .il-demo {
+  height: auto;
+  min-height: 1500px;
+  max-height: none;
+}
+.il-host[data-slug="waterfall-ring-toss"] .il-mount {
+  position: relative;
+  inset: auto;
+  min-height: 1500px;
+  overflow: visible;
+}
+.il-host[data-slug="waterfall-ring-toss"] .il-annotation,
+.il-host[data-slug="waterfall-ring-toss"] .il-demo-index {
+  display: none;
+}
+.il-host[data-slug="waterfall-ring-toss"]
+  .il-demo-shell:is(:fullscreen, .il-expanded)
+  .il-demo {
+  flex: none;
+  overflow: visible;
+}
+.impossible-effect:has(> .wrt),
+.impossible-effect:has(> img[src*="/waterfall-ring-toss/"]) {
+  position: relative;
+  min-height: 1500px;
+  height: auto;
+  overflow: hidden;
+  background: #eae5d8;
+}

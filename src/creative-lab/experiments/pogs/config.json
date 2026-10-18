@@ -1,0 +1,10 @@
+{
+  "mode": "practice",
+  "stackSize": 8,
+  "slammer": "brass",
+  "power": 0.7,
+  "angle": 28,
+  "friction": 0.5,
+  "surface": "felt",
+  "style": "mixed"
+}

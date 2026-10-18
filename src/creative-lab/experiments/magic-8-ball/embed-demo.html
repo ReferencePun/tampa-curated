@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>A small prompt vessel</title
+  ><style>
+    body {
+      font: 16px/1.6 system-ui;
+      background: #ece4d3;
+      color: #263e44;
+      margin: 24px;
+    }
+    main {
+      max-width: 850px;
+      margin: auto;
+    }
+    canvas {
+      width: 100%;
+      aspect-ratio: 1000/760;
+      display: block;
+      touch-action: none;
+    }
+    button {
+      font: inherit;
+      padding: 10px 18px;
+      margin: 12px 5px 12px 0;
+    }
+    output {
+      display: block;
+      font: 24px Georgia;
+      min-height: 60px;
+    }
+  </style>
+  <main>
+    <h1>One small next step</h1>
+    <p>
+      A neutral onboarding widget with three custom prompts. Tap the vessel, or
+      ask below.
+    </p>
+    <canvas
+      tabindex="0"
+      aria-label="Prompt vessel. Tap or press Space to choose a next step."
+    ></canvas
+    ><button id="ask">Give me a next step</button
+    ><button id="pause">Pause</button
+    ><output aria-live="polite">A small beginning is enough.</output>
+  </main>
+  <script type="module" src="./embed-demo.js"></script>
+</html>

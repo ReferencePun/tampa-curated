@@ -1,0 +1,180 @@
+{
+  "id": "impossible-foam-play",
+  "slug": "foam-play",
+  "number": "38",
+  "order": 42,
+  "name": "Foam Bead Play",
+  "description": "A flowing foam-bead surface and a squeezable beaded ball. Tiny dimensional beads gather, fold and recover under your hand.",
+  "category": "Material",
+  "tags": [
+    "tactile",
+    "material",
+    "pointer",
+    "reusable"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Three.js",
+    "Procedural geometry",
+    "Local material response"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "form",
+      "label": "Material form",
+      "type": "select",
+      "default": "field",
+      "options": [
+        {
+          "value": "field",
+          "label": "Flowing surface"
+        },
+        {
+          "value": "ball",
+          "label": "Bead stress ball"
+        }
+      ]
+    },
+    {
+      "key": "palette",
+      "label": "Bead palette",
+      "type": "select",
+      "default": "tidal",
+      "options": [
+        {
+          "value": "tidal",
+          "label": "Hot / cold tide"
+        },
+        {
+          "value": "candy",
+          "label": "Pastel candy"
+        },
+        {
+          "value": "cream",
+          "label": "Natural foam"
+        }
+      ]
+    },
+    {
+      "key": "density",
+      "label": "Bead count budget",
+      "type": "range",
+      "default": 20000,
+      "min": 6000,
+      "max": 36000,
+      "step": 2000
+    },
+    {
+      "key": "beadSize",
+      "label": "Bead diameter",
+      "type": "range",
+      "default": 1.04,
+      "min": 0.7,
+      "max": 1.3,
+      "step": 0.02
+    },
+    {
+      "key": "current",
+      "label": "Surface tide",
+      "type": "range",
+      "default": 0.9,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05
+    },
+    {
+      "key": "radius",
+      "label": "Hand radius",
+      "type": "range",
+      "default": 0.16,
+      "min": 0.06,
+      "max": 0.4,
+      "step": 0.01
+    },
+    {
+      "key": "strength",
+      "label": "Touch strength",
+      "type": "range",
+      "default": 1,
+      "min": 0.2,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "softness",
+      "label": "Material softness",
+      "type": "range",
+      "default": 1,
+      "min": 0.4,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "memory",
+      "label": "Recovery time",
+      "type": "range",
+      "default": 2,
+      "min": 0.4,
+      "max": 6,
+      "step": 0.1
+    },
+    {
+      "key": "speed",
+      "label": "Motion speed",
+      "type": "range",
+      "default": 0.65,
+      "min": 0.1,
+      "max": 1.5,
+      "step": 0.05
+    },
+    {
+      "key": "zoom",
+      "label": "Magnification",
+      "type": "range",
+      "default": 1,
+      "min": 0.7,
+      "max": 1.7,
+      "step": 0.05
+    },
+    {
+      "key": "autoplay",
+      "label": "Automatic squeeze (ball)",
+      "type": "toggle",
+      "default": false
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original procedural material rendered from the live effect. Reference recordings and branded artwork are not included.",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "WebGL2, Pointer Events, ResizeObserver and ES modules. Exact Three.js runtime and license are included in the standalone package.",
+    "Mouse, touch and keyboard input. Reduced motion begins still; explicit Resume enables animation. Hidden and offscreen work pauses.",
+    "Bounded geometry budgets; one renderer per study. A static plate remains available without JavaScript."
+  ],
+  "notes": [
+    "Thousands of shaded, depth-tested bead instances sit in a continuous material. The surface has a directional wake; the ball uses a bounded viscoelastic deformation with lateral bulging and spring recovery. This is a cohesive toy model, not a full bead-collision or fluid solver.",
+    "Every gesture changes material state. The preview, inspector, presets, PNG capture and complete source export use the same effect."
+  ],
+  "reuse": [
+    "Import createFoamPlay from engine.js and provide a sized canvas, settings and optional frame/error hooks.",
+    "Use point(x,y,pressed), release(), update(settings), replay(), setRunning(boolean) and dispose(). Input coordinates are normalized within the canvas.",
+    "The exported example runs over a plain local HTTP server. No Tampa routing or external image service is required."
+  ]
+}

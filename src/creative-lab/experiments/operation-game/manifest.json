@@ -1,0 +1,165 @@
+{
+  "id": "impossible-operation-game",
+  "slug": "operation-game",
+  "number": "29",
+  "order": 32,
+  "name": "Surgical Precision Game",
+  "description": "A steady hand, six peculiar predicaments, and an original patient with a lot on his mind. Guide little pieces through tactile cavities without touching their rims.",
+  "category": "Interactive",
+  "tags": ["precision", "toy", "illustration", "pointer", "game"],
+  "status": "working",
+  "placeholder": false,
+  "technology": ["Canvas 2D", "Swept-disk collision", "Optional Web Audio"],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "mode",
+      "label": "Game mode",
+      "type": "select",
+      "default": "classic",
+      "options": [
+        {
+          "value": "classic",
+          "label": "Classic careful extraction"
+        },
+        {
+          "value": "timed",
+          "label": "Timed challenge"
+        },
+        {
+          "value": "precision",
+          "label": "Precision \u00b7 three strikes"
+        },
+        {
+          "value": "silly",
+          "label": "Peculiar / random objects"
+        }
+      ]
+    },
+    {
+      "key": "difficulty",
+      "label": "Difficulty",
+      "type": "select",
+      "default": "steady",
+      "options": [
+        {
+          "value": "gentle",
+          "label": "Gentle"
+        },
+        {
+          "value": "steady",
+          "label": "Steady"
+        },
+        {
+          "value": "expert",
+          "label": "Expert"
+        }
+      ]
+    },
+    {
+      "key": "tolerance",
+      "label": "Cavity safety clearance",
+      "type": "range",
+      "default": 2,
+      "min": 0,
+      "max": 5,
+      "step": 0.5
+    },
+    {
+      "key": "timer",
+      "label": "Challenge duration \u00b7 seconds",
+      "type": "range",
+      "default": 90,
+      "min": 30,
+      "max": 180,
+      "step": 5
+    },
+    {
+      "key": "objectCount",
+      "label": "Number of objects",
+      "type": "range",
+      "default": 6,
+      "min": 1,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "key": "objectSize",
+      "label": "Object size",
+      "type": "range",
+      "default": 1,
+      "min": 0.7,
+      "max": 1.25,
+      "step": 0.05
+    },
+    {
+      "key": "boardStyle",
+      "label": "Board finish",
+      "type": "select",
+      "default": "sage",
+      "options": [
+        {
+          "value": "sage",
+          "label": "Sea-glass green"
+        },
+        {
+          "value": "coral",
+          "label": "Faded terracotta"
+        },
+        {
+          "value": "blue",
+          "label": "Uniform blue"
+        }
+      ]
+    },
+    {
+      "key": "sound",
+      "label": "Sound requested \u00b7 enable in the toy",
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "sensitivity",
+      "label": "Tool sensitivity",
+      "type": "range",
+      "default": 1,
+      "min": 0.4,
+      "max": 1.5,
+      "step": 0.05
+    }
+  ],
+  "entry": "index.js",
+  "styles": ["style.css"],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original Fine Trouble board, patient Milo and six illustrated objects",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "Canvas 2D, Pointer Events, ResizeObserver and requestAnimationFrame. No external assets, fonts, services, or runtime dependencies.",
+    "Mouse, trackpad, pen and captured touch. Choose a close-up for small screens. Keyboard: choose a cavity, Space to grip or release, arrows to move, Shift for finer travel, Escape to return safely.",
+    "Hidden tabs, offscreen previews and shared pause suspend the challenge timer and return a held piece without a penalty. No catch-up or unexpected failures on return.",
+    "AudioContext is created only by the local Enable sound button. Settings restore never enables audio. The visual lamp and readable case notes provide equivalent feedback.",
+    "Reduced motion suppresses celebratory rays. Essential pointer-controlled movement remains direct, without camera animation or board shake."
+  ],
+  "notes": [
+    "Fine Trouble is an original illustrated toy. Milo, a contemplative collector in striped nightclothes, carries six fictional nuisances: a tangled thought, a spare butterfly, a midnight biscuit, pocket thunder, lost marbles and a dancing screw.",
+    "Hold a piece, guide it along the marked cavity route, and release inside the end ring to lift it into the recovery tray. The ring represents the entire checked footprint; the decorative handles sit above the board. This is a two-dimensional precision game with illustrated depth.",
+    "Collision uses a swept disk against every polygon edge, including the full segment between pointer samples. A rapid motion cannot skip through a wall. A slight hit-area allowance applies only to the initial grip, never to travel.",
+    "An edge contact returns only the current piece and subtracts 25 points, with a floor of zero. Removal earns 100. Three contacts end Precision mode. Timed mode begins on an explicit Start action. Random mode shuffles original objects reproducibly per appointment.",
+    "Difficulty changes cavity width; clearance and object size change the checked radius. Lower tool sensitivity shortens tool travel relative to hand movement. Rule changes reset the appointment; finish, sound and sensitivity changes preserve progress.",
+    "Five reusable presets, setup JSON and case-note export are included. A case log is a read-only record; setup files restore settings, not a partially completed game. Everything is local."
+  ],
+  "reuse": [
+    "PrecisionGame in model.js accepts independent board dimensions, polygon cavities, piece origins, lift destinations, collision radii and scoring rules. It exposes begin, move, end, advance, reset and semantic event callbacks.",
+    "createPrecisionToy(canvas, settings, hooks) adds input handling, close-up inspection, drawing and lifecycle management. Supply hooks.scene, hooks.background and hooks.piece for your own board artwork and objects.",
+    "The original illustration, optional audio, Lab UI, five presets, neutral custom-board example and complete documentation are bundled in the source export. The neutral example uses a different cavity polygon and no Tampa-specific code."
+  ]
+}

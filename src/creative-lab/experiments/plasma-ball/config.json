@@ -1,0 +1,15 @@
+{
+  "mode": "classic",
+  "filaments": 36,
+  "branching": 2,
+  "glow": 1,
+  "speed": 1,
+  "attraction": 1,
+  "palette": "violet",
+  "coreSize": 0.075,
+  "sphereSize": 1,
+  "flicker": 0.35,
+  "reflection": 0.65,
+  "darkness": 0.94,
+  "idle": true
+}

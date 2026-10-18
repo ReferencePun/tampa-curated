@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {noise} from './hand.js';
+import {noise,PAPER_RGB} from './hand.js';
 export const wearSeed=(origin,width,height)=>Math.round(origin.x*23+origin.y*13+origin.z*7+width*11+height*17);
 export function wearPlan(width,height,seed){
  const count=height<.6?1:3;
@@ -21,14 +21,14 @@ function rubbingTexture(erase){
   // Graphite remains around the edge; the eraser pulls short paper-colored streaks through it.
   let alpha=erase?fringe*(.7+drag*.5)+ragged*.1:ragged*(.22+drag*.6);
   const lifted=erase&&Math.abs(v)<.68&&drag>.46;
-  const rgb=lifted?[239,238,232]:[52,50,46];
+  const rgb=lifted?PAPER_RGB:[52,50,46];
   if(lifted)alpha=sweep*(.18+drag*.35);
   alpha*=.35+grit*.65;if(grit>.94)alpha*=.18;
   pixels.data.set([...rgb,Math.round(Math.min(.65,alpha)*255)],i);
  }
  ctx.putImageData(pixels,0,0);ctx.lineCap='butt';
  // Fibrous eraser scrapes are directional and broken, never a soft circular blur.
- for(let j=0;j<110;j++){const x=35+noise(j*17)*380,y=65+noise(j*29)*130,len=7+noise(j*11)*84;ctx.strokeStyle=j%4===0?'rgba(35,34,31,.14)':'rgba(239,238,232,.23)';ctx.lineWidth=.35+noise(j)*1.4;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+len,y+(noise(j+5)-.5)*12);ctx.stroke();}
+ for(let j=0;j<110;j++){const x=35+noise(j*17)*380,y=65+noise(j*29)*130,len=7+noise(j*11)*84;ctx.strokeStyle=j%4===0?'rgba(35,34,31,.14)':'rgba(231,217,183,.23)';ctx.lineWidth=.35+noise(j)*1.4;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+len,y+(noise(j+5)-.5)*12);ctx.stroke();}
  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=4;return texture;
 }
 export function makeWearResources(resources){const textures=[rubbingTexture(false),rubbingTexture(true)];for(const texture of textures)resources.add(texture);return textures;}
@@ -41,7 +41,7 @@ export class PageWear{
 }
 export function paperTexture(){
  const canvas=document.createElement('canvas');canvas.width=canvas.height=768;const ctx=canvas.getContext('2d'),pixels=ctx.createImageData(768,768);
- for(let y=0;y<768;y++)for(let x=0;x<768;x++){const variation=(noise(x+y*768)-.5)*7+field(x*.009,y*.009)*3,i=(y*768+x)*4;pixels.data.set([237+variation,236+variation,230+variation,255],i);}
- ctx.putImageData(pixels,0,0);for(let i=0;i<700;i++){const x=noise(i*9)*768,y=noise(i*17)*768;ctx.strokeStyle=i%3?'rgba(90,86,77,.06)':'rgba(255,255,250,.26)';ctx.lineWidth=.3;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+noise(i+1)*8,y+(noise(i+4)-.5)*3);ctx.stroke();}
+ for(let y=0;y<768;y++)for(let x=0;x<768;x++){const variation=(noise(x+y*768)-.5)*7+field(x*.009,y*.009)*3,i=(y*768+x)*4;pixels.data.set([...PAPER_RGB.map(channel=>channel+variation),255],i);}
+ ctx.putImageData(pixels,0,0);for(let i=0;i<700;i++){const x=noise(i*9)*768,y=noise(i*17)*768;ctx.strokeStyle=i%3?'rgba(90,86,77,.06)':'rgba(244,230,195,.18)';ctx.lineWidth=.3;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+noise(i+1)*8,y+(noise(i+4)-.5)*3);ctx.stroke();}
  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;return texture;
 }

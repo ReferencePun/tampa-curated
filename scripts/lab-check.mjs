@@ -15,7 +15,8 @@ for(const experiment of experiments){
  }
  const preset=createPreset(experiment,defaults(experiment),'Test round trip');assert.deepEqual(readPreset(experiment,JSON.stringify(preset)).settings,preset.settings);
  assert.throws(()=>readPreset(experiment,{...preset,schemaVersion:999}));assert.throws(()=>readPreset(experiment,{...preset,experiment:'unrelated-study'}));
- assert.throws(()=>readPreset(experiment,{...preset,settings:{...preset.settings,density:100000}}));
+ const density=experiment.settings.find(setting=>setting.key==='density');
+ assert.throws(()=>readPreset(experiment,{...preset,settings:{...preset.settings,density:density?.type==='range'?density.max+Math.max(1,density.step||1):100000}}));
  assert.throws(()=>readPreset(experiment,{...preset,settings:{...preset.settings,guides:'yes'}}));
  assert.throws(()=>readPreset(experiment,{...preset,settings:{...preset.settings,guides:null}}));
  assert.throws(()=>readPreset(experiment,{...preset,settings:{...preset.settings,ink:'url(evil)'}}));

@@ -1,0 +1,14 @@
+{
+  "source": "glass",
+  "mirrors": 7,
+  "rotation": 0,
+  "rotationSpeed": 1.2,
+  "zoom": 1.1,
+  "palette": "jewel",
+  "softness": 0.12,
+  "interaction": "stir",
+  "animationSpeed": 0.35,
+  "border": "brass",
+  "brush": 5,
+  "ink": "#e4a65c"
+}

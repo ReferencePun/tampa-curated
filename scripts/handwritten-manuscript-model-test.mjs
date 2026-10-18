@@ -29,3 +29,12 @@ const seed=wearSeed(new Vector3(3,5,1),12,8),wear=wearPlan(12,8,seed);assert.dee
 const {roughEdge}=await import('../src/creative-lab/experiments/handwritten-manuscript/hand.js');assert.deepEqual(roughEdge(.1,.1,.5,.6),[.1,.1]);assert.notDeepEqual(roughEdge(.5,.2,.5,.6),[.5,.2]);
 const aperture=font.generateShapes('O',1)[0],geometry=new ExtrudeGeometry([aperture],{depth:.16,bevelEnabled:false});geometry.computeBoundingBox();const box=geometry.boundingBox,cx=(box.min.x+box.max.x)/2,cy=(box.min.y+box.max.y)/2,hx=(box.max.x-box.min.x)/2,hy=(box.max.y-box.min.y)/2;for(const hole of aperture.holes)for(const p of hole.getPoints(24))assert.deepEqual(roughEdge(p.x-cx,p.y-cy,hx,hy),[p.x-cx,p.y-cy],'Roughening leaves the actual portal counter unchanged');geometry.dispose();
 console.log('Sketchbook wear: deterministic rubbing, faded writing, and registered letter counters passed.');
+
+const {letterPlan,writeStructure}=await import('../src/creative-lab/experiments/handwritten-manuscript/text-structures.js');
+const plan=letterPlan(font,'O');assert.equal(plan.contains(0,0),false,'Portal center remains empty');
+const extent=plan.box.getSize(new (await import('three')).Vector2());assert.equal(plan.contains(extent.x*.46,0),true,'The letter stroke accepts writing');
+const written=new Typesetter(atlas,DEFAULTS);writeStructure(written,plan,new Vector3(),new Quaternion(),8.7,undefined,.16,'the room is made of words',3);
+assert.ok(written.records.length>500,'The arch is formed by individual letters');assert.ok(written.records.every(r=>typeof r[0]==='string'&&r[0].length===1));
+const writtenAgain=new Typesetter(atlas,DEFAULTS);writeStructure(writtenAgain,plan,new Vector3(),new Quaternion(),8.7,undefined,.16,'the room is made of words',3);assert.deepEqual(written.records,writtenAgain.records);
+assert.ok(new Set(a.records.map(r=>r[7])).size===6,'Repeated characters have six handwritten forms');
+console.log('Text-only architecture: word-built letter strokes, empty registered counter, six handwriting variants and deterministic reconstruction passed.');

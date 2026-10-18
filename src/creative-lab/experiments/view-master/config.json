@@ -1,0 +1,13 @@
+{
+  "reel": "atlas",
+  "mode": "standard",
+  "order": "forward",
+  "depth": 0.55,
+  "zoom": 1,
+  "spacing": 1,
+  "transition": "shutter",
+  "palette": "vermilion",
+  "clickSound": false,
+  "autoplay": false,
+  "interval": 5
+}

@@ -1,0 +1,11 @@
+{
+  "mode": "classic",
+  "difficulty": "steady",
+  "tolerance": 2,
+  "timer": 90,
+  "objectCount": 6,
+  "objectSize": 1,
+  "boardStyle": "sage",
+  "sound": false,
+  "sensitivity": 1
+}

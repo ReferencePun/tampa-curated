@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Electric field · portable examples</title
+  ><style>
+    body {
+      background: #101018;
+      color: #e8dfee;
+      font: 16px/1.6 system-ui;
+      margin: 24px;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      aspect-ratio: 10/9;
+      touch-action: none;
+    }
+    button {
+      padding: 12px 18px;
+      font: inherit;
+      color: inherit;
+      background: #292033;
+      border: 1px solid #80638d;
+      margin: 0 8px 20px 0;
+    }
+    #widget {
+      width: 240px;
+      max-width: 100%;
+    }
+    #ambient {
+      aspect-ratio: 2.4/1;
+      pointer-events: none;
+    }
+    output {
+      display: block;
+      margin-bottom: 20px;
+    }
+    h2 {
+      margin-top: 40px;
+    }
+  </style>
+  <main>
+    <h1>A small electrical field.</h1>
+    <p>
+      Three independent placements. Move a pointer over the hero or widget; use
+      arrow keys and Space when focused. Motion pauses offscreen.
+    </p>
+    <button id="motion">Pause all</button
+    ><output aria-live="polite">No framework or external assets.</output
+    ><canvas
+      id="hero"
+      tabindex="0"
+      aria-label="Interactive violet plasma globe"
+    ></canvas>
+    <h2>A small widget</h2>
+    <canvas
+      id="widget"
+      tabindex="0"
+      aria-label="Interactive amber plasma widget"
+    ></canvas>
+    <h2>An ambient section</h2>
+    <canvas
+      id="ambient"
+      aria-label="Slow blue decorative electrical field"
+    ></canvas>
+  </main>
+  <script type="module" src="./embed-demo.js"></script>
+</html>

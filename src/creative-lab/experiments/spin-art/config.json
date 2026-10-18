@@ -1,0 +1,16 @@
+{
+  "speed": 36,
+  "direction": "clockwise",
+  "style": "stream",
+  "thickness": 14,
+  "dripRate": 24,
+  "palette": "studio",
+  "ink": "#dc573c",
+  "colors": 1,
+  "spread": 0.55,
+  "paperSize": 1024,
+  "opacity": 0.95,
+  "viscosity": 0.55,
+  "autoDrip": false,
+  "paper": "ivory"
+}

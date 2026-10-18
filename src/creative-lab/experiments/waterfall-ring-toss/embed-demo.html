@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>A neutral water toy · portable example</title
+  ><style>
+    body {
+      max-width: 900px;
+      margin: 35px auto;
+      padding: 20px;
+      color: #284c49;
+      background: #eae5d8;
+      font: 18px/1.5 system-ui;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      aspect-ratio: 8/5;
+    }
+    button {
+      font: inherit;
+      padding: 12px 20px;
+      margin: 8px 8px 8px 0;
+    }
+    output {
+      display: block;
+      margin: 12px 0;
+    }
+  </style>
+  <h1>A little current, anywhere.</h1>
+  <p>
+    This neutral two-jet scene loads the engine directly, without the Lab, Tampa
+    content, or its UI.
+  </p>
+  <canvas aria-label="Neutral water chamber"></canvas
+  ><button id="left">Left jet</button
+  ><button id="right">Right jet</button
+  ><button id="pause">Pause</button
+  ><button id="reset">Reset</button
+  ><output aria-live="polite"></output>
+  <script type="module" src="./embed-demo.js"></script>
+</html>

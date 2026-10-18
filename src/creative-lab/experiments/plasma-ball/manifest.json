@@ -1,0 +1,195 @@
+{
+  "id": "impossible-plasma-ball",
+  "slug": "plasma-ball",
+  "number": "33",
+  "order": 36,
+  "name": "Interactive Plasma Ball",
+  "description": "Volta, a little lightning under glass. Branching currents gather beneath your hand, brighten on contact, and wander away when released.",
+  "category": "Interactive",
+  "tags": ["plasma", "glass", "procedural", "electric", "canvas"],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Canvas 2D",
+    "Projected filament geometry",
+    "Procedural branching"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "mode",
+      "label": "Interaction mode",
+      "type": "select",
+      "default": "classic",
+      "options": [
+        {
+          "value": "classic",
+          "label": "Classic plasma"
+        },
+        {
+          "value": "intense",
+          "label": "Intense touch"
+        },
+        {
+          "value": "ambient",
+          "label": "Ambient energy"
+        }
+      ]
+    },
+    {
+      "key": "filaments",
+      "label": "Filament count",
+      "type": "range",
+      "default": 36,
+      "min": 12,
+      "max": 80,
+      "step": 1
+    },
+    {
+      "key": "branching",
+      "label": "Branching complexity",
+      "type": "range",
+      "default": 2,
+      "min": 0,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "key": "glow",
+      "label": "Glow intensity",
+      "type": "range",
+      "default": 1,
+      "min": 0.2,
+      "max": 1.8,
+      "step": 0.05
+    },
+    {
+      "key": "speed",
+      "label": "Plasma speed",
+      "type": "range",
+      "default": 1,
+      "min": 0.1,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "attraction",
+      "label": "Attraction strength",
+      "type": "range",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "coreSize",
+      "label": "Core size",
+      "type": "range",
+      "default": 0.075,
+      "min": 0.04,
+      "max": 0.14,
+      "step": 0.005
+    },
+    {
+      "key": "sphereSize",
+      "label": "Sphere size",
+      "type": "range",
+      "default": 1,
+      "min": 0.7,
+      "max": 1.1,
+      "step": 0.05
+    },
+    {
+      "key": "flicker",
+      "label": "Ambient flicker",
+      "type": "range",
+      "default": 0.35,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "reflection",
+      "label": "Glass reflection strength",
+      "type": "range",
+      "default": 0.65,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "darkness",
+      "label": "Background darkness",
+      "type": "range",
+      "default": 0.94,
+      "min": 0.65,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "palette",
+      "label": "Color palette",
+      "type": "select",
+      "default": "violet",
+      "options": [
+        {
+          "value": "violet",
+          "label": "Violet discharge"
+        },
+        {
+          "value": "arctic",
+          "label": "Arctic current"
+        },
+        {
+          "value": "ember",
+          "label": "Rose & amber"
+        },
+        {
+          "value": "spectral",
+          "label": "Spectral glass"
+        },
+        {
+          "value": "monochrome",
+          "label": "Silver voltage"
+        }
+      ]
+    },
+    {
+      "key": "idle",
+      "label": "Autoplay / idle motion",
+      "type": "toggle",
+      "default": true
+    }
+  ],
+  "entry": "index.js",
+  "styles": ["style.css"],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original Volta procedural electrical field and glass rendering",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "Canvas 2D, Pointer Events, ResizeObserver, IntersectionObserver, container queries and native dialog. No external assets or runtime dependencies.",
+    "Mouse, pen, captured touch and arrow-key contact control. Reduced motion starts paused; explicit Resume opts into animation. No audio or flashing bursts.",
+    "One visible canvas and two bounded renderer buffers. Backing width caps at 1600 pixels, at most 80 trunks and 320 branches. Offscreen and hidden instances stop; disposal removes observers, inputs, buffers and the animation loop."
+  ],
+  "notes": [
+    "The globe is an original optical illustration: projected three-dimensional paths, a luminous electrode, low-resolution bloom, subtle refraction at the edge and layered glass reflections. It is an artistic electrical model, not a physical plasma solver.",
+    "Each connected trunk evolves through a smooth multi-frequency field. Branches begin on sampled trunk vertices and end at neighboring shell points. About three quarters of the field converge toward the front-glass contact, while the rest remain less attracted.",
+    "Hover attracts; press or captured touch strengthens the field. Intense mode increases convergence and local thickness. Ambient mode slows motion and lowers brightness. Removing the pointer smoothly redistributes the current.",
+    "All controls update the underlying field or optical rendering. Idle motion can stop when no contact is present. Pause freezes time while allowing static pointer inspection. Five presets and an immersive keyboard-accessible view are included.",
+    "PNG captures the current live field. Settings and portable source export use the Lab shared inspector; no personal data is collected."
+  ],
+  "reuse": [
+    "PlasmaField is a DOM-free deterministic line generator. Supply settings, advance(deltaSeconds), and pointer coordinates in sphere-local units. Paths are reusable Float32Array buffers with branch-parent relationships.",
+    "createPlasmaBall(canvas, settings, hooks) owns rendering, input and lifecycle. It accepts arbitrary CSS dimensions, mode, palette and visual settings; update, point, release, setRunning, exportCanvas and dispose form the public API.",
+    "The source ZIP includes the full studio and a neutral embed-demo.html with hero, widget and ambient-section examples. It runs independently of Tampa, without build tooling or third-party assets."
+  ]
+}

@@ -1,0 +1,29 @@
+.il-host[data-slug="kaleidoscope"] .il-demo {
+  height: auto;
+  min-height: 1600px;
+  max-height: none;
+}
+.il-host[data-slug="kaleidoscope"] .il-mount {
+  position: relative;
+  inset: auto;
+  min-height: 1600px;
+  overflow: visible;
+}
+.il-host[data-slug="kaleidoscope"] .il-annotation,
+.il-host[data-slug="kaleidoscope"] .il-demo-index {
+  display: none;
+}
+.il-host[data-slug="kaleidoscope"]
+  .il-demo-shell:is(:fullscreen, .il-expanded)
+  .il-demo {
+  flex: none;
+  overflow: visible;
+}
+.impossible-effect:has(> .ks),
+.impossible-effect:has(> img[src*="/kaleidoscope/"]) {
+  position: relative;
+  min-height: 1600px;
+  height: auto;
+  overflow: hidden;
+  background: #ece4d2;
+}

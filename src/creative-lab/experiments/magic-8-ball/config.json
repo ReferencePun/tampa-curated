@@ -1,0 +1,12 @@
+{
+  "answerSet": "poetic",
+  "intensity": 1,
+  "opacity": 0.65,
+  "revealSpeed": 1,
+  "color": "#315c66",
+  "lightAngle": 315,
+  "lighting": 1,
+  "autoShake": false,
+  "interval": 14,
+  "seed": 32
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>A portable spin-art studio</title
+  ><style>
+    body {
+      max-width: 880px;
+      margin: 30px auto;
+      background: #eee7d6;
+      padding: 15px;
+      color: #314b48;
+      font: 17px/1.5 system-ui;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      aspect-ratio: 900/760;
+      touch-action: none;
+    }
+    button {
+      font: inherit;
+      padding: 12px;
+      margin: 6px;
+    }
+    output {
+      display: block;
+    }
+  </style>
+  <h1>A paper disc, a little momentum.</h1>
+  <p>
+    This example imports the standalone paint engine. Hold and drag on the
+    paper, or start a timed automatic pour.
+  </p>
+  <canvas tabindex="0" aria-label="Spin-art canvas"></canvas
+  ><button id="motor">Stop wheel</button
+  ><button id="pour">Pour for three seconds</button
+  ><button id="clear">Fresh paper</button
+  ><button id="save">Keep PNG</button
+  ><output></output>
+  <script type="module" src="./embed-demo.js"></script>
+</html>

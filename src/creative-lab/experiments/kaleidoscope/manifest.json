@@ -1,0 +1,238 @@
+{
+  "id": "impossible-kaleidoscope",
+  "slug": "kaleidoscope",
+  "number": "31",
+  "order": 34,
+  "name": "Kaleidoscope",
+  "description": "A small chamber of glass, drawings, photographs and little treasures, infinitely reflected. Turn the tube, rearrange the fragments, or draw a new symmetry.",
+  "category": "Interactive",
+  "tags": [
+    "optics",
+    "symmetry",
+    "drawing",
+    "photography",
+    "toy"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Canvas 2D",
+    "Clipped mirror sectors",
+    "Procedural source artwork"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "source",
+      "label": "Source material",
+      "type": "select",
+      "default": "glass",
+      "options": [
+        {
+          "value": "glass",
+          "label": "Cut glass"
+        },
+        {
+          "value": "lines",
+          "label": "Ink herbarium"
+        },
+        {
+          "value": "image",
+          "label": "Photograph"
+        },
+        {
+          "value": "particles",
+          "label": "Drifting beads"
+        },
+        {
+          "value": "toys",
+          "label": "Little treasures"
+        },
+        {
+          "value": "drawing",
+          "label": "Draw into the mirrors"
+        }
+      ]
+    },
+    {
+      "key": "mirrors",
+      "label": "Mirror pairs",
+      "type": "range",
+      "default": 7,
+      "min": 3,
+      "max": 16,
+      "step": 1
+    },
+    {
+      "key": "rotation",
+      "label": "Tube rotation · degrees",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 360,
+      "step": 1
+    },
+    {
+      "key": "rotationSpeed",
+      "label": "Rotation · degrees / second",
+      "type": "range",
+      "default": 1.2,
+      "min": -6,
+      "max": 6,
+      "step": 0.1
+    },
+    {
+      "key": "zoom",
+      "label": "Optical zoom",
+      "type": "range",
+      "default": 1.1,
+      "min": 0.6,
+      "max": 2.4,
+      "step": 0.05
+    },
+    {
+      "key": "palette",
+      "label": "Color palette",
+      "type": "select",
+      "default": "jewel",
+      "options": [
+        {
+          "value": "jewel",
+          "label": "Jewel box"
+        },
+        {
+          "value": "tide",
+          "label": "Sea glass"
+        },
+        {
+          "value": "dusk",
+          "label": "Velvet dusk"
+        },
+        {
+          "value": "ember",
+          "label": "Honey & vermilion"
+        },
+        {
+          "value": "mono",
+          "label": "Ink on ivory"
+        }
+      ]
+    },
+    {
+      "key": "softness",
+      "label": "Edge softness",
+      "type": "range",
+      "default": 0.12,
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "interaction",
+      "label": "Pointer action",
+      "type": "select",
+      "default": "stir",
+      "options": [
+        {
+          "value": "stir",
+          "label": "Stir the source"
+        },
+        {
+          "value": "rotate",
+          "label": "Rotate the tube"
+        },
+        {
+          "value": "off",
+          "label": "Look only"
+        }
+      ]
+    },
+    {
+      "key": "animationSpeed",
+      "label": "Source motion",
+      "type": "range",
+      "default": 0.35,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "border",
+      "label": "Instrument finish",
+      "type": "select",
+      "default": "brass",
+      "options": [
+        {
+          "value": "brass",
+          "label": "Aged brass"
+        },
+        {
+          "value": "graphite",
+          "label": "Graphite"
+        },
+        {
+          "value": "ivory",
+          "label": "Ivory"
+        },
+        {
+          "value": "none",
+          "label": "Unframed disc"
+        }
+      ]
+    },
+    {
+      "key": "brush",
+      "label": "Stroke width",
+      "type": "range",
+      "default": 5,
+      "min": 1,
+      "max": 18,
+      "step": 1
+    },
+    {
+      "key": "ink",
+      "label": "Drawing ink",
+      "type": "color",
+      "default": "#e4a65c"
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original kaleidoscope rendering and source artwork",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/palms.jpg",
+      "credit": "Brandon Burridge / Unsplash · https://unsplash.com/photos/4wesDlSBq2o",
+      "license": "Unsplash License · https://unsplash.com/license"
+    }
+  ],
+  "compatibility": [
+    "Canvas 2D, Pointer Events, ResizeObserver, IntersectionObserver, CSS container queries and HTML dialog. No external rendering dependency. Tested in WebKit and Chromium.",
+    "One optical canvas and one source preview. A 768 px source texture is shared across 6–32 reflected sectors. Main backing size is capped at 1600 px; prints render separately at 2048 px.",
+    "Mouse, stylus and captured touch input. Keyboard rotation, zoom and source panning; ordinary HTML controls. Images are decoded and processed locally.",
+    "Simulation stops offscreen, in hidden tabs and when paused. Reduced motion starts still. The static original plate remains available without JavaScript. Dispose disconnects observers, cancels frames, clears canvases and releases references."
+  ],
+  "notes": [
+    "Mirror pairs produce twice as many alternating reflected sectors. Every sector samples the same source coordinates. Rotation changes the optical tube; source motion changes the actual arrangement independently.",
+    "Six distinct source painters: faceted glass, a fine-line botanical herbarium, a photograph, moving beads, original toy charms and live drawing. Seven starting presets cover them all.",
+    "Drag the view to stir its source or drag the rim to rotate. In the unmirrored chamber, individual objects can be repositioned. Drawing is inverse-mapped into the source and mirrored immediately. Crossing a reflection seam starts a new segment; undo operates on segments.",
+    "Softness reduces source detail through a shared low-pass resampling pass. Photo edges are reflected outward to avoid empty borders at low zoom. Palette settings leave photo colors untouched.",
+    "PNG prints capture the current moment. Composition JSON preserves settings, seed, object offsets, source pan, simulation clocks, stroke data and a locally embedded image. Loading holds the saved moment. Shared Lab presets and source ZIP save settings; upload your image or load a composition in the exported demo to recover custom artwork."
+  ],
+  "reuse": [
+    "createKaleidoscope(canvas, settings, hooks) is independent of the Lab. Supply a sourceCanvas, drawSource callback or decoded image, then use update, setRunning, exportCanvas, serialize, restore and dispose.",
+    "model.js owns deterministic optical mapping and document validation; sources.js paints original samples; renderer.js owns mirror geometry; engine.js manages input and lifecycle. index.js is optional studio UI.",
+    "The standalone export includes the full studio, neutral embedding example, all original artwork code, the licensed sample photograph, presets and documentation. User photographs are never uploaded or included in the source ZIP."
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "density": 3800,
+  "strength": 1.15,
+  "radius": 62,
+  "clumping": 0.45,
+  "face": "milo",
+  "mode": "free",
+  "resetSpeed": 1,
+  "style": "lithograph",
+  "hiddenMagnet": false,
+  "template": "handlebar",
+  "guides": true,
+  "challengeLength": 45
+}

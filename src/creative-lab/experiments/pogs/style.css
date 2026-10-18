@@ -1,0 +1,29 @@
+.il-host[data-slug="pogs"] .il-demo {
+  height: auto;
+  min-height: 1800px;
+  max-height: none;
+}
+.il-host[data-slug="pogs"] .il-mount {
+  position: relative;
+  inset: auto;
+  min-height: 1800px;
+  overflow: visible;
+}
+.il-host[data-slug="pogs"] .il-annotation,
+.il-host[data-slug="pogs"] .il-demo-index {
+  display: none;
+}
+.il-host[data-slug="pogs"]
+  .il-demo-shell:is(:fullscreen, .il-expanded)
+  .il-demo {
+  flex: none;
+  overflow: visible;
+}
+.impossible-effect:has(> .pg),
+.impossible-effect:has(> img[src*="/pogs/"]) {
+  position: relative;
+  min-height: 1800px;
+  height: auto;
+  overflow: hidden;
+  background: #eee6d5;
+}

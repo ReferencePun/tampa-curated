@@ -1,0 +1,148 @@
+{
+  "id": "impossible-magic-answer-orb",
+  "slug": "magic-8-ball",
+  "number": "32",
+  "order": 35,
+  "name": "Magic Answer Orb",
+  "description": "Murmur, a smoky glass vessel for uncertain things. Shake the liquid, wait for a thought to surface, and ask again in four original voices.",
+  "category": "Interactive",
+  "tags": ["toy", "oracle", "glass", "generative", "sound"],
+  "status": "working",
+  "placeholder": false,
+  "technology": ["Canvas 2D", "Seeded shuffle bags", "Procedural Web Audio"],
+  "plannedTechnology": null,
+  "dependencies": {},
+  "comparison": "none",
+  "settings": [
+    {
+      "key": "answerSet",
+      "label": "Answer set",
+      "type": "select",
+      "default": "poetic",
+      "options": [
+        {
+          "value": "classic",
+          "label": "Yes / no / perhaps"
+        },
+        {
+          "value": "poetic",
+          "label": "Poetic & mysterious"
+        },
+        {
+          "value": "absurd",
+          "label": "Beautifully absurd"
+        },
+        {
+          "value": "creative",
+          "label": "Creative provocations"
+        }
+      ]
+    },
+    {
+      "key": "intensity",
+      "label": "Shake intensity",
+      "type": "range",
+      "default": 1,
+      "min": 0.3,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "opacity",
+      "label": "Liquid opacity",
+      "type": "range",
+      "default": 0.65,
+      "min": 0.1,
+      "max": 0.95,
+      "step": 0.05
+    },
+    {
+      "key": "revealSpeed",
+      "label": "Reveal speed",
+      "type": "range",
+      "default": 1,
+      "min": 0.5,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "color",
+      "label": "Glass color",
+      "type": "color",
+      "default": "#315c66"
+    },
+    {
+      "key": "lightAngle",
+      "label": "Light direction · degrees",
+      "type": "range",
+      "default": 315,
+      "min": 0,
+      "max": 360,
+      "step": 1
+    },
+    {
+      "key": "lighting",
+      "label": "Light intensity",
+      "type": "range",
+      "default": 1,
+      "min": 0.4,
+      "max": 1.8,
+      "step": 0.05
+    },
+    {
+      "key": "autoShake",
+      "label": "Automatic shaking",
+      "type": "toggle",
+      "default": false
+    },
+    {
+      "key": "interval",
+      "label": "Auto-shake interval · seconds",
+      "type": "range",
+      "default": 14,
+      "min": 8,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "key": "seed",
+      "label": "Answer sequence seed",
+      "type": "range",
+      "default": 32,
+      "min": 1,
+      "max": 9999,
+      "step": 1
+    }
+  ],
+  "entry": "index.js",
+  "styles": ["style.css"],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original Murmur glass vessel, plaque and optical rendering",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "Canvas 2D, Pointer Events, ResizeObserver, IntersectionObserver and CSS container queries. Web Audio is optional, with no AudioContext created until a deliberate Sound action.",
+    "Mouse, captured touch, pen and keyboard. The answer is repeated as accessible HTML at a comfortable reading size, with announcements when it has finished surfacing.",
+    "Reduced motion resolves a shake immediately. Hidden tabs, offscreen previews and pause suspend the motion and automatic-shake countdown. Pausing silences current voices.",
+    "One canvas, 80 suspended grains and a cached answer texture. Backing width caps at 1600 px. All observer, event, texture, audio and animation resources are cleaned up on disposal."
+  ],
+  "notes": [
+    "Murmur is an original smoky colored-glass orb with a bronze rest and a faceted pale answer plaque. It uses no commercial toy branding, numbered black-and-white shell, copied answer artwork, recordings or fonts.",
+    "Four original collections contain 48 answers: yes/no/perhaps, poetic, absurd and creative prompts. Seeded shuffle bags visit every answer once per cycle, with no immediate repeat, and keep a separate position for each set.",
+    "Tap or press Space/Enter to shake. Dragging distance, speed and reversals produce a bounded energy value that changes the orb motion and liquid currents. A new shake can interrupt an unfinished reveal.",
+    "The hidden plaque rotates and rises through a drawn liquid volume, followed by damped settling. This is a layered Canvas optical illustration, not a volumetric fluid simulation. The answer is selected at shake time but enters the notebook only after the reveal completes.",
+    "Questions do not affect answer selection or leave the browser. The last six completed answers and questions live in this tab only. Notebook JSON is an explicit download; PNG prints capture the vessel and answer without the question. Shared presets and source exports contain only settings.",
+    "Five presets, optical and sequence controls, optional synthesized sound, automatic shaking and ordinary HTML answer controls are included. Auto-shake waits until the current reveal has completed, then counts the chosen interval."
+  ],
+  "reuse": [
+    "AnswerEngine in answers.js is independent of animation and DOM. Supply named answer collections and a seed; next(mode), snapshot() and restore() provide a reproducible sequence.",
+    "OrbMotion and poseAt define the reveal separately from the renderer. createAnswerOrb(canvas, settings, hooks) combines these, accepts custom answer sets, and reports shake, phase and completed-answer events.",
+    "The standalone source export contains the original illustration, audio engine, full studio, five presets and a neutral integration with custom onboarding prompts. No Tampa runtime or external assets are needed."
+  ]
+}

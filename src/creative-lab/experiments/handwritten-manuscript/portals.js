@@ -9,7 +9,9 @@ const fragment=`uniform sampler2D view;varying vec2 vUv;varying vec4 vScreen;
 #include <clipping_planes_pars_fragment>
 void main(){
 #include <clipping_planes_fragment>
-vec2 p=(vUv-.5)*2.;if(dot(p,p)>1.)discard;vec2 screenUV=vScreen.xy/vScreen.w*.5+.5;gl_FragColor=texture2D(view,screenUV);}`;
+vec2 p=(vUv-.5)*2.;if(dot(p,p)>1.)discard;vec2 screenUV=vScreen.xy/vScreen.w*.5+.5;gl_FragColor=texture2D(view,screenUV);
+#include <colorspace_fragment>
+}`;
 export function createPortals(definition,architecture,renderer,config,beforeRender=()=>{}){
  const links=[];
  for(const pair of definition.portals)for(const reverse of [false,true]){

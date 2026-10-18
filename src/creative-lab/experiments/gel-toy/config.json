@@ -1,0 +1,14 @@
+{
+  "mode": "squeeze",
+  "form": "ball",
+  "palette": "rose",
+  "translucency": 0.55,
+  "matte": 0.3,
+  "radius": 0.16,
+  "strength": 1,
+  "softness": 1,
+  "memory": 8,
+  "speed": 0.65,
+  "zoom": 1,
+  "autoplay": false
+}
