@@ -1,9 +1,9 @@
 {
-  "density": 32,
-  "speed": 0.6,
-  "guides": true,
-  "ink": "#37342e",
-  "accent": "#a75239",
-  "mode": "contours",
-  "seed": 7
+  "complexity": 2,
+  "density": 1,
+  "inkStyle": "graphite",
+  "persistence": true,
+  "speed": 1,
+  "arrangement": "atlas",
+  "guides": true
 }

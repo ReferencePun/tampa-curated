@@ -4,82 +4,103 @@
   "number": "09",
   "order": 11,
   "name": "Site Memory",
-  "description": "A website that retains small traces of a visitor\u2019s previous passage.",
+  "description": "A small website that becomes a personal mechanical atlas. Every visit, closer look and discovery leaves a remembered mark.",
   "category": "Narrative",
   "tags": [
     "memory",
-    "storage",
-    "traces"
+    "deterministic",
+    "events",
+    "engraving",
+    "local storage"
   ],
-  "status": "prototype",
-  "placeholder": true,
+  "status": "working",
+  "placeholder": false,
   "technology": [
-    "Canvas 2D",
-    "JavaScript"
+    "SVG",
+    "JavaScript",
+    "Local storage"
   ],
-  "plannedTechnology": "DOM / local storage",
+  "plannedTechnology": null,
   "dependencies": {},
   "settings": [
     {
+      "key": "complexity",
+      "label": "Line complexity",
+      "type": "range",
+      "default": 2,
+      "min": 1,
+      "max": 3,
+      "step": 1
+    },
+    {
       "key": "density",
-      "label": "Line count",
+      "label": "Drawing density",
       "type": "range",
-      "min": 8,
-      "max": 64,
-      "step": 1,
-      "default": 32
+      "default": 1,
+      "min": 0.5,
+      "max": 1.5,
+      "step": 0.1
     },
     {
-      "key": "speed",
-      "label": "Motion speed",
-      "type": "range",
-      "min": 0,
-      "max": 2,
-      "step": 0.1,
-      "default": 0.6
-    },
-    {
-      "key": "guides",
-      "label": "Construction guides",
-      "type": "toggle",
-      "default": true
-    },
-    {
-      "key": "ink",
-      "label": "Graphite",
-      "type": "color",
-      "default": "#37342e"
-    },
-    {
-      "key": "accent",
-      "label": "Pencil accent",
-      "type": "color",
-      "default": "#a75239"
-    },
-    {
-      "key": "mode",
-      "label": "Arrangement",
+      "key": "inkStyle",
+      "label": "Ink style",
       "type": "select",
-      "default": "contours",
+      "default": "graphite",
       "options": [
         {
-          "value": "contours",
-          "label": "Circular"
+          "value": "graphite",
+          "label": "Graphite"
         },
         {
-          "value": "open",
-          "label": "Open"
+          "value": "umber",
+          "label": "Faded umber"
+        },
+        {
+          "value": "blue",
+          "label": "Blue-black ink"
         }
       ]
     },
     {
-      "key": "seed",
-      "label": "Drawing variation",
-      "type": "number",
-      "min": 1,
-      "max": 99,
-      "step": 1,
-      "default": 7
+      "key": "persistence",
+      "label": "Save journeys on this device",
+      "type": "toggle",
+      "default": true
+    },
+    {
+      "key": "speed",
+      "label": "Drawing / replay speed",
+      "type": "range",
+      "default": 1,
+      "min": 0.25,
+      "max": 3,
+      "step": 0.25
+    },
+    {
+      "key": "arrangement",
+      "label": "Diagram arrangement",
+      "type": "select",
+      "default": "atlas",
+      "options": [
+        {
+          "value": "atlas",
+          "label": "Architectural atlas"
+        },
+        {
+          "value": "courtyard",
+          "label": "Around a courtyard"
+        },
+        {
+          "value": "procession",
+          "label": "A winding procession"
+        }
+      ]
+    },
+    {
+      "key": "guides",
+      "label": "Construction lines",
+      "type": "toggle",
+      "default": true
     }
   ],
   "entry": "index.js",
@@ -92,25 +113,29 @@
   "assets": [
     {
       "path": "assets/preview.svg",
-      "credit": "Original geometric line study \u00b7 Tampa Curated",
+      "credit": "Original mechanical memory atlas \u00b7 illustrative sample journey \u00b7 Tampa Curated",
       "license": "MIT"
     }
   ],
   "compatibility": [
-    "Current Chrome, Firefox, Safari, and Edge with Canvas 2D and ES modules.",
-    "Static preview and documentation work without JavaScript.",
-    "Reduced motion starts paused. Touch does not require hovering.",
-    "Fullscreen uses the browser API when available, with an expanded-page fallback."
+    "Modern Chrome, Firefox, Safari and Edge with SVG, ES modules, Web Animations and local storage. No WebGL or external runtime dependency.",
+    "Keyboard, mouse and touch use the same semantic exploration controls. The whole drawing fits narrow screens; Enlarge drawing exposes scrollable detail.",
+    "Reduced motion draws completed marks immediately and disables automatic replay. Hidden or offscreen studies suspend replay and line animation; settled drawings do not run a render loop.",
+    "Blocked, corrupt or full local storage leaves a usable session with JSON export and a clear warning. Accounts, analytics and server-side tracking are absent."
   ],
   "notes": [
-    "This is a planned experiment. The live calibration plate tests the lab controls; it is not an implementation of the proposed effect.",
-    "The exported scaffold includes the neutral plate renderer and the complete lifecycle contract. Replace its mount function when developing this experiment."
+    "Explore six rooms in an imaginary House of Small Discoveries. A dome, glasshouse, water wheel, printing press, lantern tower and drawing table gradually become a connected mechanical atlas. These miniature pages are the only activity recorded.",
+    "The first visit to a room adds an architectural object. Travel between rooms engraves a passage; revisiting strengthens it. Opening notes adds book marks, inspection adds gears, and completing a discovery leaves a pencil seal. Every event also has its own mark in the memory ribbon.",
+    "The order of first visits determines where the objects are placed. The journey seed, semantic event sequence and drawing settings determine all geometry; the engine does not use the current clock or random values while rendering.",
+    "Local persistence supports up to twelve journeys. Starting a new journey keeps earlier saved journeys available. Session-only mode stops writes without deleting earlier saves. Reset all history explicitly deletes only this experiment\u2019s archive.",
+    "Replay scrubs the saved event sequence in either direction without recording new actions. Returning to the present restores the complete composition. The saved document retains the full journey while replay shows a temporary prefix.",
+    "Import validates versions, destinations, event types/order, timestamps, appearance and size. Failed imports preserve the current drawing. Concurrent edits in another tab block overwriting until the visitor resumes the saved version or begins a separate journey."
   ],
   "reuse": [
-    "Extract the source ZIP, then serve the folder over local HTTP. Open example.html.",
-    "Import mount from the experiment entry, pass a sized element and settings, then call setRunning(true).",
-    "Call update(settings) to apply changes, replay() to restart, and dispose() before removing the host.",
-    "Use the included validated preset.json. Framework integration belongs in your application, outside the effect."
+    "Serve the source ZIP over HTTP and open example.html. It includes the complete dependency-free demo and its settings. A visitor\u2019s private journey is never silently added to the source package; export/import its JSON separately.",
+    "Use createMemory to accept visit, open, inspect and complete events, then renderJourney to turn the resulting document into deterministic SVG. Both are independent of the UI and browser storage.",
+    "Use mount(host, settings, report, integration) for the complete portable instrument. Supply destinations, an optional initial journey and a namespaced storage key. The returned record API accepts semantic events from your own website.",
+    "The README documents schemas, deterministic versioning, persistence, limits, privacy, replay and framework integration. Call dispose before removing the host."
   ],
   "comparison": "none"
 }

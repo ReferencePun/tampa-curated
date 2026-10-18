@@ -15,7 +15,8 @@ A Git checkpoint was created before implementation: `checkpoint/before-impossibl
 - **Time Machine**, a registered architectural timeline with a drawn dial, real geometry and custom vertex morphs, fictional neutral/Tampa-inspired scenes, media layers and paired era comparison.
 - **Photo Portals**, a reversible projective photo relief with original estimated depth maps and an independent, explicitly unbundled Gaussian-splat loader.
 - **Living City**, an original SVG waterfront instrument connected to NOAA water level, wind and tide predictions, with clearly labeled simulation, historical replay and portable data adapters.
-- Five clearly marked proposals: Impossible Rooms, Site Memory, Spatial Sound, Personal Zines, World Composer.
+- **Site Memory**, a deterministic semantic-event atlas with six explorable rooms, local journey archives, replay, SVG/JSON exports and a portable event API.
+- Four clearly marked proposals: Impossible Rooms, Spatial Sound, Personal Zines, World Composer.
 - The proposals show a neutral calibration plate to exercise the inspector. It is not an implementation of the named future effect. Their downloads are complete scaffolds, explicitly labeled as such.
 - Range, numeric, checkbox, color, and select controls; validated structured path state for drawing instruments; default reset, pause/resume, replay, fullscreen/expanded preview, measured diagnostics, and browser-local named presets.
 - Validated JSON preset import/export and complete ZIP exports from the UI or command line. Current UI settings are embedded in a source download; the static default download works without JavaScript.
@@ -139,6 +140,7 @@ pnpm test:particle-photos
 pnpm test:time-machine
 pnpm test:photo-portals
 pnpm test:living-city
+pnpm test:site-memory
 pnpm test:navigation
 ```
 
@@ -225,3 +227,14 @@ The official NOAA adapter uses Old Port Tampa (8726607), with St. Petersburg (87
 The source separates API transport/cache (`noaa.js`), normalized observations/time sampling (`sensors.js`), mechanical mapping (`mechanics.js`), SVG rendering (`drawing.js`) and UI/lifecycle. Independent product caches, quality flags, abort/timeouts, missing/flagged/stale values, refresh cooldown and visibility-based polling are covered. Simulation is explicitly labeled and makes no data requests. Recent observations replay in either direction with their actual timestamps; gaps stay unavailable and visual smoothing never changes the measured readout. Presets, SVG/JSON export and the complete dependency-free standalone source are integrated with the Lab.
 
 `pnpm test:living-city` covers model semantics and Chromium/WebKit interaction, controls, history, simulation, station changes/cache, stale and partial failure, presets, source ZIP/standalone, SVG validity, mobile, reduced motion and cleanup. The complete Lab suite and navigation regression passed in Chromium/WebKit: 14 independent studies, all 17 concept destinations, presets/exports, lazy lifecycle, no-JavaScript access, nine enlarged-text layouts and sixteen navigation reflows. The shared homepage and existing experiment implementations remain unchanged. No publication was performed.
+
+
+## Site Memory implementation / 2026-10-17
+
+Checkpoint: `checkpoint/before-site-memory-2026-10-17` at `d3fbf53`. Only the Site Memory placeholder is replaced. The neutral House of Small Discoveries contains six miniature destinations with original architectural/mechanical drawings and explorable content. Visits, opened notes, inspections and collected discoveries are explicit semantic events; activity elsewhere on Tampa Curated is never recorded.
+
+The reusable model owns a versioned journey, destination vocabulary, event sequence, seed and drawing appearance. The pure SVG renderer reconstructs identical geometry from that document without consulting the current time or random globals. First-visit order changes placement; transitions engrave corridors, return visits reinforce ink, and notes/gears/pencil seals accumulate. Each event also has a permanent tick in the memory ribbon. Three arrangements, three ink treatments, complexity, density and guides alter actual geometry/styles. Replay renders temporary event prefixes in either direction without changing the saved journey.
+
+The optional local archive supports twelve journeys, explicit new/resume/reset, session-only mode, revision conflict detection, corrupt/denied/quota-limited storage handling and isolated deletion. JSON import validates schema/version, IDs, types, targets, order, timestamps, bounds and appearance. SVG export is self-contained. The source package includes only implementation, settings, original preview and demo content; private visitor journeys are exported separately. Both the pure model and full instrument expose documented semantic-event APIs for unrelated websites.
+
+Model and Chromium/WebKit tests cover semantic actions, deterministic reconstruction and replay prefixes, all drawing controls, local save/reload/resume, session-only behavior, import validation, JSON/SVG exports, preset/source export, an independent standalone instance and custom destinations, storage failure, mobile, reduced motion and cleanup. Shared Lab and navigation regressions passed in both engines: fourteen studies, eighteen concept destinations, presets, exports, comparison, no-JavaScript views, nine enlarged-text layouts and sixteen navigation reflows. The build contains 65 pages and 5,994 verified internal links/assets; Lab checks cover fourteen manifests and 61 portable JavaScript modules. Work remains local.
