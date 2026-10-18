@@ -1,0 +1,249 @@
+{
+  "id": "impossible-slinky-stairs",
+  "slug": "slinky-stairs",
+  "number": "15",
+  "order": 19,
+  "name": "Slinky Staircase",
+  "description": "A continuous spring finds its way down an engraved staircase. Scroll to stretch, fall, land\u2014and undo gravity.",
+  "category": "Motion",
+  "tags": [
+    "elasticity",
+    "scroll",
+    "architecture",
+    "procedural geometry",
+    "reversible"
+  ],
+  "status": "working",
+  "placeholder": false,
+  "technology": [
+    "Three.js",
+    "WebGL2",
+    "Deterministic procedural geometry"
+  ],
+  "plannedTechnology": null,
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "settings": [
+    {
+      "key": "coils",
+      "label": "Number of coils",
+      "type": "range",
+      "default": 48,
+      "min": 28,
+      "max": 72,
+      "step": 1
+    },
+    {
+      "key": "thickness",
+      "label": "Wire thickness",
+      "type": "range",
+      "default": 0.018,
+      "min": 0.01,
+      "max": 0.028,
+      "step": 0.001
+    },
+    {
+      "key": "diameter",
+      "label": "Spring diameter",
+      "type": "range",
+      "default": 1.9,
+      "min": 1.25,
+      "max": 2.3,
+      "step": 0.01
+    },
+    {
+      "key": "stiffness",
+      "label": "Spring stiffness",
+      "type": "range",
+      "default": 1,
+      "min": 0.5,
+      "max": 1.6,
+      "step": 0.01
+    },
+    {
+      "key": "steps",
+      "label": "Number of descents",
+      "type": "range",
+      "default": 8,
+      "min": 6,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "key": "tread",
+      "label": "Stair tread depth",
+      "type": "range",
+      "default": 3.1,
+      "min": 2.8,
+      "max": 4,
+      "step": 0.01
+    },
+    {
+      "key": "rise",
+      "label": "Stair riser height",
+      "type": "range",
+      "default": 0.72,
+      "min": 0.4,
+      "max": 1.15,
+      "step": 0.01
+    },
+    {
+      "key": "width",
+      "label": "Stair width",
+      "type": "range",
+      "default": 3.8,
+      "min": 3,
+      "max": 5.5,
+      "step": 0.01
+    },
+    {
+      "key": "compression",
+      "label": "Compression amount",
+      "type": "range",
+      "default": 0.76,
+      "min": 0.35,
+      "max": 0.95,
+      "step": 0.01
+    },
+    {
+      "key": "stretch",
+      "label": "Stretch amount",
+      "type": "range",
+      "default": 1,
+      "min": 0.7,
+      "max": 1.45,
+      "step": 0.01
+    },
+    {
+      "key": "speed",
+      "label": "Movement speed",
+      "type": "range",
+      "default": 1,
+      "min": 0.35,
+      "max": 2,
+      "step": 0.01
+    },
+    {
+      "key": "slowMotion",
+      "label": "Slow-motion multiplier",
+      "type": "range",
+      "default": 1,
+      "min": 0.15,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "style",
+      "label": "Material style",
+      "type": "select",
+      "default": "pencil",
+      "options": [
+        {
+          "value": "pencil",
+          "label": "Architectural pencil"
+        },
+        {
+          "value": "engraving",
+          "label": "Antique engraving"
+        },
+        {
+          "value": "ivory",
+          "label": "Ivory sculpture"
+        },
+        {
+          "value": "stone",
+          "label": "Steel on limestone"
+        }
+      ]
+    },
+    {
+      "key": "camera",
+      "label": "Camera",
+      "type": "select",
+      "default": "tracking",
+      "options": [
+        {
+          "value": "tracking",
+          "label": "Follow the spring"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed editorial camera"
+        }
+      ]
+    },
+    {
+      "key": "angle",
+      "label": "Camera elevation \u00b7 degrees",
+      "type": "range",
+      "default": 34,
+      "min": 18,
+      "max": 65,
+      "step": 1
+    },
+    {
+      "key": "azimuth",
+      "label": "Camera azimuth \u00b7 degrees",
+      "type": "range",
+      "default": 32,
+      "min": -30,
+      "max": 65,
+      "step": 1
+    },
+    {
+      "key": "progress",
+      "label": "Motion progress \u00b7 %",
+      "type": "range",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1e-06
+    },
+    {
+      "key": "guides",
+      "label": "Construction lines",
+      "type": "toggle",
+      "default": true
+    }
+  ],
+  "entry": "index.js",
+  "styles": [
+    "style.css"
+  ],
+  "thumbnail": "assets/preview.svg",
+  "readme": "README.md",
+  "license": "MIT",
+  "assets": [
+    {
+      "path": "assets/preview.svg",
+      "credit": "Original procedural spring and architectural drawing",
+      "license": "MIT"
+    },
+    {
+      "path": "assets/grain.svg",
+      "credit": "Original procedural paper grain",
+      "license": "MIT"
+    }
+  ],
+  "compatibility": [
+    "WebGL2, ES modules and Pointer Events. A static architectural plate remains available without WebGL.",
+    "Desktop mouse/trackpad scrolling, keyboard scrubbing and touch dragging. No automatic motion on arrival.",
+    "Fixed GPU buffers, 28\u201372 coils and eight-sided wire. Rendering stops when progress is still; offscreen playback pauses.",
+    "Tested in Chromium and Playwright WebKit. WebKit covers Safari\u2019s engine; physical Safari hardware may differ."
+  ],
+  "notes": [
+    "One continuous helical wire follows a deformable centerline. The upper end anchors while the other turns over, lands, and becomes the next anchor.",
+    "Every pose is calculated directly from normalized progress. Reversing, jumping, or pausing the timeline does not reset a physics solver.",
+    "Curvature-aware spacing prevents the inner turns collapsing in an arch. Stair contact limits keep the wire above the treads.",
+    "Eight consecutive descents by default, adjustable from six to ten. Four material studies, fixed or following cameras, and deliberate autoplay.",
+    "An authored, physically informed movement study\u2014not a calibrated mass-and-spring simulation. Coils can extend; this is not a stress or engineering model."
+  ],
+  "reuse": [
+    "Serve the exported ZIP over local HTTP and open example.html. Exact Three.js runtime is included; no build required.",
+    "Use createSlinkyStairs from engine.js. Pass settings, optional tread geometry, and call setProgress with a normalized value.",
+    "Use scroll-demo.html for a sticky editorial section driven by native document scrolling.",
+    "Read README.md for the stair schema, integration, presets, lifecycle and motion limitations."
+  ],
+  "comparison": "none"
+}

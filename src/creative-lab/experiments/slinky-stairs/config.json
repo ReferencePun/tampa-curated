@@ -1,0 +1,20 @@
+{
+  "coils": 48,
+  "thickness": 0.018,
+  "diameter": 1.9,
+  "stiffness": 1,
+  "steps": 8,
+  "tread": 3.1,
+  "rise": 0.72,
+  "width": 3.8,
+  "compression": 0.76,
+  "stretch": 1,
+  "speed": 1,
+  "slowMotion": 1,
+  "style": "pencil",
+  "camera": "tracking",
+  "angle": 34,
+  "azimuth": 32,
+  "progress": 0,
+  "guides": true
+}

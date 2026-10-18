@@ -1,0 +1,6 @@
+import {createSlinkyStairs} from './engine.js';
+const section=document.querySelector('#sequence'),host=document.querySelector('#viewer'),caption=document.querySelector('#caption'),abort=new AbortController();let viewer=null,frame=0;
+try{viewer=createSlinkyStairs({width:host.clientWidth,height:host.clientHeight,settings:{camera:'tracking'},onFrame:s=>{caption.textContent=`${s.label} · descent ${s.step+1} / 8 · ${(s.progress*100).toFixed(1)}%`;}});host.prepend(viewer.canvas);}catch{caption.textContent='This drawing needs a WebGL2-capable browser.';}
+function draw(){frame=0;if(!viewer)return;const bounds=section.getBoundingClientRect(),progress=-bounds.top/(section.offsetHeight-host.offsetHeight);viewer.setProgress(Math.max(0,Math.min(1,progress)));}
+function schedule(){if(!frame)frame=requestAnimationFrame(draw);}
+window.addEventListener('scroll',schedule,{passive:true,signal:abort.signal});const observer=new ResizeObserver(()=>{viewer?.resize(host.clientWidth,host.clientHeight);schedule();});observer.observe(host);document.querySelector('#return').addEventListener('click',()=>section.scrollIntoView({behavior:'instant'}),{signal:abort.signal});window.addEventListener('pagehide',()=>{abort.abort();observer.disconnect();cancelAnimationFrame(frame);viewer?.dispose();},{once:true});draw();

@@ -1,0 +1,4 @@
+.il-host[data-slug="slinky-stairs"] .il-demo{height:1020px;min-height:800px;max-height:none}
+.il-host[data-slug="slinky-stairs"] .il-annotation,.il-host[data-slug="slinky-stairs"] .il-demo-index{display:none}
+.impossible-effect:has(>.sk){position:relative;height:1020px;background:#e9e5d9;overflow:hidden}
+@media(max-width:700px){.il-host[data-slug="slinky-stairs"] .il-demo,.impossible-effect:has(>.sk){height:1040px}}
